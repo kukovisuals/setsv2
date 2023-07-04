@@ -1,110 +1,64 @@
 {% assign isOnHolidaySale = false %}
 {% if shop.metafields.ebyacf.enable_holiday_mode__global %}
     {% for prodTag in product.tags %}
-    {% if prodTag contains "julyfourthsale2023" or prodTag contains "apparelSale-apr2023" %}
+    {% if prodTag contains "memsale2023" or prodTag contains "apparelSale-apr2023" %}
     {% assign isOnHolidaySale = true %}
     {% endif %}
     {% endfor %}
 
 	{% if isOnHolidaySale %}
-      {% assign premSkuCodes = ""%}
-      {% assign holidayDiscounts = "20%,20%,20%,20%,20%,20%,20%,30%,30%,30%,20%,30%,30%" | split: ',' %}
-      {% assign holidayCodes = "BK,NU,FR,CW,RD,SK,PL,GD,TR,P5,RO,SY,MI" | split: "," %}
-      {% assign currSkuCode = product.selected_or_first_available_variant.sku | slice: 7, 2 %}
-      {% assign holidayCottonDiscounts = "50%,60%,50%,60%" | split: ',' %}
-      {% assign holidayCottonCodes = "BO,LG,BK,FR" | split: "," %}
-  
-      {% if product.type contains "Silk" %}
-          {% assign currSaleDiscount = "40%" %}
-      {% elsif product.type == "Bodysuit" %}
-          {% assign currSaleDiscount = "40%" %}
-      {% elsif product.type == "Tank" %}
-          {% for prodTag in product.tags %}
-          {% if prodTag contains "julyfourthsale2023" %}
-              {% if currSkuCode == "BO" %}
-                {% assign currSaleDiscount = "40%" %}
-              {% else %}
-                {% assign currSaleDiscount = "25%" %}
-              {% endif %}
-          {% endif %}
-          {% endfor %}
-      {% elsif product.type == "Cotton Bralette" or product.type == "Cotton Underwear" %}
-          {% if holidayCottonCodes contains currSkuCode %}
-            {% for skuCode in holidayCottonCodes %}
-              {% if currSkuCode == skuCode %}
-                {% assign skuCodeIndex = forloop.index0 %}
-                {% break %}
-              {% endif %}
-            {% endfor %}
-          {% endif %}
-        
-          {% assign currSaleDiscount = holidayCottonDiscounts[skuCodeIndex] %}
-      {% else %}
-          {% if holidayCodes contains currSkuCode %}
-            {% for skuCode in holidayCodes %}
-              {% if currSkuCode == skuCode %}
-                {% assign skuCodeIndex = forloop.index0 %}
-                {% break %}
-              {% endif %}
-            {% endfor %}
-          {% endif %}
-        
-          {% assign currSaleDiscount = holidayDiscounts[skuCodeIndex] %}
-      {% endif %}
-  
-      {% comment %}
-      {% assign currSaleDiscount = "40%" %}
-      {% endcomment %}
-      {% if currSaleDiscount == blank and product.type == "Core Bralette" %}
-        {% if product.title contains "Skyway" %}
-          {% assign currSaleDiscount = "30%" %}
-        {% endif %}
-      {% endif %}
-  
-  {% else %}
-      {% assign currSaleDiscount = "n_a" %}
-  {% endif %}
-{% endif %}
+        {% assign premSkuCodes = ""%}
+        {% assign holidayDiscounts = "20%,20%,30%,20%,20%,20%,20%,30%,30%,30%,30%,30%,40%,40%,40%,70%,70%" | split: ',' %}
+        {% assign holidayCodes = "BK,NU,GR,FR,CW,RD,SK,PL,WH,GD,TR,P5,P3,SL,R2,OC,ML" | split: "," %}
+        {% assign currSkuCode = product.selected_or_first_available_variant.sku | slice: 7, 2 %}
+        {% assign holidayCottonDiscounts = "50%,60%,50%,60%" | split: ',' %}
+        {% assign holidayCottonCodes = "BO,LG,BK,FR" | split: "," %}
 
-{% if product.type == "Season Set" %}
-      {% for prodTag in product.tags %}
-          {% if prodTag contains "setType-" %}
-              {%- assign prodNameTitle = prodTag | replace: "setType-", "" | replace: "_", " " -%}
-          {% endif %}
-          {% if prodTag contains "setColor-" %}
-              {%- assign prodColorTitle = prodTag | replace: "setColor-", "" | replace: "_", " " -%}
-          {% endif %}
-          {% if prodTag contains "setFabric-" %}
-              {% if prodTag == "setFabric-signature" %}
-                  {%- assign prodFabricTitle = "Seamless" -%}
-              {% elsif prodTag == "setFabric-mesh" %}
-                  {%- assign prodFabricTitle = "Seamless Sheer" -%}
-              {% else %}
-                  {%- assign prodFabricTitle = "Mixed" -%}
-              {% endif %}
-          {% endif %}
-      {% endfor %}
-{% endif %}
-{% if product.type == "Bra Pack" %}
-      {% for prodTag in product.tags %}
-          {% if prodTag contains "bundleType-" %}
-              {%- assign prodNameTitle = prodTag | replace: "bundleType-", "" | replace: "_", " " -%}
-          {% endif %}
-          {% if prodTag contains "bundleColor-" %}
-              {%- assign prodColorTitle = prodTag | replace: "bundleColor-", "" | replace: "_", " " -%}
-          {% endif %}
-          {% if prodTag contains "bundleFabric-" %}
-              {% if prodTag == "bundleFabric-signature" %}
-                  {%- assign prodFabricTitle = "Seamless Signature" -%}
-              {% elsif prodTag == "bundleFabric-mesh" %}
-                  {%- assign prodFabricTitle = "Seamless Sheer" -%}
-              {% elsif prodTag == "bundleFabric-mesh_and_signature" %}
-                  {%- assign prodFabricTitle = "Sheer & Signature" -%}
-              {% else %}
-                  {%- assign prodFabricTitle = "Seamless" -%}
-              {% endif %}
-          {% endif %}
-      {% endfor %}
+        {% if product.type contains "Silk" %}
+            {% assign currSaleDiscount = "40%" %}
+        {% elsif product.type == "Bodysuit" %}
+            {% assign currSaleDiscount = "40%" %}
+        {% elsif product.type == "Tank" %}
+            {% for prodTag in product.tags %}
+            {% if prodTag contains "memsale2023" %}
+                {% if currSkuCode == "BO" %}
+                  {% assign currSaleDiscount = "35%" %}
+                {% else %}
+                  {% assign currSaleDiscount = "25%" %}
+                {% endif %}
+            {% endif %}
+            {% endfor %}
+        {% elsif product.type == "Cotton Bralette" or product.type == "Cotton Underwear" %}
+            {% if holidayCottonCodes contains currSkuCode %}
+              {% for skuCode in holidayCottonCodes %}
+                {% if currSkuCode == skuCode %}
+                  {% assign skuCodeIndex = forloop.index0 %}
+                  {% break %}
+                {% endif %}
+              {% endfor %}
+            {% endif %}
+          
+            {% assign currSaleDiscount = holidayCottonDiscounts[skuCodeIndex] %}
+        {% else %}
+            {% if holidayCodes contains currSkuCode %}
+              {% for skuCode in holidayCodes %}
+                {% if currSkuCode == skuCode %}
+                  {% assign skuCodeIndex = forloop.index0 %}
+                  {% break %}
+                {% endif %}
+              {% endfor %}
+            {% endif %}
+          
+            {% assign currSaleDiscount = holidayDiscounts[skuCodeIndex] %}
+        {% endif %}
+
+        {% comment %}
+          {% assign currSaleDiscount = "40%" %}
+        {% endcomment %}
+    
+    {% else %}
+        {% assign currSaleDiscount = "n_a" %}
+    {% endif %}
 {% endif %}
 
 {%- unless proImageSize -%}
@@ -126,7 +80,7 @@
 {%- assign showQuickAdd = false -%}
 {% if product.type contains "Cotton" %}
     {%- assign showQuickAdd = true -%}
-{% elsif product.type contains "Bra Pack" or product.type contains "Season Set" %}
+{% elsif product.type contains "Bra Pack" %}
     {%- assign showQuickAdd = false -%}
 {% else %}
     {% if product.handle contains 'pack' or product.handle contains 'sets' %}
@@ -181,13 +135,7 @@
               	{%- endif -%}
             </a>
             {%- if on_sale and settings.productgrid_sale -%}
-                {% if product.type contains "Season Set" %}
-                <span class="labelSale">Set</span>
-                {% elsif product.type contains "Bra Pack" %}
-                <span class="labelSale">2 Pack</span>
-                {% else %}
-                <span class="labelSale">Deal</span>
-                {% endif %}
+                <span class="labelSale">{{ 'products.product.label_sale' | t }}</span>
             {%- endif -%}
             {%- unless settings.free_gift_enabled == true and product.id == all_products[settings.free_gift_product].id -%}
             <div class="proButton clearfix">
@@ -211,6 +159,7 @@
                   </div>
                 </div>
               {% endif %}
+
               
               {% comment %}
                 {% include 'vela-product-quickview' %}
@@ -255,15 +204,7 @@
             </div>
             <h3 class="proName">
 <!--               <a href="{{ productUrl }}">{{ product.title | replace: ' E', '' }}</a> -->
-              {% if prodFabricTitle %}
-                  <a href="{{ productUrl }}">
-                      <span>{{ prodFabricTitle | capitalize  }}</span>
-                      <span>{{ prodNameTitle | capitalize  }}</span>
-                      <span class="color">{{ prodColorTitle | capitalize  }}</span>
-                  </a>
-              {% else %}
-                   <a href="{{ productUrl }}">{{ product.handle | replace: '-', ' ' | capitalize }}</a>
-              {% endif %}
+              <a href="{{ productUrl }}">{{ product.handle | replace: '-', ' ' | capitalize }}</a>
             </h3>
             {%- if settings.product_reviews_enable and settings.productgrid_review -%}
                 <div class="proReviews">
@@ -271,26 +212,6 @@
                 </div>
             {%- endif -%}
 
-            {% if product.type contains "Bra Pack" or product.type contains "Season Set" %}
-              <div class="normal_btn_wrapper">
-                <a href="{{ product.url }}" title="Select Size" >
-                  <button class="btn normal" title="Select Size">
-                    <div class="quickAddBtnInnerWrapper">
-                      <span class="text">Select Size</span>
-                      <div class="prodTilePriceWrapper">
-                        <div class="ebyProdTile-vipPriceWrapper bfx-remove-element">
-                          <p class="bfx-price" style="margin: 0;margin-right:0.4rem; text-decoration: line-through;">{{ product.compare_at_price | money_without_trailing_zeros  }}</p>
-                        </div>
-                        <p class="price bfx-price" style="margin: 0;margin: 0;line-height: normal;color:#d0021b !important;">{{ product.price | money_without_trailing_zeros  }}</p>                    
-                      </div>
-                    </div>
-                  </button>
-                </a>
-              </div>
-            {% endif %}
-
-            
-            {% unless product.type contains "Bra Pack" or product.type contains "Season Set" %}
           	{%- if product.metafields.ebyacf.new_sale_release and product.metafields.ebyacf.new_sale_release_price -%}
             	<div class="proPrice">
                     <!-- <div class="priceProduct priceCompare">{{ product.compare_at_price | money_without_trailing_zeros  }}</div> -->
@@ -433,7 +354,6 @@
                   </div>
                 </div>          
           	{%- endif -%}
-            {% endunless %}
           
             {%- if settings.productgrid_swatch -%}
                 <div class="velaSwatchCus">

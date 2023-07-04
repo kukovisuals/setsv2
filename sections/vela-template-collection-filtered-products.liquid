@@ -20,7 +20,7 @@
           {% assign hasFlag = false %}
 
           {% for prodTag in product.tags %}
-          {% if prodTag contains "lightningDeal-" or prodTag contains "julyfourthsale2023" %}
+          {% if prodTag contains "lightningDeal-" or prodTag contains "memsale2023" %}
           {% assign isOnDealSale = true %}
           {% endif %}
           {% endfor %}
@@ -48,7 +48,7 @@
               {% assign isTank = false %}
 
               {% for prodTag in product.tags %}
-                {% if prodTag contains "julyfourthsale2023" or prodTag contains "flashSale-feb232023" %}
+                {% if prodTag contains "memsale2023" or prodTag contains "flashSale-feb232023" %}
                 {% assign on_sale = true %}
                 {% endif %}
                 {% if prodTag contains "pantyType-" %}
@@ -72,7 +72,7 @@
 
               {% assign prodNameTitle = "only bra" %}
               {% for prodTag in product.tags %}
-              {% if prodTag contains "julyfourthsale2023" or prodTag contains "flashSale-feb232023" %}
+              {% if prodTag contains "memsale2023" or prodTag contains "flashSale-feb232023" %}
               {% assign on_sale = true %}
               {% endif %}
               {% if prodTag contains "braletteColor-" %}
@@ -93,7 +93,7 @@
 
               {% assign prodNameTitle = "bralette" %}
               {% for prodTag in product.tags %}
-              {% if prodTag contains "julyfourthsale2023" or prodTag contains "flashSale-feb232023" %}
+              {% if prodTag contains "memsale2023" or prodTag contains "flashSale-feb232023" %}
               {% assign on_sale = true %}
               {% endif %}
               {% if prodTag contains "braletteColor-" %}
@@ -114,7 +114,7 @@
 
               {% assign prodNameTitle = "tank" %}
               {% for prodTag in product.tags %}
-              {% if prodTag contains "julyfourthsale2023" or prodTag contains "apparelSale-apr2023" %}
+              {% if prodTag contains "memsale2023" or prodTag contains "apparelSale-apr2023" %}
               {% assign on_sale = true %}
               {% endif %}
               {% if prodTag contains "tankColor-" %}
@@ -135,7 +135,7 @@
 
               {% assign prodNameTitle = "bodysuit" %}
               {% for prodTag in product.tags %}
-              {% if prodTag contains "julyfourthsale2023" or prodTag contains "apparelSale-apr2023" %}
+              {% if prodTag contains "memsale2023" or prodTag contains "apparelSale-apr2023" %}
               {% assign on_sale = true %}
               {% endif %}
               {% if prodTag contains "bodysuitColor-" %}
@@ -157,7 +157,7 @@
 
               {% assign prodNameTitle = "mask" %}
               {% for prodTag in product.tags %}
-              {% if prodTag contains "julyfourthsale2023" or prodTag contains "flashSale-feb232023" %}
+              {% if prodTag contains "memsale2023" or prodTag contains "flashSale-feb232023" %}
               {% assign on_sale = true %}
               {% endif %}
               {% if prodTag contains "maskColor-" %}
@@ -196,7 +196,7 @@
 
               {% assign prodNameTitle = "top" %}
               {% for prodTag in product.tags %}
-                {% if prodTag contains "julyfourthsale2023" or prodTag contains "apparelSale-apr2023" %}
+                {% if prodTag contains "memsale2023" or prodTag contains "apparelSale-apr2023" %}
                     {% assign on_sale = true %}
                 {% endif %}
                 {% if prodTag == "flag-new_arrival" %}

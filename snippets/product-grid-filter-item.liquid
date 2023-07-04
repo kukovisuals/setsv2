@@ -13,16 +13,9 @@
 {% assign bndlVariants = '' %}
 {% assign bndlVariants2 = '' %}
 {% assign bndlMainvr = '' %}
-{% assign sheerPrice = false %}
-{% assign sheerPrice2 = false %}
-{% assign isBundleBraExtra = '' %}
-
-{% if product.type == "Bra Pack" %}
-  {% assign isBundleBraExtra = product.compare_at_price | money_without_trailing_zeros %}
-{% endif %}
 
 {% for prodTag in product.tags %}
-  {% if prodTag contains "julyfourthsale2023" or prodTag contains "apparelSale-apr2023" %}
+  {% if prodTag contains "memsale2023" or prodTag contains "apparelSale-apr2023" %}
     {% assign isOnHolidaySale = true %}
   <!-- tags--->
   {%- elsif prodTag contains 'fyca23' %}
@@ -31,18 +24,14 @@
   {% elsif prodTag contains 'fycb23' %}
       {% assign bndlVariants2 = prodTag | remove: 'fycb23-' %}
   {%  elsif prodTag contains 'packProducts' %}
-      {% assign packProducts = prodTag | remove: 'packProducts-' %}   
-  {%- elsif prodTag contains 'fcbndlshrTwo' %}
-      {% assign sheerPrice2 = true %} 
-  {%- elsif prodTag contains 'fcbndlshr'  %}
-      {% assign sheerPrice = true %}
+      {% assign packProducts = prodTag | remove: 'packProducts-' %}
   {% endif %}
 {% endfor %}
 
 {% if isOnHolidaySale %}
     {% assign premSkuCodes = ""%}
-    {% assign holidayDiscounts = "20%,20%,20%,20%,20%,20%,20%,30%,30%,30%,20%,30%,30%" | split: ',' %}
-    {% assign holidayCodes = "BK,NU,FR,CW,RD,SK,PL,GD,TR,P5,RO,SY,MI" | split: "," %}
+    {% assign holidayDiscounts = "20%,20%,30%,20%,20%,20%,20%,30%,30%,30%,30%,30%,40%,40%,40%,70%,70%" | split: ',' %}
+    {% assign holidayCodes = "BK,NU,GR,FR,CW,RD,SK,PL,WH,GD,TR,P5,P3,SL,R2,OC,ML" | split: "," %}
     {% assign currSkuCode = product.selected_or_first_available_variant.sku | slice: 7, 2 %}
     {% assign holidayCottonDiscounts = "50%,60%,50%,60%" | split: ',' %}
     {% assign holidayCottonCodes = "BO,LG,BK,FR" | split: "," %}
@@ -53,9 +42,9 @@
         {% assign currSaleDiscount = "40%" %}
     {% elsif product.type == "Tank" %}
         {% for prodTag in product.tags %}
-        {% if prodTag contains "julyfourthsale2023" %}
+        {% if prodTag contains "memsale2023" %}
             {% if currSkuCode == "BO" %}
-              {% assign currSaleDiscount = "40%" %}
+              {% assign currSaleDiscount = "35%" %}
             {% else %}
               {% assign currSaleDiscount = "25%" %}
             {% endif %}
@@ -88,11 +77,6 @@
     {% comment %}
     {% assign currSaleDiscount = "40%" %}
     {% endcomment %}
-    {% if currSaleDiscount == blank and product.type == "Core Bralette" %}
-      {% if product.title contains "Skyway" %}
-        {% assign currSaleDiscount = "30%" %}
-      {% endif %}
-    {% endif %}
 
 {% else %}
     {% assign currSaleDiscount = "n_a" %}
@@ -138,10 +122,6 @@
     {% if prodTag contains "capsuleDeal-" %}
     	{% assign isOnDealSale = true %}	
 		{% assign dealSalePrice = prodTag | replace: "capsuleDeal-", "" %}
-    {% endif %}
-    {% if prodTag contains "lightningDeal-" %}
-    	{% assign isOnDealSale = true %}	
-		{% assign dealSalePrice = prodTag | replace: "lightningDeal-", "" %}
     {% endif %}
     {% endfor %}
 {% endif %}
@@ -692,7 +672,7 @@
           <div class="quick_btn noFiltermodeAddToCart">
             <div class="productQuickAdd">
               <button class="btn btnProduct btnProductQuickAdd" data-href="#velaQuickAdd-{{ product.id }}" data-handle="{{ product.handle }}" title="Quick Add +">
-                  <div class="quickAddBtnInnerWrapper" {% if isBundlePack %}id="eby-bundle-bras23-{{ product.id }}"  data-sheerone={{sheerPrice}} data-sheertwo={{sheerPrice2}} data-mainvr="{{packProducts}}" data-bundlepdp="{{bndlVariants}}" data-bundlepdp2="{{bndlVariants2}}" {% endif %}>
+                  <div class="quickAddBtnInnerWrapper" {% if isBundlePack %}id="eby-bundle-bras23-{{ product.id }}" data-mainvr="{{packProducts}}" data-bundlepdp="{{bndlVariants}}" data-bundlepdp2="{{bndlVariants2}}" {% endif %}>
                   <span class="text">Add To Cart</span>
                   <div class="prodTilePriceWrapper{% if customer.tags contains 'Active Subscriber' and product.metafields.ebyacf.vip_product_price %} vipHighlight{%endif%}{% if isOnDealSale%} hoPriceSale{% endif %}{% if product.type == "Bra Pack" %} bundle-price23{% endif %}">
                     <p class="price bfx-price">{{ product.price | money_without_trailing_zeros  }}</p>
@@ -717,7 +697,7 @@
                     {% endif %}
                     {% if product.type == "Bra Pack" %}
                         <div class="ebyProdTile-vipPriceWrapper bfx-remove-element">
-                          <p class="bfx-price">{{ isBundleBraExtra }}</p>
+                          <p class="bfx-price">$112</p>
                         </div>
                     {% endif %}
                     {% if customer.tags contains 'Active Subscriber' %}

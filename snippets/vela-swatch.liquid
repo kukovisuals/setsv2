@@ -36,9 +36,7 @@
         {% assign isBundlePack = false %}
         {% assign bndlVariants = '' %}
         {% assign bndlVariants2 = '' %}
-        {% assign packProducts = '' %}
-        {% assign sheerPrice = false %}
-        {% assign sheerPrice2 = false %}
+        {% assign bndlMainvr = '' %}
         {%- for tag in product.tags -%}
             {%- if tag contains 'fyca23' %}
                 {% assign bndlVariants = tag | remove: 'fyca23-' %}
@@ -47,16 +45,12 @@
                 {% assign bndlVariants2 = tag | remove: 'fycb23-' %}
             {%  elsif tag contains 'packProducts' %}
                 {% assign packProducts = tag | remove: 'packProducts-' %}
-            {%- elsif tag contains 'fcbndlshrTwo' %}
-                {% assign sheerPrice2 = true %} 
-            {%- elsif tag contains 'fcbndlshr'  %}
-                {% assign sheerPrice = true %}
             {%- endif -%}
         {%- endfor -%}
         {% if product.type == "Season Set" %}
             {% assign isBundlePack = false %}
         {% endif  %}
-        <div class="js-swatch swatch clearfix {% if is_color %}color{% else %}size{% endif %}" {% if is_color == false and isBundlePack %}id="eby-bundle-bras23" data-mainvr="{{packProducts}}" data-bundlepdp="{{bndlVariants}}" data-bundlepdp2="{{bndlVariants2}}" data-sheerone={{sheerPrice}} data-sheertwo={{sheerPrice2}} {% endif %} data-option-index="{{ option_index }}">
+        <div class="js-swatch swatch clearfix {% if is_color %}color{% else %}size{% endif %}" {% if is_color == false and isBundlePack %}id="eby-bundle-bras23" data-mainvr="{{packProducts}}" data-bundlepdp="{{bndlVariants}}" data-bundlepdp2="{{bndlVariants2}}" {% endif %} data-option-index="{{ option_index }}">
             {%- assign values = '' -%}
             {% for variant in product.variants %}
                 {%- assign value = variant.options[option_index] -%}
@@ -71,15 +65,18 @@
                             <input class="swatchItem {% unless is_color %}isVariantSwatch23 {%endunless%}" id="swatch-{{ option_index }}-{{ value | handle }}" type="radio" name="option-{{ option_index }}" value="{{ value | escape }}" />
                         {%- if is_color -%}
                             <label for="swatch-{{ option_index }}-{{ value | handle }}" style="background-color: {{ value | split: ' ' | last | handle }}; background-image: url({% if variant.image.src != blank %}{{ variant.image.src | product_img_url:'small' }}{% else %}{{ value | handle | append: '.png' | file_url }}{% endif %})">
+                                <img class="crossed-out" alt="" src="{{ 'soldout_new.png' | asset_url }}" />
                             </label>
                         {%- else -%}
                             {%- if variant.available -%}
                                 <label for="swatch-{{ option_index }}-{{ value | handle }}" data-available="true" data-id="{{ variant.id }}">
                                     {{ value }}
+                                    <img class="crossed-out" alt="" src="{{ 'soldout_new.png' | asset_url }}" />
                                 </label>
                             {%- else -%}
                                 <label for="swatch-{{ option_index }}-{{ value | handle }}" available="false"  data-id="{{ variant.id }}">
                                     {{ value }}
+                                    <img class="crossed-out" alt="" src="{{ 'soldout_new.png' | asset_url }}" />
                                 </label>
                             {%- endif -%}
                         {%- endif -%}

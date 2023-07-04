@@ -166,7 +166,7 @@ account.customer = function () {
   		renewalMon = renewalDate.getMonth() + 1,
   		renewalDay = renewalDate.getDate();
 
-  	var sdBlackoutDay = renewalDay - 2,
+  	var sdBlackoutDay = renewalDay - 4,
       	cbBlackoutDay = 30;
     
 
@@ -475,7 +475,7 @@ account.customer = function () {
           
           if (!!isBlackoutActive) {
           
-            //var tryABralette = '<article class="mybox-block"><div class="featColWrapper"><div class="featCol imgCol"><img class="featImg" title="Try a Bralette Box" alt="Try a Bralette Box" src="https://cdn.shopify.com/s/files/1/0313/4062/5964/files/feed---bralette_adjustable---black.jpg"/></div><div class="featCol"><span class="newFeatCallOutCopy">New!</span><p>Try a bralette in this month\'s box in place of panties</p></div></div><div class="buttonWrapper"><a class="btn newFeatBtn selectBraletteSubscriptionBtn ebyFancyBtn" data-src="#selectMyBralettePopup" href="javascript:;" data-type="select_bralette">Choose A Bralette Instead</a></div></article>';
+            //var tryABralette = '<article class="mybox-block"><div class="featColWrapper"><div class="featCol imgCol"><img class="featImg" title="Try a Bralette Box" alt="Try a Bralette Box" src="https://cdn.shopify.com/s/files/1/0313/4062/5964/files/feed---bralette_adjustable---black.jpg"/></div><div class="featCol"><span class="newFeatCallOutCopy">New!</span><p>Try a bralette in this month\'s box in place of panties</p></div></div><div class="buttonWrapper"><a class="btn newFeatBtn selectBraletteSubscriptionBtn ebyFancyBtn" data-src="#selectMyBralettePopup" href="javascript:;" data-type="select_bralette">Choose A Bralette</a></div></article>';
 //             if (customProductHTML !== "") {
 //             	s = '<div class="ebyBoxUpcoming newFeatWrapper buttonWrapper"><span>My Box</span>'+customProductHTML+'</div><div class="ebyBoxUpcoming"><span>Next Box</span><h4 class="ebyNextDate preppingOrder">Order Processing</h4><a href="javascript:void(0);" class="ebyChangeDatebtn" >Change Date</a><div class="date-field hide"><form type="get" class="updateRechargeDate"><div class="input-group"><input class="form-control date" id="date" name="date" value="'+nextChargeDetail.scheduled_at+'" type="text"/></div>';
 //             } else {
@@ -511,7 +511,7 @@ account.customer = function () {
                 }
             }
 
-            //var tryABralette = '<article class="mybox-block"><div class="featColWrapper"><div class="featCol imgCol"><img class="featImg" title="Try a Bralette Box" alt="Try a Bralette Box" src="https://cdn.shopify.com/s/files/1/0313/4062/5964/files/feed---bralette_adjustable---black.jpg"/></div><div class="featCol"><span class="newFeatCallOutCopy">New!</span><p>Try a bralette in this month\'s box in place of panties</p></div></div><div class="buttonWrapper"><a class="btn newFeatBtn selectBraletteSubscriptionBtn ebyFancyBtn" data-src="#selectMyBralettePopup" href="javascript:;" data-type="select_bralette">Choose A Bralette Instead</a></div></article>';
+            //var tryABralette = '<article class="mybox-block"><div class="featColWrapper"><div class="featCol imgCol"><img class="featImg" title="Try a Bralette Box" alt="Try a Bralette Box" src="https://cdn.shopify.com/s/files/1/0313/4062/5964/files/feed---bralette_adjustable---black.jpg"/></div><div class="featCol"><span class="newFeatCallOutCopy">New!</span><p>Try a bralette in this month\'s box in place of panties</p></div></div><div class="buttonWrapper"><a class="btn newFeatBtn selectBraletteSubscriptionBtn ebyFancyBtn" data-src="#selectMyBralettePopup" href="javascript:;" data-type="select_bralette">Choose A Bralette</a></div></article>';
             if (customProductHTML !== "") {
 
               console.log(': correct :', {
@@ -539,9 +539,9 @@ account.customer = function () {
             } else {
               	if (currDate.getMonth() == renewData.getMonth() && currDate.getFullYear() == newRenewalYear) {
 					if ((window.currentSubSize === 'md' || window.currentSubSize === 'lg') && window.currentPlan === 3) {
-                  		var tryABralette = '<article class="mybox-block"><div class="featColWrapper"><div class="featCol imgCol"><img class="featImg" title="Try a Bralette Box" alt="Try a Bralette Box" src="https://cdn.shopify.com/s/files/1/0313/4062/5964/files/feed---bralette_adjustable---black.jpg"/></div><div class="featCol"><span class="newFeatCallOutCopy">New!</span><p>Try a bralette this month instead!</p></div></div><div class="buttonWrapper"><a class="btn newFeatBtn selectBraletteSubscriptionBtn ebyFancyBtn" data-src="#selectMyBralettePopup" href="javascript:;" data-type="select_bralette">Choose A Bralette Instead</a></div></article>';
+                  		var tryABralette = '<article class="mybox-block"><div class="featColWrapper"><div class="featCol imgCol"><img class="featImg" title="Try a Bralette Box" alt="Try a Bralette Box" src="https://cdn.shopify.com/s/files/1/0313/4062/5964/files/feed---bralette_adjustable---black.jpg"/></div><div class="featCol"><span class="newFeatCallOutCopy">New!</span><p>Try a bralette this month instead!</p></div></div><div class="buttonWrapper"><a class="btn newFeatBtn selectBraletteSubscriptionBtn ebyFancyBtn" data-src="#selectMyBralettePopup" href="javascript:;" data-type="select_bralette">Choose A Bralette</a></div></article>';
                     } else {
-                    	var tryABralette = '<article class="mybox-block"><div class="buttonWrapper"><a class="btn newFeatBtn selectBraletteSubscriptionBtn ebyFancyBtn" data-src="#selectMyBralettePopup" href="javascript:;" data-type="select_bralette">Choose A Bralette Instead</a></div></article>';
+                    	var tryABralette = '<article class="mybox-block"><div class="buttonWrapper"><a class="btn newFeatBtn selectBraletteSubscriptionBtn ebyFancyBtn" data-src="#selectMyBralettePopup" href="javascript:;" data-type="select_bralette">Choose A Bralette</a></div></article>';
                     }
                   
                   	s = '<div class="ebyBoxUpcoming newFeatWrapper"><span>My Box</span><p class="mybox-prompt">Sit back and relax. We\'ll curate your box just how you like it!</p>'+ tryABralette +'</div><div class="ebyBoxUpcoming"><span>Next Box Arrives</span>'+skpBtn+'<h4 class="ebyNextDate">'+nextDate+' - '+ boxPricing +'</h4><a href="javascript:void(0);" class="ebyChangeDatebtn" >Change Date</a><div class="date-field hide"><form type="get" class="updateRechargeDate"><div class="input-group"><input class="form-control date" id="date" name="date" value="'+nextChargeDetail.scheduled_at+'" type="text"/></div>';                  
@@ -1145,8 +1145,8 @@ account.customer = function () {
       }
       
       // set selected preferences
-      jQuery("#changeMyPrefsPopup .dash-prefChoiceOptions input[data-sizeOpt='"+ currSizePref +"']").prop("checked", true);
-      jQuery("#changeMyPrefsPopup .dash-prefChoiceOptions input[data-planOpt='"+ currPlanPref +"']").prop("checked", true);
+      jQuery(".dash-prefChoiceOptions input[data-sizeOpt='"+ currSizePref +"']").prop("checked", true);
+      jQuery(".dash-prefChoiceOptions input[data-planOpt='"+ currPlanPref +"']").prop("checked", true);
       
     } else {
       // its s&d, set all 3 prefs
@@ -1161,20 +1161,13 @@ account.customer = function () {
       });
       
       // set selected preferences
-      jQuery("#changeMyPrefsPopup .dash-prefChoiceOptions input[data-sizeOpt='"+ currSizePref +"']").prop("checked", true);
-      jQuery("#changeMyPrefsPopup .dash-prefChoiceOptions input[data-planOpt='"+ currPlanPref +"']").prop("checked", true);
-      jQuery("#changeMyPrefsPopup .dash-prefChoiceOptions input[data-colorOpt='"+ currColor +"']").prop("checked", true);
+      jQuery(".dash-prefChoiceOptions input[data-sizeOpt='"+ currSizePref +"']").prop("checked", true);
+      jQuery(".dash-prefChoiceOptions input[data-planOpt='"+ currPlanPref +"']").prop("checked", true);
+      jQuery(".dash-prefChoiceOptions input[data-colorOpt='"+ currColor +"']").prop("checked", true);
     }
     
     // set main input to save new preference
-    let latestStylePref = currentCustomerData.subscription.properties.filter((item, index)=> {return item.name === "style_preferences"})[0];
-    if (!!latestStylePref) {
-      jQuery('.dash-prefChoiceOptions.styleGroup input[data-val="'+ latestStylePref.value +'"]').prop('checked', true);
-    }
-    // if preferences are saved
-    // customer has all data
-    // 
-    
+    //jQuery('#changeMyBoxPopup-choice').attr("value", boxSelectionKey);
     
 
     // check defaults
@@ -1405,12 +1398,7 @@ account.customer = function () {
       var currSubId = currentCustomerData.subscription.id;
 	  var currRenewal = currentCustomerData.subscription.next_charge_scheduled_at;
       var currPlan = !!newlySelectedPlanData ? newlySelectedPlanData : currentCustomerData.subscription.order_interval_frequency;
-
-      var anyNewPreferences = null;
-      if (!!document.querySelector('input[name="boxPref-styles"]:checked')) {
-        anyNewPreferences = document.querySelector('input[name="boxPref-styles"]:checked').value;
-      }
-    
+      
       if (currPlan !== currentCustomerData.subscription.order_interval_frequency) {
     	  // this is a plan change
           if (currPlan === 6) {
@@ -1448,8 +1436,7 @@ account.customer = function () {
         "new_variant_id" : newBoxToSave.prd.id,
         "next_charge_scheduled_at": currRenewal,
         "frequency" : currPlan,
-        "price": currPrice,
-        "new_preferences": anyNewPreferences
+        "price": currPrice
       };
 
     
@@ -1460,7 +1447,8 @@ account.customer = function () {
     
       $.ajax({
         type: "POST",
-        url: window.APIDomain+window.otherAPI+"subscription-two.php",
+        crossDomain : true,
+        url: window.APIDomain+window.otherAPI+"subscription.php",
         data: {data: membershipUpdate},
         dataType: 'json',
         success: function(data){

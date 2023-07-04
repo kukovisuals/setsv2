@@ -26,65 +26,65 @@
                     {% assign isOnHolidaySale = false %}
                       {% assign on_sale = false %}
                       {% for prodTag in product.tags %}
-                      {% if prodTag contains "julyfourthsale2023" or prodTag contains "eoy2022-" %}
+                      {% if prodTag contains "memsale2023" or prodTag contains "eoy2022-" %}
                       {% assign isOnHolidaySale = true %}
                       {% assign on_sale = true %}
                       {% endif %}
                       {% endfor %}
                   
                   	{% if isOnHolidaySale %}
-                        {% assign premSkuCodes = ""%}
-                        {% assign holidayDiscounts = "20%,20%,20%,20%,20%,20%,20%,30%,30%,30%,20%,30%,30%" | split: ',' %}
-                        {% assign holidayCodes = "BK,NU,FR,CW,RD,SK,PL,GD,TR,P5,RO,SY,MI" | split: "," %}
-                        {% assign currSkuCode = product.selected_or_first_available_variant.sku | slice: 7, 2 %}
-                        {% assign holidayCottonDiscounts = "50%,60%,50%,60%" | split: ',' %}
-                        {% assign holidayCottonCodes = "BO,LG,BK,FR" | split: "," %}
-                    
-                        {% if product.type contains "Silk" %}
-                            {% assign currSaleDiscount = "40%" %}
-                        {% elsif product.type == "Bodysuit" %}
-                            {% assign currSaleDiscount = "40%" %}
-                        {% elsif product.type == "Tank" %}
-                            {% for prodTag in product.tags %}
-                            {% if prodTag contains "julyfourthsale2023" %}
-                                {% if currSkuCode == "BO" %}
-                                  {% assign currSaleDiscount = "40%" %}
-                                {% else %}
-                                  {% assign currSaleDiscount = "25%" %}
-                                {% endif %}
-                            {% endif %}
-                            {% endfor %}
-                        {% elsif product.type == "Cotton Bralette" or product.type == "Cotton Underwear" %}
-                            {% if holidayCottonCodes contains currSkuCode %}
-                              {% for skuCode in holidayCottonCodes %}
-                                {% if currSkuCode == skuCode %}
-                                  {% assign skuCodeIndex = forloop.index0 %}
-                                  {% break %}
-                                {% endif %}
+                          {% assign premSkuCodes = ""%}
+                          {% assign holidayDiscounts = "20%,20%,30%,20%,20%,20%,20%,30%,30%,30%,30%,30%,40%,40%,40%,70%,70%" | split: ',' %}
+                          {% assign holidayCodes = "BK,NU,GR,FR,CW,RD,SK,PL,WH,GD,TR,P5,P3,SL,R2,OC,ML" | split: "," %}
+                          {% assign currSkuCode = product.selected_or_first_available_variant.sku | slice: 7, 2 %}
+                          {% assign holidayCottonDiscounts = "50%,60%,50%,60%" | split: ',' %}
+                          {% assign holidayCottonCodes = "BO,LG,BK,FR" | split: "," %}
+                  
+                          {% if product.type contains "Silk" %}
+                              {% assign currSaleDiscount = "40%" %}
+                          {% elsif product.type == "Bodysuit" %}
+                              {% assign currSaleDiscount = "40%" %}
+                          {% elsif product.type == "Tank" %}
+                              {% for prodTag in product.tags %}
+                              {% if prodTag contains "memsale2023" %}
+                                  {% if currSkuCode == "BO" %}
+                                    {% assign currSaleDiscount = "35%" %}
+                                  {% else %}
+                                    {% assign currSaleDiscount = "25%" %}
+                                  {% endif %}
+                              {% endif %}
                               {% endfor %}
-                            {% endif %}
-                          
-                            {% assign currSaleDiscount = holidayCottonDiscounts[skuCodeIndex] %}
-                        {% else %}
-                            {% if holidayCodes contains currSkuCode %}
-                              {% for skuCode in holidayCodes %}
-                                {% if currSkuCode == skuCode %}
-                                  {% assign skuCodeIndex = forloop.index0 %}
-                                  {% break %}
-                                {% endif %}
-                              {% endfor %}
-                            {% endif %}
-                          
-                            {% assign currSaleDiscount = holidayDiscounts[skuCodeIndex] %}
-                        {% endif %}
-                    
-                        {% comment %}
-                        {% assign currSaleDiscount = "40%" %}
-                        {% endcomment %}
-                    
-                    {% else %}
-                        {% assign currSaleDiscount = "n_a" %}
-                    {% endif %}
+                          {% elsif product.type == "Cotton Bralette" or product.type == "Cotton Underwear" %}
+                              {% if holidayCottonCodes contains currSkuCode %}
+                                {% for skuCode in holidayCottonCodes %}
+                                  {% if currSkuCode == skuCode %}
+                                    {% assign skuCodeIndex = forloop.index0 %}
+                                    {% break %}
+                                  {% endif %}
+                                {% endfor %}
+                              {% endif %}
+                            
+                              {% assign currSaleDiscount = holidayCottonDiscounts[skuCodeIndex] %}
+                          {% else %}
+                              {% if holidayCodes contains currSkuCode %}
+                                {% for skuCode in holidayCodes %}
+                                  {% if currSkuCode == skuCode %}
+                                    {% assign skuCodeIndex = forloop.index0 %}
+                                    {% break %}
+                                  {% endif %}
+                                {% endfor %}
+                              {% endif %}
+                            
+                              {% assign currSaleDiscount = holidayDiscounts[skuCodeIndex] %}
+                          {% endif %}
+                  
+                          {% comment %}
+                            {% assign currSaleDiscount = "40%" %}
+                          {% endcomment %}
+                  
+                      {% else %}
+                          {% assign currSaleDiscount = "n_a" %}
+                      {% endif %}
                       {%- assign hasFlag = "false" -%}
                       {% for prodTag in product.tags %}
                           {% if prodTag == "flag-new_arrival" %}

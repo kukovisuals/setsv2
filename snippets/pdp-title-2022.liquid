@@ -2,13 +2,40 @@
 {% assign isBundleBraExtra = '' %}
 {% if product.type == "Bra Pack" %}
   {% assign isBndleBra = true %}
-  {% assign isBundleBraExtra = product.compare_at_price | money_without_trailing_zeros %}
+  {% assign isBundleBraExtra = '$112' %}
 {% elsif product.type == "Season Set" %}
   {% assign isBndleBra = true %}
-  {% assign isBundleBraExtra = product.compare_at_price | money_without_trailing_zeros %}
   {%- assign prodNameTitle =  product.title -%}
   {% assign getTitle = prodNameTitle | split: " "  %}
-  {% assign prodColorTitle = getTitle[0]  %}  
+  {% assign prodColorTitle = getTitle[0]  %}
+  {% assign setBraPrice = '' %}
+  {% assign setPantPrice = '' %}
+  {%- for tag in product.tags -%}
+    
+    {% if tag contains 'packPrice'%}
+      {% assign setType = tag | remove: 'packPrice-' | split: '::' %}
+
+      {% if setType[0] contains 'bra002' %}
+        {% assign setBraPrice = 50 %}
+      {% elsif setType[0] contains 'bra003' %}
+        {% assign setBraPrice = 52 %}
+      {% endif %}
+
+      {% if setType[1] contains 'pant000' %}
+        {% assign setPantPrice = 21 %}
+      {% elsif setType[1] contains 'pant001' %}
+        {% assign setPantPrice = 25 %}
+      {% elsif setType[1] contains 'pant002' %}
+        {% assign setPantPrice = 23 %}
+      {% elsif setType[1] contains 'pant003' %}
+        {% assign setPantPrice = 25 %}
+      {% endif %}
+
+    {% endif %}
+  {% endfor %}
+  {% assign sumSet = setBraPrice | plus: setPantPrice %}
+  {% assign isBundleBraExtra = '$' | append: sumSet %}
+  
 {% endif %}
 <div class="mobile-intro {% if isBndleBra %}isMblBundleBras{% endif %}" style="padding:0 2rem 2rem;">
 

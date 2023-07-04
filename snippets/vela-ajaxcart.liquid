@@ -14,13 +14,13 @@
                 <span class="unlocks_s_title">Shipping</span>
                 <span class="gamification_unlocks">
                     {{#if hasPriorityShipping}}
-                        <span id="unlock_three" class="shipping_unlock_value">Free priority, 2-5 days</span>
+                        <span id="unlock_three" class="shipping_unlock_value">Free priority, 3-8 days</span>
                     {{/if}}
                     {{#if isFreeShipping}}              
-                        <span id="unlock_two" class="shipping_unlock_value{{#if hasPriorityShipping}} hidden{{/if}}">Free standard, 5-7 days</span>
+                        <span id="unlock_two" class="shipping_unlock_value{{#if hasPriorityShipping}} hidden{{/if}}">Free standard, 8-15 days</span>
                     {{/if}}
                     {{#if hasStandardShipping}}
-                        <span id="unlock_one" class="shipping_unlock_value">$5 standard, 5-7 days</span>
+                        <span id="unlock_one" class="shipping_unlock_value">$5 standard, 8-15 days</span>
                     {{/if}}
                 </span>
             </footer>
@@ -248,7 +248,7 @@
             </header>
             <div class="cartItemsListingWrapper">
               <div class="ajaxCartProduct isMembership{{#if state_ralated_product }} related{{/if}} bfx-product"{{#if state_ralated_product }} data-related-id="{{ number_related }}"{{/if}}>
-              <div class="drawerProduct ajaxCartRow" data-line="{{line}}" {{#unless showIcon}}data-prop="{{#if bundle}}bundle{{/if}}{{#if subscription}}subscription{{/if}}"{{/unless}} data-vid="{{id}}">
+              <div class="drawerProduct ajaxCartRow" data-line="{{line}}" {{#unless showIcon}}data-prop="{{#if bundle}}bundle{{/if}}{{#if (ifHasProperty 'isBundleSet' properties)}}{{isBundleSet}}{{/if}}{{#if subscription}}subscription{{/if}}"{{/unless}} data-vid="{{id}}">
               {{#items}}
                   {{#if isSubscriptionMembership }}  
                         <div class="customBoxProd bfx-product">
@@ -523,8 +523,8 @@
                 {{ else if isIncludedInCustomBox }}
 
                 {{ else }}
-                <div class="ajaxCartProduct{{#if (ifHasProperty 'labor_sale_pack' properties)}} ldsPack{{/if}}{{#if (ifHasProperty 'mystery_pack' properties)}} packParentProd ldsPack{{/if}}{{#if isLdsLastPackItem }} lastLdsPackItem{{/if}}{{#if (ifHasProperty 'FREEPANTY' properties)}} freepanty_add_pdp{{/if}}{{#if (ifHasProperty 'Mystry_Collection' properties)}} mystry_add_pdp{{/if}}{{#if (ifHasProperty 'tbop_freepanty' properties)}} mystry_add_pdp{{/if}}{{#if subsubscription}}hide{{/if}}{{#if (ifHasProperty 'included_in_pack' properties)}} hide{{/if}}{{#if (ifHasProperty 'build_a_pack' properties)}} ldsPack{{/if}}{{#if isSubscriptionMembership}} isMembership{{/if}}{{#if isHiddenCollateral}} hidden{{/if}}{{#if isIncludedInCustomBox}} customBoxItem{{/if}}{{#if isLtd}} ltdProdItem{{/if}}{{#if state_ralated_product }} related{{/if}} bfx-product"{{#if state_ralated_product }} data-related-id="{{ number_related }}"{{/if}}>
-                	<div class="drawerProduct ajaxCartRow" data-line="{{line}}" {{#unless showIcon}}data-prop="{{#if bundle}}bundle{{/if}}{{#if subscription}}subscription{{/if}}"{{/unless}} data-vid="{{id}}">
+                <div class="ajaxCartProduct{{#if (ifHasProperty 'labor_sale_pack' properties)}} ldsPack{{/if}}{{#if (ifHasProperty 'isBundleSet' properties)}} isBundleSet{{/if}}{{#if (ifHasProperty 'mystery_pack' properties)}} packParentProd ldsPack{{/if}}{{#if isLdsLastPackItem }} lastLdsPackItem{{/if}}{{#if (ifHasProperty 'FREEPANTY' properties)}} freepanty_add_pdp{{/if}}{{#if (ifHasProperty 'Mystry_Collection' properties)}} mystry_add_pdp{{/if}}{{#if (ifHasProperty 'tbop_freepanty' properties)}} mystry_add_pdp{{/if}}{{#if subsubscription}}hide{{/if}}{{#if (ifHasProperty 'included_in_pack' properties)}} hide{{/if}}{{#if (ifHasProperty 'build_a_pack' properties)}} ldsPack{{/if}}{{#if isSubscriptionMembership}} isMembership{{/if}}{{#if isHiddenCollateral}} hidden{{/if}}{{#if isIncludedInCustomBox}} customBoxItem{{/if}}{{#if isLtd}} ltdProdItem{{/if}}{{#if state_ralated_product }} related{{/if}} bfx-product"{{#if state_ralated_product }} data-related-id="{{ number_related }}"{{/if}}>
+                	<div class="drawerProduct ajaxCartRow" data-line="{{line}}" {{#unless showIcon}}data-prop="{{#if bundle}}bundle{{/if}}{{#if (ifHasProperty 'isBundleSet' properties)}}{{isBundleSet}}{{/if}}{{#if subscription}}subscription{{/if}}"{{/unless}} data-vid="{{id}}">
                     <div class="drw-cus-div">
                     	{{#if isIncludedInCustomBox }}
                           {{#if customBoxIsPlus }}
@@ -624,11 +624,11 @@
                           <div class="drawerProductQty {{#if (ifHasProperty 'Mystry_Collection' properties)}} change_style{{/if}}{{#if (ifHasProperty 'tbop_freepanty' properties)}} change_style{{/if}}{{#if (ifHasProperty 'FREEPANTY' properties)}} change_style{{/if}}">
                             <div class="velaQty">
                               {{#unless productFreeGift}}
-                              <button type="button" class="{{#if (ifHasProperty 'bra_bundle_pack' properties)}} change_style{{/if}}{{#if (ifHasProperty 'bra_bundle_pack_sheer' properties)}} change_style{{/if}}{{#if (ifHasProperty 'bra_bundle_pack_sheer_two' properties)}} change_style{{/if}} {{#if (ifHasProperty 'bra002' properties)}} change_style{{/if}} {{#if (ifHasProperty 'bra003' properties)}} change_style{{/if}} {{#if (ifHasProperty 'pant000' properties)}} change_style{{/if}} {{#if (ifHasProperty 'pant001' properties)}} change_style{{/if}} {{#if (ifHasProperty 'pant002' properties)}} change_style{{/if}} {{#if (ifHasProperty 'pant003' properties)}} change_style{{/if}} qtyAdjust velaQtyButton velaQtyMinus" data-id="{{id}}" data-qty="{{itemMinus}}" data-line="{{line}}">
+                              <button type="button" class="qtyAdjust velaQtyButton velaQtyMinus" data-id="{{id}}" data-qty="{{itemMinus}}" data-line="{{line}}">
                                 <span class="txtFallback">&minus;</span>
                               </button>
-                              <input type="text" name="updates[]"{{#if (ifHasProperty 'bra_bundle_pack' properties)}} disabled {{/if}}{{#if (ifHasProperty 'bra_bundle_pack_sheer' properties)}} disabled {{/if}}{{#if (ifHasProperty 'bra_bundle_pack_sheer_two' properties)}} disabled {{/if}} {{#if (ifHasProperty 'bra002' properties)}} disabled {{/if}} {{#if (ifHasProperty 'bra003' properties)}} disabled {{/if}} {{#if (ifHasProperty 'pant000' properties)}} disabled {{/if}} {{#if (ifHasProperty 'pant001' properties)}} disabled {{/if}} {{#if (ifHasProperty 'pant002' properties)}} disabled {{/if}} {{#if (ifHasProperty 'pant003' properties)}} disabled {{/if}} class="qtyNum velaQtyText bfx-product-qty" data-prop="{{#if bundle}}{{bundleIDS}}{{/if}}{{#if subscription}}{{subscriptionIDs}}{{/if}}" data-upsell="{{#if isProductUpsell}}true{{else}}false{{/if}}" value="{{itemQty}}" min="0" data-id="{{id}}" data-line="{{line}}"  pattern="[0-9]*" />
-                              <button type="button" class="{{#if (ifHasProperty 'bra_bundle_pack' properties)}} change_style{{/if}}{{#if (ifHasProperty 'bra_bundle_pack_sheer' properties)}} change_style{{/if}}{{#if (ifHasProperty 'bra_bundle_pack_sheer_two' properties)}} change_style{{/if}} {{#if (ifHasProperty 'bra002' properties)}} change_style{{/if}} {{#if (ifHasProperty 'bra003' properties)}} change_style{{/if}} {{#if (ifHasProperty 'pant000' properties)}} change_style{{/if}} {{#if (ifHasProperty 'pant001' properties)}} change_style{{/if}} {{#if (ifHasProperty 'pant002' properties)}} change_style{{/if}} {{#if (ifHasProperty 'pant003' properties)}} change_style{{/if}} qtyAdjust velaQtyButton velaQtyPlus" data-id="{{id}}" data-line="{{line}}" data-qty="{{itemAdd}}">
+                              <input type="text" name="updates[]" class="qtyNum velaQtyText bfx-product-qty" data-prop="{{#if bundle}}{{bundleIDS}}{{/if}}{{#if subscription}}{{subscriptionIDs}}{{/if}}" data-upsell="{{#if isProductUpsell}}true{{else}}false{{/if}}" value="{{itemQty}}" min="0" data-id="{{id}}" data-line="{{line}}"  pattern="[0-9]*" />
+                              <button type="button" class="qtyAdjust velaQtyButton velaQtyPlus" data-id="{{id}}" data-line="{{line}}" data-qty="{{itemAdd}}">
                                 <span class="txtFallback">+</span>
                               </button>
                               {{else}}
@@ -687,10 +687,6 @@
                                 Part of Sheer Set <span>(-{{ savingsAmount }})</span>
                             </div>
                           {{else if (ifHasProperty 'pant002' properties)}}
-                            <div class="prodItem-promoSummaryCopy">
-                                Part of Sheer Set <span>(-{{ savingsAmount }})</span>
-                            </div>
-                          {{else if (ifHasProperty 'pant003' properties)}}
                             <div class="prodItem-promoSummaryCopy">
                                 Part of Sheer Set <span>(-{{ savingsAmount }})</span>
                             </div>

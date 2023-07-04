@@ -156,6 +156,26 @@ const open = window.XMLHttpRequest.prototype.open;
 function attributeToString(attribute) {
     return "string" != typeof attribute && "undefined" == (attribute += "") && (attribute = ""), jQuery.trim(attribute);
 }
+let generateUniqueId23 = (function() {
+    // fc 061623
+    let usedIds = new Set();
+
+    return function() {
+        let id;
+        do {
+            let randomNum = Math.floor(Math.random() * 100);
+            id = 'bndl' + String(randomNum).padStart(3, '0');
+        } while(usedIds.has(id) && usedIds.size < 100)
+
+        if (usedIds.size >= 100) {
+            throw new Error("All possible IDs have been generated");
+        }
+
+        usedIds.add(id);
+
+        return id;
+    };
+})();
 (window.XMLHttpRequest.prototype.open = cartUpdateListener),
     "undefined" == typeof ShopifyAPI && (ShopifyAPI = {}),
     (ShopifyAPI.onCartUpdate = function (a) {}),
@@ -233,7 +253,6 @@ function attributeToString(attribute) {
         } else if(bndlId instanceof HTMLElement){
             bundleId23 = bndlId.dataset.bundlepdp; 
         }
-
         if ($(a).find(".btnAddToCart").hasClass("AddBundleProduct")) {
             console.log('adding a pack bundle', {
               parent: a,
@@ -309,7 +328,7 @@ function attributeToString(attribute) {
         */
         else if(typeof bundleId23 === 'string'){
 
-            const isSetPdp = document.getElementById('setVariant23-0');
+            const isSetPdp = document.querySelector('#setVariant23-0');
             // check if bundle has different colors
             const mixStr = bndlId.dataset.bundlepdp2;
             const mixStrSheer = bndlId.dataset.mainvr;
@@ -319,6 +338,8 @@ function attributeToString(attribute) {
             // reformat of price for bundles/packs/sets
             const packPriceArr = bndlId.dataset.packprice;
             let $productSelect = '';
+            // give it a unique id 
+            const uniqueIdBndlSet = generateUniqueId23();
             // check if we are on the product page
             if (window.location.pathname.includes('/products/')) {
                 $productSelect = a[2];
@@ -337,30 +358,28 @@ function attributeToString(attribute) {
             }
             
             // if it does add 1 of each
-            if(isSetPdp instanceof HTMLElement){
+            if(isSetPdp){
                 // 060623
                 const priceProperty = allCombinationsCode(packPriceArr);
-                await mainBundleBralette(bundleId23, 1, priceProperty[0]);
-                await mainBundleBralette(mixStr, 1, priceProperty[1]);
+                const itemSend1 = await mainBundleBralette(bundleId23, 1, priceProperty[0], mixStrSheer);
+                const itemSend2 = await mainBundleBralette(mixStr, 1, priceProperty[1], mixStrSheer);
+                mainBundleSet(itemSend1, itemSend2);
             } else if (mixStr.length > 10) {
-                await mainBundleBralette(bundleId23, 1, 'bra_bundle_pack');
-                await mainBundleBralette(mixStr, 1, isMixedBlnk);
+                const itemSend1 = await mainBundleBralette(bundleId23, 1, 'bra_bundle_pack_sheer', mixStrSheer);
+                const itemSend2 = await mainBundleBralette(mixStr, 1, isMixedBlnk, mixStrSheer);
+                mainBundleSet(itemSend1, itemSend2);
             } else { 
-                await mainBundleBralette(bundleId23, 2, isMixedBlnk);
+                const itemSend1 = await mainBundleBralette(bundleId23, 2, isMixedBlnk, mixStrSheer);
+                mainBundleSet(itemSend1);
+            }
+            function mainBundleSet(item1, item2){
+                const constructItems = itemPayload(item1, item2);
+                sendBundleSet(constructItems);
             }
             // Main method for POST request
-            async function mainBundleBralette(bundleIds, n, mixType){
-                // convert variant and ids to keys and val
-                const variantSend = bndlSizeObj(bundleIds);
-                // variant selected by user
-                const bndlSelectedSize = selectedProductSet($productSelect, mixType);
-                // find the key and send the new variant id
-                const idSend = findIdMap(bndlSelectedSize, variantSend);
-                const bundleItems = {
-                    "items": [
-                        { quantity: n, id: idSend, properties: { [mixType]: !0,  "typeBndlSet": mixType, "Shipping Option": "Ecommerce WH" } },
-                    ]
-                }
+            async function sendBundleSet(itemArr){
+                const bundleItems = { "items": itemArr }
+             
                 try {
                     const response = await fetch('/cart/add.js', {
                       method: 'POST',
@@ -373,13 +392,51 @@ function attributeToString(attribute) {
                       }
                     });
                     const postData = await response.json();
-                    console.log('Send first pack', postData.items[0]);
-                    modalToast(postData.items[0]);
+
+                    postData.items.forEach(d => {
+                        console.log('Send first pack', d);
+                        modalToast(d);
+                    })
                     //updateTrueCartCount();
                   } catch (error) {
                     console.error(`Error while adding ${error.responseJSON.description}`, `\n Status: ${error.status}`);
                     console.error('error c', error);
                 }
+            }
+            function itemPayload(...items){
+                const validItems = items.filter(Boolean);
+                const allVariants = validItems.map(item => item.id).join('::');
+                const sendPayload = validItems.map((item) => {
+                    return {
+                        quantity: item.quantity, 
+                        id: item.id, 
+                        properties: { 
+                            [item.type]: !0, 
+                            "isBundleSet": allVariants, 
+                            "typeBndlSet": item.type,  
+                            "Shipping Option": "Ecommerce WH" 
+                        }
+                    };
+                });
+                return sendPayload
+            }
+            function mainBundleBralette(bundleIds, n, mixType, _ids){
+                // convert variant and ids to keys and val
+                const variantSend = bndlSizeObj(bundleIds);
+                // variant selected by user
+                const bndlSelectedSize = selectedProductSet($productSelect, mixType);
+                // find the key and send the new variant id
+                const idSend = findIdMap(bndlSelectedSize, variantSend);
+                // fc 061623 // uniqueIdBndlSet
+                const item = {
+                    quantity: n, 
+                    variantId : _ids,
+                    id: idSend, 
+                    type: mixType
+                };
+
+                return item
+
                 function bndlSizeObj(data){
                   let newVariants = new Map();
                   const tempData = data.split(':');
@@ -393,20 +450,6 @@ function attributeToString(attribute) {
                 function findIdMap(str, obj){
                   const newStr = str.split('-')[0].trim();
                   return obj.get(newStr);
-                }
-                function updateTrueCartCount() {
-                    fetch('/cart.js')
-                      .then(response => response.json())
-                      .then(data => {
-                        const lineItems = data.items;
-                        let totalCount = 0;
-                        lineItems.forEach(item => {
-                          totalCount += item.quantity;
-                        });
-                  
-                        window.trueCartCount = totalCount;
-                        $('#CartCount').text(totalCount);
-                    });
                 }
             }
             function selectedProductSet(el, type){
@@ -548,13 +591,7 @@ function attributeToString(attribute) {
             });
             const typeBndlSet = b.properties['typeBndlSet'] ? b.properties['typeBndlSet'] : '';
              
-            gtag('event', 'add_to_cart__bundleSet', {
-                currency: "USD",
-                value: parseInt(Shopify.formatMoney(b.price).replace("$", "")),
-                page_location: window.location.pathname, 
-                page_title: document.title,
-                event_category: b.product_title,
-                event_label: 'atc_type-bundle_set',
+            gtag('event', 'add_to_cart_bundleSet', {
                 item_id: b.id,
                 item_name: b.product_title,
                 price: b.price,
@@ -682,7 +719,6 @@ var ajaxCart = (function (module, $) {
                 jQuery("body").on("submit", 'form[action^="/cart/add"]', function (a) {
                 console.clear();
                 console.log(window.location.pathname);
-                console.log( )
                 // fc 040523
                 const isSelectedSize = selectSizeCheck();
                 if( (isSelectedSize) && (window.location.pathname.indexOf('/products/') === 0)  ){
@@ -987,7 +1023,6 @@ var ajaxCart = (function (module, $) {
                         let J = c.product_title;
 
                         /* edit - find all new variables for cart ui */
-
                         
                         var doesntHaveMembershipDiscounts = true,
                             hasNonMemberDiscounts = false,
@@ -1030,6 +1065,14 @@ var ajaxCart = (function (module, $) {
                               }
                               return acc;
                           }, subscriptionProdSavings);
+                        }
+                        const checkBundleSet = (val) => {
+                            const allKeys = Object.keys(val.properties);
+                            if(allKeys.includes("isBundleSet") ){
+                                return val.properties["isBundleSet"];
+                            } else {
+                                return ""
+                            }
                         }
 
                         console.log(':edit: product item log', {
@@ -1104,6 +1147,7 @@ var ajaxCart = (function (module, $) {
                                     isUpsell: G,
                                     isProductUpsell: H,
                                     isUpsellQty: I,
+                                    isBundleSet: checkBundleSet(c)
                                 }).prodId && (p.showIcon = !0),
                             p.properties)
                         )
@@ -1314,6 +1358,13 @@ var ajaxCart = (function (module, $) {
                 window.Shopify && Shopify.StorefrontExpressButtons && Shopify.StorefrontExpressButtons.initialize();
         }),
         (adjustCart = function () {
+                function grabSecondBndlSet(line, sync){
+                    let firstElement = document.querySelector(`.drawerProduct.ajaxCartRow[data-prop='${sync}'][data-line='${line}']`);
+                    let elements = Array.from(document.querySelectorAll(`.drawerProduct.ajaxCartRow[data-prop='${sync}']`));
+                    let secondElement = elements.filter(el => el !== firstElement)[0];
+                    
+                    return secondElement.dataset.line;
+                }
                 $body.on("click", ".qtyAdjust", function () {
                     var f = $(this),
                         c = f.data("line"),
@@ -1356,16 +1407,31 @@ var ajaxCart = (function (module, $) {
                                 });
                         } else ShopifyAPI.changeItem(c, b, adjustCartCallback);
                     } else if (c) {
-                        if ("" == h) d ? a(c, b, d) : a(c, b, !1);
-                        else {
-                            var l = h.split(","),
-                                m = [];
-                            $(l).each(function (c, a) {
-                                m.push("updates[" + a + "]=" + b);
-                            }),
-                                a(c, b, d),
-                                jQuery.post("/cart/update.js", m.join("&"));
+                        // fc 061623
+                        if(f.closest(".ajaxCartProduct").hasClass("isBundleSet")){
+                            const dataProp = f.closest(".drawerProduct.ajaxCartRow").data("prop");
+
+                            if( typeof dataProp === 'string'){ 
+
+                                const lineBndlSet = +grabSecondBndlSet(c, dataProp);
+                                a(c, b, true)
+                                setTimeout(() => a(lineBndlSet, b, true), 200);
+                            } else{ a(c, b + 1, d); }
+                        } else {
+
+                            if ("" == h) d ? a(c, b, d) : a(c, b, !1);
+                            else {
+                                var l = h.split(","),
+                                    m = [];
+                                $(l).each(function (c, a) {
+                                    m.push("updates[" + a + "]=" + b);
+                                }),
+                                    a(c, b, d),
+                                    jQuery.post("/cart/update.js", m.join("&"));
+                            }
                         }
+
+                        
                     } else e.val(b);
                 }),
                 $body.on("change", ".qtyNum", function () {
@@ -1389,6 +1455,7 @@ var ajaxCart = (function (module, $) {
                             .attr("data-vid");
                         var i = $('.ajaxCartRow[data-line="' + c + '"]').addClass("is-loading");
                         if ((0 === b && i.parent().addClass("is-removed"), h)) {
+
                             var j = $('.ajaxCartRow[data-line="' + e + '"]').addClass("is-loading");
                             0 === b && j.parent().addClass("is-removed"),
                                 ShopifyAPI.changeItem(c, b, function (a) {
@@ -1409,15 +1476,34 @@ var ajaxCart = (function (module, $) {
                                 });
                         } else ShopifyAPI.changeItem(c, b, adjustCartCallback);
                     } else if (c) {
-                        if ("" == f) a(c, b, g);
-                        else {
-                            var k = f.split(","),
-                                l = [];
-                            $(k).each(function (c, a) {
-                                l.push("updates[" + a + "]=" + b);
-                            }),
-                                a(c, b, g),
-                                jQuery.post("/cart/update.js", l.join("&"));
+                        // fc 061623
+                        debugger
+                        if(d.closest(".ajaxCartProduct").hasClass("isBundleSet")){
+                            const dataProp = d.closest(".drawerProduct.ajaxCartRow").data("prop");
+                            
+                            if( typeof dataProp === 'string' ){ 
+
+                                const lineBndlSet = +grabSecondBndlSet(c, dataProp);
+                                a(c, b, true)
+                                setTimeout(() => a(lineBndlSet, b, true), 200);
+                            } else{
+                                if (b % 2 != 0) {
+                                    b += 1;
+                                } 
+                                a(c, b, d); 
+                            }
+
+                        } else {
+                            if ("" == f) a(c, b, g);
+                            else {
+                                var k = f.split(","),
+                                    l = [];
+                                $(k).each(function (c, a) {
+                                    l.push("updates[" + a + "]=" + b);
+                                }),
+                                    a(c, b, g),
+                                    jQuery.post("/cart/update.js", l.join("&"));
+                            }
                         }
                     }
                 }),
@@ -1507,6 +1593,29 @@ var ajaxCart = (function (module, $) {
                                                 console.log("success!", a), ShopifyAPI.onCartUpdate(a), adjustCartCallback(a);
                                             },
                                         });
+                                });
+                            } else if (b.closest(".ajaxCartProduct").hasClass("isBundleSet")) {
+                                // fc 061623
+                                console.log(":: remove a pack/set::", b);
+                                var j = [];
+ 
+                                const dataPropValue = this.closest('.drawerProduct.ajaxCartRow').dataset.prop;
+                                ShopifyAPI.getCart(function (c) {
+                                    c.items.map(function (a, b) {
+                                        if(a.properties.isBundleSet == dataPropValue){
+                                            j.push(a.id)
+                                        }
+                                    });
+                                    for (var d = j, e = 0, a = { updates: {} }, b = 0; b < d.length; b++) a.updates[d[b]] = e;
+                                    jQuery.ajax({
+                                        type: "POST",
+                                        url: "/cart/update.js",
+                                        data: a,
+                                        dataType: "json",
+                                        success: function (a) {
+                                            console.log("success!", a), ShopifyAPI.onCartUpdate(a), adjustCartCallback(a);
+                                        },
+                                    });
                                 });
                             } else
                                 a(c, d, function (a) {
@@ -1745,14 +1854,21 @@ var ajaxCart = (function (module, $) {
                 });
             var a = function (b, c, a) {
                 void 0 === a && (a = !1), (isUpdating = !0);
+                // / fc 061623
                 var d = $('.ajaxCartRow[data-line="' + b + '"]').addClass("is-loading");
                 0 === c && d.parent().addClass("is-removed"),
                     $("body").hasClass("template-cart")
                         ? (ShopifyAPI.changeItem(b, c, !1, a),
                           setTimeout(function () {
+                            console.log('b1', b);
+                            console.log('c1', c);
+                            console.log('a1', a);
                               location.reload();
                           }, 500))
                         : setTimeout(function () {
+                            console.log('b2', b);
+                            console.log('c2', c);
+                            console.log('a2', a);
                               ShopifyAPI.changeItem(b, c, adjustCartCallback, a);
                           }, 250);
             };

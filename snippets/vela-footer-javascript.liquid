@@ -164,6 +164,34 @@ End Firework add-to-cart Scripts {% endcomment %}
 
 {% if collection.template_suffix contains 'list-filtered' %}
 
+{% if collection.handle contains "best-sellers" %}
+
+    <div class="needsclick">
+      <fw-storyblock
+        channel="joineby"
+        class="needsclick"
+        playlist="g4Z705"
+        mode="pinned"
+        branding="false"
+        autoplay="true"                       
+      ></fw-storyblock>
+    </div>
+{% endif %}
+
+{% if collection.handle contains "new-arrivals" %}
+
+    <div class="needsclick">
+      <fw-storyblock
+        channel="joineby"
+        playlist="5mV90o"
+        class="needsclick"
+        mode="pinned"
+        branding="false"
+        autoplay="true"                       
+      ></fw-storyblock>
+    </div>
+{% endif %}
+
 <script type="lazyload2">  
     setTimeout(function() {
         if (window.location.href.indexOf('/seamless-panties') < 0 || window.location.href.indexOf('/bralettes-for-women') < 0) {
@@ -716,7 +744,7 @@ class RebuyBundleTotal {
     ********************************************************
   */
   updateButton(){
-    const normalPrice = Number.isInteger(this.doMath()) ? this.doMath() : this.doMath().toFixed(2);;
+    const normalPrice = this.doMath();
     this.totalMain.innerText = '$' + normalPrice;
     //this.addToCartText.setAttribute("data-price", this.totalMain.textContent);
   }
@@ -726,7 +754,7 @@ class RebuyBundleTotal {
     ********************************************************
   */
   updateButtonSavings(){
-    const normalPrice = Number.isInteger(this.doMathDeals()) ? this.doMathDeals() : this.doMathDeals().toFixed(2);
+    const normalPrice = this.doMathDeals();
     this.totalMain.innerText = '$' + normalPrice;
     //this.addToCartText.setAttribute("data-price", this.totalMain.textContent);
   }
@@ -737,7 +765,7 @@ class RebuyBundleTotal {
     ********************************************************
   */
   updateSavings(){
-    const subscriberPrice = Number.isInteger(this.doMathSubscriber()) ? this.doMathSubscriber() : this.doMathSubscriber().toFixed(2);
+    const subscriberPrice = this.doMathSubscriber();
     const subsMain = Number(this.subsPrice.innerText.split("$")[1])
     this.lgoutSavings.innerText = '$' + ( subscriberPrice + subsMain)
   }
@@ -750,7 +778,7 @@ class RebuyBundleTotal {
   doMath(){
     const currPrice = +this.currPdpPrice.innerText.split('$')[1]
     const rebuyTotal = parseFloat(this.rebuyTotal.innerText.replace("$", ""));
-    return (currPrice + rebuyTotal);
+    return currPrice + rebuyTotal;
   }
   /*
     ********************************************************
@@ -760,7 +788,7 @@ class RebuyBundleTotal {
   doMathDeals(){
     const currPrice = +this.onlastSale.innerText.split('$')[1]
     const rebuyTotal = parseFloat(this.rebuyTotal.innerText.replace("$", ""));
-    return (currPrice + rebuyTotal);
+    return currPrice + rebuyTotal;
   }
   /*
     ********************************************************
@@ -779,7 +807,7 @@ class RebuyBundleTotal {
         subSum += Number(this.totalRebuySub[i].innerText.replace("$", ""));
       }              
     }
-    return subSum;
+    return subSum
   }
   
   
@@ -888,7 +916,7 @@ class SubscriberPrice{
       ********************************************************
     */
     updateSavings(){
-      const subscriberPrice = Number.isInteger(this.doMathSubscriber()) ? this.doMathSubscriber() : this.doMathSubscriber().toFixed(2);
+      const subscriberPrice = this.doMathSubscriber();
       const subsMain = Number(this.currPdpPrice.innerText.split("$")[1])
       this.totalMain.innerText = '$' + ( subscriberPrice + subsMain)
     }
@@ -909,7 +937,7 @@ class SubscriberPrice{
           subSum += Number(this.totalRebuySub[i].innerText.replace("$", ""));
         }              
       }
-      return subSum;
+      return subSum
     }
   }
 
@@ -1017,7 +1045,7 @@ class PacksSavings{
       ********************************************************
     */
     updateButton(){
-      const normalPrice = Number.isInteger(this.doMath()) ? this.doMath() : this.doMath().toFixed(2);
+      const normalPrice = this.doMath();
       this.totalMain.innerText = '$' + normalPrice;
     }
     /*
@@ -1029,7 +1057,7 @@ class PacksSavings{
     doMath(){
       const currPrice = +this.currPdpPrice.innerText.split('$')[1]
       const rebuyTotal = parseFloat(this.rebuyTotal.innerText.replace("$", ""));
-      return (currPrice + rebuyTotal);
+      return currPrice + rebuyTotal
     }
   }
 
@@ -1113,8 +1141,12 @@ geq.load("V3VHVV4");}();
 <script defer type="text/javascript">geq.page()</script>
 <script defer type="text/javascript" src="https://track.getgobot.com/gobot/js/shopify.js?key=-NR4KuNOLDEulTi5BqdH"></script>
 {% comment -%} Firework Shopping Integration {% endcomment -%}
-{% if template contains 'index' %}
-    <script async type="lazyload2" data-src="//asset.fwcdn3.com/js/fwn-async.js"></script>
+{% if collection.template_suffix contains 'list-filtered' %}
+  {% if collection.handle contains "new-arrivals" or collection.handle contains "best-sellers" %}
+    <script defer src="//asset.fwcdn3.com/js/fwn.js" type="text/javascript"></script>
+  {% endif %}
+{% elsif template contains 'index' %}
+    <script defer src="//asset.fwcdn3.com/js/fwn.js" type="text/javascript"></script>
 {% endif %}
 <script defer type="text/javascript">
   
@@ -1371,5 +1403,13 @@ geq.load("V3VHVV4");}();
   });
 
   /* temp 050923 ob launch */
+  (function(h,o,t,j,a,r){
+    h.hj=h.hj||function(){(h.hj.q=h.hj.q||[]).push(arguments)};
+    h._hjSettings={hjid:833653,hjsv:6};
+    a=o.getElementsByTagName('head')[0];
+    r=o.createElement('script');r.async=1;
+    r.src=t+h._hjSettings.hjid+j+h._hjSettings.hjsv;
+    a.appendChild(r);
+})(window,document,'https://static.hotjar.com/c/hotjar-','.js?sv=');
 </script>
 {% comment -%} End Firework Shopping Integration {% endcomment -%}

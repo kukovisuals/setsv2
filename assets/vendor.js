@@ -9,7 +9,21 @@ Handlebars.registerHelper('ifHasProperty', function(needle, properties) {
 
   return false;
 });
-
+// Handlebars.registerHelper('ifHasProperties', function(needles, properties) {
+//   if (!properties) return false;
+//   // If needles is not an array, make it into a single element array
+//   if (!Array.isArray(needles)) {
+//     needles = [needles];
+//   }
+//   // Check if every needle is a property
+//   for (var i = 0; i < needles.length; i++) {
+//     if (typeof properties[needles[i]] === "undefined") {
+//       return false;
+//     }
+//   }
+//   // If we've made it through the loop without returning, all needles are properties
+//   return true;
+// });
 Handlebars.registerHelper('getProductName', function(name) {
   return name.lastIndexOf(' E') === (name.length - 2) ? name.substring(0, name.length - 2) : name
 });

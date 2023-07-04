@@ -170,7 +170,7 @@
           <div class="section-wrap eby-sm-margin1">
             <div class="section_image iphone_only">
               <img
-                data-src="https://cdn.shopify.com/s/files/1/0313/4062/5964/files/LP---376---only-bra---usp-bourbon-updated.jpg"
+                data-src="https://cdn.shopify.com/s/files/1/0313/4062/5964/files/LP---376---only-bra---usp_3faa2026-7758-471b-bfad-e2c1c55a80e5.jpg"
                 loading="lazy"
                 class="mobile_image lazyload"
                 width="376"
@@ -180,9 +180,9 @@
             </div>
             <div class="section_image ipads_only">
               <img
-                data-src="https://cdn.shopify.com/s/files/1/0313/4062/5964/files/LP---1440---only-bra---usp-bourbon-updated.jpg"
+                data-src="https://cdn.shopify.com/s/files/1/0313/4062/5964/files/LP---1440---only-bra---usp_7f0914e7-1e54-4346-b41e-00dbe5cfb742.jpg"
                 loading="lazy"
-                class="ipad_image lazyload"
+                class="ipad_image lazyload lazyloaded"
                 width="762"
                 height="762"
                 alt="Only Bra Technology"
@@ -190,7 +190,7 @@
             </div>
             <div class="section_image laptop_only eby-max-wd-banner">
               <img
-                data-src="https://cdn.shopify.com/s/files/1/0313/4062/5964/files/LP---1440---only-bra---usp-bourbon-updated.jpg"
+                data-src="https://cdn.shopify.com/s/files/1/0313/4062/5964/files/LP---1440---only-bra---usp_7f0914e7-1e54-4346-b41e-00dbe5cfb742.jpg"
                 loading="lazy"
                 class="desktop_image lazyload"
                 width="1680"
@@ -210,7 +210,7 @@
                 {%- assign itemNumberBeforeImage = forloop.index -%}
 
                   {% if itemNumberBeforeImage > 0 %}
-                   {%- assign hasFlag = "false" -%}
+
                   {% assign isOnHolidaySale = false %}
                   {% assign on_sale = false %}
                   {% for prodTag in product.tags %}
@@ -218,12 +218,7 @@
                       {% assign isOnHolidaySale = true %}
                       {% assign on_sale = true %}
                     {% endif %}
-                    {% if prodTag contains "prodFlag-" %}
-                        {% assign hasFlag = "true" %}
-                        {% assign prodFlag = prodTag | replace: "prodFlag-", "" | replace: "_", " " | capitalize %}
-                    {% endif %}
                   {% endfor %}
-                 
 
                   {% assign prodTitleColor = product.title %}
                   {%- assign colorTitle = prodTitleColor | split: " Only " -%}
@@ -231,7 +226,6 @@
                   {% assign premImgFileName = prodColorTitle | replace: " ", "" | append: "---" | append: prdImgFileName | append: "---missy---tile_fr.jpg" %}
 
                   <div
-                    style="position:relative;"
                     data-cypdptype="{{ product.type }}"
                     class="col products_col velaProBlock quickadd epcWrapper item"
                     data-size-guid="{% render 'collection-selectors-charts', product_target: product %}"
@@ -241,13 +235,6 @@
                     data-prodprice="{{ product.price | money_without_currency }}"
                   >
                     <div class="col-wrap velaProBlockInner">
-                      {% if hasFlag == "true" %}
-                      <div class="prodTileFlag" style="z-index:2;">
-                        <div class="prodTileFlagInnerWrapper">
-                          <span>{{ prodFlag }}</span>
-                        </div>
-                      </div>
-                      {% endif %}
                       <div class="product-image proHImage d-flex flexJustifyCenter">
                         <a class="proFeaturedImage" href="{{ product.url }}">
 
@@ -324,7 +311,7 @@
                                           <p class="bfx-price">{{ product.metafields.ebyacf.vip_product_price | replace: "( " | replace: " members )" }}</p>
                                         {% endif %}
                                       </div>
-                                    {% elsif product.type == "Core Bralette" or product.type == "Cotton Bralette" or product.type == "Mesh Bralette" or product.type == "Core Bra" %}
+                                    {% elsif product.type == "Core Bralette" or product.type == "Cotton Bralette" or product.type == "Mesh Bralette" %}
                                       {% if shop.metafields.ebyacf.enable_holiday_mode-vip_pg or shop.metafields.ebyacf.enable_holiday_mode-coll_pg %}
                                         <div class="eby---price---main-23 priceProduct {% if customer.tags contains 'Active Subscriber' %}vipHighlight {%endif%}{% if on_sale %}priceSale bfx-sale-price{% endif %}bfx-price">{{ product.metafields.ebyacf.vip_product_price | replace: '/ ', '' | replace: ' members', '' }}</div>
                                       {% else %}

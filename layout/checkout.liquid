@@ -128,7 +128,7 @@
                     gtag('event', 'add_shipping_info', {
                       value: parseInt((data.total_price / 100).toLocaleString("en-US", {style:"currency", currency:"USD"}).replace('$', '')),
                       currency: 'USD',
-                      shipping_tier : jQuery('div[data-review-section="shipping-cost"]')[0].innerText,
+                      shipping_tier : jQuery('[name="checkout[shipping_rate][id]"]:checked').val(),
                       items: data.items.map((item, index) => ({
                         item_id: item.product_id,
                         affiliation: 'EBY',

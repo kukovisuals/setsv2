@@ -1,14 +1,14 @@
 {% assign isOnHolidaySale = false %}
 {% for prodTag in product.tags %}
-{% if prodTag contains "julyfourthsale2023" or prodTag contains "apparelSale-apr2023" %}
+{% if prodTag contains "memsale2023" or prodTag contains "apparelSale-apr2023" %}
 {% assign isOnHolidaySale = true %}
 {% endif %}
 {% endfor %}
 
 {% if isOnHolidaySale %}
     {% assign premSkuCodes = ""%}
-    {% assign holidayDiscounts = "20%,20%,20%,20%,20%,20%,20%,30%,30%,30%,20%,30%,30%" | split: ',' %}
-    {% assign holidayCodes = "BK,NU,FR,CW,RD,SK,PL,GD,TR,P5,RO,SY,MI" | split: "," %}
+    {% assign holidayDiscounts = "20%,20%,30%,20%,20%,20%,20%,30%,30%,30%,30%,30%,40%,40%,40%,70%,70%" | split: ',' %}
+    {% assign holidayCodes = "BK,NU,GR,FR,CW,RD,SK,PL,WH,GD,TR,P5,P3,SL,R2,OC,ML" | split: "," %}
     {% assign currSkuCode = product.selected_or_first_available_variant.sku | slice: 7, 2 %}
     {% assign holidayCottonDiscounts = "50%,60%,50%,60%" | split: ',' %}
     {% assign holidayCottonCodes = "BO,LG,BK,FR" | split: "," %}
@@ -19,9 +19,9 @@
         {% assign currSaleDiscount = "40%" %}
     {% elsif product.type == "Tank" %}
         {% for prodTag in product.tags %}
-        {% if prodTag contains "julyfourthsale2023" %}
+        {% if prodTag contains "memsale2023" %}
             {% if currSkuCode == "BO" %}
-              {% assign currSaleDiscount = "40%" %}
+              {% assign currSaleDiscount = "35%" %}
             {% else %}
               {% assign currSaleDiscount = "25%" %}
             {% endif %}
@@ -54,11 +54,6 @@
     {% comment %}
     {% assign currSaleDiscount = "40%" %}
     {% endcomment %}
-    {% if currSaleDiscount == blank and product.type == "Core Bralette" %}
-        {% if product.title contains "Skyway" %}
-          {% assign currSaleDiscount = "30%" %}
-        {% endif %}
-    {% endif %}
 
 {% else %}
     {% assign currSaleDiscount = "n_a" %}
@@ -248,7 +243,6 @@
   data-prodsku="{{ product.id }}"
   data-prodtype="{{ product.type }}"
   data-prodprice="{{ product.price | money_without_currency }}"
-  data-discount="{{ currSaleDiscount }}"
   >
   <div class="col-wrap velaProBlockInner">
     {% if hasFlag == "true" %}

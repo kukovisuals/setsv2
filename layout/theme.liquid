@@ -18,7 +18,7 @@
     <title>{{ seo_title }}</title>
     <link rel="canonical" href="{{ canonical_url }}">
     <meta name="format-detection" content="telephone=no">
-    {% if handle contains 'last-call-seamless-underwear' or handle contains 'giveaway' or handle contains 'sakura' or handle contains 'roseata' or template contains 'premium_new' or template contains 'parisian-summer-luxury' or handle contains 'shop-bralette-set-deal' or handle contains 'the-seamless-bra-bodysuit' %}
+    {% if handle contains 'last-call-seamless-underwear' or handle contains 'giveaway' or handle contains 'sakura' or handle contains 'roseata' or template contains 'premium_new' or template contains 'parisian-summer-luxury' or handle contains 'shop-bralette-set-deal' %}
       <meta name="robots" content="noindex">
     {% endif %}
     {% if handle contains 'roseata' or handle contains 'sakura' or template contains 'premium_new' or template contains 'parisian-summer-luxury' %}
@@ -68,6 +68,8 @@
         font-display: swap
       }
     </style>
+
+  {% render 'shogun-head' %}  
 </head>
   {%- if template contains 'customer' -%}
     {%- assign velaBodyClass = 'template-account' -%}
@@ -324,6 +326,9 @@
       {% endif %}
     {% endif %}
     <!-- end -->
+    {% unless template == "index" or template.name == "collection" or template.name == 'product' %}
+      {% render "loyaltylion" %}
+    {% endunless %}
     {{ 'wnw-optimization.js' | asset_url | script_tag }}
     <!-- Begin ReCharge code -->
     {% include 'subscription-cart-footer' %}

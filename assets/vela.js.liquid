@@ -1584,10 +1584,7 @@ if (
 
                   if (b.target.className.length > 0) {
                     jQuery(".swatch-element." + b.target.className).addClass("selectedSwatch");
-                  } else if (b.target.nodeName === "INPUT") {
-                    jQuery(".swatch-element." + b.target.parentNode.className.split(' ').join('.')).addClass("selectedSwatch");
                   }
-
                 }
             }),
             (!0 == $("body").hasClass("template-collection") ||
@@ -1894,20 +1891,11 @@ if (
                         const mixBundle = document.getElementById('eby-bundle-bras23');
                         let mixStr = mixBundle.dataset.bundlepdp2;;
                         let mixStrSheer = mixBundle.dataset.mainvr;
-                            // tiers in sheer bra 
-                        let isSheerTierOne = mixBundle.dataset.sheerone === "true";  
-                        let isSheerTierTwo = mixBundle.dataset.sheertwo === "true";  
     
                         let isMixedBlnk = 'bra_bundle_pack';
                         if( mixStrSheer.indexOf('::') !== -1 ){
                             const ababab = mixStrSheer.split('::')
                             isMixedBlnk = mixStrSheer.split('::').indexOf('6664648458284') == -1 ? 'bra_bundle_pack' : 'bra_bundle_pack_sheer';
-                        }
-                        // needs refactor
-                        if(isSheerTierOne){
-                            isMixedBlnk = "bra_bundle_pack_sheer";
-                        } else if(isSheerTierTwo){
-                            isMixedBlnk = "bra_bundle_pack_sheer_two";
                         }
                         // if it does add 1 of each
                         if (mixStr.length > 10) {
@@ -2088,8 +2076,8 @@ if (
             }),
             document.addEventListener('rebuy.beforeReady', function(event){
                 console.log('rebuy.beforeReady event', event.detail);
-                let SALE_LIBRARY = ["BK","NU","FR","CW","RD","SK","PL","GD","TR","P5","RO","SY","MI"];
-                let SALE_DISCOUNTS = [20,20,20,20,20,20,20,30,30,30,20,30,30];
+                let SALE_LIBRARY = ["PB","KL","SL","DP","BO","FB","SP","BI","P3","BK","NU","EB","PO","LG","P4","GR"];
+                let SALE_DISCOUNTS = [50,50,72,72,30,72,30,30,42,25,25,50,50,50,50,50];
                 let SALE_COTTON_LIBRARY = ["BO","LG","BK","FR"];
                 let SALE_COTTON_DISCOUNTS = [50,60,50,60];
               
@@ -2099,17 +2087,19 @@ if (
                 if (event.detail.widget.data.products.length > 0) {
                   event.detail.widget.data.products.map(function (prod) {
                     //console.log(":: rebuy product to update price for sale ::", prod);
-                    if (prod.tags.indexOf('julyfourthsale2023') >= 0) {
+                    if (prod.tags.indexOf('memsale2023') >= 0) {
                       prod.variants.map(function (prodVariant) {
-                        if (prod.product_type.indexOf('Tank') >= 0) {
-                          prodVariant.compare_at_price = (+prodVariant.price - (+prodVariant.price * 40 / 100)) * 100;
-                        } else if (prod.product_type.indexOf('Silk') >= 0) {
-                          prodVariant.compare_at_price = (+prodVariant.price - (+prodVariant.price * 40 / 100)) * 100;
-                        } else {
-                          let codeIndex = SALE_LIBRARY.indexOf(prodVariant.sku.slice(7,9));
-                          //prodVariant.price = +prodVariant.price - (+prodVariant.price * SALE_DISCOUNTS[codeIndex] / 100) + ".00";
-                          prodVariant.compare_at_price = (+prodVariant.price - (+prodVariant.price * SALE_DISCOUNTS[codeIndex] / 100)) * 100;
-                        }                        
+                        // if (prod.product_type.indexOf('Mesh') >= 0) {
+                        //   prodVariant.compare_at_price = (+prodVariant.price - (+prodVariant.price * 25 / 100)) * 100;
+                        // } else if (prod.product_type.indexOf('Silk') >= 0) {
+                        //   prodVariant.compare_at_price = (+prodVariant.price - (+prodVariant.price * 50 / 100)) * 100;
+                        // } else {
+                        //   let codeIndex = SALE_LIBRARY.indexOf(prodVariant.sku.slice(7,9));
+                        //   //prodVariant.price = +prodVariant.price - (+prodVariant.price * SALE_DISCOUNTS[codeIndex] / 100) + ".00";
+                        //   prodVariant.compare_at_price = (+prodVariant.price - (+prodVariant.price * SALE_DISCOUNTS[codeIndex] / 100)) * 100;
+                        // }
+                        prodVariant.compare_at_price = (+prodVariant.price - (+prodVariant.price * 40 / 100)) * 100;
+                        
                       });
                     }
                   });
@@ -3817,3 +3807,4 @@ function selectSizeCheck(){
       return finalUrl;
     }
 }
+

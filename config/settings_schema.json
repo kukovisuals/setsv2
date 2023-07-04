@@ -457,7 +457,7 @@
         "id": "core_colors",
         "label": "Core Colors",
         "info": "These colors will be shown in the Core Colors tab, they are separated with a comma and without space.",
-        "default": "black,castor grey,grey,puritan grey,castle wall,brush,nude,margaux,cathay spice,fallen rock,sunkissed,umber,port,bourbon,espresso,mauvewood,fuchsia festival,poppy red,pink lady,hyper pink,strawberry ice,coral pink,peach bloom,brick dust,red plum,roseata fleur,rose clay,rose dust,keepsake lilac,laurel green,gold dust,sulfur spring,lime punch,green millieu,cactus,beveled glass,mint,skyway,blue topaz,caribbean sea,fjord blue,ocean depths,provincial blue,blue iris,blue opal,cadet,raindrop,white,woodsmoke"
+        "default": "black,castor grey,grey,puritan grey,castle wall,brush,nude,margaux,cathay spice,fallen rock,sunkissed,umber,port,espresso,mauvewood,fuchsia festival,poppy red,pink lady,hyper pink,strawberry ice,coral pink,peach bloom,brick dust,red plum,roseata fleur,rose clay,rose dust,keepsake lilac,laurel green,gold dust,sulfur spring,lime punch,green millieu,cactus,beveled glass,mint,skyway,blue topaz,caribbean sea,fjord blue,ocean depths,provincial blue,blue iris,blue opal,cadet,raindrop,white,woodsmoke"
       },
       {
         "type": "text",

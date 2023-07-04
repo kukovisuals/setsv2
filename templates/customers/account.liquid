@@ -16,12 +16,10 @@
         {% if customer.tags contains 'Active Subscriber' or customer.tags contains 'Inactive Subscriber' or customer.tags contains 'Subscription card declined'  %}
         <h2 class="ebyaccordionHeader active"><span class="ebyicon-close-thin"></span>Account Details</h2>
         <div class="settingBlock ebyaccordionContent active">
-          {% comment %}
           <div class="boxAccount rewardsDashboardSummary">
             <div class="ebySidebarHeader">
               	<h4 class="accountHeading">Rewards Program</h4>
             </div>
-            
             <div class="accountContent ebyRewardsContent">
                 <div class="ebyThankYouReferralWrapper">
                   <article>
@@ -39,7 +37,6 @@
                 </div>
             </div>
           </div>
-          {% endcomment %}
           <div class="boxAccount accountInfo">
             <a class="btn btn-rev ebyFancyBtn" data-src="#accountPopup" href="javascript:;">Edit</a>
             <div class="accInfoLeft">
@@ -373,7 +370,6 @@
                 </div>
               </div>
             </div>
-            {% comment %}
             <div class="pageAccountContent">
                 <div class="accInfo">
                   <div class="accInfoLeft">
@@ -395,7 +391,6 @@
                   </div>
                 </article>
             </div>
-            {% endcomment %}
             <div class="pageAccountContent">
               <div class="accInfo">
                 <div class="accInfoLeft">
@@ -515,8 +510,7 @@
           
           {% section 'account-product-list' %}
           {% endcomment %}
-
-          {% comment %}
+          
           <div class="pageAccountContent">
             <div class="accInfo">
               <div class="accInfoLeft">
@@ -525,7 +519,6 @@
             </div>
             <div data-lion-history-table></div>
           </div>
-          {% endcomment %}
           <div class="pageAccountContent">
             <div class="accInfo">
               <div class="accInfoLeft">
@@ -932,43 +925,6 @@
                 4X (26-28w)
               </label>
             </li>
-          </ul>
-      </div>
-      <div class="dash-prefChoiceOptions styleGroup">
-          <div class="boxPrefTitleWrapper">
-            <p>Panty Styles</p>
-          </div>
-          <ul class="optionsListing planOptListing switchMode">
-              <li class="prefChoiceOption plans dashOptWrapper">
-                <input class="with-gap" type="radio" id="pref-mixed" name="boxPref-styles" value="mixed" data-val="mixed" data-styleOpt="Mixed Styles" />
-                <label for="pref-mixed">
-                  Mixed Styles
-                </label>
-              </li>
-              <li class="prefChoiceOption plans dashOptWrapper">
-                <input class="with-gap"type="radio" id="pref-all_thongs" name="boxPref-styles" value="all_thongs" data-val="all_thongs" data-styleOpt="All Thongs" >
-                <label for="pref-all_thongs">
-                  All Thongs
-                </label>
-              </li>
-              <li class="prefChoiceOption plans dashOptWrapper">
-                <input class="with-gap"type="radio" id="pref-all_briefs" name="boxPref-styles" value="all_briefs" data-val="all_briefs" data-styleOpt="All Briefs" >
-                <label for="pref-all_briefs">
-                  All Briefs
-                </label>
-              </li>
-              <li class="prefChoiceOption plans dashOptWrapper">
-                <input class="with-gap"type="radio" id="pref-all_highwaisted" name="boxPref-styles" value="all_highwaisted" data-val="all_highwaisted" data-styleOpt="All Highwaisted" >
-                <label for="pref-all_highwaisted">
-                  All Highwaisted
-                </label>
-              </li>
-              <li class="prefChoiceOption plans dashOptWrapper">
-                <input class="with-gap"type="radio" id="pref-full_coverage" name="boxPref-styles" value="full_coverage" data-val="full_coverage" data-styleOpt="Full Coverage" >
-                <label for="pref-all_thongs">
-                  Full Coverage
-                </label>
-              </li>
           </ul>
       </div>
       <div class="dashBtnWrapper">

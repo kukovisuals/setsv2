@@ -1,12 +1,4 @@
 <style>
-  .ebySeasonSetPdp p.ebyBraletteGuide.nonPantyGuide,
-  .ebyBundlePdp p.ebyBraletteGuide.nonPantyGuide {
-      display: block !important;
-  }
-  .pdp .proBoxInfo .proPrice span#ComparePrice,
-  .pdp .priceProduct.priceCompare{
-      display: none !important;
-  }
   .set23-items{
     width: 26%;
   }
@@ -29,7 +21,6 @@
     width: 100%;
     height: 41px;
     border-radius: 4px;
-    color:var(--eby-main-dark-color);
     background-color: var(--eby-light-gray);
     border-color: var(--eby-light-gray);
     padding-left: 11px;
@@ -70,7 +61,7 @@
 {% assign isSet = false %}
 {% assign isBundleBraExtra = '' %}
     {% for prodTag in product.tags %}
-    {% if prodTag contains "julyfourthsale2023" %}
+    {% if prodTag contains "memsale2023" %}
     {% assign isOnHolidaySale = true %}
     {% endif %}
     {% if prodTag contains "braletteType-support_seamless" %}
@@ -87,64 +78,63 @@
     {% endfor %}
 
 	{% if isOnHolidaySale %}
-    {% assign premSkuCodes = ""%}
-    {% assign holidayDiscounts = "20%,20%,20%,20%,20%,20%,20%,30%,30%,30%,20%,30%,30%" | split: ',' %}
-    {% assign holidayCodes = "BK,NU,FR,CW,RD,SK,PL,GD,TR,P5,RO,SY,MI" | split: "," %}
-    {% assign currSkuCode = product.selected_or_first_available_variant.sku | slice: 7, 2 %}
-    {% assign holidayCottonDiscounts = "50%,60%,50%,60%" | split: ',' %}
-    {% assign holidayCottonCodes = "BO,LG,BK,FR" | split: "," %}
+        {% assign premSkuCodes = ""%}
+        {% assign holidayDiscounts = "20%,20%,30%,20%,20%,20%,20%,30%,30%,30%,30%,30%,40%,40%,40%,70%,70%" | split: ',' %}
+        {% assign holidayCodes = "BK,NU,GR,FR,CW,RD,SK,PL,WH,GD,TR,P5,P3,SL,R2,OC,ML" | split: "," %}
+        {% assign currSkuCode = product.selected_or_first_available_variant.sku | slice: 7, 2 %}
+        {% assign holidayCottonDiscounts = "50%,60%,50%,60%" | split: ',' %}
+        {% assign holidayCottonCodes = "BO,LG,BK,FR" | split: "," %}
 
-    {% if product.type contains "Silk" %}
-        {% assign currSaleDiscount = "40%" %}
-    {% elsif product.type == "Bodysuit" %}
-        {% assign currSaleDiscount = "40%" %}
-    {% elsif product.type == "Tank" %}
-        {% for prodTag in product.tags %}
-        {% if prodTag contains "julyfourthsale2023" %}
-            {% if currSkuCode == "BO" %}
-              {% assign currSaleDiscount = "40%" %}
-            {% else %}
-              {% assign currSaleDiscount = "25%" %}
+        {% if product.type contains "Silk" %}
+          {% assign currSaleDiscount = "40%" %}
+        {% elsif product.type == "Bodysuit" %}
+            {% assign currSaleDiscount = "40%" %}
+        {% elsif product.type == "Tank" %}
+            {% for prodTag in product.tags %}
+            {% if prodTag contains "memsale2023" %}
+                {% if currSkuCode == "BO" %}
+                  {% assign currSaleDiscount = "35%" %}
+                {% else %}
+                  {% assign currSaleDiscount = "25%" %}
+                {% endif %}
             {% endif %}
-        {% endif %}
-        {% endfor %}
-    {% elsif product.type == "Cotton Bralette" or product.type == "Cotton Underwear" %}
-        {% if holidayCottonCodes contains currSkuCode %}
-          {% for skuCode in holidayCottonCodes %}
-            {% if currSkuCode == skuCode %}
-              {% assign skuCodeIndex = forloop.index0 %}
-              {% break %}
+            {% endfor %}
+        {% elsif product.type == "Cotton Bralette" or product.type == "Cotton Underwear" %}
+            {% if holidayCottonCodes contains currSkuCode %}
+              {% for skuCode in holidayCottonCodes %}
+                {% if currSkuCode == skuCode %}
+                  {% assign skuCodeIndex = forloop.index0 %}
+                  {% break %}
+                {% endif %}
+              {% endfor %}
             {% endif %}
-          {% endfor %}
+          
+            {% assign currSaleDiscount = holidayCottonDiscounts[skuCodeIndex] %}
+        {% else %}
+            {% if holidayCodes contains currSkuCode %}
+              {% for skuCode in holidayCodes %}
+                {% if currSkuCode == skuCode %}
+                  {% assign skuCodeIndex = forloop.index0 %}
+                  {% break %}
+                {% endif %}
+              {% endfor %}
+            {% endif %}
+          
+            {% assign currSaleDiscount = holidayDiscounts[skuCodeIndex] %}
         {% endif %}
       
-        {% assign currSaleDiscount = holidayCottonDiscounts[skuCodeIndex] %}
+        {% comment %}
+        {% assign currSaleDiscount = "40%" %}
+        {
+        {% endcomment %}
+    
     {% else %}
-        {% if holidayCodes contains currSkuCode %}
-          {% for skuCode in holidayCodes %}
-            {% if currSkuCode == skuCode %}
-              {% assign skuCodeIndex = forloop.index0 %}
-              {% break %}
-            {% endif %}
-          {% endfor %}
-        {% endif %}
-      
-        {% assign currSaleDiscount = holidayDiscounts[skuCodeIndex] %}
+        {% assign currSaleDiscount = "n_a" %}
     {% endif %}
 
-    {% comment %}
-    {% assign currSaleDiscount = "40%" %}
-    {% endcomment %}
-    {% if currSaleDiscount == blank and product.type == "Core Bralette" %}
-        {% if product.title contains "Skyway" %}
-          {% assign currSaleDiscount = "30%" %}
-        {% endif %}
-    {% endif %}
-
-{% else %}
-    {% assign currSaleDiscount = "n_a" %}
-{% endif %}
-
+{% assign bundleSetReview = '' %}
+{% assign bundleSetReview1 = '' %}
+{% assign bundleSetReviewTag = '' %}
 {% if product.type == "Core Underwear" or product.type == "Cotton Underwear" or product.type == 'Premium Underwear' %}
 
     {% for prodTag in product.tags %}
@@ -269,14 +259,41 @@
 <!-- fc 041123---->
 {% elsif product.type == "Bra Pack" %}
   {% assign isBundleBra = true %}
-  {% assign isBundleBraExtra = product.compare_at_price | money_without_trailing_zeros %}
+  {% assign isBundleBraExtra = '$112' %}
   {%- assign prodNameTitle = "Bralette Bundle" -%}
+  
 <!-- fc 060123---->
 {% elsif product.type == "Season Set" %}
   {% assign isBundleBra = true %}
   {% assign isSet = true %}
   {%- assign prodNameTitle =  product.title -%}
-  {% assign isBundleBraExtra = product.compare_at_price | money_without_trailing_zeros %}
+  {% assign setBraPrice = '' %}
+  {% assign setPantPrice = '' %}
+  {%- for tag in product.tags -%}
+    
+    {% if tag contains 'packPrice'%}
+      {% assign setType = tag | remove: 'packPrice-' | split: '::' %}
+
+      {% if setType[0] contains 'bra002' %}
+        {% assign setBraPrice = 50 %}
+      {% elsif setType[0] contains 'bra003' %}
+        {% assign setBraPrice = 52 %}
+      {% endif %}
+
+      {% if setType[1] contains 'pant000' %}
+        {% assign setPantPrice = 21 %}
+      {% elsif setType[1] contains 'pant001' %}
+        {% assign setPantPrice = 25 %}
+      {% elsif setType[1] contains 'pant002' %}
+        {% assign setPantPrice = 23 %}
+      {% elsif setType[1] contains 'pant003' %}
+        {% assign setPantPrice = 25 %}
+      {% endif %}
+
+    {% endif %}
+  {% endfor %}
+  {% assign sumSet = setBraPrice | plus: setPantPrice %}
+  {% assign isBundleBraExtra = '$' | append: sumSet %}
 {% endif %}
 {% if product.type == "Gift Cards" %}
 	<div class="subtitle"><h1 itemprop="name">The EBY digital gift card</h1></div>
@@ -452,18 +469,20 @@
   	<span class="salePriceExcerptCopy">This item is final sale.</span>
   {% endif %}
   <div class="proReviews"> 
+    
+      
 
-    <!-- Stamped - Begin Star Rating Badge -->
-    <span 
-    class="stamped-product-reviews-badge stamped-main-badge" 
-    data-id="{{ product.id }}" 
-    data-product-sku="{{ product.selected_or_first_available_variant.sku }}" 
-    data-product-title="{{product.title}}" 
-    data-product-type="{{product.type}}" 
-    style="display: block;">
-    </span>
-    <!-- Stamped - End Star Rating Badge -->
- 
+      <!-- Stamped - Begin Star Rating Badge -->
+      <span 
+      class="stamped-product-reviews-badge stamped-main-badge" 
+      data-id="{{product.id}}" 
+      data-product-sku="{{ product.selected_or_first_available_variant.sku }}" 
+      data-product-title="{{product.title}}" 
+      data-product-type="{{product.type}}" 
+      style="display: block;">
+      </span>
+      <!-- Stamped - End Star Rating Badge -->
+
     {% comment %}<span class="shopify-product-reviews-badge" data-id="{{ product.id }}"></span>{% endcomment %}
   </div>
 
@@ -500,7 +519,6 @@
         </div>
       </div>
     </div>
-  
   {%- endif -%}
   
   {% form 'product', product, id: "oldID", class: "formAddToCart" %}
@@ -746,7 +764,7 @@
             {%  elsif tag contains 'packColor' %}
               {% assign prodColorTitle = tag | remove: 'packColor-' %}
             {%  elsif tag contains 'undiesType' %}
-              {% assign pantyType = tag | remove: 'undiesType-' %}
+              {% assign pantyType = tag | remove: 'undiesType-' | capitalize %}
             {%- endif -%}
           {%- endfor -%}
           <div class="set23-main" id="eby-bundle-bras23" data-packprice="{{packPrice}}" data-mainvr="{{packProducts}}" data-bundlepdp="{{bndlVariants}}" data-bundlepdp2="{{bndlVariants2}}" data-typepdp="set">
@@ -856,7 +874,6 @@
         	<!-- out of stock -->
         	<div class="ebyOutofstockCaptureWrapper">
               	<p>We're out of stock at the moment. Please leave your email and we'll notify you asap!</p>
-        		
         	</div>
         {% else %}
         	<div class="proButton mb20">
@@ -1164,7 +1181,7 @@
                         <div class="ebyButtonWrapper center membershipBtns bfx-remove-element">
                           <div class="subtext">
                             <h3>AS A Subscriber</h3>
-                            <!-- <p>You will save 15% on this item</p> -->
+                            <p>You will save 15% on this item</p>
                             <p>Ships to you FREE</p>
                             <p>10% of your purchase will empower women</p>
                           </div>
@@ -1219,7 +1236,7 @@
                         <div class="ebyButtonWrapper center membershipBtns bfx-remove-element">
                           <div class="subtext">
                             <h3>As a Subscriber</h3>
-                            <!-- <p>You will save 15% on this item</p> -->
+                            <p>You will save 15% on this item</p>
                             <p>Ships to you FREE</p>
                             <p>10% of your purchase will empower women</p>
                           </div>
@@ -1269,7 +1286,7 @@
 
   <style>
     .holidaySaleItem .pdp-image-pannel-wrapper.active:before {
-        content: "Summer Sale";
+        content: "Memorial Day Sale";
         position: absolute;
         top: 1.4rem !important;
         left: 1.4rem !important;
@@ -1313,8 +1330,7 @@
     .radioTypeColors input, .radioTypePrints input {
   	  display: none;
     }
-    .sc-bourbon{background:#6F3A21;}
-    .sc-mint{background-color:#70BB9B;}
+    .sc-mint{background-color:#B9CDD3;}
     .sc-skyway{background-color:#A4C4E9;}
     .sc-pink_lady{background-color:#EAB5D8;}
     .sc-red_plum{background-color:#A1353F;}
@@ -1470,7 +1486,6 @@
   </style>
 </div>
 
-
 <script defer type="text/javascript">
 
 
@@ -1622,15 +1637,14 @@ window.addEventListener("DOMContentLoaded", (event) => {
     function saleDiscountRebuy(event){
 
       if (event.detail.widget.data.products.length > 0) {
-        const isUserIn = document.querySelector('.loggedIn');
         let widgetData = event.detail.widget.data;
         event.detail.widget.data.products.map(function (prod, nth) {
           const colorRebuy = document.querySelectorAll('.r---product-color---22')[nth].innerHTML;
           // 20%
-          const twentyColor = ['black','nude','fallen rock','castle wall','raindrop','sunkissed','rose dust'];
+          const twentyColor = ['black','nude','fallen rock','castle wall','raindrop','sunkissed'];
           const twentyPerc = percentage23(prod.product_type, colorRebuy, twentyColor, ['Bralette','Underwear'],nth);
           // 30%
-          const thirtyColor = ['pink lady','mint'];
+          const thirtyColor = ['pink lady'];
           const thirtyColor2 = ['white','gold dust','relic','peach bloom'];
           const thirtyPerc1 = percentage23(prod.product_type, colorRebuy, thirtyColor, ['Bralette','Underwear'],nth);
           const thirtyPerc2 = percentage23(prod.product_type, colorRebuy, thirtyColor2, ['Underwear', '0'],nth);
@@ -1644,13 +1658,13 @@ window.addEventListener("DOMContentLoaded", (event) => {
           const firtyPerc = percentage23(prod.product_type, colorRebuy, fityColor, ['Bralette', 'Underwear'],nth);
           const firtyPerc2 = percentage23(prod.product_type, colorRebuy, ['majestic bloom'], ['Underwear', '0'],nth);
 
+          const isUserIn = document.querySelector('.loggedIn');
           let tempPrice = 0;
-          if (prod.tags.indexOf('julyfourthsale2023') >= 0 && (isUserIn == null)) {
+          if (prod.tags.indexOf('memsale2023') >= 0 && (isUserIn == null)) {
             console.log(': sale item detected :');
             document.querySelectorAll('.rebuy-addon__item-info')[nth].querySelector('.rebuy-addon-container-23 span').style = "color: #d0021b !important;";
             
             prod.variants.map(function (prodVariant) {
-              prodVariant.compare_at_price = 0;
               
               if (twentyPerc) {
                 tempPrice =  (+prodVariant.price * 80 / 100) * 100;
@@ -1667,7 +1681,7 @@ window.addEventListener("DOMContentLoaded", (event) => {
               } 
               
             });
-          } else if (prod.tags.indexOf('julyfourthsale2023') >= 0 && (isUserIn instanceof HTMLElement)) {
+          } else if (prod.tags.indexOf('memsale2023') >= 0 && (isUserIn instanceof HTMLElement)) {
               console.log(': sale item detected :');
               document.querySelectorAll('.rebuy-addon__item-info')[nth].querySelector('.rebuy-addon-container-23 span').style = "color: #d0021b !important;";
             
@@ -1706,10 +1720,6 @@ window.addEventListener("DOMContentLoaded", (event) => {
               } 
           } 
         });
-        if(isUserIn instanceof HTMLElement){
-            //document.querySelectorAll('.rebuy-vip-price-23')[n].style = "color: #d0021b !important;";
-            document.querySelectorAll('.rebuy-vip-price-23').forEach((elem)=>{elem.style="color: #d0021b !important;"})
-        }
         function percentage23(productType, widgetColor, arrColors, type, j){
           for(const color of arrColors){
             const isT = (productType.includes(type[0]) && (widgetColor === color)) || (productType.includes(type[1]) && (widgetColor === color))
@@ -1724,3 +1734,4 @@ window.addEventListener("DOMContentLoaded", (event) => {
 });
 
 </script>
+

@@ -43,7 +43,7 @@
           	{% if shop.metafields.ebyacf.enable_holiday_mode__global != "true" %}
                 {% if collection.metafields.ebyacf.collection_holiday_banner_img %}
                     <div class="collection-image">
-                      <img class="ebyBannerImage lazyload" alt="{{ collection.featured_image.alt }}" title="{{ collection.featured_image.alt }}" data-src="https://cdn.shopify.com/s/files/1/0313/4062/5964/files/BANNER---910-x-300---summer-sale-1.jpg" width="710" height="300" />
+                      <img class="ebyBannerImage lazyload" alt="{{ collection.featured_image.alt }}" title="{{ collection.featured_image.alt }}" data-src="https://cdn.shopify.com/s/files/1/0313/4062/5964/files/BANNER---910-x-300---cartagena---collection---1.jpg" width="710" height="300" />
                     </div>
                 {% else %}
           			{% if collection.handle contains "seamless-tank-top" %}
@@ -60,9 +60,9 @@
                         </div>
           			{% else %}
                         <div class="collection-image">
-                          <a href="/collections/seamless-underwear">
-                            <img class="ebyBannerImage lazyload bfx-remove" alt="{{ collection.featured_image.alt }}" title="{{ collection.featured_image.alt }}" data-src="https://cdn.shopify.com/s/files/1/0313/4062/5964/files/BANNER---910-x-300---summer-sale-1.jpg" width="710" height="300" style="max-height:300px;object-fit: cover;" />
-                            <img class="ebyBannerImage lazyload internationalBlock" alt="{{ collection.featured_image.alt }}" title="{{ collection.featured_image.alt }}" data-src="https://cdn.shopify.com/s/files/1/0313/4062/5964/files/BANNER---910-x-300---summer-sale-1.jpg" width="710" height="300" style="max-height:300px;object-fit: cover;" />
+                          <a href="/pages/seamless-sheer-bralettes">
+                            <img class="ebyBannerImage lazyload bfx-remove" alt="{{ collection.featured_image.alt }}" title="{{ collection.featured_image.alt }}" data-src="https://cdn.shopify.com/s/files/1/0313/4062/5964/files/BANNER---910-x-300---cartagena---collection---1.jpg" width="710" height="300" style="max-height:300px;object-fit: cover;" />
+                            <img class="ebyBannerImage lazyload internationalBlock" alt="{{ collection.featured_image.alt }}" title="{{ collection.featured_image.alt }}" data-src="https://cdn.shopify.com/s/files/1/0313/4062/5964/files/BANNER---910-x-300---cartagena---collection---1.jpg" width="710" height="300" style="max-height:300px;object-fit: cover;" />
                           </a>
                         </div>
           			{% endif %}
@@ -75,9 +75,9 @@
                         <img class="ebyBannerImage lazyload internationalBlock" alt="{{ collection.featured_image.alt }}" title="{{ collection.featured_image.alt }}" data-src="{{ collection.featured_image  | img_url: 'master' }}" width="710" height="300" style="max-height:300px;object-fit: cover;" />
                       </div>
                   {% else %}
-                      <a href="/collections/seamless-underwear">
-                        <img class="ebyBannerImage lazyload bfx-remove" alt="{{ collection.featured_image.alt }}" title="{{ collection.featured_image.alt }}" data-src="https://cdn.shopify.com/s/files/1/0313/4062/5964/files/BANNER---910-x-300---summer-sale-1.jpg" width="710" height="300" style="max-height:300px;object-fit: cover;" />
-                        <img class="ebyBannerImage lazyload internationalBlock" alt="{{ collection.featured_image.alt }}" title="{{ collection.featured_image.alt }}" data-src="https://cdn.shopify.com/s/files/1/0313/4062/5964/files/BANNER---910-x-300---summer-sale-1.jpg" width="710" height="300" style="max-height:300px;object-fit: cover;" />
+                      <a href="/pages/seamless-sheer-bralettes">
+                        <img class="ebyBannerImage lazyload bfx-remove" alt="{{ collection.featured_image.alt }}" title="{{ collection.featured_image.alt }}" data-src="https://cdn.shopify.com/s/files/1/0313/4062/5964/files/BANNER---910-x-300---cartagena---collection---1.jpg" width="710" height="300" style="max-height:300px;object-fit: cover;" />
+                        <img class="ebyBannerImage lazyload internationalBlock" alt="{{ collection.featured_image.alt }}" title="{{ collection.featured_image.alt }}" data-src="https://cdn.shopify.com/s/files/1/0313/4062/5964/files/BANNER---910-x-300---cartagena---collection---1.jpg" width="710" height="300" style="max-height:300px;object-fit: cover;" />
                       </a>
                   {% endif %}
                   <!-- <img class="ebyBannerImage lazyload bfx-remove" alt="{{ collection.featured_image.alt }}" title="{{ collection.featured_image.alt }}" data-src="https://cdn.shopify.com/s/files/1/0313/4062/5964/files/Collections-Banner---Subscription-Promo---Free-Bralette_2x_56a4306f-cd6a-45c5-8c97-c48379b3bc60.jpg?v=1638177471" width="710px" height="300px" />
@@ -392,20 +392,6 @@
           <div class="ecfAppliedFilterListTitleWrapper"></div>
           <label class="ecfAppliedFilterListing chips chips-initial"></label>
         </section>
-
-        {% if collection.handle contains "new-arrivals" or collection.handle contains "best-sellers" %}
-          <script async type="lazyload2" data-src="//asset.fwcdn3.com/js/fwn-async.js"></script>
-          <div class="needsclick">
-            <fw-storyblock
-              channel="joineby"
-              class="needsclick"
-              playlist="g4Z705"
-              mode="pinned"
-              branding="false"
-              autoplay="true"                       
-            ></fw-storyblock>
-          </div>
-        {% endif %}
 
         {% unless collection.handle contains "last-call-seamless-underwear" or collection.handle contains "new-arrivals" %}
         
