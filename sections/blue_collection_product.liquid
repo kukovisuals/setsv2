@@ -1,0 +1,209 @@
+{%- unless proImageSize -%}
+	{%- assign proImageSize = '800x' -%}
+{%- endunless -%}
+
+<section class="premium_product_section">
+  <div class="section-wrap">
+    {% for block in section.blocks %}
+    {% assign collection = collections[block.settings.collection] %}
+    <div class="collection_group" id="{% if block.settings.collection contains "port" %}port-assortment{% else %}parisiansummer-assortment{% endif %}">
+      <div class="collection_group_head">
+        {% if block.settings.sub_title != blank %}
+        <h4>{{ block.settings.sub_title }}</h4>
+        {% endif %}
+        {% if block.settings.title != blank %}
+        <h2>{{ block.settings.title }}</h2>
+        {% endif %}
+        {% if block.settings.caption != blank %}
+        <p>{{ block.settings.caption }}</p>
+        {% endif %}
+      </div>
+      <div class="collection_group_list">
+        {% for product in collection.products limit: block.settings.pdp_range %}
+        
+        
+        {% if product.type == "Premium Underwear" %}
+            {% for prodTag in product.tags %}
+                {% if prodTag contains "pantyType-" %}
+                    {%- assign prodNameTitle = prodTag | replace: "pantyType-", "" -%}
+                {% endif %}
+                {% if prodTag contains "pantyColor-" %}
+                    {%- assign prodColorTitle = prodTag | replace: "pantyColor-", "" | replace: "_", " " -%}
+                {% endif %}
+                {% if prodTag contains "newCustomBoxPrice-" %}
+                    {%- assign prodDealPrice = prodTag | replace: "newCustomBoxPrice-", "" | replace: "_", " " -%}
+                {% endif %}
+            {% endfor %}
+        {% elsif product.type == "Premium Bralette" %}
+            {%- assign prodNameTitle = "bralette" -%}
+            {% for prodTag in product.tags %}
+                {% if prodTag contains "braletteColor-" %}
+                    {%- assign prodColorTitle = prodTag | replace: "braletteColor-", "" | replace: "_", " " -%}
+                {% endif %}
+                {% if prodTag contains "newCustomBoxPrice-" %}
+                    {%- assign prodDealPrice = prodTag | replace: "newCustomBoxPrice-", "" | replace: "_", " " -%}
+                {% endif %}
+            {% endfor %}
+        {% endif %}
+
+        {% if prodNameTitle == "highwaisted_thong" %}
+            {% assign prdImgFileName = "hwthong" %}
+        {% else %}
+            {% assign prdImgFileName = prodNameTitle %}
+        {% endif %}
+        
+        {% if prodColorTitle == "port" %}
+        	{% assign premImgFileName = prodColorTitle | replace: " ", "" | append: "---" | append: prdImgFileName | append: "---missy---model_fr.jpg" %}
+        {% else if prodColorTitle == "parisian summer" %}
+        	{% if prdImgFileName contains "bra" %}
+        		{% assign premImgFileName = prodColorTitle | replace: " ", "" | append: "---" | append: prdImgFileName | append: "---missy---model_fr.jpg" %}
+        	{% else %}
+        		{% assign premImgFileName = prodColorTitle | replace: " ", "" | append: "---" | append: prdImgFileName | append: "_set---missy---model_fr.jpg" %}
+        	{% endif %}
+		{% else %}
+        	{% assign premImgFileName = prodColorTitle | replace: " ", "" | append: "---" | append: prdImgFileName | append: "---missy---tile_fr.jpg" %}
+        {% endif %}
+        
+        <div class="col velaProBlock quickadd" data-size-guid="{% render 'collection-selectors-charts', product_target: product %}">
+          <div class="col-wrap velaProBlockInner">
+            <div class="product-image proHImage d-flex flexJustifyCenter">
+              <a class="proFeaturedImage" href="{{ product.url }}">
+                {%- if product.metafields.ebyacf.collection_page_tile_img -%}
+                {% for image in product.images %}
+                {%- if image.src contains product.metafields.ebyacf.collection_page_tile_img -%}
+                <img class="img-responsive lazyload" alt="{{ image.alt }}" data-src="{{ premImgFileName | file_img_url: 'master' }}">
+                {% break %}
+                {%- endif -%}
+                {% endfor %}
+                {%- else -%}
+                <img class="t1 img-responsive lazyload" alt="{{ product.featured_image.alt | escape }}" data-src="{{ premImgFileName | file_img_url: 'master' }}" />
+                {%- endif -%}
+                {%- if product.images.size > 1 and settings.product_second_image -%}
+                <span class="hidden-sm hidden-xs">
+                  {% for image in product.images %}
+                  {%- if forloop.first != true -%}
+                  <img class="img-responsive lazyload" alt="{{ image.alt }}" data-src="{{ premImgFileName | file_img_url: 'master' }}">
+                  {% break %}
+                  {%- endif -%}
+                  {% endfor %}
+                </span>
+                {%- endif -%}
+                <div class="col-pro-details">
+                  <h3>{{ product.title | replace: "Highwaisted Thong", "HW Thong" }}</h3>
+                  <p class="price bfx-price">{{ product.price | money_without_trailing_zeros  }}</p>
+                </div>
+              </a>
+            </div>
+            <div class="product-details proButton clearfix">
+              <div class="quick_btn">
+               {% comment %} <a href="">QUICK ADD +</a> {% endcomment %}
+                {% include 'vela-product-quickadd' %}
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        {% if block.settings.pro_mobile_img != blank %}
+        {% assign block_index = block.settings.index | times: 1 %}
+        {% if block_index == forloop.index %}
+        <div class="col right-col same_left promo_mobile">
+          <div class="col-wrap">
+            <div class="col-image">
+              <img data-src="{{ block.settings.pro_mobile_img | img_url: 'master' }}" width="301" height="301" class="mobile_image lazyload" alt="{{ block.settings.pro_mobile_img.alt }}">
+            </div>
+            <div class="col-text">
+              <div class="col-text-wrap">
+                {% if block.settings.right_sub_title != blank %}
+                <p>{{ block.settings.right_sub_title }}</p>
+                {% endif %}
+                {% if block.settings.right_title != blank %}
+                <h2>{{ block.settings.right_title }}</h2>
+                {% endif %}
+              </div>
+            </div>
+          </div>
+        </div>
+        {% endif %}
+        {% endif %}
+        
+        {% endfor %}
+        
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</section>
+
+{% schema %}
+  {
+    "name": "Collection",
+    "settings": [
+	],
+	"blocks": [
+      {
+        "type": "tab",
+        "name": "Collection",
+        "settings": [
+		  {
+            "type": "collection",
+            "id": "collection",
+            "label": "Collection"
+          },
+		  {
+            "type": "text",
+            "id": "sub_title",
+            "label": "Sub Title"
+          },
+		  {
+            "type": "text",
+            "id": "title",
+            "label": "Title"
+          },
+		  {
+            "type": "text",
+            "id": "caption",
+            "label": "Caption"
+          },
+          {
+            "type": "range",
+            "id": "pdp_range",
+            "min": 8,
+            "max": 50,
+            "step": 1,
+            "label": "Show Product",
+            "default": 8
+          },
+		  {
+            "type": "header",
+            "content": "Promo Banner"
+          },
+          {
+            "type": "range",
+            "id": "index",
+            "min": 0,
+            "max": 20,
+            "step": 2,
+            "label": "Banner Index",
+            "default": 8
+          },
+		  {
+            "type": "image_picker",
+            "id": "pro_mobile_img",
+            "label": "Promo Image"
+          },
+          {
+            "type": "text",
+            "id": "right_sub_title",
+            "label": "Sub Title"
+          },	
+          {
+            "type": "text",
+            "id": "right_title",
+            "label": "Right Title"
+          }
+		]
+	  }
+	]
+  }
+{% endschema %}
+

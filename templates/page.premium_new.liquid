@@ -1,0 +1,93 @@
+{% comment %}
+<script type="text/javascript">
+  var getPremCookie = document.cookie.split('; ').find(function(row) {return row.startsWith('epremAccess=')});
+  
+  if (window.location.href.indexOf("utm_campaign=premium_luxe_") <= 0) {
+    if (!getPremCookie) {
+    	window.location.href = '/collections/best-sellers';
+    } else {
+    	document.cookie = "epremAccess=true;path=/";
+    }
+  } else {
+  	document.cookie = "epremAccess=true;path=/";
+  }
+</script>
+{% endcomment %}
+
+{% section 'permium_hero_section' %}
+{% section 'permium_banner_section' %}
+{% section 'premium_product_tab' %}
+{% section 'premium_product_tab_2' %}
+{% section 'premium_collection_product' %}
+{% section 'premium_collection_section' %}
+
+<!-- <style>
+  body{background-color:#fff;}
+</style> -->
+
+
+<script>
+  $(document).ready(function(){
+    
+    $('body').on('click', '.scroll_btn', function(e) {
+      e.preventDefault();
+      $('html, body').animate({
+        scrollTop: $('#'+e.target.getAttribute('data-scrollto')).offset().top - 100
+      }, 1000);
+    });
+
+    $('ul.tabs li').click(function(){
+      var $this = $(this);
+      var $theTab = $(this).attr('id');
+
+      if($this.hasClass('active')){
+      }else{
+        $this.closest('.premium_tab_section').find('ul.tabs li').removeClass('active');
+        $this.closest('.premium_tab_section').find('.premium_tab_body .tab-content').removeClass('active');
+        $('ul.tabs li[id="'+$theTab+'"]').addClass('active');
+        $('.premium_tab_body .tab-content[data-tab="'+$theTab+'"]').addClass('active');
+      }
+
+    });
+
+
+    if ($(window).width() < 769) {
+      $(".tab_proVariants a.tab_btn").click(function(event){
+        event.preventDefault();
+        $(this).next('.tab_proVariants_wrap').addClass('active');
+        $(this).parent().next('.tab_proVariants_ovrlay').addClass('active');
+      });
+
+      $(".tab_proVariants_ovrlay, .tab_close").click(function(event){
+        event.preventDefault();
+        $('.tab_proVariants_wrap').removeClass('active');
+        $('.tab_proVariants_ovrlay').removeClass('active');
+      });
+    }
+
+
+  });
+  function checkScrollTop() {
+    var header = $(".eby-header");
+
+    if ($(window).scrollTop() > 0) {
+      header.addClass("scrolled");
+    } else {
+      header.removeClass("scrolled");
+    }
+  }
+
+  var isHomepage = $("body").hasClass("premium_news");
+
+  if (isHomepage) {
+    $(window).scroll(function () {
+      checkScrollTop();
+    });
+  }
+
+  function onPageLoad() {
+    if (isHomepage) {
+      checkScrollTop();
+    }
+  }
+</script>

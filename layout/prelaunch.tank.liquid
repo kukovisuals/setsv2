@@ -1,0 +1,305 @@
+<!doctype html>
+<!--[if IE 9]> <html class="ie9 no-js" lang="{{ shop.locale }}"> <![endif]-->
+<!--[if (gt IE 9)|!(IE)]><!--> <html class="no-js" lang="{{ shop.locale }}"> <!--<![endif]-->
+<head>  
+  <meta charset="utf-8"/>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <meta name="theme-color" content="{{ settings.vela_color_primary }}"/>
+  <meta name="p:domain_verify" content="76d37e972c49ccf70309e4224eae0c2c"/>
+  <link rel="canonical" href="{{ canonical_url }}">
+  
+  {% if handle contains 'last-call-seamless-underwear' %}
+  <meta name="robots" content="noindex">
+  {% endif %}
+  
+  {% if settings.favicon != blank %}
+  	<link rel="shortcut icon" href="{{ settings.favicon | img_url: '32x32' }}" type="image/png">
+  {% endif %}
+  
+  {% capture seo_title %}
+  {{ page_title }}
+  {% if current_tags %}{%- assign meta_tags = current_tags | join: ', ' %} &ndash; {{ 'general.meta.tags' | t: tags: meta_tags -}}{% endif %}
+  {% if current_page != 1 %}&ndash; {{ 'general.meta.page' | t: page: current_page }}{% endif %}
+  {% unless page_title contains shop.name %}&ndash; {{ shop.name }}{% endunless %}
+  {% endcapture %}
+  
+  <title>{{ seo_title }}</title>
+  
+  {% if page_description %}
+  <meta name="description" content="{{ page_description | escape }}">
+  {% endif %}
+  
+  {% render 'preload-snippet' %}
+  {% render 'social-meta-tags' %}
+  {% render 'vela-header-styles' %}
+  {% render 'vela-header-javascript' %}
+  
+  <!-- starapps_scripts_start -->
+  <!-- This code is automatically managed by StarApps Studio -->
+  <!-- Please contact support@starapps.studio for any help -->
+  {% render "starapps-language-meta" %}
+  <script type="text/javascript" src="https://bcdn.starapps.studio/apps/vsk/eby-by-sofia-vergara/script-1618232939.js?shop={{shop.permanent_domain}}" async></script>
+  {% include "starapps-language-meta" %}
+<!-- starapps_scripts_end -->
+
+  {{ content_for_header }}
+  
+  {% render 'dataLayer-allPages' %}
+
+
+  {% render 'shogun-head' %}
+</head>
+{%- if template contains 'customer' -%}
+  {%- assign velaBodyClass = 'template-account' -%}
+{%- endif -%}
+
+{%- if settings.loading_enable -%}
+  {%- assign bodyPreLoading = 'bodyPreLoading' -%}
+{%- endif -%}
+
+<body id="{{ page_title | handle }}" class="template-{{ template | split: '.' | first }} {{ velaBodyClass }}{% if settings.header_float_enable %} velaFloatHeader{% endif %} {{ bodyPreLoading }} {% if customer %}loggedIn{% endif %} template-holidayLanding">
+  {% include 'vela-template' %}
+  
+  <div id="pageContainer" class="isMoved">
+      {% include 'eby-header' %}
+      <main class="mainContent" role="main">
+        {{ content_for_layout }}
+      </main>
+  </div>
+  
+  {% render 'vela-ajaxcart' %}
+  {% render 'vela-modal' %}
+  {% render 'vela-footer-javascript' %}
+
+  <!-- Begin FreeGift code -->
+  {% comment -%}{% include 'free-gift-product' %}{%- endcomment -%}
+  <!-- End FreeGift code -->
+
+  {% comment -%} For Sidecart Gamification {%- endcomment -%}
+  {% render 'discount-rules', init:true, showJsFreeGiftProduct:true, showJs:true, showJsReady:true, showLiquidCart:true, showProgressBarJS:true, showProgressBarCSS:false %}
+  {% comment -%} End For Sidecart Gamification {%- endcomment -%}
+
+  <!-- Begin Shopify-Afterpay JavaScript Snippet (v1.0.10) -->
+  <script type="text/javascript">
+    // Overrides:
+    // var afterpay_min = 0.04;            // As per your Afterpay contract.
+    // var afterpay_max = 2000.00;         // As per your Afterpay contract.
+    // var afterpay_cbt_enabled = false;   // As per your Afterpay contract; change to true to display Cross-Border Trade artwork (for AU/NZ).
+    // var afterpay_logo_theme = 'colour'; // Can be 'colour', 'black' or 'white'.
+    // var afterpay_product_selector = '#product-price-selector';
+    // var afterpay_cart_integration_enabled = true;
+    // var afterpay_cart_static_selector = '#cart-subtotal-selector';
+
+    // Non-editable fields:
+    var afterpay_shop_currency = {{ shop.currency | json }};
+    var afterpay_cart_currency = {{ cart.currency.iso_code | json }};
+    var afterpay_shop_money_format = {{ shop.money_format | json }};
+    var afterpay_shop_permanent_domain = {{ shop.permanent_domain | json }};
+    var afterpay_theme_name = {{ theme.name | json }};
+    var afterpay_product = {{ product | json }};
+    var afterpay_current_variant = {{ product.selected_or_first_available_variant | json }};
+    var afterpay_cart_total_price = {{ cart.total_price | json }};
+    var afterpay_js_snippet_version = '1.0.10';
+  </script>
+  <script type="text/javascript" src="https://static.afterpay.com/shopify-afterpay-javascript.js"></script>
+  <!-- End Shopify-Afterpay JavaScript Snippet (v1.0.10) -->
+
+  <script async type="text/javascript">
+    $(document).ready(function(){
+      $('.reserve-spot').click(function () {
+        $('.right-column').addClass("activated");
+      });
+
+      $('.closeWaitlistBtn').click(function () {
+        $('.form-activated').css("display", "none");
+      })
+    });
+
+    $(window).resize(function () {
+      if($(window).width() > 768){
+        $('.reserve-spot').click(function () {
+          $('.form-activated').css("display", "block");
+        });
+      }
+      
+      if($(window).width() < 768){
+        $('.reserve-spot').click(function () {
+          $('.email-box').css("display", "none");
+        });
+      }
+    });
+    
+    $(document).ready(function(){
+      $('#reservationEmail').on("change paste keyup focusout", function(event){
+        const testEmail = /^[A-Z0-9._%+-]+@([A-Z0-9-]+\.)+[A-Z]{2,4}$/i;
+        if (testEmail.test(event.target.value)){
+          $('#email-block').removeClass('error');
+        } else {
+          $('#email-block').addClass('error');
+        }
+      });
+    });
+
+  </script>
+
+  <script type="text/javascript">(function(w,d,t,r,u){var f,n,i;w[u]=w[u]||[],f=function(){var o={ti:"26336647"};o.q=w[u],w[u]=new UET(o),w[u].push("pageLoad")},n=d.createElement(t),n.src=r,n.async=1,n.onload=n.onreadystatechange=function(){var s=this.readyState;s&&s!=="loaded"&&s!=="complete"||(f(),n.onload=n.onreadystatechange=null)},i=d.getElementsByTagName(t)[0],i.parentNode.insertBefore(n,i)})(window,document,"script","//bat.bing.com/bat.js","uetq");</script>
+  <script type="text/javascript" src="//www.klaviyo.com/media/js/public/klaviyo_subscribe.js"></script>
+  <script async type="text/javascript">
+    KlaviyoSubscribe.attachToForms('#reservation-form', {
+      hide_form_on_success: true,
+      success: function success() {
+        document.getElementById("prelaunch-landing-container").className += " complete";
+        // left panel
+        document.getElementById("reservation-success").style.display = "block";
+        document.getElementById("form-activated").style.display = "none";
+        // right panel
+        document.getElementById("reservation-default-banner").style.display = "none";
+        document.getElementById("reservation-success-banner").style.display = "flex";
+      },
+      extra_properties: {
+        $source: '$embed',
+        $method_type: "Klaviyo Form",
+        $method_id: 'embed',
+        $consent_version: 'Embed default text'
+      }
+    });
+    
+    document.getElementById('reservation-form').addEventListener('submit', function (event) {
+      
+      console.log('::postscripts init::', {
+        "phone": document.getElementById('phone').value,
+        "keyword": "SEAMLESSTANK",
+        "metadata": {
+          "email" : document.getElementById('k_id_email').value,
+          "firstnme" : document.getElementById('name').value
+        }
+      });
+      
+      jQuery.ajax({
+        type: "POST",
+        crossDomain : true,
+        url: window.APIDomain+window.otherAPI+"eby_postscript.php",
+        data: { data: {
+          "keyword": "SEAMLESSTANK",
+          "phone": document.getElementById('phone').value,
+          "metadata": {
+            "email" : document.getElementById('k_id_email').value,
+            "firstnme" : document.getElementById('name').value
+          }
+        }},
+        dataType: 'json',
+        success: function(data){
+          console.log("::postscript success::", data);
+          
+          if(!!data){
+           	console.log('check data');
+          }
+        },
+        error: function(xhr, text) {
+          
+          console.log("::postscript failure::", {
+            text : text,
+            xhr : xhr
+          });
+          
+        }
+      });
+      
+    });
+    
+    jQuery(document).ready(function(){
+        jQuery('.product-name').click(function () {
+            if ($('.style-changer-mobile').css("display") === "block"){
+                $('.style-changer-mobile').css("display", "none");
+                $('.changer-arrow-mobile').css("transform", "rotate(0deg)")
+            } else {
+                $('.style-changer-mobile').css("display", "block");
+                $('.changer-arrow-mobile').css("transform", "rotate(180deg)")
+            }
+        });
+    });
+    
+    document.addEventListener('rebuy.ready', function(event) {
+            jQuery('.single-select').on("click", function (ev) {
+                const variantID = jQuery(this).data("value");
+                const currentSelect = jQuery(this).siblings('select.rebuy-select');
+                const productID = jQuery(currentSelect[0]).data("id");
+              
+              	let productTileId = jQuery(this).closest('.rebuy-product-block').attr('data-prdId');
+              
+                jQuery('select.rebuy-select option[value=' + variantID + ']').attr('selected','selected');
+                
+                const rebuyWidgets = Rebuy.widgets;
+              
+              	if (rebuyWidgets && rebuyWidgets.length > 0) {
+                      const rebuyWidget = Rebuy.widgets[0];
+                  
+                  	let widgetProducts = rebuyWidget.data.products;
+                  
+                    for( var index = 0; index < widgetProducts.length; index++ ){
+                      if (widgetProducts[index].id === +productTileId) {
+                        
+                          // reduce down to find the variant in question by 
+                          let selectedVariantProd = widgetProducts[index].variants.reduce(function (acc, variantPrd) {
+                            if (variantPrd.id === variantID) {
+                              acc.push(variantPrd);
+                            }
+                            return acc;
+                          }, []);
+
+                          // set new values for prod upsell
+                          rebuyWidget.data.products[index].selected_variant_id = variantID;
+                          rebuyWidget.data.products[index].selected_variant = selectedVariantProd[0];
+                      }
+
+                    }
+                  
+                } else {
+                  console.log(':: Error - Rebuy widget not found ::');
+                }
+              
+              	
+                currentSelect.val(variantID).change();
+            });
+
+            jQuery('body').on("click", "div.rebuy-title-container", function (e) {
+                e.preventDefault();
+
+                console.log($('.rebuy-select-options'));
+
+                $('.rebuy-select-options').hide();
+                $(this).siblings('.rebuy-select-options').show();
+            });
+
+            $(document).bind("mouseup", function(e){
+                    var element = $(".rebuy-select-options");
+	                if (!element.is(e.target) && element.has(e.target).length === 0){
+		            element.hide();
+	            }
+            });
+          
+			jQuery('body').on("click", 'div.rebuy-select-options', function (e) {
+                e.preventDefault();
+                $('.rebuy-select-options').hide();
+            });
+        });
+    
+    
+  </script>
+  <script src="https://rebuyengine.com/js/rebuy?shop=eby-by-sofia-vergara.myshopify.com"></script>
+  <!--  critical  -->
+
+  <!-- Hotjar Tracking Code for https://shop.join-eby.com -->
+  <script type="text/javascript">
+    (function(h,o,t,j,a,r){
+      h.hj=h.hj||function(){(h.hj.q=h.hj.q||[]).push(arguments)};
+      h._hjSettings={hjid:833653,hjsv:6};
+      a=o.getElementsByTagName('head')[0];
+      r=o.createElement('script');r.async=1;
+      r.src=t+h._hjSettings.hjid+j+h._hjSettings.hjsv;
+      a.appendChild(r);
+    })(window,document,'https://static.hotjar.com/c/hotjar-','.js?sv=');
+  </script>
+</body>
+</html>

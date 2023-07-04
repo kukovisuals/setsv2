@@ -1,0 +1,831 @@
+<!DOCTYPE html>
+<html lang="{{ locale }}" dir="{{ direction }}" class="{{ checkout_html_classes }}">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, height=device-height, minimum-scale=1.0, user-scalable=0">
+    <meta name="referrer" content="origin">
+
+    <title>{{ page_title }}</title>
+
+    {{ content_for_header }}
+
+    {{ checkout_stylesheets }}
+    {{ checkout_scripts }}
+     
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-SM2BTQY1PF"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js" type="text/javascript"></script>
+    <script type="text/javascript">
+      /* tiktok devpix*/
+      !function (w, d, t) {
+        w.TiktokAnalyticsObject=t;var ttq=w[t]=w[t]||[];ttq.methods=["page","track","identify","instances","debug","on","off","once","ready","alias","group","enableCookie","disableCookie"],ttq.setAndDefer=function(t,e){t[e]=function(){t.push([e].concat(Array.prototype.slice.call(arguments,0)))}};for(var i=0;i<ttq.methods.length;i++)ttq.setAndDefer(ttq,ttq.methods[i]);ttq.instance=function(t){for(var e=ttq._i[t]||[],n=0;n<ttq.methods.length;n++)ttq.setAndDefer(e,ttq.methods[n]);return e},ttq.load=function(e,n){var i="https://analytics.tiktok.com/i18n/pixel/events.js";ttq._i=ttq._i||{},ttq._i[e]=[],ttq._i[e]._u=i,ttq._t=ttq._t||{},ttq._t[e]=+new Date,ttq._o=ttq._o||{},ttq._o[e]=n||{};var o=document.createElement("script");o.type="text/javascript",o.async=!0,o.src=i+"?sdkid="+e+"&lib="+t;var a=document.getElementsByTagName("script")[0];a.parentNode.insertBefore(o,a)};
+        ttq.load('CBK4Q5RC77U0CJTABNJG');
+        ttq.instance('CBK4Q5RC77U0CJTABNJG').page();
+        ttq.instance('CBK4Q5RC77U0CJTABNJG').track('InitiateCheckout');
+      }(window, document, 'ttq');
+      
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-SM2BTQY1PF');
+      
+      (function($){
+        
+        var cartAjax = function() {
+          $.ajax({
+            async: false,
+            type: 'GET',
+            url: '/cart.js',
+            dataType: 'json',
+            success:  function (data) {
+              console.log(data);
+              console.log(data.items);
+              if (data.items.length > 0){
+                $(data.items).each(function(k,v){
+                  var isIncludedInPack = typeof v.properties["included_in_pack"] != "undefined";
+                  var isIncludedInEcomm = typeof v.properties["hidden_collateral"] != "undefined";
+
+                  var productLineItemDiscounts = v.discounts;                  
+                  productLineItemDiscounts.map(function (discount, index) {
+                    if (discount.title.indexOf('Flash Sale') >= 0 || discount.title.indexOf('Memorial Day') >= 0 || discount.title.indexOf('July 4th') >= 0 || discount.title.indexOf('Labor Day') >= 0) {
+                      if (!$('.section--reductions').hasClass('noPromos')) {
+                        //$('.section--reductions').addClass('noPromos');
+                        //$('.order-summary__section--discount').addClass('noPromos');
+                      }
+                    }
+                  });
+                  
+                  // console.log($('.product')[k]);
+                  itemData = data.items[k];
+
+                  if (itemData) {
+                    if (itemData['product_title']) {
+                      var productTitle = itemData['product_title'];
+                      var productName = productTitle.lastIndexOf(' E') === (productTitle.length - 2) ? productTitle.substring(0, productTitle.length - 2) : productTitle
+                      //console.log('fsfdfsfdf', itemData['product_type']);
+                      if (itemData['product_type'].indexOf('Mesh') >= 0) {
+                        productName = productName.replace('Mesh', 'Sheer').replace('Highwaisted', 'HC Highwaisted');
+                      }
+                      
+                      var nameDiv = $($('.product')[k]).find('.product__description__name');
+
+                      if (nameDiv && nameDiv.length > 0) {
+                        nameDiv.html(productName);
+                      }
+                    }
+                    if (itemData['properties']) {
+                      if (itemData['properties']['Free']) {
+                        if (itemData['properties']['Free'] == "Gift") {
+                          $($('.product')[k]).find('.product__description__name').html({{ settings.custom_free_gift_product_title | json }});
+                          $($('.product')[k]).find('.product__price span').html('Free');
+                        }
+                      }
+                      if (itemData['properties']['Mystry_Collection']) {
+                        //if (itemData['properties']['Free'] == "Gift") {
+                          $($('.product')[k]).find('.product__description__name').html("Surprise Pair");
+                          $($('.product')[k]).find('.product-thumbnail__image').attr("src", "https://cdn.shopify.com/s/files/1/0313/4062/5964/files/mystery-panty-1.jpg");
+                          //$($('.product')[k]).find('.product__price span').html('Free');
+                        //}
+                      }
+                      if (itemData['properties']['tbop_freepanty']) {
+                        //if (itemData['properties']['Free'] == "Gift") {
+                          $($('.product')[k]).find('.product__description__name').html("Mystery Pair");
+                          $($('.product')[k]).find('.product-thumbnail__image').attr("src", "https://cdn.shopify.com/s/files/1/0313/4062/5964/files/PROD---none--none--mystery-panty--missy---prod_lf.jpg");
+                          //$($('.product')[k]).find('.product__price span').html('Free');
+                        //}
+                      }
+                    }
+                  }
+
+                  if(isIncludedInPack || isIncludedInEcomm){
+                    $($('.product')[k]).addClass('hide-product');
+                  }
+                });
+                
+                if (!Shopify.Checkout.isOrderStatusPage) {
+                  /*gtag*/
+                  gtag('event', 'begin_checkout', {
+                    value: parseInt((data.total_price / 100).toLocaleString("en-US", {style:"currency", currency:"USD"}).replace('$', '')),
+                    currency: 'USD',
+                    event_category: "begin_shopify_checkout",
+                    items: data.items.map((item, index) => ({
+                      item_id: item.product_id,
+                      affiliation: 'EBY',
+                      item_name: item.product_title,
+                      item_category: item.product_type,
+                      index: index,
+                      currency: 'USD',
+                      discount: parseInt(((item.original_price - item.final_price) / 100).toLocaleString("en-US", {style:"currency", currency:"USD"}).replace('$', '')),
+                      price: parseInt((item.final_price / 100).toLocaleString("en-US", {style:"currency", currency:"USD"}).replace('$', '')),
+                      quantity: item.quantity,
+                      item_variant: item.variant_title
+                    }))
+                  });
+                  
+                  if (Shopify.Checkout.step === "payment_method") {
+                    gtag('event', 'add_shipping_info', {
+                      value: parseInt((data.total_price / 100).toLocaleString("en-US", {style:"currency", currency:"USD"}).replace('$', '')),
+                      currency: 'USD',
+                      shipping_tier : jQuery('div[data-review-section="shipping-cost"]')[0].innerText,
+                      items: data.items.map((item, index) => ({
+                        item_id: item.product_id,
+                        affiliation: 'EBY',
+                        item_name: item.product_title,
+                        item_category: item.product_type,
+                        index: index,
+                        currency: 'USD',
+                        discount: parseInt(((item.original_price - item.final_price) / 100).toLocaleString("en-US", {style:"currency", currency:"USD"}).replace('$', '')),
+                        price: parseInt((item.final_price / 100).toLocaleString("en-US", {style:"currency", currency:"USD"}).replace('$', '')),
+                        quantity: item.quantity,
+                        item_variant: item.variant_title
+                      }))
+                    });
+                  }
+
+                  if (Shopify.Checkout.step === "processing") {
+                    gtag('event', 'add_payment_info', {
+                      value: parseInt((data.total_price / 100).toLocaleString("en-US", {style:"currency", currency:"USD"}).replace('$', '')),
+                      currency: 'USD',
+                      items: data.items.map((item, index) => ({
+                        item_id: item.product_id,
+                        affiliation: 'EBY',
+                        item_name: item.product_title,
+                        item_category: item.product_type,
+                        index: index,
+                        currency: 'USD',
+                        discount: parseInt(((item.original_price - item.final_price) / 100).toLocaleString("en-US", {style:"currency", currency:"USD"}).replace('$', '')),
+                        price: parseInt((item.final_price / 100).toLocaleString("en-US", {style:"currency", currency:"USD"}).replace('$', '')),
+                        quantity: item.quantity,
+                        item_variant: item.variant_title
+                      }))
+                    });
+
+                    ttq.instance('CBK4Q5RC77U0CJTABNJG').track('AddPaymentInfo');
+                  }
+                  
+                }
+                
+              } else {
+                console.error("no cart line items found");
+              }
+            },
+            error: function(){
+              console.error('error found on /cart.js ajax call');
+            }
+          });
+        }
+        
+        setTimeout(function(){
+          cartAjax();
+        }, 1);
+            
+        $(document).on('ready', function () {
+          // if on the thank you page/order status page
+          if (Shopify.Checkout.isOrderStatusPage) {
+            Shopify.checkout.line_items.map(function(item, index) {
+              if (!!item.properties['included_in_pack']) {
+                $('.product-table .product[data-product-id='+ item.product_id +']').addClass('hide-product');
+              }
+           });
+          }
+                    
+          // if the customer has a newly made account for referral
+          if (!!window.localStorage.getItem('err')) {
+            setTimeout(function () {
+              console.log(':show referral:');
+              $('#init-ebyrefpop')[0].click();
+              window.localStorage.removeItem('err');
+            }, 2000);
+          }
+          
+        });
+        
+      })(jQuery);
+    </script>
+    
+    <style>
+      span.lion-checkout-redemption__header__help-text {
+        visibility: hidden;
+        height: 0px;
+      }
+      .loop-returns-activated #afterpay { display: none !important; }
+      .order-summary__sections {
+      	height: auto;
+      }
+      .product-thumbnail__image {
+      	max-height: auto;
+        object-fit: cover;
+        width: 100%;
+      }
+      .product[data-product-type="Collateral"],
+      .product[data-product-type="Collateral"] + .checkout-review-row {
+      	display: none !important;
+      }
+      .js .order-summary h2.visually-hidden-if-js {
+          clip: unset;
+          width: inherit;
+          height: inherit;
+          margin: 0 auto;
+          text-align: center;
+          overflow: unset;
+          position: relative;
+          white-space: unset;
+          text-transform: capitalize;
+          color: #00435f;
+          font-size: 1rem;
+          border-bottom: 1px solid rgba(175,175,175,0.34);
+          margin-bottom: 0.75rem;
+          padding-bottom: 0.5rem;
+      } 
+      .order-summary__section.order-summary__section--discount.noPromos,
+      .section.section--reductions.noPromos{
+        display: none;
+      }
+      .order-summary__small-text + br + .order-summary__emphasis,
+      del.total-recap__original-price + .total-recap__final-price {
+        color: #f00;
+      }
+      .product.hide-product + .checkout-review-row{
+          display: none !important;
+      }
+      .hide-product{
+        display:none;
+      }
+      .product__description .product__description__property{
+        display: none;
+      }
+      .step[data-step="contact_information"] p.layout-flex__item {
+          display: none !important;
+      }
+      .step__footer__continue-btn {
+        border-radius: 50px;
+      }
+      .step-thank-you .eby_more_pm_wrapper, .step-shipping-method .eby_more_pm_wrapper, .step-payment-method .eby_more_pm_wrapper{
+        display:none;
+      }
+      .logged-in-customer-information__avatar {
+        background-image: url('https://cdn.shopify.com/s/files/1/0313/4062/5964/files/eby-member-avatar2.jpg?v=1603459831') !important;
+      }
+      .radio-wrapper.content-box__row.shown-if-js[data-gateway-group="amazon_payments"] {
+        display: none;
+      }
+      .radio-wrapper[data-shipping-method="shopify-Free%20VIP%20Shipping%20(5-7%20Business%20Days)-0.00"] {
+        display: none;
+      }
+      tr.checkout-review-row {
+        display: none !important;
+      }
+      .section--shipping-address .section__content .field.field--show-floating-label:nth-child(2) .checkbox-wrapper {
+        display: none;
+      }
+      /*
+      .radio-wrapper[data-shipping-method="shopify-Shipping%20(5-7%20Business%20Days)-5.00"] {
+        display: none;
+      }*/
+      /* Rebuy Widget 2.0 */
+<!--
+      .rebuy-ebyModule .rebuy-widget {
+          padding-top: 0.5rem !important;      
+      }
+      .rebuy-ebyModule .rebuy-widget .rebuy-widget-container  .super-title {
+          margin: 0.5rem 1rem 1rem;
+          font-size: 1rem;
+          font-family: "Domaine Regular", sans-serif;
+          text-transform: capitalize;
+      }
+      .rebuy-ebyModule .rebuy-widget .rebuy-widget-container .rebuy-product-grid {
+          padding: 0;
+          display: flex;
+          justify-content: space-between;
+          align-items: baseline;
+      }
+      .rebuy-ebyModule .rebuy-widget .rebuy-widget-container .rebuy-product-grid:before,
+      .rebuy-ebyModule .rebuy-widget .rebuy-widget-container .rebuy-product-grid:after {
+        display: none;
+      }
+      .rebuy-ebyModule .rebuy-widget .rebuy-widget-container .rebuy-product-grid .rebuy-product-block {
+          width: 48%;
+          margin-top: 0 !important;
+          padding-top: 0 !important;
+      }
+      .rebuy-ebyModule .rebuy-widget .rebuy-widget-container .rebuy-product-grid .rebuy-product-block .rebuy-product-media {
+          width: 100%;
+          border-radius: 0;
+          box-shadow: 0 0 5px 1px rgba(0, 0, 0, 0.25);
+          overflow: hidden;
+          position: relative;
+      }
+      .rebuy-ebyModule .rebuy-widget .rebuy-widget-container .rebuy-product-grid .rebuy-product-block .rebuy-product-media img {
+          border-radius: 0px;
+          width: 100%;
+          object-fit: cover;
+          height: 240px;
+      }
+      .rebuy-ebyModule .rebuy-widget .rebuy-widget-container .rebuy-product-grid .rebuy-product-block .rebuy-product-options {
+          position: absolute;
+          bottom: 1rem;
+          width: 48%;
+      }
+      .rebuy-ebyModule .rebuy-widget .rebuy-widget-container .rebuy-product-grid .rebuy-product-block .rebuy-product-options:before {
+          content: '';
+          width: 0px;
+          height: 0px;
+          border-left: 6px solid transparent;
+          border-right: 6px solid transparent;
+          border-top: 6px solid #0064ff;
+          z-index: 100;
+          position: absolute;
+          bottom: 16px;
+          right: 1.2rem;
+      }
+      .rebuy-ebyModule .rebuy-widget .rebuy-widget-container .rebuy-product-grid .rebuy-product-block .rebuy-product-options .rebuy-select {
+          background-color: transparent !important;
+          border: 0;
+          padding-bottom: 0.3rem;
+          width: 100%;
+          white-space: inherit;
+          text-transform: uppercase;
+          padding: 0.5rem;
+          background: none;
+      }
+      .rebuy-ebyModule .rebuy-widget .rebuy-widget-container .rebuy-product-grid .rebuy-product-block .rebuy-product-options .rebuy-select:focus {
+          box-shadow: none !important;
+          border: 0 !important;
+      }
+      .rebuy-ebyModule .rebuy-widget .rebuy-widget-container .rebuy-product-grid .rebuy-product-block .rebuy-product-actions {
+          position: absolute;
+          bottom: 1rem;
+          right: 0.5rem;
+          width: 100%;
+          max-width: 85px;
+      }
+      .rebuy-ebyModule .rebuy-widget .rebuy-widget-container .rebuy-product-grid .rebuy-product-block .rebuy-product-actions .rebuy-button.decline {
+        display: none;
+      }
+      .rebuy-ebyModule .rebuy-widget .rebuy-widget-container .rebuy-product-grid .rebuy-product-block .rebuy-product-info {
+          padding: 0.5rem 0;
+      }
+      .rebuy-ebyModule .rebuy-widget .rebuy-widget-container .rebuy-product-grid .rebuy-product-block .rebuy-product-info .rebuy-product-title {
+          font-size: 1rem;
+          font-family: 'aktiv-grotesk', sans-serif;
+          font-weight: 500;
+      }
+      .rebuy-ebyModule .rebuy-widget .rebuy-widget-container .rebuy-product-grid .rebuy-product-block .rebuy-product-info .rebuy-product-price .rebuy-money {
+          font-size: 0.9rem;
+          font-weight: 500;
+      }-->
+      .shopify-checkout.rebuy-modal-visible #smile-ui-container, .shopify-checkout.rebuy-modal-visible #smile-ui-lite-container, .shopify-checkout.rebuy-modal-visible #gorgias-web-messenger-container {
+      	display: block !important;
+      }
+      .shopify-checkout.rebuy-modal-visible {
+        overflow: unset !important;
+      }
+      @font-face {
+        font-family:"aktiv-grotesk";
+        src:url("https://use.typekit.net/af/90ce96/00000000000000003b9b0329/27/l?primer=7cdcb44be4a7db8877ffa5c0007b8dd865b3bbc383831fe2ea177f62257a9191&fvd=i4&v=3") format("woff2"),url("https://use.typekit.net/af/90ce96/00000000000000003b9b0329/27/d?primer=7cdcb44be4a7db8877ffa5c0007b8dd865b3bbc383831fe2ea177f62257a9191&fvd=i4&v=3") format("woff"),url("https://use.typekit.net/af/90ce96/00000000000000003b9b0329/27/a?primer=7cdcb44be4a7db8877ffa5c0007b8dd865b3bbc383831fe2ea177f62257a9191&fvd=i4&v=3") format("opentype");
+        font-style:italic;font-weight:300;font-display: swap;
+      }
+
+      @font-face {
+        font-family: 'Domaine Regular';
+        src:url('{{ 'DomaineRegular.woff' | asset_url }}');
+        font-weight: normal;
+        font-style: normal;
+        font-display: swap;
+      }
+      .icon-star {
+          color: #2031ba;
+          display: inline-block;
+          font-size: 1.6rem;
+      }
+      .ebyCheckoutReviewWrapper {
+          background: #f0f0f0;
+          padding: 1rem;
+      }
+      .ebyCheckoutInnerWrapper {
+          max-width: 100%;
+          margin: 0 auto;
+          text-align: center;
+      }
+      .reviewRatingWrapper ul {
+          display: flex;
+          justify-content: center;
+          margin: 0 auto 1rem;
+      }
+      .ebyCheckoutInnerWrapper footer p {
+          font-family: "Domaine Regular", serif;
+          font-size: 1.2rem;
+          color: #000c48;
+          line-height: 1.6rem;
+      }
+      .ebyCheckoutInnerWrapper footer span {
+          display: inline-block;
+          margin: 0.75rem auto 0;
+          font-family: "aktiv-grotesk", sans-serif;
+          color: #000c48;
+          font-weight: 300;
+      }
+      @media (max-width: 999px) {
+          .js .order-summary h2.visually-hidden-if-js {
+              display: none;
+          } 
+          .ebyCheckoutInnerWrapper {
+            max-width: 255px;
+          }
+      }
+      .rebuy-widget .rebuy-product-grid.small-style-line .rebuy-product-block .rebuy-product-info, .rebuy-recommended-products .rebuy-product-grid.small-style-line .rebuy-product-block .rebuy-product-info {
+        width: 100% !important;
+      }
+      .shopify-checkout .rebuy-ebyModule.defaultTemplate .rebuy-widget .rebuy-widget-container .rebuy-product-grid {
+          padding: 0;
+          flex-direction: column;
+      }
+      .shopify-checkout .rebuy-ebyModule.defaultTemplate .rebuy-widget-container .rebuy-product-grid .rebuy-product-block {
+          margin-top: 0 !important;
+          padding-top: 0 !important;
+          padding: 0;
+          flex-direction: row;
+          flex-wrap: nowrap;
+          width: 100%;
+          position: relative;
+          border: 1px solid #0064ff;
+          border-radius: 5px;
+          overflow: hidden;
+          margin-bottom: 1rem;
+          align-items: flex-start;
+      }
+      .shopify-checkout .rebuy-ebyModule.defaultTemplate .rebuy-widget-container .rebuy-product-grid .rebuy-product-block .rebuy-product-media {
+          width: 100%;
+          border-radius: 0;
+          box-shadow: unset;
+          overflow: hidden;
+          position: relative;
+          max-width: 105px;
+          margin-right: 1rem;
+      }
+      .shopify-checkout .rebuy-ebyModule.defaultTemplate .rebuy-widget-container .rebuy-product-grid .rebuy-product-block .rebuy-product-media img {
+          width: 100%;
+          object-fit: cover;
+          height: 105px;
+          max-width: 105px;
+          margin: 0;
+          border:0;
+      }
+      .shopify-checkout .rebuy-ebyModule.defaultTemplate .rebuy-widget-container .rebuy-product-grid .rebuy-product-block .rebuy-product-info{
+          padding: 0.5rem 0;
+          width: 100%;
+          height: auto;
+          display: flex;
+          flex-direction: column;
+      }
+      .shopify-checkout .rebuy-ebyModule.defaultTemplate .rebuy-widget-container .rebuy-product-grid .rebuy-product-block .rebuy-product-options {
+          position: absolute;
+          bottom: 0.9rem;
+          width: 65px;
+      }
+      .shopify-checkout .rebuy-ebyModule.defaultTemplate .rebuy-widget-container .rebuy-product-grid .rebuy-product-block .rebuy-product-actions {
+          position: absolute;
+          bottom: 1rem;
+          right: 1rem;
+          width: 100%;
+          max-width: 85px;
+      }
+      .shopify-checkout .rebuy-widget .rebuy-product-block .rebuy-product-info .rebuy-product-price,
+      .shopify-checkout .rebuy-recommended-products .rebuy-product-block .rebuy-product-info .rebuy-product-price {
+          margin-top: 0;
+      }
+      .shopify-checkout .rebuy-ebyModule .rebuy-widget .rebuy-widget-container .rebuy-product-grid .rebuy-product-block .rebuy-product-info .rebuy-product-title {
+      	  margin-top: 0;
+          font-family: sans-serif;
+      }
+      .shopify-checkout #rebuy-widget-5230 .checkout-promotion-product + .checkout-promotion-product, 
+      .shopify-checkout #rebuy-widget-5230 .rebuy-product-block + .rebuy-product-block {
+      	  border: 1px solid #0064ff !important;
+      }
+      #rebuy-widget-5230 .rebuy-money.sale {
+      	  color: #d0021b !important;
+      }
+    </style>
+    {% if customer %}
+      {% if customer.tags contains 'Active Subscriber' %}
+            {% assign vipMember = true %}
+            <style>
+                  .radio-wrapper[data-shipping-method="shopify-Free%20VIP%20Shipping%20(5-7%20Business%20Days)-0.00"] {
+                    display: block !important;
+                  }
+                  .radio-wrapper[data-shipping-method="shopify-Free%20Shipping%20(5-7%20Business%20Days)-0.00"] {
+                    display: none !important;
+                  }
+            </style>
+            <script type="text/javascript" async>
+              if (Shopify.Checkout.step === "shipping_method") {
+                jQuery(document).on('ready', function () {
+                  jQuery('.radio-wrapper[data-shipping-method="shopify-Free%20Shipping%20(5-7%20Business%20Days)-0.00"]').parent().hide();
+                });
+                
+              }
+            </script>
+      {% else %}
+    		<style>
+                  .radio-wrapper[data-shipping-method="shopify-Free%20VIP%20Shipping%20(5-7%20Business%20Days)-0.00"] {
+                    display: none !important;
+                  }
+            </style>
+            <script type="text/javascript" async>
+              if (Shopify.Checkout.step === "shipping_method") {
+                console.log('testing');
+                jQuery(document).on('ready', function () {
+                  jQuery('.radio-wrapper[data-shipping-method="shopify-Free%20VIP%20Shipping%20(5-7%20Business%20Days)-0.00"]').parent().hide();
+                });
+              }
+            </script>
+      {% endif %}
+    
+    {% else %}
+    		<style>
+                  .radio-wrapper[data-shipping-method="shopify-Free%20VIP%20Shipping%20(5-7%20Business%20Days)-0.00"] {
+                    display: none !important;
+                  }
+            </style>
+            <script type="text/javascript" async>
+              if (Shopify.Checkout.step === "shipping_method") {
+                //console.log('testing');
+                jQuery(document).on('ready', function () {
+                    jQuery('.radio-wrapper[data-shipping-method="shopify-Free%20VIP%20Shipping%20(5-7%20Business%20Days)-0.00"]').parent().hide();
+                    
+                    var discountedAmtSoFar = jQuery('.total-line.total-line--reduction .order-summary__emphasis.skeleton-while-loading').attr('data-checkout-discount-amount-target');
+                    if (!!discountedAmtSoFar) {
+                      var thresholdDiscountVal = +discountedAmtSoFar / 100;
+                      var thresholdVal = Shopify.Checkout.estimatedPrice - thresholdDiscountVal;
+                    } else {
+                      var thresholdDiscountVal = 0;
+                      var thresholdVal = Shopify.Checkout.estimatedPrice - thresholdDiscountVal;
+                    }
+                  	
+                    console.log(":: true thres 2 ::", Shopify.Checkout.estimatedPrice - thresholdDiscountVal);
+                  
+                  	if (thresholdVal < 100) {
+                          jQuery('.radio-wrapper[data-shipping-method="shopify-Shipping%20(5-7%20Business%20Days)-5.00"] input').prop("checked", true);
+                    }
+                });
+              }
+            </script>
+    {% endif %}
+    
+<!--     <script type="application/javascript" async src="https://sdk.postscript.io/integrations/sdk-min.js"></script><script type="application/javascript" async src="https://sdk.postscript.io/integrations/sdk-min.js"></script> -->
+
+
+  {% render 'shogun-head' %}
+</head>
+  <body class="{% if vipMember %}vipMemberCheckout{%endif%}">
+    {{ skip_to_content_link }}
+
+    <header class="banner" data-header role="banner">
+      <div class="wrap">
+        {{ content_for_logo }}
+        {{ additional_checkout_buttons }}
+      </div>
+    </header>
+    
+    <article class="ebyCheckoutReviewWrapper">
+      	<div class="ebyCheckoutInnerWrapper">
+          <header class="reviewRatingWrapper">
+            <ul>
+              <li class="icon-star">&#11089;</li>
+              <li class="icon-star">&#11089;</li>
+              <li class="icon-star">&#11089;</li>
+              <li class="icon-star">&#11089;</li>
+              <li class="icon-star">&#11089;</li>
+            </ul>
+          </header>
+          <footer>
+            <p>"I cannot express how much I love this product. I can't wait to replace my entire drawer!"</p>
+            <span>– Sarah S.</span>
+          </footer>
+      	</div>
+    </article>
+
+    {{ order_summary_toggle }}
+    <div class="content" data-content>
+      <div class="wrap">
+        <div class="main">
+          <header class="main__header" role="banner">
+            {{ content_for_logo }}
+            {{ breadcrumb }}
+            {{ alternative_payment_methods }}
+			{{ additional_checkout_buttons }}
+            <div class="eby_more_pm_wrapper" style="justify-content: center;display: flex;align-items: center;margin-bottom: 1rem;">
+              <span style="display: inline-block;margin-right: 0.5rem;font-size:12px;">Available at payment step:</span>
+              <button class="afterpay-logo brand-afterpay compact-badge type-badge black-on-mint" aria-label="Afterpay logo - Opens a dialog" title="Afterpay logo - Opens a dialog">
+                <svg xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet" width="98" height="36" class="compact-badge-logo" viewBox="0 0 100 21">
+                  <path class="afterpay-logo-badge-background" fill="#b2fce4" d="M89.85 20.92h-78.9a10.42 10.42 0 110-20.82h78.89a10.42 10.42 0 010 20.83v-.01z"></path>
+                  <g class="afterpay-logo-badge-lockup">
+                    <path d="M85.05 6.37L82.88 5.1l-2.2-1.27a2.2 2.2 0 00-3.3 1.9v.29c0 .16.08.3.22.38l1.03.58c.28.16.63-.04.63-.37v-.67c0-.34.36-.54.65-.38l2.02 1.16 2 1.15c.3.16.3.58 0 .75l-2 1.15-2.02 1.16a.43.43 0 01-.65-.38v-.33a2.2 2.2 0 00-3.28-1.9l-2.2 1.26-2.19 1.25a2.2 2.2 0 000 3.8l2.18 1.25 2.2 1.27a2.2 2.2 0 003.3-1.9v-.3c0-.15-.09-.3-.23-.37L78.02 14a.43.43 0 00-.64.37v.67c0 .34-.36.54-.65.38l-2-1.16-2-1.15a.43.43 0 010-.75l2-1.15 2-1.16c.3-.16.65.05.65.38v.33a2.2 2.2 0 003.3 1.9l2.2-1.26 2.17-1.25a2.2 2.2 0 000-3.8z"></path>
+                    <path d="M70.77 6.78l-5.1 10.53h-2.12l1.91-3.93-3-6.6h2.17l1.93 4.42 2.1-4.42h2.11z"></path>
+                    <path d="M19.8 10.5c0-1.24-.92-2.12-2.04-2.12s-2.03.9-2.03 2.14c0 1.23.91 2.14 2.03 2.14s2.03-.88 2.03-2.14m.02 3.74v-.97a3 3 0 01-2.36 1.09c-2.05 0-3.6-1.65-3.6-3.86 0-2.2 1.61-3.87 3.65-3.87.95 0 1.76.42 2.31 1.08v-.95h1.84v7.48h-1.84z"></path>
+                    <path d="M30.6 12.6c-.65 0-.84-.24-.84-.87V8.4h1.2V6.78h-1.2V4.96h-1.88v1.82h-2.43v-.74c0-.63.24-.87.9-.87h.42V3.72h-.9c-1.56 0-2.3.5-2.3 2.07v1h-1.04V8.4h1.04v5.85h1.88V8.4h2.43v3.66c0 1.53.6 2.19 2.11 2.19h.97V12.6h-.37z"></path>
+                    <path d="M37.35 9.85c-.13-.97-.93-1.56-1.86-1.56-.92 0-1.7.57-1.88 1.56h3.74zM33.6 11c.13 1.1.93 1.74 1.93 1.74.8 0 1.4-.37 1.76-.97h1.94c-.45 1.58-1.87 2.6-3.74 2.6a3.68 3.68 0 01-3.85-3.85 3.78 3.78 0 013.9-3.9 3.74 3.74 0 013.8 4.38H33.6z"></path>
+                    <path d="M51.35 10.5c0-1.2-.9-2.12-2.03-2.12-1.12 0-2.03.9-2.03 2.14 0 1.23.9 2.14 2.03 2.14 1.12 0 2.03-.93 2.03-2.14m-5.92 6.79V6.78h1.84v.97a2.97 2.97 0 012.36-1.1c2.02 0 3.6 1.65 3.6 3.85s-1.6 3.87-3.65 3.87a2.9 2.9 0 01-2.26-1v3.93h-1.9.01z"></path>
+                    <path d="M59.86 10.5c0-1.24-.9-2.12-2.03-2.12-1.12 0-2.04.9-2.04 2.14 0 1.23.92 2.14 2.04 2.14s2.03-.88 2.03-2.14m.02 3.74v-.97a3 3 0 01-2.36 1.09c-2.05 0-3.6-1.65-3.6-3.86 0-2.2 1.61-3.87 3.64-3.87.96 0 1.76.42 2.32 1.08v-.95h1.84v7.48h-1.84z"></path>
+                    <path d="M42.11 7.5s.47-.86 1.62-.86c.5 0 .8.17.8.17v1.9s-.69-.42-1.32-.33c-.64.09-1.04.67-1.04 1.45v4.42h-1.9V6.78h1.84v.73z"></path>
+                  </g>
+                </svg>
+              </button>
+            </div>
+          </header>
+          <main class="main__content" role="main">
+            {{ content_for_layout }}
+          </main>
+          <footer class="main__footer" role="contentinfo">
+            {{ content_for_footer }}
+          </footer>
+        </div>
+        <aside class="sidebar" role="complementary">
+          <div class="sidebar__header">
+            {{ content_for_logo }}
+          </div>
+          <div class="sidebar__content">
+            {{ content_for_order_summary }}
+          </div>
+        </aside>
+      </div>
+    </div>
+
+    {{ tracking_code }}
+    
+    <script type="text/javascript">
+      (function($){
+        
+        $(document).on("page:load page:change", function(ev) {
+          console.log(":: check the products to hide ::", ev.target);
+          
+          {% if customer %}
+          
+            {% if customer.tags contains 'Active Subscriber' %}
+                jQuery('.radio-wrapper[data-shipping-method="shopify-Shipping%20(5-7%20Business%20Days)-5.00"]').parent().hide();
+                jQuery('.radio-wrapper[data-shipping-method="shopify-Free%20VIP%20Shipping%20(5-7%20Business%20Days)-0.00"]').parent().show();
+                jQuery('.radio-wrapper[data-shipping-method="shopify-Free%20VIP%20Shipping%20(5-7%20Business%20Days)-0.00 input"]').prop("checked", true);
+            {% else %}
+          		
+          		var discountedAmtSoFar = jQuery('.total-line.total-line--reduction .order-summary__emphasis.skeleton-while-loading').attr('data-checkout-discount-amount-target');
+          		var thresholdDiscountVal = +discountedAmtSoFar / 100;
+          		var thresholdVal = Shopify.Checkout.estimatedPrice - thresholdDiscountVal;
+                console.log(":: true thres ::", Shopify.Checkout.estimatedPrice - thresholdDiscountVal);
+          	
+                if (thresholdVal < 100) {
+                  jQuery('.radio-wrapper[data-shipping-method="shopify-Shipping%20(5-7%20Business%20Days)-5.00"]').parent().show();
+                  jQuery('.radio-wrapper[data-shipping-method="shopify-Shipping%20(5-7%20Business%20Days)-5.00"] input').prop("checked", true);
+                  jQuery('.radio-wrapper[data-shipping-method="shopify-Free%20VIP%20Shipping%20(5-7%20Business%20Days)-0.00"]').parent().hide();
+                } else {
+                  jQuery('.radio-wrapper[data-shipping-method="shopify-Shipping%20(5-7%20Business%20Days)-5.00"]').parent().hide();
+                  jQuery('.radio-wrapper[data-shipping-method="shopify-Free%20VIP%20Shipping%20(5-7%20Business%20Days)-0.00"]').parent().show();
+                  jQuery('.radio-wrapper[data-shipping-method="shopify-Free%20VIP%20Shipping%20(5-7%20Business%20Days)-0.00 input"]').prop("checked", true);
+                }
+            {% endif %}
+
+          {% else %}
+          		var discountedAmtSoFar = jQuery('.total-line.total-line--reduction .order-summary__emphasis.skeleton-while-loading').attr('data-checkout-discount-amount-target');
+                if (!!discountedAmtSoFar) {
+                  var thresholdDiscountVal = +discountedAmtSoFar / 100;
+                  var thresholdVal = Shopify.Checkout.estimatedPrice - thresholdDiscountVal;
+                } else {
+                  var thresholdDiscountVal = 0;
+                  var thresholdVal = Shopify.Checkout.estimatedPrice - thresholdDiscountVal;
+                }
+                console.log(":: true thres ::", Shopify.Checkout.estimatedPrice - thresholdDiscountVal);
+          
+                if (thresholdVal < 100) {
+                  setTimeout (function () {
+                    
+                  	//jQuery('.radio-wrapper[data-shipping-method="shopify-Shipping%20(5-7%20Business%20Days)-5.00"]').parent().show();
+                  	jQuery('.radio-wrapper[data-shipping-method="shopify-Shipping%20(5-7%20Business%20Days)-5.00"] input').prop("checked", true);
+                  	//jQuery('.radio-wrapper[data-shipping-method="shopify-Free%20VIP%20Shipping%20(5-7%20Business%20Days)-0.00"]').parent().hide();
+                  }, 1000);
+                  
+                } else {
+                  //setTimeout(function () {
+                      //jQuery('.radio-wrapper[data-shipping-method="shopify-Shipping%20(5-7%20Business%20Days)-5.00"]').parent().hide();
+                      //jQuery('.radio-wrapper[data-shipping-method="shopify-Free%20VIP%20Shipping%20(5-7%20Business%20Days)-0.00"]').parent().show();
+                      //jQuery('.radio-wrapper[data-shipping-method="shopify-Free%20VIP%20Shipping%20(5-7%20Business%20Days)-0.00 input"]').prop("checked", true);
+                  //}, 4500);
+                  
+                }
+          {% endif %}
+          
+           $.ajax({
+            async: false,
+            type: 'GET',
+            url: '/cart.js',
+            dataType: 'json',
+            success:  function (data) {
+              console.log(data);
+              console.log(data.items);
+              if (data.items.length > 0){
+                /*if (data.original_total_price >= 12500) {
+                  if (!$('.section--reductions').hasClass('noPromos')) {
+                    $('.section--reductions').addClass('noPromos');
+                    $('.order-summary__section--discount').addClass('noPromos');
+                  }
+                } else {
+                  if (!!$('.section--reductions').hasClass('noPromos')) {
+                    $('.section--reductions').removeClass('noPromos');
+                    $('.order-summary__section--discount').removeClass('noPromos');
+                  }
+                }*/
+                $(data.items).each(function(k,v){
+                  var isIncludedInPack = typeof v.properties["included_in_pack"] != "undefined";
+                  var isIncludedInEcomm = typeof v.properties["hidden_collateral"] != "undefined";
+                  var productLineItemDiscounts = v.discounts;                  
+                  productLineItemDiscounts.map(function (discount, index) {
+                    if (discount.title.indexOf('Flash Sale') >= 0 || discount.title.indexOf('Memorial Day') >= 0 || discount.title.indexOf('July 4th') >= 0 || discount.title.indexOf('Build-a-Pack 3') >= 0 || discount.title.indexOf('Build-a-Pack 6') >= 0  || discount.title.indexOf('Labor Day Sale') >= 0 || discount.title.indexOf('Buy 3') >= 0 ) {
+                      if (!$('.section--reductions').hasClass('noPromos')) {
+                        //$('.section--reductions').addClass('noPromos');
+                        //$('.order-summary__section--discount').addClass('noPromos');
+                      }
+                    }
+                  });
+                  
+                  // console.log($('.product')[k]);
+                  itemData = data.items[k];
+
+                  if (itemData) {
+                    if (itemData['product_title']) {
+                      var productTitle = itemData['product_title'];
+                      var productName = productTitle.lastIndexOf(' E') === (productTitle.length - 2) ? productTitle.substring(0, productTitle.length - 2) : productTitle
+                      var nameDiv = $($('.product')[k]).find('.product__description__name');
+
+                      if (itemData['product_type'].indexOf('Mesh') >= 0) {
+                        productName = productName.replace('Mesh', 'Sheer').replace('Highwaisted', 'HC Highwaisted');
+
+                        if (nameDiv && nameDiv.length > 0) {
+                          nameDiv.html(productName);
+                        }
+                      }
+                      
+                      
+                    }
+                    if (itemData['properties']) {
+                      if (itemData['properties']['Free']) {
+                        if (itemData['properties']['Free'] == "Gift") {
+                          $($('.product')[k]).find('.product__description__name').html({{ settings.custom_free_gift_product_title | json }});
+                          $($('.product')[k]).find('.product__price span').html('Free');
+                        }
+                      }
+                      if (itemData['properties']['Mystry_Collection']) {
+                        //if (itemData['properties']['Free'] == "Gift") {
+                          $($('.product')[k]).find('.product__description__name').html("Surprise Pair");
+                          $($('.product')[k]).find('.product-thumbnail__image').attr("src", "https://cdn.shopify.com/s/files/1/0313/4062/5964/files/mystery-panty-1.jpg");
+                          //$($('.product')[k]).find('.product__price span').html('Free');
+                        //}
+                      }
+                    }
+                  }
+
+                  if(isIncludedInPack || isIncludedInEcomm){
+                    $($('.product')[k]).addClass('hide-product');
+                  }
+                });
+              } else {
+                console.error("no cart line items found");
+              }
+            },
+            error: function(){
+              console.error('error found on /cart.js ajax call');
+            }
+          });
+          
+        });
+        
+      })(jQuery);
+    </script>
+    
+    <!-- Rebuy: start -->
+    {% include 'rebuy-checkout' %}
+    <!-- Rebuy: end -->
+
+    <script type="text/javascript" defer>
+      // Change name to Free Gift Product
+      console.log('product-table .product',document.querySelectorAll(".product-table .product"));
+      document.querySelectorAll(".product-table .product").forEach(product => {
+        product.querySelectorAll(".product__description__property").forEach(productProperty => {
+          if (productProperty.innerText.includes("Free: Gift") == true) {
+            if (product.querySelector('.product__description__name') != null) {
+              product.querySelector('.product__description__name').innerHTML = {{ settings.custom_free_gift_product_title | json }};
+            }
+            if (product.querySelector('.product__price span') != null) {
+              product.querySelector('.product__price span').innerHTML = 'Free';
+            }
+          }
+        });
+      });
+    </script>
+    <script defer type="text/javascript">
+    !function(){var geq=window.geq=window.geq||[];if(geq.initialize) return;if (geq.invoked){if (window.console && console.error) {console.error("GE snippet included twice.");}return;}geq.invoked = true;geq.methods = ["page", "suppress", "trackOrder", "identify", "addToCart", "callBack", "event"];geq.factory = function(method){return function(){var args = Array.prototype.slice.call(arguments);args.unshift(method);geq.push(args);return geq;};};for (var i = 0; i < geq.methods.length; i++) {var key = geq.methods[i];geq[key] = geq.factory(key);}geq.load = function(key){var script = document.createElement("script");script.type = "text/javascript";script.async = true;if (location.href.includes("vge=true")) {script.src = "https://s3-us-west-2.amazonaws.com/jsstore/a/" + key + "/ge.js?v=" + Math.random();} else {script.src = "https://s3-us-west-2.amazonaws.com/jsstore/a/" + key + "/ge.js";}var first = document.getElementsByTagName("script")[0];first.parentNode.insertBefore(script, first);};geq.SNIPPET_VERSION = "1.6.1";
+    geq.load("V3VHVV4");}();
+    </script>
+    <script defer type="text/javascript">geq.page()</script>
+    <a href="#" data-lion-refer id="init-ebyrefpop" style="display:none;">Refer your friends and get $10</a>
+</body>
+</html>

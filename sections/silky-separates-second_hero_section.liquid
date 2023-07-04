@@ -1,0 +1,115 @@
+<section class="eby-premium_content_block">
+  <div class="premium_content_block_innerwrapper">
+  	<ul class="premium_content_wrapper">
+      <li class="premium_content_item third">
+        <div class="premium_content_item_wrapper">
+            <a href="/products/castle-wall-eco-silk-tank-top">
+            	<img class="lazyload" title="" alt="" data-src="https://cdn.shopify.com/s/files/1/0313/4062/5964/files/HOME_-_376_-_we-silk_-_B.jpg" />
+            </a>
+<!--           	<p><b>COMPLETELY SEAMLESS UNDER YOUR CLOTHES</b><br/>FIRST OF ITS KIND MESH FABRIC</p> -->
+        </div>
+      </li>
+      <li class="premium_content_item third">
+        <div class="premium_content_item_wrapper">
+            <a href="/products/castle-wall-eco-silk-scarf">
+            	<img class="lazyload" title="" alt="" data-src="https://cdn.shopify.com/s/files/1/0313/4062/5964/files/LP_-_1440_-_we-silk_-_gallery-a_c887755f-7f66-4fb4-be5a-22a00513823d.jpg" />
+            </a>
+              <!--           	<p><b>NO SLIP + NO ROLLING TECHNOLOGY</b><br/>YOUR UNDERWEAR WILL ALWAYS STAY IN PLACE</p> -->
+        </div>
+      </li>
+      <li class="premium_content_item third">
+        <div class="premium_content_item_wrapper">
+            <a href="/products/cactus-eco-silk-slip-dress">
+              <img class="lazyload" title="" alt="" data-src="https://cdn.shopify.com/s/files/1/0313/4062/5964/files/LP_-_1440_-_we-silk_-_gallery-b_0f01de20-bae6-44ea-971e-0c82f2ef865a.jpg" />
+            </a>
+            <!--           	<p><b>ULTRA LIGHT WEIGHT FABRIC</b><br/>FEELS LIKE YOU’RE WEARING NOTHING AT ALL</p> -->
+        </div>
+      </li>
+      <li class="premium_content_item whole">
+        <div class="premium_content_item_wrapper">
+            <a href="/products/castle-wall-eco-silk-tank-top">
+          	<img class="lazyload" title="" alt="" data-src="https://cdn.shopify.com/s/files/1/0313/4062/5964/files/LP_-_1440_-_we-silk_-_gallery-d_b3a39428-c6f0-4056-8f3d-91bfa0734a74.jpg" />
+            </a>
+<!--           	<p><b>SILKY SOFTNESS YOU HAVE TO FEEL TO BELIEVE</b><br/>THE SOFTEST MESH THAT WILL EVER TOUCH YOUR SKIN</p> -->
+        </div>
+      </li>
+    </ul>
+  </div>
+</section>
+
+<section class="permium_hero_section small_con aboutSilkWrapper">
+  <div class="section-wrap">
+    <div class="{{ section.settings.text_align }}">
+      <h1>Washable Eco Silk</h1>
+      <h2 class="section_content_textwrapper">
+        <p>We’ve spent two years inside, and we’ve all finally come back out this summer. But along the way, we became used to being very comfy in our innerwear, which we don’t want to give up. The washable eco silk collection allows you to go from the couch to the office without missing a beat. In this silk line, you’ll look super chic and fab yet feel like you’re in your pj’s.</p>
+        <br>
+        <p>The best part is this silk is made from recycled plastic bottles! We took all those harmful plastic bottles and turned them into the softest silk you have ever tried. And don't worry about dry cleaning. This silk is machine washable! Looking effortless and seamless is now even more luxurious and comfortable.</p>
+      </h2>
+    </div>
+  </div>
+</section>
+
+
+{% schema %}
+  {
+    "name": "Hero Banner",
+    "settings": [
+	  {
+		"type": "image_picker",
+		"id": "desk_img",
+		"label": "Desktop Image"
+	  },
+	  {
+		"type": "image_picker",
+		"id": "ipad_img",
+		"label": "Ipad Image"
+	  },
+	  {
+		"type": "image_picker",
+		"id": "mob_img",
+		"label": "Mobile Image"
+	  },
+	  {
+		"type": "text",
+		"id": "title",
+		"label": "Title"
+	  },
+	  {
+		"type": "text",
+		"id": "sub_title",
+		"label": "Sub Title"
+	  },
+      {
+        "type": "select",
+        "id": "text_align",
+        "label": "Text alignment",
+        "options": [
+          {
+            "value": "text_left",
+            "label": "Left"
+          },
+          {
+            "value": "text_center",
+            "label": "Center"
+          },
+          {
+            "value": "text_right",
+            "label": "Right"
+          }
+        ],
+        "default": "text_center"
+      },
+	  {
+        "type": "url",
+        "id": "button_link",
+        "label": "Button URL"
+      },
+      {
+        "type": "text",
+        "id": "button_text",
+        "label": "Button Text"
+      }	
+	]
+  }
+{% endschema %}

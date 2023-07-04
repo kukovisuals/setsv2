@@ -1,0 +1,154 @@
+{%- unless proImageSize -%}
+	{%- assign proImageSize = '800x' -%}
+{%- endunless -%}
+
+<section class="premium_product_section">
+  <div class="section-wrap">
+    {% for block in section.blocks %}
+    {% assign collection = collections[block.settings.collection] %}
+    <div class="collection_group" id="{% if block.settings.collection contains "port" %}port-assortment{% else %}parisiansummer-assortment{% endif %}">
+      <div class="collection_group_head">
+        {% if block.settings.sub_title != blank %}
+        <h4>{{ block.settings.sub_title }}</h4>
+        {% endif %}
+        {% if block.settings.title != blank %}
+        <h2 class="text-center">{{ block.settings.title }}</h2>
+        {% endif %}
+        {% if block.settings.caption != blank %}
+        <p>{{ block.settings.caption }}</p>
+        {% endif %}
+      </div>
+      <div class="collection_group_list">
+        {% for product in collection.products limit: block.settings.pdp_range %}
+        
+        
+        {% if product.type == "Premium Underwear" %}
+            {% for prodTag in product.tags %}
+                {% if prodTag contains "pantyType-" %}
+                    {%- assign prodNameTitle = prodTag | replace: "pantyType-", "" -%}
+                {% endif %}
+                {% if prodTag contains "pantyColor-" %}
+                    {%- assign prodColorTitle = prodTag | replace: "pantyColor-", "" | replace: "_", " " -%}
+                {% endif %}
+                {% if prodTag contains "newCustomBoxPrice-" %}
+                    {%- assign prodDealPrice = prodTag | replace: "newCustomBoxPrice-", "" | replace: "_", " " -%}
+                {% endif %}
+            {% endfor %}
+        {% elsif product.type == "Premium Bralette" %}
+            {%- assign prodNameTitle = "bralette" -%}
+            {% for prodTag in product.tags %}
+                {% if prodTag contains "braletteColor-" %}
+                    {%- assign prodColorTitle = prodTag | replace: "braletteColor-", "" | replace: "_", " " -%}
+                {% endif %}
+                {% if prodTag contains "newCustomBoxPrice-" %}
+                    {%- assign prodDealPrice = prodTag | replace: "newCustomBoxPrice-", "" | replace: "_", " " -%}
+                {% endif %}
+            {% endfor %}
+        {% endif %}
+
+        {% if prodNameTitle == "highwaisted_thong" %}
+            {% assign prdImgFileName = "hwthong" %}
+        {% else %}
+            {% assign prdImgFileName = prodNameTitle %}
+        {% endif %}
+        
+        {% if prodColorTitle == "port" %}
+        	{% assign premImgFileName = prodColorTitle | replace: " ", "" | append: "---" | append: prdImgFileName | append: "---missy---model_fr.jpg" %}
+        {% else if prodColorTitle == "parisian summer" %}
+        	{% if prdImgFileName contains "bra" %}
+        		{% assign premImgFileName = prodColorTitle | replace: " ", "" | append: "---" | append: "thong_set---missy---model_fr.jpg" %}
+        	{% else %}
+        		{% assign premImgFileName = prodColorTitle | replace: " ", "" | append: "---" | append: prdImgFileName | append: "_set---missy---model_fr.jpg" %}
+        	{% endif %}
+		{% else %}
+        	{% assign premImgFileName = prodColorTitle | replace: " ", "" | append: "---" | append: prdImgFileName | append: "---missy---tile_fr.jpg" %}
+        {% endif %}
+        
+        <div class="col velaProBlock quickadd" data-size-guid="{% render 'collection-selectors-charts', product_target: product %}">
+          <div class="col-wrap velaProBlockInner">
+            <div class="product-image proHImage d-flex flexJustifyCenter">
+              <a class="proFeaturedImage" href="{{ product.url }}">
+                {%- if product.metafields.ebyacf.collection_page_tile_img -%}
+                {% for image in product.images %}
+                {%- if image.src contains product.metafields.ebyacf.collection_page_tile_img -%}
+                <img class="img-responsive lazyload" alt="{{ image.alt }}" src="{{ 'blank.png' | asset_url }}" data-src="{{ product.featured_image | img_url: 'master' }}">
+                {% break %}
+                {%- endif -%}
+                {% endfor %}
+                {%- else -%}
+                <img class="t1 img-responsive lazyload" alt="{{ product.featured_image.alt | escape }}" src="{{ 'blank.png' | asset_url }}" data-src="{{ product.featured_image | img_url: 'master' }}" />
+                {%- endif -%}
+                
+                <div class="col-pro-details">
+                  <h3>{{ product.title | replace: "Highwaisted Thong", "HW Thong" }}</h3>
+                  <p class="price bfx-price">{{ product.price | money_without_trailing_zeros  }}</p>
+                </div>
+              </a>
+            </div>
+            <div class="product-details proButton clearfix">
+              <div class="quick_btn">
+               {% comment %} <a href="">QUICK ADD +</a> {% endcomment %}
+                <div class="productQuickAdd">
+                  <button class="btn btnProduct btnProductQuickAdd" data-href="#velaQuickAdd-{{ product.id }}-0" data-handle="{{ product.handle }}" title="{{ 'general.quickadd.title' | t }}">
+                    <i class="icons icon-eye"></i>
+                    <span class="text">{{ 'general.quickadd.title' | t }}</span>
+                  </button>
+                  <div class="selection-wrapper" id="velaQuickAdd-{{ product.id }}-0">
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</section>
+
+{% schema %}
+  {
+    "name": "Collection",
+    "settings": [
+	],
+	"blocks": [
+      {
+        "type": "tab",
+        "name": "Collection",
+        "settings": [
+		  {
+            "type": "collection",
+            "id": "collection",
+            "label": "Collection"
+          },
+		  {
+            "type": "text",
+            "id": "sub_title",
+            "label": "Sub Title"
+          },
+		  {
+            "type": "text",
+            "id": "title",
+            "label": "Title"
+          },
+		  {
+            "type": "text",
+            "id": "caption",
+            "label": "Caption"
+          },
+          {
+            "type": "range",
+            "id": "pdp_range",
+            "min": 2,
+            "max": 50,
+            "step": 1,
+            "label": "Show Product",
+            "default": 8
+          }
+		]
+	  }
+	]
+  }
+{% endschema %}
+

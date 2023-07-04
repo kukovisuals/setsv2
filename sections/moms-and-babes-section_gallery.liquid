@@ -1,0 +1,30 @@
+<section class="section_gallery">
+  
+  {% for block in section.blocks %}
+    {% if block.settings.image != blank %}
+    <div class="section_gallery_cols"><img class="lazyload" data-src="{{ block.settings.image | img_url: 'master'}}" alt="{{ block.settings.image.alt }}"></div>
+    {% endif %}
+  {% endfor %}
+  
+</section>
+
+
+{% schema %}
+  {
+    "name": "Gallery",
+    "settings": [],
+	"blocks": [
+      {
+        "type": "gallery",
+        "name": "gallery",
+        "settings": [
+		  {
+            "id": "image",
+            "type": "image_picker",
+            "label": "Image"
+          }
+		]
+	  }
+	]
+  }
+{% endschema %}

@@ -1,0 +1,163 @@
+<div class="subscription-reviews-2022 eby-container-2022">
+	<div class="ebyReviewsContentWrapper">
+		<div 
+			id="stamped-main-widget" 
+			data-widget-style="profile"
+			data-search="subscription">
+		</div>
+	</div>
+</div>
+
+
+<style type="text/css">
+  
+	[data-widget-style=profile] .stamped-summary-text-1 {
+	   background: #ffa41d; 
+	}
+	[data-widget-style=profile] .stamped-header-right{
+		border: 0;
+		padding: 0;
+		display: flex;
+		flex-direction: column;
+		max-width: 100%;
+		margin: 0 auto;
+	}
+	[data-widget-style=profile] .stamped-summary-recommend{
+		margin: 1.75rem auto 1rem;
+		line-height: 30px;
+		max-width: 250px;
+	}
+	.stamped-summary-photos.stamped-summary-photos-container{
+		white-space: normal;
+	}
+	[data-widget-style=profile] .stamped-header-left{
+		width: 100%;
+	}
+	.stamped-summary-photos.stamped-summary-photos-container{
+		max-width: 100%;
+	}
+	.subscription-reviews-2022 .stamped-fa-star{
+	   color: #ffa41d !important; 
+	}
+	.subscription-reviews-2022 span.stamped-summary-recommend-percent{
+		background: #ffa41d;
+		padding: 5px;
+		color: #fff;
+		font-weight: 700;
+		margin-right: 7px;
+	}
+	.subscription-reviews-2022 .stamped-container[data-widget-show-product-variant=true] .stamped-review-product a{
+		color: #0064ff;
+	}
+	.subscription-reviews-2022 .stamped-review-recommend[data-is-recommend=true], .stamped-review-header .stamped-verified-badge, .stamped-verified-badge {
+		color: #ffa41d;
+	}
+	.subscription-reviews-2022 .fa-check-circle-o, .subscription-reviews-2022 .fa-share-alt, .subscription-reviews-2022 .fa-thumbs-down, .subscription-reviews-2022 .fa-thumbs-up, .subscription-reviews-2022 .stamped-fa-check-circle-o, .subscription-reviews-2022 .stamped-fa-share-alt, .subscription-reviews-2022 .stamped-fa-thumbs-down, .subscription-reviews-2022 .stamped-fa-thumbs-up, .subscription-reviews-2022 .stamped-pagination a{
+		color: #0064ff;
+	}
+	.subscription-reviews-2022 .stamped-review-recommend[data-is-recommend=true]:before{
+		color: #ffa41d;
+	}
+	.subscription-reviews-2022 [data-widget-style=profile] .stamped-summary{
+		border: 0;
+		display: flex;
+		flex-direction: column;
+		justify-content: center; 
+	}
+	.subscription-reviews-2022 [data-widget-style=profile] div.stamped-summary-ratings{
+		margin: 0;
+		text-align: center;
+	}
+	.summary-overview {
+		display: flex;
+		justify-content: center;
+	}   
+	div.stamped-container[data-widget-style], div[data-widget-style] div.stamped-container{
+		max-width: 100%;
+	}
+
+	/*************************** Tablet  ****************************/
+	@media (min-width: 768px){
+		.subscription-reviews-2022 [data-widget-style=profile] .stamped-summary{
+			flex-direction: row;
+			margin-top: 20px;
+		}
+		[data-widget-style=profile] .stamped-summary-recommend{
+			margin-top: 0;
+		}
+		[data-widget-style=profile] .summary-overview{
+			padding: 0;
+		}
+
+		[data-widget-style=profile] .stamped-header-left{
+			display: flex;
+			width: 65%;
+			justify-content: center;
+		}
+		[data-widget-style=profile] .stamped-header-right{
+			width: 35%;
+			max-width: 67%;
+		}
+		.stamped-summary-photos.stamped-summary-photos-container{
+			max-width: 83%;
+			margin: 1rem auto 0;
+		}
+	}
+</style>
+
+<script defer="defer" type="text/javascript">// <![CDATA[
+console.log(":: stamped 1 ::");
+
+window.addEventListener('load', function (e) {
+
+	console.log(":: stamped 2 ::");
+	setTimeout(function() {
+
+	// stamped-summary-text
+	const $stampedEl = document.querySelector('.stamped-summary-text').dataset.count
+	// reviews-special-num
+	const $specialEl = document.getElementById('reviews-special-num')
+	// $specialEl.innerHTML = $stampedEl
+
+	var lazyEls = [].slice.call(document.querySelectorAll("[data-src]"));
+
+		function load(el) {
+			var src = el.getAttribute("data-src");
+			var srcset = el.getAttribute("data-srcset");
+			// [NOTE] Todd We shouldn't hit this if data-src was null, but monitoring
+			//    says it happens sometimes, so ¯\_(ツ)_/¯
+			if (src) { el.setAttribute("src", src); }
+			if (srcset) { el.setAttribute("srcset", srcset); }
+			el.removeAttribute("data-src");
+			el.removeAttribute("data-srcset");
+			el.classList.add("lazyloaded");
+		}
+		if ("IntersectionObserver" in window) {
+			var lazyObserver = new IntersectionObserver(function(entries) {
+			    entries.forEach(function(entry) {
+					if (entry.isIntersecting) {
+					    var el = entry.target;
+					    load(el);
+				     	lazyObserver.unobserve(el);
+					}
+			  	});
+			});
+
+			lazyEls.forEach(function(el) {
+			    if (el.tagName === "SCRIPT") {
+				 	load(el);
+		  		}
+			  	else {
+					lazyObserver.observe(el);
+				}
+			});
+		}
+		else {
+			lazyEls.forEach(load);
+		}
+	}, 10000);
+
+});
+// ]]></script>
+<script defer="defer" type="text/javascript" id="stamped-script-widget" data-api-key="pubkey-59Q15JGLCyT3fe9h3pkjg0O5Jb7D5P" src="https://cdn2.stamped.io/files/widget.min.js"></script>
+

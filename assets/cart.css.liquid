@@ -1,0 +1,270 @@
+body.template-cart {
+    background-color: #fff;
+}
+.template-cart #pageContent {
+    background: #fff;
+    padding: 0 3.5rem;
+    max-width: 1000px;
+}
+.cartContainer {
+    margin: 30px 0 60px;
+    min-height: 60vh;
+}
+.cartTitle {
+    margin: 0;
+    padding: 10px 0;
+    font-size: 3rem;
+    font-family: "Domaine SemiBold",serif;
+    text-transform: inherit;
+    margin-bottom: 2rem;
+}
+.cartContent form {
+    display: flex;
+    justify-content: space-between;
+}
+.cartTable {
+    width: 50%;
+}
+.functionCart {
+    padding: 20px 5px;
+    border: transparent;
+    border-top: 0;
+    background-color: transparent;
+}
+.flexRow {
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-flex-flow: row wrap;
+    flex-flow: row wrap;
+}
+.cartContent form .cartItemWrap {
+    width: 100%;
+    max-width: 100%;
+}
+.cartItemWrap>.flexRow {
+/*     border-bottom: 1px solid #e1e1e1; */
+    padding: 0;
+    background: #fff;
+/*     border-top-left-radius: 7px;
+    border-bottom-left-radius: 7px; */
+    border-top: transparent;
+    overflow: hidden;
+    margin: 0 0 15px;
+  	max-width: 500px;
+}
+.noGutter {
+    margin-left: 0;
+    margin-right: 0;
+}
+.cartItemWrap .productImage {
+    padding-right: 0;
+    width: 34%;
+}
+.noGutter>[class*=col-] {
+    padding-right: 0;
+    padding-left: 0;
+}
+.cartItemWrap .productInfo {
+    width: 66%;
+    padding: 2rem!important;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+.cartItemWrap .productInfo .productName {
+    font-size: 1.6rem;
+    font-weight: 500;
+    color: #000c48;
+  	line-height: 1.5rem;
+}
+.cartItemWrap .productInfo .ebyCartItemFooter {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 5rem;
+}
+.cartItemWrap .cartGroup {
+    margin-top: 10px;
+}
+.flexAlignCenter {
+    -webkit-align-items: center;
+    -ms-align-items: center;
+    align-items: center;
+}
+.template-cart .afterpay-paragraph {
+    display: none;
+}
+.cartTable .cartRemove {
+    display: block;
+    border-bottom: 1px solid #696969;
+    height: 18px;
+    padding: 0;
+    font-size: 12px;
+    color: #696969;
+    text-transform: uppercase;
+    margin-left: 10px;
+    line-height: 18px;
+    -webkit-transition: all .2s ease-in-out 0s;
+    -o-transition: all .2s ease-in-out 0s;
+    transition: all .2s ease-in-out 0s;
+}
+#fullWidthVertical .functionCart .text-right.ajaxFilter, .functionCart #fullWidthVertical .text-right.ajaxFilter, .functionCart .text-right.col-xs-12 {
+    text-align: center;
+  	width: 100%;
+  	position: relative;
+    min-height: 1px;
+    padding-left: 15px;
+    padding-right: 15px;
+}
+.cart_list ul {
+    padding: 0 0 40px;
+    margin: 0 0 40px;
+    list-style: none;
+    border-bottom: solid 1px #d8d8d8;
+}
+.cart_list ul li {
+    font-size: 16px;
+    font-weight: 400;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.5;
+    letter-spacing: normal;
+    color: #696969;
+    margin: 0 0 15px;
+    padding: 0 0 0 35px;
+    background: url("https://cdn.shopify.com/s/files/1/0313/4062/5964/t/481/assets/list_ic.png") no-repeat left top 8px;
+    background-size: 15px;
+    text-align: left;
+}
+.functionCartButton, .price_block {
+    padding: 0;
+}
+.price_block_row {
+    font-size: 16px;
+    font-weight: 400;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.5;
+    letter-spacing: normal;
+    color: #696969;
+    margin: 0 0 10px;
+    text-align: left;
+    display: flex;
+}
+.price_block_row .price_label {
+    display: inline-block;
+    vertical-align: middle;
+    width: 50%;
+}
+.price_block_row .price_content {
+    display: inline-block;
+    vertical-align: middle;
+    width: 50%;
+    text-align: right;
+    margin-left: -5px;
+}
+.functionCartButton, 
+.price_block {
+    padding: 0 70px;
+}
+.functionCartButton {
+    margin-top: 30px;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-justify-content: flex-end;
+    -ms-justify-content: flex-end;
+    justify-content: flex-end;
+}
+.functionCartButton .btnCheckout {
+    display: block;
+    max-width: 100%;
+    width: 100%;
+    margin: 0 auto;
+}
+.btnCheckout {
+    color: #fff;
+    background-color: #000c48;
+    border-color: #000c48;
+    margin: 1rem;
+    padding: 1.5rem 5.75rem;
+    text-transform: capitalize;
+    -webkit-transition: all .35s ease;
+    -o-transition: all .35s ease;
+    transition: all .35s ease;
+    font-size: 1.75rem;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    display: block;
+    max-width: 100%;
+    width: 100%;
+    margin: 0 auto;
+}
+#tomit_inventory_list_cart {
+    display: none;
+}
+.cartTable .btnUpdateCart {
+    border-bottom: 1px solid #191919;
+    color: #191919;
+    cursor: pointer;
+    -webkit-transition: all .2s ease-in-out 0s;
+    -o-transition: all .2s ease-in-out 0s;
+    transition: all .2s ease-in-out 0s;
+    margin-left: 10px;
+    height: 18px;
+    padding: 0;
+    font-size: 12px;
+    text-transform: uppercase;
+    background: 0 0;
+    display: none;
+}
+
+
+
+/* rwd */
+
+/* @media (max-width: 1400px) { 
+
+} */
+
+@media (max-width: 1024px) {
+  .cartTitle {
+      text-align: center;
+  }
+  .cartContent form {
+    flex-direction: column;
+  }
+  .cartTable, .functionCart.flexRow {
+    width: 100%;
+  }
+  .functionCart.flexRow {
+      max-width: 500px;
+      margin: 0 auto;
+      width: 100%;
+  }
+  .cartContent form .cartItemWrap {
+      margin: 0 auto;
+  }
+}
+@media (max-width: 769px) {
+  .template-cart #pageContent {
+      padding: 0 20px;
+  }
+  .template-cart .cartItemWrap .productInfo {
+      padding: 10px!important;
+  }
+  .template-cart .cartItemWrap .productInfo .ebyCartItemFooter {
+      margin-top: 2rem;
+  }
+  .cartContainer .functionCartButton, .cartContainer .price_block {
+      padding: 0;
+  }
+  .cartContainer .functionCartButton, .cartContainer .price_block {
+      padding: 0;
+  }
+}
+@media (max-width: 480px) {
+  
+}

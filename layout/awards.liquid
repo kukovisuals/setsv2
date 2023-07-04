@@ -1,0 +1,156 @@
+<!doctype html>
+<!--[if IE 9]> <html class="ie9 no-js" lang="{{ shop.locale }}"> <![endif]-->
+<!--[if (gt IE 9)|!(IE)]><!--> <html class="no-js" lang="{{ shop.locale }}"> <!--<![endif]-->
+<head>  
+  <meta charset="utf-8"/>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <meta name="theme-color" content="{{ settings.vela_color_primary }}"/>
+  <meta name="p:domain_verify" content="76d37e972c49ccf70309e4224eae0c2c"/>
+  <link rel="canonical" href="{{ canonical_url }}">
+  <meta name="format-detection" content="telephone=no">
+
+  
+  {% if handle contains 'last-call-seamless-underwear' or handle contains 'giveaway' or handle contains 'sakura' or handle contains 'roseata' or template contains 'premium_new' or template contains 'parisian-summer-luxury' %}
+  <meta name="robots" content="noindex">
+  {% endif %}
+  
+  {% if handle contains 'roseata' or handle contains 'sakura' or template contains 'premium_new' or template contains 'parisian-summer-luxury' %}
+  <meta property="og:image"  content="https://cdn.shopify.com/s/files/1/0313/4062/5964/files/768---IMG---LUXE-1_2x_0367b37d-a53d-4651-86d5-91c1d1304d20.jpg?v=1628520959" />
+  <meta name="twitter:image" content="https://cdn.shopify.com/s/files/1/0313/4062/5964/files/768---IMG---LUXE-1_2x_0367b37d-a53d-4651-86d5-91c1d1304d20.jpg?v=1628520959" />
+  {% endif %}
+  
+  {% if settings.favicon != blank %}
+  	<link rel="shortcut icon" href="{{ settings.favicon | img_url: '32x32' }}" type="image/png">
+  {% endif %}
+  
+  
+{% include "starapps-core" %}
+{% capture seo_title %}
+  {{ page_title }}
+  {% if current_tags %}{%- assign meta_tags = current_tags | join: ', ' %} &ndash; {{ 'general.meta.tags' | t: tags: meta_tags -}}{% endif %}
+  {% if current_page != 1 %}&ndash; {{ 'general.meta.page' | t: page: current_page }}{% endif %}
+  {% unless page_title contains shop.name %}&ndash; {{ shop.name }}{% endunless %}
+  {% endcapture %}
+  
+  <title>{{ seo_title }}</title>
+  
+  {% if page_description %}
+  <meta name="description" content="{{ page_description | escape }}">
+  {% endif %}
+  
+  <link rel='preload' href="{{ 'vela.js' | asset_url }}" as='script'/>
+  
+  {% render 'preload-snippet' %}
+  {% render 'social-meta-tags' %}
+  {% render 'vela-header-styles' %}
+  {% render 'vela-header-javascript' %}
+  
+  <!-- starapps_scripts_start -->
+  <!-- This code is automatically managed by StarApps Studio -->
+  <!-- Please contact support@starapps.studio for any help -->
+  {% comment %}
+  {% render "starapps-language-meta" %}
+  {% endcomment %}
+  
+  <!-- starapps_scripts_end -->
+
+  {{ content_for_header }}
+  
+  {% render 'dataLayer-allPages' %}
+  <style>
+    .md\:eby-px-8.eby-px-4.eby-w-full.eby-py-4.eby-flex.eby-items-center.eby-bg-white {
+    	display: none;
+    }
+  </style>
+
+  {% render 'shogun-head' %}
+</head>
+
+{%- if template contains 'customer' -%}
+  {%- assign velaBodyClass = 'template-account' -%}
+{%- endif -%}
+
+{%- if settings.loading_enable -%}
+  {%- assign bodyPreLoading = 'bodyPreLoading' -%}
+{%- endif -%}
+
+<body id="{{ page_title | handle }}" class="{% if template contains 'premium_new' or template contains 'parisian-summer-luxury' %}premium_news{% endif %} template-{{ template | split: '.' | first }} {{ velaBodyClass }}{% if settings.header_float_enable %} velaFloatHeader{% endif %} {{ bodyPreLoading }} {% if template.suffix contains 'filter' %}filterBodyTemplate{% endif %} {% if customer %}loggedIn{% else %}loggedOut{% endif %} bfx-price-container bfx-checkout-container bfx-remove-element-container">
+
+  <div id="pageContainer" class="isMoved">
+    {% unless page.handle == 'build-your-box' or  page.handle == 'get-your-box' %}
+      {% section 'eby-header' %}
+    {% endunless %}
+      <main class="mainContent" role="main">
+        {{ content_for_layout }}
+      </main>
+  </div>
+  
+  <script type="text/javascript">(function(w,d,t,r,u){var f,n,i;w[u]=w[u]||[],f=function(){var o={ti:"26336647"};o.q=w[u],w[u]=new UET(o),w[u].push("pageLoad")},n=d.createElement(t),n.src=r,n.async=1,n.onload=n.onreadystatechange=function(){var s=this.readyState;s&&s!=="loaded"&&s!=="complete"||(f(),n.onload=n.onreadystatechange=null)},i=d.getElementsByTagName(t)[0],i.parentNode.insertBefore(n,i)})(window,document,"script","//bat.bing.com/bat.js","uetq");</script>
+  <script type="text/javascript" src="//www.klaviyo.com/media/js/public/klaviyo_subscribe.js"></script>
+  <script type="text/javascript">
+    KlaviyoSubscribe.attachToForms('#reservation-form', {
+      hide_form_on_success: true,
+      success: function success() {
+        document.getElementById("reservation-success").style.display = "block"
+        document.getElementById("reservation-form").style.display = "none"
+        
+        setTimeout(function() {
+          document.body.classList.remove('form--open')
+        }, 1000);
+      },
+      extra_properties: {
+        $source: '$embed',
+        $method_type: "Klaviyo Form",
+        $method_id: 'embed',
+        $consent_version: 'Embed default text'
+      }
+    });
+    
+    document.getElementById('reservation-form').addEventListener('submit', function (event) {
+      
+      console.log('::postscripts init::', {
+        "phone": document.getElementById('phone').value,
+        "keyword": "AWARDS",
+        "metadata": {
+          "email" : document.getElementById('k_id_email').value,
+          "firstnme" : document.getElementById('name').value
+        }
+      });
+      
+      jQuery.ajax({
+        type: "POST",
+        crossDomain : true,
+        url: window.APIDomain+window.otherAPI+"eby_postscript.php",
+        data: { data: {
+          "keyword": "AWARDS",
+          "phone": document.getElementById('phone').value,
+          "metadata": {
+            "email" : document.getElementById('k_id_email').value,
+            "firstnme" : document.getElementById('name').value
+          }
+        }},
+        dataType: 'json',
+        success: function(data){
+          console.log("::postscript success::", data);
+          
+          if(!!data){
+           	console.log('check data');
+          }
+        },
+        error: function(xhr, text) {
+          
+          console.log("::postscript failure::", {
+            text : text,
+            xhr : xhr
+          });
+          
+        }
+      });
+      
+    });
+    
+    
+  </script>
+</body>
+</html>

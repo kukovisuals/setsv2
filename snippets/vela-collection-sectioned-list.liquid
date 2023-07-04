@@ -1,0 +1,21 @@
+<div class="proList testOne">
+  <div class="velaOwlRow rowFlex owlCarouselPlay">
+      {% for product in collection.products %}
+          {% if product.tags contains "tierOne-cotton_panties-spotlight" or product.tags contains "tierOne-cotton_bralettes-spotlight" %}
+              <div data-attr="{{ product.tags }}" class="cottonPrdTile">
+                  {% include 'product-grid-item' %}  
+              </div>
+          {% else %}
+              <div data-attr="{{ product.tags }}" class="signaturePrdTile">
+                  {% include 'product-grid-item' %}  
+              </div>
+          {% endif %}
+      {% else %}
+        <div class="collNoProduct col-xs-12">
+          <div class="alert alert-warning">
+            {{ 'collections.general.no_matches' | t }}
+          </div>
+        </div>
+      {% endfor %}
+  </div>
+</div>

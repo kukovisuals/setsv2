@@ -1,0 +1,267 @@
+{% comment %}
+This file was automatically generated. Any changes you make will be overridden.
+{% endcomment %}
+
+<div id="section-firework-embed">
+    {% case section.settings.layout %}
+      {% when 'carousel' %}
+        <fw-embed-feed
+              channel="{{section.settings.channel}}"
+              playlist="{{section.settings.playlist}}"
+              hashtag="{{section.settings.hashtag}}"
+              mode="row"
+              size="{{section.settings.size}}"
+              pip="{{section.settings.pip}}"
+              open_in="{{section.settings.open_id}}"
+              placement="middle"
+              player_placement="{{section.settings.player_placement}}"
+            ></fw-embed-feed>
+      {% when 'grid' %}
+        <fw-embed-feed
+              channel="{{section.settings.channel}}"
+              playlist="{{section.settings.playlist}}"
+              hashtag="{{section.settings.hashtag}}"
+              mode="grid"
+              size="{{section.settings.size}}"
+              pip="{{section.settings.pip}}"
+              open_in="{{section.settings.open_id}}"
+              placement="middle"
+              player_placement="{{section.settings.player_placement}}"
+            ></fw-embed-feed>
+      {% when 'floating_player' %}
+        <fw-storyblock
+              id="move-to-body"
+              channel="{{section.settings.channel}}"
+              playlist="{{section.settings.playlist}}"
+              hashtag="{{section.settings.hashtag}}"
+              mode="pinned"
+              size="{{section.settings.size}}"
+              pip="{{section.settings.pip}}"
+              open_in="{{section.settings.open_id}}"
+              placement="middle"
+              player_placement="{{section.settings.player_placement}}"
+            ></fw-storyblock>
+      {% when 'storyblock' %}
+        <fw-storyblock
+              channel="{{section.settings.channel}}"
+              playlist="{{section.settings.playlist}}"
+              hashtag="{{section.settings.hashtag}}"
+            ></fw-storyblock>
+      {% when 'floating_button' %}
+        <fw-channel-button
+          id="move-to-body"
+          channel="{{section.settings.channel}}"
+          channel="{{section.settings.playlist}}"
+          hashtag="{{section.settings.hashtag}}"
+          open_in="{{section.settings.open_in}}"
+          placement="{{section.settings.player_placement}}"
+          vertical="{{section.settings.vertical_offset}}"
+          horizontal="{{section.settings.horizontal_offset}}"
+        >
+          <a href="{{section.settings.floating_button_cta_url}}">{{section.settings.floating_button_cta_text}}</a>
+        </fw-channel-button>
+    {% endcase %}
+</div>
+
+{% stylesheet %}
+  #section-firework-embed {
+    margin: 1rem;
+  }
+{% endstylesheet %}
+
+{% javascript %}
+  /* This function is required for the floating player and floating button.
+  Shopify's page-builder places these DOM nodes in a weird way that blocks
+  the static positioning from working properly. Moving the node to be a
+  direct child of <body> makes it work properly. */
+
+  var element = document.getElementById('move-to-body');
+  if (element) {
+    document.querySelector('body').appendChild(element);
+  }
+{% endjavascript %}
+
+{% schema %}
+  {
+    "name": "Firework Embed",
+    "settings": [
+      {
+        "type": "select",
+        "id": "layout",
+        "label": "t:sections.firework-embed.selectLayoutLabel",
+        "info": "t:sections.firework-embed.selectLayoutInfo",
+        "options": [
+          {
+            "value": "carousel",
+            "label": "t:sections.firework-embed.selectLayoutCarousel"
+          },
+          {
+            "value": "storyblock",
+            "label": "t:sections.firework-embed.selectLayoutStoryblock"
+          },
+          {
+            "value": "floating_button",
+            "label": "t:sections.firework-embed.selectLayoutFloatingButton"
+          },
+          {
+            "value": "floating_player",
+            "label": "t:sections.firework-embed.selectLayoutFloatingPlayer"
+          },
+          {
+            "value": "grid",
+            "label": "t:sections.firework-embed.selectLayoutGrid"
+          }
+        ],
+        "default": "carousel"
+      },
+      {
+        "type": "select",
+        "id": "channel",
+        "label": "t:sections.firework-embed.selectChannelLabel",
+        "info": "t:sections.firework-embed.selectChannelInfo",
+        "options": [
+          { "value": "joineby", "label": "EBY" }
+        ],
+        "default": "joineby"
+        
+      },
+      {
+        "type": "paragraph",
+        "content": "t:sections.firework-embed.textChannelMissing"
+      },
+      {
+        "type": "paragraph",
+        "content": "[https://eby-by-sofia-vergara.myshopify.com/admin/apps/0de25c9708757125ecdccc48c5b2e2ef/shopify/update_widget](https://eby-by-sofia-vergara.myshopify.com/admin/apps/0de25c9708757125ecdccc48c5b2e2ef/shopify/update_widget)"
+      },
+      
+      {
+        "type": "select",
+        "id": "playlist",
+        "label": "t:sections.firework-embed.selectPlaylistLabel",
+        "info": "t:sections.firework-embed.selectPlaylistInfo",
+        "options": [
+          {
+            "value": "",
+            "label": "t:sections.firework-embed.selectPlaylistNotSpecified"
+          },
+          { "value": "oyadWo", "label": "Most Popular" },
+{ "value": "g4Z705", "label": "Collection Page - Best Sellers" },
+{ "value": "5mV90o", "label": "Collection Page - New Arrivals" },
+{ "value": "gwGNZg", "label": "Homepage - Founder's Video" },
+{ "value": "oe6Dkg", "label": "Homepage" },
+{ "value": "v669Ov", "label": "Product Playlist Staging" }
+        ],
+        "default": ""
+      },
+      
+      {
+        "type": "text",
+        "id": "hashtag",
+        "label": "t:sections.firework-embed.textHashtagLabel",
+        "info": "t:sections.firework-embed.textHashtagInfo"
+      },
+      {
+        "type": "select",
+        "id": "size",
+        "label": "t:sections.firework-embed.selectSizeLabel",
+        "info": "t:sections.firework-embed.selectSizeInfo",
+        "options": [
+          {
+            "value": "medium",
+            "label": "t:sections.firework-embed.selectSizeMedium"
+          },
+          {
+            "value": "large",
+            "label": "t:sections.firework-embed.selectSizeLarge"
+          }
+        ],
+        "default": "large"
+      },
+      {
+        "type": "select",
+        "id": "player_placement",
+        "label": "t:sections.firework-embed.selectPlacementLabel",
+        "info": "t:sections.firework-embed.selectPlacementInfo",
+        "options": [
+          {
+            "value": "top-left",
+            "label": "t:sections.firework-embed.selectPlacementTopLeft"
+          },
+          {
+            "value": "top-right",
+            "label": "t:sections.firework-embed.selectPlacementTopRight"
+          },
+          {
+            "value": "bottom-left",
+            "label": "t:sections.firework-embed.selectPlacementBottomLeft"
+          },
+          {
+            "value": "bottom-right",
+            "label": "t:sections.firework-embed.selectPlacementBottomRight"
+          }
+        ],
+        "default": "bottom-right"
+      },
+      {
+        "type": "select",
+        "id": "open_in",
+        "label": "t:sections.firework-embed.selectOpenInLabel",
+        "info": "t:sections.firework-embed.selectOpenInInfo",
+        "options": [
+          {
+            "value": "_modal",
+            "label": "t:sections.firework-embed.selectOpenInModal"
+          },
+          {
+            "value": "_self",
+            "label": "t:sections.firework-embed.selectOpenInSameTab"
+          },
+          {
+            "value": "_blank",
+            "label": "t:sections.firework-embed.selectOpenInNewTab"
+          }
+        ],
+        "default": "_modal"
+      },
+      {
+        "type": "text",
+        "id": "floating_button_cta_text",
+        "label": "t:sections.firework-embed.textFloatingButtonCTALabel",
+        "info": "t:sections.firework-embed.textFloatingButtonCTAInfo"
+      },
+      {
+        "type": "url",
+        "id": "floating_button_cta_link",
+        "label": "t:sections.firework-embed.textFloatingButtonURLLabel",
+        "info": "t:sections.firework-embed.textFloatingButtonURLInfo"
+      },
+      {
+        "type": "number",
+        "id": "vertical_offset",
+        "label": "t:sections.firework-embed.numberFloatingButtonVerticalOffsetLabel",
+        "info": "t:sections.firework-embed.numberFloatingButtonVerticalOffsetInfo",
+        "default": 0
+      },
+      {
+        "type": "number",
+        "id": "horzontal_offset",
+        "label": "t:sections.firework-embed.numberFloatingButtonHorizontalOffsetLabel",
+        "info": "t:sections.firework-embed.numberFloatingButtonHorizontalOffsetInfo",
+        "default": 0
+      },
+      {
+        "type": "checkbox",
+        "id": "pip",
+        "label": "t:sections.firework-embed.checkboxPIPLabel",
+        "info": "t:sections.firework-embed.checkboxPIPInfo",
+        "default": false
+      }
+    ],
+    "presets": [
+      {
+        "name": "Firework Embed",
+        "category": "FW Embed"
+      }
+    ]
+  }
+{% endschema %}

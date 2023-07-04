@@ -1,0 +1,14 @@
+{% assign current_variant = product.selected_or_first_available_variant %}
+{% comment %}{% include 'breadcrumb' %}
+{% endcomment %}
+{% if product.type == 'Core Underwear' %}
+<section id="pageContent" class="ebyPantyPdp">
+{% elsif product.type == 'Bralette Panty Set' %}
+<section id="pageContent" class="ebyBraPantySetPdp">
+{% elsif product.type == 'Panty Pack' %}
+<section id="pageContent"  class="ebyPantyPackPdp">
+{% elsif product.type == 'Core Bralette' %}
+<section id="pageContent" class="ebyBralettePdp">
+{% endif %}
+  {% section 'vela-template-product' %}
+</section>

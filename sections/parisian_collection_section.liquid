@@ -1,0 +1,55 @@
+{% if section.blocks.size > 0 %}
+<section class="premium_collection_section">
+  <div class="section-wrap">
+    <div class="flexbox">
+      {% for block in section.blocks %}
+      <div class="col left-col">
+        <div class="col-wrap">
+          {% if block.settings.image != blank %}
+          <div class="col-image-wrap">
+            <img class="lazyload" data-src="{{ block.settings.image | img_url: 'master' }}" alt="{{ block.settings.image.alt }}">
+          </div>
+          {% endif %}
+          {% if block.settings.button_link != blank and block.settings.button_text != blank %}
+          <div class="col-btn-wrap text_center">
+            <a href="{{ block.settings.button_link }}">{{ block.settings.button_text }}</a>
+          </div>
+          {% endif %}
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endif %}
+
+{% schema %}
+  {
+    "name": "Collection Banner",
+    "settings": [
+	],
+	"blocks": [
+      {
+        "type": "tab",
+        "name": "Banner",
+        "settings": [
+	  	  {
+            "type": "image_picker",
+            "id": "image",
+            "label": "Image"
+          },
+		  {
+            "type": "text",
+            "id": "button_text",
+            "label": "Button Text"
+          },
+          {
+            "type": "url",
+            "id": "button_link",
+            "label": "Button Link"
+          }
+		]
+	  }
+	]
+  }
+{% endschema %}

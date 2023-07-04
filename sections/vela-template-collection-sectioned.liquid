@@ -1,0 +1,187 @@
+<style>
+  #shopify-section-vela-template-collection-sectioned .velaBoxCollectionTop {
+    clear: both;
+    padding: 2rem 0 0;
+  }
+  #shopify-section-vela-template-collection-sectioned .headerCollection {
+    border: none;
+    font-size: 36px;
+    line-height: 40px;
+    font-weight: 400;
+    color: #00435f;
+  }
+  #shopify-section-vela-template-collection-sectioned .velaCollections {
+    margin-bottom: 50px;
+  }
+  #shopify-section-vela-template-collection-sectioned .velaCollections .swatches .swatch-view-item {
+    padding-right: 0;
+    margin-top: 0;
+  }
+  @media (min-width: 1170px) {
+    body.template-collection .velaCollections {
+      padding: 0 60px;
+    }
+  }
+  @media (max-width: 767px) {
+    #shopify-section-vela-template-collection-sectioned .velaCollections .swatches .swatch-view-item .star-set-image {
+      width: 16px !important;
+      height: 16px !important;
+    }
+    .template-collection .proList .velaOwlRow.owlCarouselPlay > .item .swatch-selected.star-image-border-3-head {
+      border: 4px solid rgba(0, 0, 0, 0.5) !important;
+    }
+    .template-collection .proList .velaOwlRow.owlCarouselPlay > .item .star-image-border-3-head {
+      border: 4px solid rgba(0, 0, 0, 0) !important;
+    }
+  }
+  @media (max-width: 640px) {
+    #shopify-section-vela-template-collection-sectioned .headerCollection {
+      font-size: 2.4rem;
+      margin-bottom: 0;
+      line-height: inherit;
+    }
+    .template-collection .mainContent #pageContent .velaCollections {
+      padding-top: 3rem;
+    }
+  }
+</style>
+
+{% unless customer.tags contains 'Active Subscriber'%}
+<!-- <div class="ebyCollectionHolidayWrapper shopNow">
+  <img data-src="https://cdn.shopify.com/s/files/1/0313/4062/5964/files/Launch_Banner_-_Background_5ce914b8-3f33-4fcb-8c82-533ceeb1d0aa.jpg?v=1620996945" class="lazyload" alt="Seamless Tank Top" title="Seamless Tank Top" />
+  <div class="bannerCopyOuterWrapper">
+    <div class="bannerCopyWrapper">
+      <p>THE ESSENTIAL</p>
+      <h6>Seamless Tank Top</h6>
+      <p class="alertCopy">Available Now!</p>
+      <a href="/collections/seamless-tank-top" class="btn linkCtaBtn">Shop Now</a>
+    </div>
+  </div>
+</div> -->
+{% else %}
+<!-- <div class="ebyCollectionHolidayWrapper shopNow">
+  <img data-src="https://cdn.shopify.com/s/files/1/0313/4062/5964/files/Launch_Banner_-_Background_5ce914b8-3f33-4fcb-8c82-533ceeb1d0aa.jpg?v=1620996945" class="lazyload" alt="Seamless Tank Top" title="Seamless Tank Top" />
+  <div class="bannerCopyOuterWrapper">
+    <div class="bannerCopyWrapper">
+      <p>THE ESSENTIAL</p>
+      <h6>Seamless Tank Top</h6>
+      <p class="alertCopy">Available Now!</p>
+      <a href="/collections/seamless-tank-top" class="btn linkCtaBtn">Shop Now</a>
+    </div>
+  </div>
+</div> -->
+{% endunless %}
+
+{%- assign pageItems = section.settings.items_propage | plus: 0 -%}
+{% paginate collection.products by 1000 %}
+        
+  {% capture collection_title %}{{ collection.title | escape }}{% endcapture %}
+  {% capture collection_title_handle %}{{ collection_title | handleize | camelcase }}{% endcapture %}
+  {% assign words = collection_title_handle | split: '' %}
+  {% capture collection_title_handle -%}
+    {%- for word in words -%}
+      {%- if forloop.first -%}
+        {{- word | downcase -}}
+      {%- else -%}
+        {{- word -}}
+      {%- endif -%}
+    {%- endfor -%}
+  {%- endcapture %}
+  <div class="velaCollections {{ collection_title_handle }}Collection">
+    {% if collection_title == 'Sets' %}
+      <div class="bralette_slide">
+        <div class="left_area">
+          {% if section.settings.block3_title1 != blank %}<h2 class="pnk">{{ section.settings.block3_title1 }}</h2>{% endif %}
+          {% if section.settings.block3_title2 != blank %}<h2>{{ section.settings.block3_title2 }}</h2>{% endif %}
+          
+          {% if section.settings.block3_info != blank %}{{ section.settings.block3_info }}{% endif %}
+          
+          <div class="btn_area">
+            <a class="btn btn-pink" href="{{ section.settings.block3_link1 }}">{{ section.settings.block3_btn1 }}</a>
+            <a class="btn btn-trans" href="{{ section.settings.block3_link2 }}">{{ section.settings.block3_btn2 }}</a>
+          </div>
+        </div>
+        <div class="right_area">
+          {{ section.settings.block3_right_img | img_url: 'master' | img_tag }}
+          {% comment %}
+          <img src="https://cdn.shopify.com/s/files/1/0340/6525/2411/files/undi@2x.png?v=1593699999"/>
+          {% endcomment %}
+        </div>
+      </div>
+    {% endif %}
+      
+    <div class="velaBoxCollectionTop {{ collection_title_handle }}Header" id="{{ collection_title_handle | downcase }}-anchor">
+      <h1 class="headerCollection clearfix">
+        {{ collection_title }}
+      </h1>
+    </div>
+
+    <div class="proList eby{{ collection_title | handleize | camelcase }}List">
+      
+      <div class="velaOwlRow owlCarouselPlay ebyProdTileListWrapper signatureProductsListing">
+		<h2 class="item ebyProdTile" >Signature<br/>Seamless</h2>
+        {% for product in collection.products %}
+        {% if product.tags contains "tierOne-cotton_panties-spotlight" or product.tags contains "tierOne-cotton_bralettes-spotlight" %}
+        {% else %}
+          {%- unless settings.free_gift_enabled == true and product.id == all_products[settings.free_gift_product].id -%}
+            <div class="item ebyProdTile {% if product.metafields.ebyacf.product_is_new_release %}newRelease{% endif %}">
+              <div data-attr="{{ product.tags }}" class="cottonPrdTile">
+                {% include 'product-grid-item-color' %}
+              </div>
+            </div>
+          {%- endunless -%}
+        {% endif %}
+        {% endfor %}
+        
+      </div>
+      
+      <div class="velaOwlRow owlCarouselPlay ebyProdTileListWrapper cottonProductsListing">
+        <h2 class="item ebyProdTile" >Invisible<br/>Cotton</h2>
+        {% for product in collection.products %}
+        {% if product.tags contains "tierOne-cotton_panties-spotlight" or product.tags contains "tierOne-cotton_bralettes-spotlight" %}
+          {%- unless settings.free_gift_enabled == true and product.id == all_products[settings.free_gift_product].id -%}
+            <div class="item ebyProdTile {% if product.metafields.ebyacf.product_is_new_release %}newRelease{% endif %}">
+              <div data-attr="{{ product.tags }}" class="cottonPrdTile">
+                {% include 'product-grid-item-color' %}
+              </div>
+            </div>
+          {%- endunless -%}
+        {% endif %}
+        {% endfor %}
+        
+      </div>
+
+    </div>
+      
+  </div>
+  {%- if paginate.pages > 1 -%}
+    {% include 'vela-pagination' %}
+  {%- endif -%}
+{% endpaginate %}
+
+{% schema %}
+  {
+    "name": "Vela List Collections",
+    "settings": [
+      {
+        "type": "header",
+        "content": "List Products with Collection"
+      },
+      {
+        "type": "checkbox",
+        "id": "collection_image",
+        "label": "Show collection image",
+        "default": true
+      },
+      {
+        "type": "range",
+        "id": "items_propage",
+        "min": 3,
+        "max": 50,
+        "step": 1,
+        "label": "Number items on a page",
+        "default": 3
+      }
+    ]
+  }
+{% endschema %}

@@ -1,0 +1,81 @@
+{% if section.settings.desk_img != blank %}
+  <section class="permium_hero_section">
+    <!--fc 112322-->
+    <div class="section-wrap">
+      <div class="section_image">
+        <img data-src="https://cdn.shopify.com/s/files/1/0313/4062/5964/files/hero-mbl.webp?v=1669219154" class="mobile_image" width="375" height="478" alt="{{ section.settings.mob_img.alt }}">
+        <img data-src="https://cdn.shopify.com/s/files/1/0313/4062/5964/files/hero-sheer-dsk.webp?v=1669219016" class="ipad_image" width="762" height="762" alt="{{ section.settings.ipad_img.alt }}">
+        <img data-src="https://cdn.shopify.com/s/files/1/0313/4062/5964/files/hero-sheer-dsk.webp?v=1669219016" class="desktop_image" width="1680" height="993" alt="{{ section.settings.desk_img.alt }}">
+
+      </div>
+      <div class="section_content {{ section.settings.text_align }}">
+        <div class="content_top">
+          <img class="iphones_only" width="400" height="130" alt="Silky Soft. Sexy. Seamless" title="Silky Soft. Sexy. Seamless" src="https://cdn.shopify.com/s/files/1/0313/4062/5964/files/TITLE-Sheer4-title-mbl.svg?v=1669226827"/>
+          <img class="laptop_only" width="400" height="130" alt="Silky Soft. Sexy. Seamless" title="Silky Soft. Sexy. Seamless" src="https://cdn.shopify.com/s/files/1/0313/4062/5964/files/1440_-_SHEER_-_title.svg?v=1643819949"/>
+        </div>
+        {% if section.settings.button_text != blank  and section.settings.button_link != blank %}
+          <div class="content_bottom">
+            <a href="{{ section.settings.button_link }}">{{ section.settings.button_text }}</a>
+          </div>
+        {% endif %}
+      </div>
+    </div>
+  </section>
+{% endif %}
+
+{% schema %}
+  {
+    "name": "Hero Banner",
+    "settings": [
+      {
+        "type": "image_picker",
+        "id": "desk_img",
+        "label": "Desktop Image"
+      },
+      {
+        "type": "image_picker",
+        "id": "ipad_img",
+        "label": "Ipad Image"
+      },
+      {
+        "type": "image_picker",
+        "id": "mob_img",
+        "label": "Mobile Image"
+      },
+      {
+        "type": "text",
+        "id": "title",
+        "label": "Title"
+      }, {
+        "type": "text",
+        "id": "sub_title",
+        "label": "Sub Title"
+      }, {
+        "type": "select",
+        "id": "text_align",
+        "label": "Text alignment",
+        "options": [
+          {
+            "value": "text_left",
+            "label": "Left"
+          }, {
+            "value": "text_center",
+            "label": "Center"
+          }, {
+            "value": "text_right",
+            "label": "Right"
+          }
+        ],
+        "default": "text_center"
+      }, {
+        "type": "url",
+        "id": "button_link",
+        "label": "Button URL"
+      }, {
+        "type": "text",
+        "id": "button_text",
+        "label": "Button Text"
+      }
+    ]
+  }
+{% endschema %}

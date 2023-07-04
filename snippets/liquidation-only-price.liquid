@@ -1,0 +1,20 @@
+{% unless isLiquidation_var == true %}
+  <div class="ebyProdTile-vipPriceWrapper">
+    {% if all_shop.metafields.ebyacf.enable_holiday_mode-vip_pg or all_shop.metafields.ebyacf.enable_holiday_mode-coll_pg %}
+      {%- assign discount = all_products.price | times: all_shop.metafields.ebyacf.sitewide_discount_price | divided_by: 100 -%}
+      {%- assign holidayPrice = all_products.price | minus: discount | money_without_currency -%}
+      <p>
+        <span id="eby-price-observer-desk" class="ebyHolidayPrice {{class_num1}}">${{ holidayPrice_var }}</span>
+        <span class="ebyHolidayDiscount bfx-price">{{ all_shop.metafields.ebyacf.sitewide_discount_price }} Off</span>
+      </p>
+    {% else %}
+      {% if all_products.metafields.ebyacf.vip_member_price and isOnHolidaySale_var == false and isOnDealSale_var == false %}
+        <p class="ebyMemberPriceWrapper">(
+          <span id="{% if customer.tags contains 'Active Subscriber' %}subs-mn-price-23{% else %}subs-sencmn-priz{% endif %}"
+            class="bfx-price">{{ all_products.metafields.ebyacf.vip_member_price }}</span>
+          <span class="fontMinor">subscribers</span>
+          )</p>
+      {% endif %}
+    {% endif %}
+  </div>
+{% endunless %}

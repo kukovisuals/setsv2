@@ -1,0 +1,509 @@
+<div class="alala_class">
+
+  {% section 'giveaway-hero-section' %}
+  {% section 'giveaway_custom_box' %}
+  {% section 'giveaway_two_cols' %}
+  {% section 'giveaway_gallery' %}
+  {% section 'giveaway_newlatter' %}
+
+</div>
+
+<script>
+  $(document).ready(function() {
+    $('body').on('click', '.scroll_btn', function(e) {
+      e.preventDefault();
+      $('html, body').animate({
+        scrollTop: $('#scroll_to_signup').offset().top - 20
+      }, 1000);
+    });
+    $('body').on('click', '.scroll_btns', function(e) {
+      e.preventDefault();
+      $('html, body').animate({
+        scrollTop: $('#shopify-section-giveaway_two_cols').offset().top - 100
+      }, 1000);
+    });
+  });
+</script>
+
+
+<style>
+  .alala_class a.btn{
+    font-family: aktiv-grotesk,Helvetica,Arial,sans-serif;
+    font-weight: 400;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.17;
+    letter-spacing: normal;
+    background-color: #0064ff;
+    border-color: #0064ff;
+    padding-left: 50px;
+    padding-right: 50px; 
+    color: #fff;
+  }
+  .alala_class h2{
+    color: #2031ba;
+    line-height: 1.22;
+    font-size: 36px;
+    margin: 0;
+  }
+  .alala_class a.btn:hover{
+    background-color: #fff;
+    color: #0064ff;
+  }
+  .custom_box{
+    background-color: #f2f2f2;
+    padding: 120px 0;
+  }
+  .custom_inner_box{
+    max-width: 663px;
+    margin: 0 auto;
+  }
+  .custom_inner_box h2{
+    margin-bottom: 48px;
+  }
+  .section_gallery{
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+  .section_gallery .section_gallery_cols{
+    max-width: 25%;
+    flex: 0 0 25%;
+  }
+  .section_gallery_cols img{
+    display: block; 
+  }
+  .newslsec{
+    display: none; 
+  }
+  .two_cols{
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    background-color: #ffffff;
+    padding: 80px 0px;
+  }
+  .two_cols .two_col{
+    max-width: 50%;
+    flex: 0 0 50%; 
+    padding: 0 160px;
+    position: relative;
+    display: flex;
+    align-items: flex-start;
+    flex-wrap: wrap;
+  }
+  .full_box{
+    max-width: 100%;
+    flex: 0 0 100%; 
+    margin-top: 80px;
+  }
+  .full_widths{
+    max-width: 100%;
+    flex: 0 0 100%; 
+    background-color: #ffffff;
+    padding-top: 80px;
+  }
+  .two_col:first-child::after{
+    content: '';
+    position: absolute;
+    width: 2px;
+    height: 176px;
+    background-color: #000c48;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+  .image_cols{
+    width: 160px;
+    background-color: #000c48;
+  }
+  .image_content{
+    width: 100%;
+    padding-left: 0px;
+    max-width: 460px;
+  }
+  .image_content p{
+    color: #000c48;
+    font-size: 18px;
+    line-height: 1.33;
+    font-weight: 300;
+  }
+  .alala_newlatter{
+    padding: 136px 0 100px;
+    background-color: #ffffff;
+  }
+  .home-content .arrow-sep {
+    width: 100%;
+    height: 42px;
+    background: url(https://cdn.shopify.com/s/files/1/0313/4062/5964/files/icon-down-arrow-0064-ff.svg?v=1616270818) no-repeat;
+    background-position: 50%;
+    margin: 30px 0 20px 0;
+  }
+  .content_full_box{
+    display: none;
+  }
+  section.foot_section{
+    background: #000c48; 
+  }
+  .menu_section a,
+  .menu_section h4,
+  .cont_section h2,
+  .cont_section p,
+  .cont_section .link_section a,
+  .cont_inner p a,
+  .cont_section .link_section a:hover {
+    color: #fff;
+  }
+  .menu_section{
+    border-right-color: #fff; 
+  }
+  .alala-hero-section .col-group{
+    display:flex;
+    flex-wrap:wrap;
+  }
+  .alala-hero-section .col-group .col{
+    max-width:50%;
+    width:100%;
+    background-color: #fff;
+  }
+  .alala-hero-section .col-group .col .col-wrap{
+    display:flex;
+    align-items:center;
+    position:relative;
+    height: 100%;
+  }
+  .alala-hero-section .col-group .col.right-col .col-content{
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .alala-hero-section .col-group .col.right-col .sub-title{
+    color: #f2cfbf;
+    margin: 0px 0px 7px;
+    font-size: 100px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    line-height: 1.35;
+    font-family: "Domaine Regular",serif;
+  }
+  .alala-hero-section .col-group .section-logo{
+    margin-bottom:32px;
+    display:flex;
+    align-items:flex-end;
+    justify-content:center;
+  }
+  .alala-hero-section .col-group .section-dec{
+    max-width:312px;
+    margin:0px auto;
+  }
+  .alala-hero-section .col-group .section-dec p{
+    font-size:14px;
+    line-height:1.45;
+    color:#000c48;
+    margin-bottom:0px;
+  }
+  .alala-hero-section .col-group .section-footer{
+    position: absolute;
+    bottom: 10%;
+  }
+  .alala-hero-section .col-group .home-content .arrow-sep{
+    margin-bottom:38px;
+  }
+  .alala-hero-section .col-group .section-logo-text{
+    font-family: 'Voyage';
+    font-size: 100px;
+    font-weight: bold;
+    color: #000c48;
+    line-height: 1;
+    margin: 0px 14px 0px 0px;
+    position: relative;
+    top: 16px;
+  }
+  .alala-hero-section .mobile-image{
+    display:none;
+  }
+  .alala-hero-section .col-group .section-dec.only-mobile{
+    display:none;
+  }
+  .alala_class{
+    margin-top: -2px; 
+  }
+  .privy-embed-form {
+    max-width: 400px;
+    margin: 0 auto;
+  }
+  .home-contents{
+    max-width: 1200px;
+    margin: 0 auto; 
+    padding: 0 20px;
+  }
+  @media(min-width: 769px){
+    .alala-hero-section{
+      height: calc(100vh - 90px);
+      overflow: hidden; 
+    }
+    .alala-hero-section .desktop-image{
+      height: calc(100vh - 90px);
+      overflow: hidden;
+      object-fit: cover;
+    }
+  }
+  @media(max-width: 1440px){
+    .image_cols{
+      width: 120px;
+    }
+    .image_content{
+      width: 100%;
+      padding-left: 00px;
+    }
+    .two_cols .two_col{
+      padding: 0 120px; 
+    }
+    .full_box{
+      margin-top: 90px;
+    }
+    .alala_newlatter {
+      padding: 120px 0 100px;
+    }
+  }
+  @media(max-width: 1200px){
+    .alala_newlatter {
+      padding: 136px 0 100px;
+    }
+    .alala-hero-section .col-group .section-logo .eby_logo{
+      max-height:48px;
+      width:auto;
+    }
+    .alala-hero-section .col-group .section-logo .alala_logo{
+      max-height:36px;
+      width:auto;
+    }
+    .alala-hero-section .col-group .section-logo-text{
+      font-size:80px;
+    }
+    .alala-hero-section .col-group .home-content .arrow-sep{
+      margin-bottom:18px;
+    }
+    .alala-hero-section .col-group .col.right-col .sub-title{
+      font-size:80px;
+    }
+    .alala-hero-section .col-group .section-logo{
+      margin-bottom:20px;
+    }
+  }
+  @media(max-width: 1024px){
+    .alala_class h2{
+      line-height: 1.33;
+      font-size: 24px;
+    }
+    .custom_inner_box h2 {
+      margin-bottom: 39px;
+    }
+    .custom_box{
+      padding: 85px 0; 
+    }
+    .alala_class a.btn{
+      padding: 14px 36px; 
+    }
+    .custom_inner_box {
+      max-width: 500px;
+    }
+    .two_cols .two_col {
+      flex: 0 0 100%;
+      max-width: 520px;
+      padding: 0;
+    }
+    .two_col:first-child::after{
+      display: none; 
+    }
+    .image_cols{
+      width: 128px;
+    }
+    .image_content{
+      width: 100%;
+      max-width: 100%;
+    }
+    .two_cols .two_col:first-child{
+      margin-bottom: 48px; 
+    }
+    .two_cols{
+      padding: 60px 0px; 
+      flex-direction: column;
+      justify-content: center;
+    }
+    .full_box {
+      margin-top: 48px;
+    }
+    .alala_newlatter {
+      padding: 85px 0 96px;
+    }
+    section.foot_section .rowFlex.rowFlexMargin>.col-md-8+.col-md-4{
+      border-top-color: #fff; 
+    }
+    .alala-hero-section .col-group .col .home-content .arrow-sep{
+      height: 30px;
+      background-position: bottom center;
+    }
+    .full_widths {
+      padding-top: 60px;
+    }
+  }
+  @media(max-width: 860px){
+    .alala-hero-section .col-group .section-logo .alala_logo{
+      max-height:26px;
+    }
+    .alala-hero-section .col-group .section-logo .eby_logo{
+      max-height:36px;
+    }
+    .alala-hero-section .col-group .section-logo{
+      margin-bottom:10px;
+    }
+    .alala-hero-section .col-group .section-footer{
+      bottom:5%;
+    }
+    .alala-hero-section .col-group .section-dec{
+      max-width:283px;
+    }
+  }
+  @media(max-width: 768px){
+    .image_cols{
+      width: 96px;
+    }
+    .image_content{
+      width: 100%;
+      padding-left: 0px;
+    }
+    .two_cols .two_col:first-child{
+      margin-bottom: 32px; 
+    }
+    .full_box {
+      margin-top: 35px;
+    }
+    .two_cols .two_col {
+      max-width: 400px;
+      padding: 0;
+    }
+    .alala-hero-section .col-group .col{
+      max-width:100%;
+    }
+    .alala-hero-section .mobile-image{
+      display:block;
+    }
+    .alala-hero-section .desktop-image{
+      display:none;
+    }
+    .alala-hero-section .col-group .home-content .arrow-sep{
+      margin-bottom:28px;
+    }
+    .alala-hero-section .col-group .section-footer{
+      bottom:44px;
+    }
+    .alala-hero-section .col-group .col.right-col .col-content{
+      padding: 20px 0; 
+    }
+    .alala-hero-section .col-group .section-logo-text{
+      font-size:60px;
+    }
+  }
+
+  @media(max-width: 700px){
+    body .menu_section ul{
+      border-bottom-color: #fff;
+    }
+    .alala-hero-section .col-group .section-dec.only-dektop{
+      display:none;
+    }
+    .alala-hero-section .col-group .section-dec.only-mobile{
+      display:block;
+    }
+    .alala-hero-section .col-group .col .col-wrap{
+      flex-wrap:wrap;
+    }
+    .alala-hero-section .col-group .col .home-content .arrow-sep{
+      margin-top:25px;
+    }
+    .alala-hero-section .col-group .col.right-col .col-content{
+      flex-wrap: wrap;
+      position: relative;
+    }
+    .alala-hero-section .col-group{
+      background-color:#fff;
+    }
+    .alala-hero-section .col-group .section-footer{
+      position: relative;
+      bottom: unset;
+      width: 100%;
+    }
+    .alala-hero-section .col-group .col.right-col .sub-title{
+      font-size:60px;
+      line-height:1.25;
+    }
+  }
+  @media(max-width: 600px){
+    .image_cols{
+      width: 168px;
+      max-width: 168px;
+      margin: 0 auto 49px;
+    }
+    .image_content{
+      width: 100%;
+      padding-left: 0px;
+      max-width: 272px;
+    }
+    .two_cols .two_col{
+      flex-direction: column;
+      justify-content: center;
+    }
+    .hide_mobile.full_box{
+      display: none; 
+    }
+    .content_full_box{
+      display: block;
+    }
+    .two_cols .two_col:first-child {
+      margin-bottom: 88px;
+    }
+    .custom_inner_box {
+      padding: 0 30px;
+    }
+    .section_gallery .section_gallery_cols {
+      max-width: 50%;
+      flex: 0 0 50%;
+    }
+    .alala-hero-section .col-group .section-logo .alala_logo{
+      max-height:28px;
+    }
+    .alala-hero-section .col-group .section-logo .eby_logo{
+      max-height:37px;
+    }
+    .alala-hero-section .col-group .section-logo-text{
+      margin:0px 10px 0px 0px;
+    }
+    .alala-hero-section .col-group .section-footer{
+      padding-top: 20%;
+      padding-bottom: 88px;
+    }
+    .alala-hero-section .col-group .section-dec p{
+      font-size:12px;
+      line-height:1.7;
+    }
+    .alala-hero-section .col-group .section-dec{
+      max-width:265px;
+    }
+    .alala-hero-section .col-group .section-logo{
+      margin-bottom:0px;
+    }
+  }
+  @media(max-width: 360px){
+    .alala-hero-section .col-group .section-logo .eby_logo{
+      max-height:30px;
+    }
+    .alala-hero-section .col-group .section-logo .alala_logo{
+      max-height:24px;
+    }
+  }
+</style>

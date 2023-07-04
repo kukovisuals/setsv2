@@ -1,0 +1,156 @@
+<style>
+  #shopify-section-vela-template-collection-list-products .velaBoxCollectionTop {
+    clear: both;
+    padding: 6rem 0 0;
+  }
+  #shopify-section-vela-template-collection-list-products .headerCollection {
+    border: none;
+    font-size: 36px;
+    line-height: 40px;
+    font-weight: 400;
+    color: #00435f;
+  }
+  #shopify-section-vela-template-collection-list-products .velaCollections {
+    margin-bottom: 50px;
+  }
+  #shopify-section-vela-template-collection-list-products .velaCollections .swatches .swatch-view-item {
+    padding-right: 0;
+    margin-top: 0;
+  }
+  @media (min-width: 1170px) {
+    body.template-collection .velaCollections {
+      padding: 0 60px;
+    }
+  }
+  @media (max-width: 767px) {
+    #shopify-section-vela-template-collection-list-products .velaCollections .swatches .swatch-view-item .star-set-image {
+      width: 16px !important;
+      height: 16px !important;
+    }
+    .template-collection .proList .velaOwlRow.owlCarouselPlay > .item .swatch-selected.star-image-border-3-head {
+      border: 4px solid rgba(0, 0, 0, 0.5) !important;
+    }
+    .template-collection .proList .velaOwlRow.owlCarouselPlay > .item .star-image-border-3-head {
+      border: 4px solid rgba(0, 0, 0, 0) !important;
+    }
+  }
+  @media (max-width: 640px) {
+    #shopify-section-vela-template-collection-list-products .headerCollection {
+      font-size: 2.4rem;
+      margin-bottom: 0;
+      line-height: inherit;
+    }
+    .template-collection .mainContent #pageContent .velaCollections {
+      padding-top: 3rem;
+    }
+  }
+</style>
+{%- assign pageItems = section.settings.items_propage | plus: 0 -%}
+{% paginate collection.products by 1000 %}
+        
+  {% capture collection_title %}{{ collection.title | escape }}{% endcapture %}
+  {% capture collection_title_handle %}{{ collection_title | handleize | camelcase }}{% endcapture %}
+  {% assign words = collection_title_handle | split: '' %}
+  {% capture collection_title_handle -%}
+    {%- for word in words -%}
+      {%- if forloop.first -%}
+        {{- word | downcase -}}
+      {%- else -%}
+        {{- word -}}
+      {%- endif -%}
+    {%- endfor -%}
+  {%- endcapture %}
+  <div class="velaCollections {{ collection_title_handle }}Collection">
+    {% if collection_title == 'Sets' %}
+      <div class="bralette_slide">
+        <div class="left_area">
+          {% if section.settings.block3_title1 != blank %}<h2 class="pnk">{{ section.settings.block3_title1 }}</h2>{% endif %}
+          {% if section.settings.block3_title2 != blank %}<h2>{{ section.settings.block3_title2 }}</h2>{% endif %}
+          
+          {% if section.settings.block3_info != blank %}{{ section.settings.block3_info }}{% endif %}
+          
+          <div class="btn_area">
+            <a class="btn btn-pink" href="{{ section.settings.block3_link1 }}">{{ section.settings.block3_btn1 }}</a>
+            <a class="btn btn-trans" href="{{ section.settings.block3_link2 }}">{{ section.settings.block3_btn2 }}</a>
+          </div>
+        </div>
+        <div class="right_area">
+          {{ section.settings.block3_right_img | img_url: 'master' | img_tag }}
+          {% comment %}
+          <img src="https://cdn.shopify.com/s/files/1/0340/6525/2411/files/undi@2x.png?v=1593699999"/>
+          {% endcomment %}
+        </div>
+      </div>
+    {% endif %}
+      
+    <div class="velaBoxCollectionTop {{ collection_title_handle }}Header" id="{{ collection_title_handle | downcase }}-anchor">
+      <h1 class="headerCollection clearfix">
+        {{ collection_title }}
+        {% comment %}
+        <div class="model_in_size pull-right">
+          {% assign counter = 0 %}
+          {% for product in collection.products %}
+            {% if counter < 1 %}
+              {% for option in product.options %}
+                {%- if option == 'Size' or option == 'size' -%}
+                  {%- assign optionIndex = forloop.index0 -%}
+                  {%- assign valueList = '' -%}
+                  {%- assign value = '' -%}
+                  {%- if product.variants.size > 1 -%}
+                    <span>Model In Size</span>
+                    {% for variant in product.variants %}
+                      <span class="col_pro_var">{{ variant.title }}</span>
+                    {% endfor %}
+                  {%- endif -%}
+                {%- endif -%}
+              {% endfor %}
+              {% assign counter = counter | plus: 1 %}
+            {% endif %}
+          {% endfor %}
+        </div>
+        {% endcomment %}
+      </h1>
+    </div>
+
+    <div class="proList eby{{ collection_title | handleize | camelcase }}List">
+      <div class="velaOwlRow owlCarouselPlay ebyProdTileListWrapper">
+        {% for product in collection.products %}
+          <div class="item ebyProdTile {% if product.metafields.ebyacf.product_is_new_release %}newRelease{% endif %}">
+            {% include 'product-grid-item' %}
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+      
+  </div>
+  {%- if paginate.pages > 1 -%}
+    {% include 'vela-pagination' %}
+  {%- endif -%}
+{% endpaginate %}
+
+{% schema %}
+  {
+    "name": "Vela List Collections",
+    "settings": [
+      {
+        "type": "header",
+        "content": "List Products with Collection"
+      },
+      {
+        "type": "checkbox",
+        "id": "collection_image",
+        "label": "Show collection image",
+        "default": true
+      },
+      {
+        "type": "range",
+        "id": "items_propage",
+        "min": 3,
+        "max": 50,
+        "step": 1,
+        "label": "Number items on a page",
+        "default": 3
+      }
+    ]
+  }
+{% endschema %}

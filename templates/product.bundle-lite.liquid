@@ -1,0 +1,22 @@
+{% comment %}This is only for template product.bundle-2.liquid{% endcomment %}
+
+{% assign current_variant = product.selected_or_first_available_variant %}
+{% comment %}{% include 'breadcrumb' %}
+{% endcomment %}
+{% if product.type == 'Core Underwear' %}
+<section id="pageContent" class="ebyPantyPdp lite-v{% if product.type contains "Premium" %} premPdp{% endif %}">
+{% elsif product.type == 'Bralette Panty Set' %}
+<section id="pageContent" class="ebyBraPantySetPdp lite-v">
+{% elsif product.type == 'Premium Bra & Panty Set' %}
+<section id="pageContent" class="ebyPantyPdp premiumProdLite lite-v">
+{% elsif product.type == 'Panty Pack' %}
+<section id="pageContent"  class="ebyPantyPackPdp lite-v">
+{% elsif product.type == 'Core Bralette' or product.type == 'Cotton Bralette' or product.type == 'Premium Bralette' %}
+<section id="pageContent" class="ebyBralettePdp lite-v{% if product.type contains "Premium" %} premPdp{% endif %}">
+{% elsif product.type == 'Tank' %}
+<section id="pageContent" class="ebyTankPdp lite-v">
+{% elsif product.type == 'Shapewear' %}
+<section id="pageContent" class="ebyShapewearPdp lite-v">
+{% endif %}
+  {% section 'vela-template-product-bundle-lite' %}
+</section>

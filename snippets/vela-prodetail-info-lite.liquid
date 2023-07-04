@@ -1,0 +1,1726 @@
+<style>
+  .ebySeasonSetPdp p.ebyBraletteGuide.nonPantyGuide,
+  .ebyBundlePdp p.ebyBraletteGuide.nonPantyGuide {
+      display: block !important;
+  }
+  .pdp .proBoxInfo .proPrice span#ComparePrice,
+  .pdp .priceProduct.priceCompare{
+      display: none !important;
+  }
+  .set23-items{
+    width: 26%;
+  }
+  .set23-container{
+    margin-bottom: 13px;
+  }
+  .set23-grid-flex{
+    display: flex;
+    flex-direction: column;
+  }
+  .set23-flex-item{
+    display: flex;
+    justify-content: space-between;
+    margin-top: 22px;
+  }
+  .scnd-pos{
+    width: 67%;
+  }
+  .set-selected-variants{
+    width: 100%;
+    height: 41px;
+    border-radius: 4px;
+    color:var(--eby-main-dark-color);
+    background-color: var(--eby-light-gray);
+    border-color: var(--eby-light-gray);
+    padding-left: 11px;
+    font-size: var(--rebuy-widget-font-size);
+  }
+  .button-total-wrpper{
+    position: relative;
+  }
+  .temporary-total{
+    position: absolute;
+    color: #FFF;
+    top: 11px;
+    left: 68%;
+  }
+  .temporary-total.active{
+    display: block;
+    pointer-events: none;
+  }
+  .temporary-total{
+    display: none;
+  }
+  #currn-pdp-sze, 
+  #newAdder-total{
+    display: none;
+  }
+  .rebuy-product-title-container {
+    height: 70px;
+  }
+  .rebuy-product-title-container span {
+    display: block;
+  }
+</style>
+{% assign isOnDealSale = false %}
+{% assign isLiquidation = false %}
+{% assign isOnHolidaySale = false %}
+{% assign isAdjBra = false %}
+{% assign isBundleBra = false %}
+{% assign isSet = false %}
+{% assign isBundleBraExtra = '' %}
+    {% for prodTag in product.tags %}
+    {% if prodTag contains "julyfourthsale2023" %}
+    {% assign isOnHolidaySale = true %}
+    {% endif %}
+    {% if prodTag contains "braletteType-support_seamless" %}
+    {% assign isAdjBra = true %}
+    {% endif %}
+    {% if prodTag contains "lightningDeal-" %}
+      {%- assign prodDealPrice = prodTag | replace: "lightningDeal-", "" -%}
+      {% assign isLiquidation = true %}
+    {% endif %}
+    {% if prodTag contains "capsuleDeal-" %}
+      {%- assign prodDealPrice = prodTag | replace: "capsuleDeal-", "" -%}
+      {% assign isLiquidation = true %}
+    {% endif %}
+    {% endfor %}
+
+	{% if isOnHolidaySale %}
+    {% assign premSkuCodes = ""%}
+    {% assign holidayDiscounts = "20%,20%,20%,20%,20%,20%,20%,30%,30%,30%,20%,30%,30%" | split: ',' %}
+    {% assign holidayCodes = "BK,NU,FR,CW,RD,SK,PL,GD,TR,P5,RO,SY,MI" | split: "," %}
+    {% assign currSkuCode = product.selected_or_first_available_variant.sku | slice: 7, 2 %}
+    {% assign holidayCottonDiscounts = "50%,60%,50%,60%" | split: ',' %}
+    {% assign holidayCottonCodes = "BO,LG,BK,FR" | split: "," %}
+
+    {% if product.type contains "Silk" %}
+        {% assign currSaleDiscount = "40%" %}
+    {% elsif product.type == "Bodysuit" %}
+        {% assign currSaleDiscount = "40%" %}
+    {% elsif product.type == "Tank" %}
+        {% for prodTag in product.tags %}
+        {% if prodTag contains "julyfourthsale2023" %}
+            {% if currSkuCode == "BO" %}
+              {% assign currSaleDiscount = "40%" %}
+            {% else %}
+              {% assign currSaleDiscount = "25%" %}
+            {% endif %}
+        {% endif %}
+        {% endfor %}
+    {% elsif product.type == "Cotton Bralette" or product.type == "Cotton Underwear" %}
+        {% if holidayCottonCodes contains currSkuCode %}
+          {% for skuCode in holidayCottonCodes %}
+            {% if currSkuCode == skuCode %}
+              {% assign skuCodeIndex = forloop.index0 %}
+              {% break %}
+            {% endif %}
+          {% endfor %}
+        {% endif %}
+      
+        {% assign currSaleDiscount = holidayCottonDiscounts[skuCodeIndex] %}
+    {% else %}
+        {% if holidayCodes contains currSkuCode %}
+          {% for skuCode in holidayCodes %}
+            {% if currSkuCode == skuCode %}
+              {% assign skuCodeIndex = forloop.index0 %}
+              {% break %}
+            {% endif %}
+          {% endfor %}
+        {% endif %}
+      
+        {% assign currSaleDiscount = holidayDiscounts[skuCodeIndex] %}
+    {% endif %}
+
+    {% comment %}
+    {% assign currSaleDiscount = "40%" %}
+    {% endcomment %}
+    {% if currSaleDiscount == blank and product.type == "Core Bralette" %}
+        {% if product.title contains "Skyway" %}
+          {% assign currSaleDiscount = "30%" %}
+        {% endif %}
+    {% endif %}
+
+{% else %}
+    {% assign currSaleDiscount = "n_a" %}
+{% endif %}
+
+{% if product.type == "Core Underwear" or product.type == "Cotton Underwear" or product.type == 'Premium Underwear' %}
+
+    {% for prodTag in product.tags %}
+        {% if prodTag contains "pantyType-" %}
+            {%- assign prodNameTitle = prodTag | replace: "pantyType-", "" -%}
+        {% endif %}
+        {% if prodTag contains "pantyColor-" %}
+            {%- assign prodColorTitle = prodTag | replace: "pantyColor-", "" -%}
+        {% endif %}
+    {% endfor %}
+
+{% elsif product.type == 'Mesh Underwear'  %}
+    {% for prodTag in product.tags %}
+        {% if prodTag contains "pantyType-" %}
+            {%- assign prodNameTitle = prodTag | replace: "pantyType-", "" -%}
+        {% endif %}
+        {% if prodTag contains "pantyColor-" %}
+            {%- assign prodColorTitle = prodTag | replace: "pantyColor-", "" -%}
+        {% endif %}
+    {% endfor %}
+
+{% elsif product.type contains 'Silk '  %}
+    {% for prodTag in product.tags %}
+        {% if prodTag contains "Type-" %}
+            {% if prodTag contains "dress" %}
+                {%- assign prodNameTitle = prodTag | replace: "dressType-", "" | append: " dress" -%}
+            {% else %}
+                {%- assign prodNameTitle = prodTag | split: "Type-" -%}
+                {%- assign prodNameTitle = prodNameTitle | first -%}
+            {% endif %}
+        {% endif %}
+        {% if prodTag contains "Color-" %}
+            {%- assign prodColorTitle = prodTag | split: "Color-" -%}
+            {%- assign prodColorTitle = prodColorTitle | last -%}
+        {% endif %}
+    {% endfor %}
+
+{% elsif product.type == "Core Bra" %}
+	{%- assign prodNameTitle = "only bra" -%}
+
+    {% for prodTag in product.tags %}
+        {% if prodTag contains "braletteColor-" %}
+            {%- assign prodColorTitle = prodTag | replace: "braletteColor-", "" -%}
+        {% endif %}
+    {% endfor %}
+
+{% elsif product.type == "Core Bralette" or product.type == "Cotton Bralette" or product.type == 'Premium Bralette' or product.type == 'Mesh Bralette'  %}
+	{%- assign prodNameTitle = "bralette" -%}
+
+    {% for prodTag in product.tags %}
+        {% if prodTag contains "braletteColor-" %}
+            {%- assign prodColorTitle = prodTag | replace: "braletteColor-", "" -%}
+        {% endif %}
+    {% endfor %}
+
+{% elsif product.type == "Mask" %}
+	{%- assign prodNameTitle = "mask" -%}
+
+    {% for prodTag in product.tags %}
+        {% if prodTag contains "maskColor-" %}
+            {%- assign prodColorTitle = prodTag | replace: "maskColor-", "" -%}
+        {% endif %}
+    {% endfor %}
+
+{% elsif product.type == "Wrap Top" %}
+	{%- assign prodNameTitle = "wrap top" -%}
+
+    {% for prodTag in product.tags %}
+        {% if prodTag contains "wrapColor-" %}
+            {%- assign prodColorTitle = prodTag | replace: "wrapColor-", "" -%}
+        {% endif %}
+    {% endfor %}
+
+{% elsif product.type == "Bodysuit" %}
+	{%- assign prodNameTitle = "bra bodysuit" -%}
+
+    {% for prodTag in product.tags %}
+        {% if prodTag contains "bodysuitColor-" %}
+            {%- assign prodColorTitle = prodTag | replace: "bodysuitColor-", "" -%}
+        {% endif %}
+    {% endfor %}
+
+{% elsif product.type == "Gift Cards" %}
+	{%- assign prodNameTitle = "gift card" -%}
+
+    {% for prodTag in product.tags %}
+        {% if prodTag contains "cardColor-" %}
+            {%- assign prodColorTitle = "sitewide" -%}
+        {% endif %}
+    {% endfor %}
+
+{% elsif product.type contains "Panty Pack" or product.type contains "Prebuilt" %}
+	{%- assign prodNameTitle = "3 Panty Pack" -%}
+
+    {% for prodTag in product.tags %}
+        {% if prodTag contains "packColor-" %}
+            {%- assign prodColorTitle = prodTag | replace: "packColor-", "" -%}
+        {% endif %}
+    {% endfor %}
+
+
+{% elsif product.type == "Mask Pack" %}
+	{%- assign prodNameTitle = "3 mask pack" -%}
+
+    {% for prodTag in product.tags %}
+        {% if prodTag contains "packColor-" %}
+            {%- assign prodColorTitle = prodTag | replace: "packColor-", "" -%}
+        {% endif %}
+    {% endfor %}
+
+{% elsif product.type == "Bra & Panty Set" or product.type == "Premium Bra & Panty Set" %}
+	{%- assign prodNameTitle = "Set" -%}
+
+    {% for prodTag in product.tags %}
+        {% if prodTag contains "setColor-" %}
+            {%- assign prodColorTitle = prodTag | replace: "setColor-", "" -%}
+        {% endif %}
+    {% endfor %}
+
+{% elsif product.type == "Emissary Tank" or product.type == "XBusiness Tee" or product.type == "Crop Top" %}
+	{%- assign prodNameTitle = product.title -%}
+<!-- fc 041123---->
+{% elsif product.type == "Bra Pack" %}
+  {% assign isBundleBra = true %}
+  {% assign isBundleBraExtra = product.compare_at_price | money_without_trailing_zeros %}
+  {%- assign prodNameTitle = "Bralette Bundle" -%}
+<!-- fc 060123---->
+{% elsif product.type == "Season Set" %}
+  {% assign isBundleBra = true %}
+  {% assign isSet = true %}
+  {%- assign prodNameTitle =  product.title -%}
+  {% assign isBundleBraExtra = product.compare_at_price | money_without_trailing_zeros %}
+{% endif %}
+{% if product.type == "Gift Cards" %}
+	<div class="subtitle"><h1 itemprop="name">The EBY digital gift card</h1></div>
+{% else %}
+    {% if product.type contains "Cotton" %}
+        <div class="subtitle"><h3>EBY invisible cotton {{ prodNameTitle | replace: "_", " " }} in <span id="pdp-color-text">{{ prodColorTitle | replace: "_", " " }}</span></h3></div>
+    {% elsif product.type contains "Silk" %}
+        <div class="subtitle"><h3>Washable eco silk {{ prodNameTitle | replace: "_", " " }} in <span id="pdp-color-text">{{ prodColorTitle | replace: "_", " " }}</span></h3></div>
+    {% elsif product.type contains "Mesh" %}
+        <div class="subtitle"><h1 itemprop="name">EBY seamless sheer {{ prodNameTitle | replace: "_", " " }} in {{ prodColorTitle | replace: "_", " " }}</h1></div>
+    {% elsif product.type contains "Only Bra" %}
+        <div class="subtitle"><h1 itemprop="name">EBY seamless only bra in {{ prodColorTitle | replace: "_", " " }}</h1></div>
+    {% else %}
+        {% if product.type contains "Surprise Panty Pack" %}
+            <div class="subtitle"><h3>EBY seamless panty 3 pack</h3></div>
+        {% elsif product.type contains "Bra Pack" %}
+          <div class="subtitle"><h3>EBY Seamless {{ product.title }}</h3></div>
+        {% else %}
+            <div class="subtitle"><h3>EBY seamless {{ prodNameTitle | replace: "_", " " }} in <span id="pdp-color-text">{{ prodColorTitle | replace: "_", " " }}</span></h3></div>
+        {% endif %}
+    {% endif %}
+{% endif %}
+
+{%- assign sizesToPutOnNoticeForShip = product.metafields.ebyacf.variant_shipping_delay_notice -%}
+<input id="sizesToPutOnNotice" type="hidden" value="{{ sizesToPutOnNoticeForShip }}" />
+
+<div class="style-changer-block-desktop">
+  	{% if product.type contains "Panty Pack" %}
+    	<h4 class="product-name-desktop">{% if product.type contains "Cotton" %}Cotton {% endif %}{{ product.title  | replace: "_", " " | capitalize }}</h4>
+  	{% else %}
+    	<h4 class="product-name-desktop">{% if product.type contains "Cotton" %}Cotton {% endif %}{{ prodNameTitle  | replace: "_", " " | capitalize }}</h4>
+    {% endif %}
+</div>
+
+{% assign totalReviews = product.metafields.stamped.reviews_count | plus: 0 %}
+
+<div style="display:none;" itemprop="aggregateRating" itemscope itemtype="https://schema.org/AggregateRating">
+  Rated <span itemprop="ratingValue">{{ product.metafields.stamped.reviews_average | round:2 }}</span>/5 based on <span itemprop="reviewCount">{{product.metafields.stamped.reviews_count}}</span> customer reviews
+</div>
+
+<div class="hidden recentReview" itemprop="review" itemscope itemtype="https://schema.org/Review">
+  <div id="stamped-reviews-widget" data-widget-type="single" data-product-ids="{{ product.id }}"></div>
+
+  <div style="display:none;" itemscope itemprop="author" itemtype="http://schema.org/Person">
+    <span itemprop="name">EBY Customer</span>
+  </div>
+  <meta itemprop="name" content="EBY seamless {{ prodNameTitle | replace: "_", " " }} in {{ prodColorTitle | replace: "_", " " }}">
+</div>
+
+{% comment %}
+<script>
+  console.log("Product", {{ product | json }})
+</script>
+{% endcomment %}
+
+<div style="display: none;" data-product-id="{{ product.id }}" data-price="{{ product.price | money_without_currency }}" data-type="{{ product.type }}" data-title="{{ product.title }}" data-vendor="{{ product.vendor }}" data-cart-value="{{ cart.total_price | money_without_currency }}" id="productDataStore"></div>
+
+
+<div itemprop="offers" itemscope itemtype="http://schema.org/Offer" class="{% if isAdjBra %}adjBraTemp{% elsif isBundleBra%}isBundleBras{% endif %}">
+  <meta itemprop="priceCurrency" content="{{ shop.currency }}">
+  {%- if product.metafields.ebyacf.new_sale_release and product.metafields.ebyacf.new_sale_release_price -%}
+      <meta itemprop="price" content="{{ product.metafields.ebyacf.new_sale_release_price }}">
+      <meta itemprop="priceValidUntil" content="{{ product.metafields.ebyacf.new_sale_price_exp_date }}">
+  {%- else -%}
+  	  <meta itemprop="price" content="{{ product.price | money | replace: "$", "" }}">
+  	  <meta itemprop="priceValidUntil" content="{{'now' | date: "%s" | plus : 31556926 | date: "%Y-%m-%d" | url_encode | replace:"+","%20"}}">
+  {%- endif -%}
+  <meta itemprop="url" content="{{ shop.url }}{{ product.url }}">
+  <link itemprop="availability" href="http://schema.org/{% if product.available %}InStock{% else %}OutOfStock{% endif %}">
+  
+  
+  <div class="proPrice flexRow flexAlignCenter{% if customer.tags contains 'Active Subscriber' %} vipHighlight{%endif%}{% if product.metafields.ebyacf.new_sale_release and product.metafields.ebyacf.new_sale_release_price%} salePriceOverride{% endif %}">
+
+    {% if isLiquidation %}
+    <div class="proPrice flexRow flexAlignCenter">
+      <div id="eby-price-observer-desk" class="priceProduct holidayPriceWrapper strikethrough bfx-price">{{ product.price | money_without_trailing_zeros  }}</div>
+      <div id="eby-dealSale-23" class="priceProduct holidayPriceWrapper standard bfx-price">{{ prodDealPrice | money_without_trailing_zeros  }}</div>
+    </div>
+    {% endif %}
+    {% if isOnHolidaySale and isLiquidation == false %}
+      {% if product.type contains "Cotton" %}
+        
+      {% else %}
+      	{% assign perOff = currSaleDiscount | replace: "%", "" %}
+      {% endif %}
+      {% if customer.tags contains 'Active Subscriber' %}
+          {% assign subscriberPrice = product.metafields.ebyacf.vip_product_price  | replace: '( $', '' | replace: ' )', '' | replace: ' members', '' %}                          
+          {% assign subscriberDiscount = product.price | money_without_currency | minus: subscriberPrice  %}
+          {% assign holidayMoneyOff = subscriberPrice | times: perOff | round %}
+          {% assign moneyOff = holidayMoneyOff | money_without_currency | plus: subscriberDiscount %}
+      {% else %}
+          {% assign moneyOff = product.price | divided_by: 100 | round: 2 | times: perOff | round | money_without_currency %}
+      {% endif %}
+      {% assign finalSalePriceCheck = product.price | divided_by: 100 | round: 2 | minus: moneyOff | round: 2 | times: 100 | round %}
+      <div  id="eby-price-observer-desk" class="priceProduct holidayPriceWrapper strikethrough bfx-price">{{ product.price | money_without_trailing_zeros}}</div>
+      <div id="eby-dealSale-23" class="priceProduct holidayPriceWrapper standard bfx-price" data-price="{{finalSalePriceCheck}}">{{ product.price | divided_by: 100 | round: 2 | minus: moneyOff | round: 2 | times: 100 | round | money_without_trailing_zeros }}</div>
+      {% if isOnHolidaySale and finalSalePriceCheck <= 1000 %}
+      	<span class="salePriceExcerptCopy desktop_only">This item is final sale.</span>
+      {% endif %}
+    {% endif %}
+    {% if isOnDealSale and isOnHolidaySale == false %}
+        <div id="eby-price-observer-desk" class="priceProduct holidayPriceWrapper strikethrough bfx-price">{{ product.price | money_without_trailing_zeros}}</div>
+        <div id="eby-dealSale-23" class="priceProduct holidayPriceWrapper standard bfx-price">{{ dealSalePrice | money_without_trailing_zeros }}</div>
+    {% endif %}
+    {% if isLiquidation %}
+    <span class="salePriceExcerptCopy desktop_only">This item is final sale</span>
+    {% endif %}
+    {% comment %}
+    {% unless customer.tags contains 'Active Subscriber' %}
+    {% if product.metafields.ebyacf.evergreen_price_test %}
+        {% if product.title contains "High Waisted" or product.title contains "Highwaisted"  %}
+        <div class="priceProduct strikethrough bfx-old-price bfx-price">$20</div>
+        {% else %}
+        <div class="priceProduct strikethrough bfx-old-price bfx-price">$19</div>
+        {% endif  %}
+    {% endif %}
+    {% endunless %}
+    {% endcomment %}
+    
+    {% if customer.tags contains 'Active Subscriber' %}
+    {% else %}
+    	{% if shop.metafields.ebyacf.enable_holiday_mode-vip_pg or shop.metafields.ebyacf.enable_holiday_mode-coll_pg %}
+    		<div id="eby-price-observer-desk" class="priceProduct holidaySale {% if on_sale %}priceSale bfx-sale-price{% endif %} bfx-price">{{ product.price | money_without_trailing_zeros }}</div>
+    	{% else %}
+        <span class="isBundleBraExtra23">{{ isBundleBraExtra }}</span>
+        <div id="eby-price-observer-desk" class="priceProduct standardPrice default {% if on_sale %}priceSale bfx-sale-price{% endif %}{% if product.metafields.ebyacf.evergreen_price_test %} standard{%endif%} bfx-price{% if isOnHolidaySale %} hidden{% endif %}">
+          <span class="nrml-price23 {%if isLiquidation %}hidden{% endif %}">{{ product.price | money_without_trailing_zeros }}</span>
+        </div>
+    	{% endif %}
+    {% endif %}
+
+    {% if customer.tags contains 'Active Subscriber' %}
+      {% if product.type == "Mask" %}
+        {% render 'price-metafields-liquidation', all_products: product, all_customer: customer, all_shop: shop, on_sale_var: on_sale, pdp_type: 'NORMAL', class_num1: '' %}
+        {% render 'liquidation-only-price', all_products: product, all_shop: shop, isLiquidation_var: isLiquidation, holidayPrice_var: holidayPrice, isOnHolidaySale_var: isOnHolidaySale, isOnDealSale_var: isOnDealSale, class_num1: 'bfx-sale-price bfx-price' %}
+
+      {% elsif product.type == "Core Bra" or product.type == "Core Bralette" or product.type == "Mesh Bralette" %}
+        {% render 'price-metafields-liquidation', all_products: product, all_customer: customer, all_shop: shop, on_sale_var: on_sale, pdp_type: 'NORMAL', class_num1: '' %}
+        {% render 'liquidation-only-price', all_products: product, all_shop: shop, isLiquidation_var: isLiquidation, holidayPrice_var: holidayPrice, isOnHolidaySale_var: isOnHolidaySale, isOnDealSale_var: isOnDealSale, class_num1: 'bfx-price' %}
+
+      {% elsif product.type == "Core Underwear" and product.tags contains "Featured Style" %}
+        {% render 'price-metafields-liquidation', all_products: product, all_customer: customer, all_shop: shop, on_sale_var: on_sale, pdp_type: 'NORMAL', class_num1: '' %}
+        {% render 'liquidation-only-price', all_products: product, all_shop: shop, isLiquidation_var: isLiquidation, holidayPrice_var: holidayPrice, isOnHolidaySale_var: isOnHolidaySale, isOnDealSale_var: isOnDealSale, class_num1: 'bfx-sale-price bfx-price' %}
+
+      {% elsif product.type == "Core Underwear" or product.type == "Mesh Underwear" or product.type == "Premium Underwear" %}
+        {% render 'price-metafields-liquidation', all_products: product, all_customer: customer, all_shop: shop, on_sale_var: on_sale, pdp_type: 'PREMIUM_UNDIES', class_num1: '' %}
+        {% render 'liquidation-only-price', all_products: product, all_shop: shop, isLiquidation_var: isLiquidation, holidayPrice_var: holidayPrice, isOnHolidaySale_var: isOnHolidaySale, isOnDealSale_var: isOnDealSale, class_num1: 'bfx-sale-price bfx-price' %}
+
+      {% elsif product.type contains "Panty Pack" or product.type contains "Prebuilt" %}
+        {% render 'price-metafields-liquidation', all_products: product, all_customer: customer, all_shop: shop, on_sale_var: on_sale, pdp_type: 'NORMAL', class_num1: 'standardPrice' %}
+        <div class="ebyProdTile-vipPriceWrapper"></div>
+
+      {% else %}
+        {% render 'price-metafields-liquidation', all_products: product, all_customer: customer, all_shop: shop, on_sale_var: on_sale, pdp_type: 'REST', class_num1: 'standardPrice', bundle_value: isBundleBraExtra %}
+        {% render 'liquidation-only-price', all_products: product, all_shop: shop, isLiquidation_var: isLiquidation, holidayPrice_var: holidayPrice, isOnHolidaySale_var: isOnHolidaySale, isOnDealSale_var: isOnDealSale, class_num1: 'bfx-sale-price bfx-price' %}
+      {% endif %}
+
+    {% else %}
+      {% render 'liquidation-only-price', all_products: product, all_shop: shop, isLiquidation_var: isLiquidation, holidayPrice_var: holidayPrice, isOnHolidaySale_var: isOnHolidaySale, isOnDealSale_var: isOnDealSale, class_num1: 'bfx-sale-price bfx-price' %}
+    {% else %}
+      <p id="ProductPrice" class="priceProduct {% if product.compare_at_price > product.price %}priceSale bfx-sale-price{% endif %} bfx-price">
+        {{ current_variant.price | money_without_trailing_zeros }}
+      </p>
+    {% endif %}
+    
+    {%- if product.compare_at_price > product.price -%}
+      <span id="ComparePrice" class="priceProduct priceCompare bfx-price">
+        {{ current_variant.compare_at_price | money_without_trailing_zeros }}
+      </span>
+    {%- endif -%}
+  </div>
+  {% if product.type contains "Surprise Panty Pack" %}
+  	<span class="salePriceExcerptCopy">This item is final sale.</span>
+  {% endif %}
+  <div class="proReviews"> 
+
+    <!-- Stamped - Begin Star Rating Badge -->
+    <span 
+    class="stamped-product-reviews-badge stamped-main-badge" 
+    data-id="{{ product.id }}" 
+    data-product-sku="{{ product.selected_or_first_available_variant.sku }}" 
+    data-product-title="{{product.title}}" 
+    data-product-type="{{product.type}}" 
+    style="display: block;">
+    </span>
+    <!-- Stamped - End Star Rating Badge -->
+ 
+    {% comment %}<span class="shopify-product-reviews-badge" data-id="{{ product.id }}"></span>{% endcomment %}
+  </div>
+
+  {% if prodNameTitle == "bralette" or prodNameTitle == "only bra" %}
+    <div class="bralette_size_converter size_converter_wrapper">
+      <div class="sizeChart_toolbar" style="margin:0;">
+          <div class="sizeLabel">Size <span id="current_bra_size_selected" class="e_size_opt_val_label"></span></div>
+        
+          <div class="eby-size-guide-2022" style="display:inline-block;">
+            <a class="siz_guid size_guid_pdp" href="#">Size Guide</a>
+          </div>
+      </div>
+      <div class="converter_elem_wrapper">
+        <div class="input-field ebyForm_input_row two_for_one" data-eddcount="0">
+          <select id="band_size_dd-0" class="band_size_dd size_dd ebyForm_select" data-eddtype="band_size" data-eddkey="0">
+            <option value="" disabled selected>Band Size</option>
+            <option value="32" disabled>32</option>
+            <option value="34" disabled>34</option>
+            <option value="36" disabled>36</option>
+            <option value="38" disabled>38</option>
+            <option value="40" disabled>40</option>
+          </select>
+
+          <select id="cup_size_dd-0" class="cup_size_dd size_dd ebyForm_select" data-eddtype="cup_size" data-eddkey="0">
+            <option value="" disabled selected>Cup Size</option>
+            <option value="A" disabled>A</option>
+            <option value="B" disabled>B</option>
+            <option value="C" disabled>C</option>
+            <option value="D" disabled>D</option>
+            <option value="DD" disabled>DD</option>
+            <option value="DDD" disabled>DDD</option>
+            <option value="E" disabled>E</option>
+          </select>
+        </div>
+      </div>
+    </div>
+  
+  {%- endif -%}
+  
+  {% form 'product', product, id: "oldID", class: "formAddToCart" %}
+
+      {% comment %}{% include 'product-subscription-options', product_target: product %}{% endcomment %}
+
+      {% if prodNameTitle == "bralette" or prodNameTitle == "only bra" %}<input type="hidden" value="" id="ef_select_input-bra_size-0" name="properties[bra_measurements]" class="hidden" />{% endif %}
+      <div class="eby-scw swatches swatches-type-products">
+        {% assign coreColors = settings.core_colors %}
+        {% assign corePrints = settings.core_prints %}
+        {%comment%}Determine swatches to display - start by getting this current one{%endcomment%}
+        {%- assign colorsAvail = "" -%}
+        {%- assign printsAvail = "" -%}
+        {%- assign isAColor = false -%}
+        {%- assign isAPrint = false -%}
+        {% assign thisProdSwatch = prodColorTitle | replace: "_", " " %}
+        {% if coreColors contains thisProdSwatch %}
+        	{%- assign colorsAvail = colorsAvail | append: "," | append: thisProdSwatch -%}
+          {%- assign isAColor = true -%}
+        {% elsif corePrints contains thisProdSwatch %}
+        	{%- assign printsAvail = printsAvail | append: "," | append: thisProdSwatch -%}
+          {%- assign isAPrint = true -%}
+        {% endif %}
+        <script type="text/javascript" defer>
+          window.pdpRelProducts = {};
+          {% assign colors_array = coreColors | split: "," %}
+          {% assign prints_array = corePrints | split: "," %}
+          {%- assign color_collection_handle = product.metafields.custom.color_swatch_collection_handle -%}
+          
+
+          console.log("Prints 1: {{ printsAvail }}");
+          console.log("Sizes to Notice: {{ sizesToPutOnNoticeForShip }}");
+
+          var ebyLazyLoad = function lazyLoader() {
+            var lazyEls = [].slice.call(document.querySelectorAll("[data-src]"));
+                function load(el) {
+                    var src = el.getAttribute("data-src");
+                    var srcset = el.getAttribute("data-srcset");
+                    if (src) { el.setAttribute("src", src); }
+                    if (srcset) { el.setAttribute("srcset", srcset); }
+                    el.removeAttribute("data-src");
+                    el.removeAttribute("data-srcset");
+                    el.classList.add("lazyloaded");
+                }
+                if ("IntersectionObserver" in window) {
+                    var lazyObserver = new IntersectionObserver(function(entries) {
+                    entries.forEach(function(entry) {
+                        if (entry.isIntersecting) {
+                        var el = entry.target;
+                        load(el);
+                        lazyObserver.unobserve(el);
+                        }
+                    });
+                    });
+    
+                    lazyEls.forEach(function(el) {
+                    if (el.tagName === "SCRIPT") {
+                        load(el);
+                    }
+                    else {
+                        lazyObserver.observe(el);
+                    }
+                    });
+                }
+                else {
+                    lazyEls.forEach(load);
+                }
+                /* background lazyloading by class:visible */
+                var lazyBackgrounds = [].slice.call(document.querySelectorAll(".lazy-background"));
+                if ("IntersectionObserver" in window) {
+                    var lazyBackgroundObserver = new IntersectionObserver(function(entries, observer) {
+                    entries.forEach(function(entry) {
+                        if (entry.isIntersecting) {
+                        entry.target.classList.add("visible");
+                        lazyBackgroundObserver.unobserve(entry.target);
+                        }
+                    });
+                    });
+                    lazyBackgrounds.forEach(function(lazyBackground) {
+                    lazyBackgroundObserver.observe(lazyBackground);
+                    });
+                }
+          };
+    
+          {% for print in prints_array %}
+
+            {% assign print_handle = "" %}
+
+            {% assign spaced_print = print | replace: "_", " "%}
+
+            {% for product in product.metafields.eby_prod.color_swatches.value %}
+              {% assign dashed_color = print | replace: " ", "-" | replace: "_", "-" %}
+              {% if product.handle contains dashed_color %}
+                {% assign printTitle = print | downcase %}
+                {% assign print_temp_id = product.title | downcase | replace: printTitle, "" | slice: 0 %}
+                {% if print_temp_id == " " %}
+                  {%- assign print_handle = product.handle -%}
+                  window.pdpRelProducts["{{ spaced_print }}"] = {handle: "{{ print_handle }}", data: {{product | json}}};
+                {% endif %}
+              {% endif %}
+            {% endfor %}
+            {% unless print_handle == "" %}
+              {%- assign printsAvail = printsAvail | append: "," | append: print -%}
+            {% endunless %}
+          {% endfor %}
+
+          console.log("Colors 1: {{ colorsAvail }}");
+    
+    
+          {% for color in colors_array %}
+
+            {% assign color_handle = "" %}
+
+            {% for product in product.metafields.eby_prod.color_swatches.value %}
+              {% assign dashed_color = color | replace: " ", "-" %}
+              {% if product.handle contains dashed_color %}
+                {% assign colorTitle = color | downcase %}
+                {% assign color_temp_id = product.title | downcase | replace: colorTitle, "" | slice: 0 %}
+                {% if color_temp_id == " " %}
+                  {%- assign color_handle = product.handle -%}
+                  window.pdpRelProducts["{{ color }}"] = {handle: "{{ color_handle }}", data: {{product | json}}};
+                {% endif %}
+              {% endif %}
+            {% endfor %}
+            {% unless color_handle == "" %}
+              {%- assign colorsAvail = colorsAvail | append: "," | append: color -%}
+            {% endunless %}
+          {% endfor %}
+
+          {%- assign printsAvail = printsAvail | remove_first: "," -%}
+
+          {%- assign colorsAvail = colorsAvail | remove_first: "," -%}
+
+          console.log("Prints 2: {{ printsAvail }}");
+          console.log("Colors 2: {{ colorsAvail }}");
+
+        </script>
+        {%comment%}If colors bucket is not empty, display colors. Vice versa for prints{%endcomment%}
+        {% unless colorsAvail == "" %}
+        	{% assign colorSwatchesArray = colorsAvail | split: "," %}
+            <div option-name="Color" type-group="true">
+              <div class="swatch-single swatch-view-stack">
+                <div class="radioTypeColors core coreColorSwatchesList">
+                  <label class="radioTypeColors-tab" for="colorCore">
+                    Colors<span> </span>
+                    {% if isAColor %}
+                      <span class="swatch-variant-name swatch-variant-name-color" data-init-text="{{ thisProdSwatch | capitalize }}">{{ thisProdSwatch | capitalize }}</span>
+                    {% else %}
+                      <span class="swatch-variant-name swatch-variant-name-color" data-init-text=""></span>
+                    {% endif %}
+                  </label>
+                  <div class="radioTypeColors-page core-page">
+                    <div class="page-contents">
+                      <ul class="swatch-view swatch-view-custom-image">
+                        {% for colorSwatch in colorSwatchesArray %}
+                        {% assign cs = colorSwatch | replace: " ", "_" %}
+                        {% assign cs_title = colorSwatch | capitalize %}
+                        <li data-value="{{ cs }}" data-title="{{ cs_title }}" class="swatch-element swatch-color-print swatch-element-color {{ cs }} {% if cs == prodColorTitle %}selected{%endif%}">
+                          <input class="swatchItem csItem" id="swatch_c-{{ cs }}" type="radio" name="option-{{ cs }}" value="{{ cs }}" {% if colorSwatch == prodColorTitle %}checked="checked"{%endif%} >
+                          <label for="swatch_c-{{ cs }}" class="scOpt sc-{{ cs }} {% if cs == prodColorTitle %}selected{%endif%}" >
+                            <empty></empty>
+                          </label>
+                        </li>
+                        {% endfor %}
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+        {% endunless %}
+        {% unless printsAvail == "" %}
+            {% assign printSwatchesArray = printsAvail | split: "," %}
+            <div option-name="Print" type-group="true">
+              <div class="swatch-single swatch-view-stack print_swatch">
+                <div class="radioTypePrints core corePrintSwatchesList">
+                  <label class="radioTypePrints-tab" for="colorPrint">
+                    Prints<span> </span>
+                    {% if isAPrint %}
+                      <span class="swatch-variant-name swatch-variant-name-print" data-init-text="{{ thisProdSwatch | capitalize }}">{{ thisProdSwatch | capitalize }}</span>
+                    {% else %}
+                      <span class="swatch-variant-name swatch-variant-name-print" data-init-text=""></span>
+                    {% endif %}
+                  </label>
+                  <div class="radioTypePrints-page core-page">
+                    <div class="page-contents">
+                      <ul class="swatch-view swatch-view-custom-image">
+                        {% for printSwatch in printSwatchesArray %}
+                        {% assign printSwatchKey = printSwatch | replace: " ", "_" %}
+                        {% assign printSwatchTitle = printSwatch | capitalize %}
+                        <li data-value="{{ printSwatchKey }}" data-title="{{ printSwatchTitle }}" class="swatch-element swatch-color-print swatch-element-print {{ printSwatchKey }} {% if printSwatchKey == prodColorTitle %}selected{%endif%}">
+                          <input class="swatchItem psItem" id="swatch_p-{{ printSwatchKey }}" type="radio" name="option-{{ printSwatchKey }}" value="{{ printSwatchKey }}" {% if printSwatch == prodColorTitle %}checked="checked"{%endif%} >
+                          <label for="swatch_p-{{ printSwatchKey }}" class="scOpt printOpt sc-{{ printSwatchKey }} {% if printSwatchKey == prodColorTitle %}selected{%endif%}">
+                            <empty></empty>
+                          </label>
+                        </li>
+                        {% endfor %}
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+        {% endunless %}
+        
+        
+  	  </div>
+
+
+      <div class="variant_converting_wrapper{% if prodNameTitle == "bralette" or prodNameTitle == "only bra" %} bra_size hidden{% endif %}">
+        {% unless product.type == "Mask" or product.type == "Silk Scarf" %}
+          <div class="sizeChart_toolbar">
+              <div class="sizeLabel">Size</div>
+            
+              <div class="eby-size-guide-2022" style="display:inline-block;">
+                <a class="siz_guid size_guid_pdp" href="#">Size Guide</a>
+              </div>
+          </div>
+        {% endunless %}
+      	
+        {%- assign variantCount = product.variants | size -%}
+        <!-- fc 060123---->
+        {% if product.type == "Season Set" %}
+          
+          {% assign bndlVariants = '' %}
+          {% assign bndlVariants2 = '' %}
+          {% assign packProducts = '' %}
+          {% assign braElementID = '' %}
+          {% assign PantyElementID = '' %}
+          {% assign packPrice = '' %}
+          {% assign pantyType = '' %}
+          {%- for tag in product.tags -%}
+            {%- if tag contains 'fyca23' %}
+                {% assign bndlVariants = tag | remove: 'fyca23-' %}
+            {% elsif tag contains 'fycb23' %}
+                {% assign bndlVariants2 = tag | remove: 'fycb23-' %}
+            {%  elsif tag contains 'packProducts' %}
+                {% assign packProducts = tag | remove: 'packProducts-' %}
+                {% assign braElementID = packProducts.text[0] %}
+                {% assign PantyElementID = packProducts.text[1] %}
+            {%  elsif tag contains 'packPrice' %}
+              {% assign packPrice = tag | remove: 'packPrice-' %}
+            {%  elsif tag contains 'packColor' %}
+              {% assign prodColorTitle = tag | remove: 'packColor-' %}
+            {%  elsif tag contains 'undiesType' %}
+              {% assign pantyType = tag | remove: 'undiesType-' %}
+            {%- endif -%}
+          {%- endfor -%}
+          <div class="set23-main" id="eby-bundle-bras23" data-packprice="{{packPrice}}" data-mainvr="{{packProducts}}" data-bundlepdp="{{bndlVariants}}" data-bundlepdp2="{{bndlVariants2}}" data-typepdp="set">
+            <div class="set23-container">
+              <div class="set23-grid-flex">
+                <div class="set23-flex-item">
+                  <div class="set23-items">            
+                    <img class="lazyload" width="91" height="113" title="{{ product.title }}" alt="{{ product.title }}" data-src="{{ product.images[2] | img_url }}"/>
+                  </div>
+                  <div class="set23-items scnd-pos">
+                    <div>
+                        <div class="rebuy-product-title-container">
+                          <span class="r---product-fabric---22">Seamless Sheer</span>
+                          <span class="r---product-title---22">Bralette</span>
+                          <span class="r---product-color---22">{{prodColorTitle}}</span>
+                        </div>
+                    </div>
+                    <select id="setVariant23-0" class="set-selected-variants">
+                      <option value="" disabled selected>Select Your Size</option>
+                      <option class="variant-sets-xs" value="XS">XS</option>
+                      <option class="variant-sets-sm" value="SM">SM</option>
+                      <option class="variant-sets-md" value="MD">MD</option>
+                      <option class="variant-sets-lg" value="LG">LG</option>
+                      <option class="variant-sets-xl" value="XL">XL</option>
+                      <option class="variant-sets-sdd" value="SDD">SDD</option>
+                      <option class="variant-sets-mdd" value="MDD">MDD</option>
+                      <option class="variant-sets-ldd" value="LDD">LDD</option>
+                      <option class="variant-sets-xldd" value="XLDD">XLDD</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="set23-flex-item">
+                  <div class="set23-items">            
+                    <img class="lazyload"  width="91" height="113" title="{{ product.title }}" alt="{{ product.title }}" data-src="{{ product.images[4] | img_url }}"/>
+                  </div>
+                  <div class="set23-items scnd-pos">
+                    <div>
+                      <div class="rebuy-product-title-container">
+                        <span class="r---product-fabric---22">Seamless Sheer</span>
+                        <span class="r---product-title---22">{{pantyType}}</span>
+                        <span class="r---product-color---22">{{prodColorTitle}}</span>
+                      </div>
+                    </div>
+                    <select id="setVariant23-1" class="set-selected-variants">
+                      <option value="" disabled selected>Select Your Size</option>
+                      <option class="variant-sets-xs" value="XS">XS</option>
+                      <option class="variant-sets-sm" value="SM">SM</option>
+                      <option class="variant-sets-md" value="MD">MD</option>
+                      <option class="variant-sets-lg" value="LG">LG</option>
+                      <option class="variant-sets-xl" value="XL">XL</option>
+                      <option class="variant-sets-1x" value="1X">1X</option>
+                      <option class="variant-sets-2x" value="2X">2X</option>
+                      <option class="variant-sets-3x" value="3X">3X</option>
+                      <option class="variant-sets-4x" value="4X">4X</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        {% endif %}
+          <div class="proVariants {%if isSet %} hide {%endif%} {% if product.metafields.preproduct.preorder %}pre-order-products{% endif %}" data-variants="">
+            <select name="id" id="productSelect">
+              {% for variant in product.variants %}
+                {%- if variant.available -%}
+                  <option {% if variant == product.selected_or_first_available_variant %} selected="selected" {% endif %} data-sku="{{ variant.sku }}" value="{{ variant.id }}">{{ variant.title }} - {{ variant.price | money_with_currency }}</option>
+                  {%- else -%}
+                  <option disabled="disabled">
+                    {{ variant.title }} - {{ 'products.product.sold_out' | t }}
+                  </option>
+                {%- endif -%}
+              {% endfor %}
+            </select>
+            {%- if settings.product_swatch -%}
+              {% for option in product.options %}
+                {% include 'vela-swatch' with option %}
+              {% endfor %}
+            {%- endif -%}
+          </div>
+      </div>
+  
+      {%- if section.settings.product_short_description == 'yes' -%}
+        {%- if shortDescription != blank -%}
+          <div class="proDescription rte" itemprop="description">
+            {{ shortDescription }}
+          </div>
+        {%- endif -%}
+      {%- elsif section.settings.product_short_description == 'full' -%}
+        {%- if product.description != blank -%}
+          <div class="proDescription rte" itemprop="description">
+            {{ fullDescription }}
+          </div>
+        {%- endif -%}
+      {%- endif -%}
+      <div class="velaGroup clearfix">
+        
+        <div id="inventoryLocationInformation" class="ebyInvenCheck">
+          <span class="inventoryLocationLoading"></span>
+        </div>
+        
+        <div class="proQuantity">
+          <label for="Quantity" class="qtySelector">{{ 'products.product.quantity' | t }}:</label>
+          <input type="number" id="Quantity" name="quantity" value="1" min="1" class="qtySelector">
+        </div>
+        
+        {% if product.metafields.ebyacf.turn_on_oos_capture %}
+        	<!-- out of stock -->
+        	<div class="ebyOutofstockCaptureWrapper">
+              	<p>We're out of stock at the moment. Please leave your email and we'll notify you asap!</p>
+        		
+        	</div>
+        {% else %}
+        	<div class="proButton mb20">
+                <span id="ship_notice" class="ship_notice" data-status="inactive">*Ships on Dec. 25th</span>
+                {% if product.type == 'Panty Pack' or product.type == "Bralette Panty Set" or product.type == "Subscription Box" %}
+
+                  {% assign bundleProductHandles = '' %}
+                  {% assign packCapacity = 3 %}
+                  {% assign currCapacity = 0 %}
+                  {% assign isMysteryPack = false %}
+                  {%- for tag in product.tags -%}
+                      {%- if tag contains 'pack_capacity::' -%}
+                          {% assign packCapacity = tag | remove : 'pack_capacity::' | plus: 0 %}
+                          {% assign isMysteryPack = true %}
+                      {%- endif -%}
+                  {%- endfor -%}
+                  {%- capture bundleProductHandles -%}
+                      {%- for t in product.tags -%}
+                          {%- if t contains 'packs:' -%}
+                              {{- t | remove : 'packs:' -}}
+                          {%- endif -%}          	    
+                      {%- endfor -%}
+                  {%- endcapture -%}
+
+                  {% if bundleProductHandles != '' %}
+                      {% assign productIDs = '' %}
+                      <div class="bundle-products two" data-curr-capacity="{{ packCapacity }}">            
+                          {% assign bundleProductHandlesArr = bundleProductHandles %}
+
+                          {% for p in collections[bundleProductHandlesArr].products %}
+                            {% if currCapacity < packCapacity %}
+                              {% assign currCapacity = currCapacity | plus: 1 %}
+                              <div style="display:none;">{{ p }}</div>
+                              {%- assign bProducts = p -%}
+                              {%- assign productIDs = productIDs | append: bProducts.id -%}
+                              {% unless forloop.last %}{%- assign productIDs = productIDs | append:',' -%}{% endunless %}
+                              <div class="single-product" data-product="{{ bProducts.id }}">
+                                  <select class="product-selector" id="productSelector-{{ bProducts.handle }}">
+                                      {% for var in bProducts.variants %}
+                                          {%- if var.available -%}
+                                              <option data-sku="{{ var.sku }}" data-title="{{ var.title }}" value="{{ var.id }}">{{ var.title }}</option>
+                                          {%- else -%}
+                                              <option disabled="disabled" data-title="{{ var.title }}" value="{{ var.id }}">
+                                                  {{ var.title }} - {{ 'products.product.sold_out' | t }}
+                                              </option>
+                                          {%- endif -%}
+                                      {% endfor %}
+                                  </select>
+                              </div>
+                            {% else %}
+                              {% continue %}
+                            {% endif %}
+                          {% endfor %}
+                      </div>
+
+                    <script defer type="text/javascript">
+
+                      document.addEventListener('tomitLoaded', function(e) {
+                        var pIDs = "{{ productIDs }}";
+                        window.packProductIds = pIDs.split(',');
+                      });
+
+                      document.addEventListener('tomitProductLoaded', function(e) {
+                        tomitProductInventoryInfo.activeProduct;
+                        console.log(tomitProductInventoryInfo.activeProduct);
+                      });
+                    </script>
+                  {% endif %}
+
+                  <div class="bundle-products one" data-curr-capacity="{{ packCapacity }}">            
+                    {% assign bundleCollectionHandle = '' %}
+                    {% assign bProdIdsList = '' %}
+
+                    {% for t in product.tags %}
+                      {% if t contains 'collection:' %}
+                        {%- assign bundleCollectionHandle = t | remove:'collection:' -%}
+                      {% endif %}
+                    {% endfor %}
+                    {% assign bundleCollection = collections[bundleCollectionHandle] %}
+
+                    {% if bundleCollectionHandle != '' %}
+                      {% assign currCapacityTwo = 0 %}
+                      {% for bProducts in bundleCollection.products %}
+                        {% assign bProdIdsList = bProdIdsList | append: "," | append: bProducts.id %}
+                        {% if currCapacityTwo < packCapacity %}
+                        {% assign currCapacityTwo = currCapacityTwo | plus: 1 %}
+                        <div class="single-product" data-product="{{ bProducts.id }}" data-pack-id-count="{{ currCapacityTwo }}">
+                          <select class="product-selector" id="productSelector-{{ bProducts.handle }}">
+                            {% for var in bProducts.variants %}
+                              {%- if var.available -%}
+                                <option data-sku="{{ var.sku }}" data-title="{{ var.title }}" value="{{ var.id }}">{{ var.title }}</option>
+                              {%- else -%}
+                                <option disabled="disabled" data-title="{{ var.title }}" value="{{ var.id }}">
+                                  {{ var.title }} - {{ 'products.product.sold_out' | t }}
+                                </option>
+                              {%- endif -%}
+                            {% endfor %}
+                          </select>
+                        </div>
+                        {% else %}
+                          {% continue %}
+                        {% endif %}
+                      {% endfor %}
+
+                      <input value="1" name="properties[bundle_]" type="hidden">
+                      <input id="v_ids" name="properties[bundle_ids]" type="hidden">
+                    {% endif %}
+                  </div>
+
+                {% if customer.tags contains 'Active Subscriber' %}
+                  {% render 'button-add-to-cart', texto: 'ADD TO CART', type: 'bundles', priceAfter: product.metafields.ebyacf.vip_member_price %}
+                {% else %}
+                  {% render 'button-add-to-cart', texto: 'ADD TO CART', type: 'bundles', priceAfter: product.price %}
+                {% endif %}
+
+                  {% if isMysteryPack %}
+                  <input type="hidden" id="mystery-pack-ids" value="{{ bProdIdsList }}" />
+                  {% endif %}
+                {% else %}
+                  {% if product.type contains 'Cotton' or product.type contains 'Mesh' or product.type contains 'Gift' %}
+                    {% if customer.tags contains 'Active Subscriber' %}
+                      {% render 'button-add-to-cart', texto: 'ADD TO CART', type: 'normal', priceAfter: product.metafields.ebyacf.vip_member_price %}
+                    {% else %}
+                      {% render 'button-add-to-cart', texto: 'ADD TO CART', type: 'normal', priceAfter: product.price %}
+                    {% endif %}
+
+                  {% elsif product.type == 'Surprise Panty Pack' %}
+                    {% if customer.tags contains 'Active Subscriber' %}
+                      {% render 'button-add-to-cart', texto: 'ADD TO CART', type: 'surprice', priceAfter: product.metafields.ebyacf.vip_member_price %}
+                    {% else %}
+                      {% render 'button-add-to-cart', texto: 'ADD TO CART', type: 'surprice', priceAfter: product.price %}
+                    {% endif %}
+                  {% else %}
+
+                      {% if product.type contains 'Underwear' %}
+                          <div id="addToCartPdpWrapper" class="addToCartPdpWrapper onetime-active">
+
+                            {% unless customer.tags contains 'Active Subscriber' %}
+
+                            <div class="addToCartToggler">
+                              <ul>
+                                  <li class="addToCartToggleButton ot active" data-addtocart-type="onetime">
+                                    <header>
+                                      <div class="addToCartToggleIndicator">
+                                        <div class="addToCartToggleIndicatorLight"></div>
+                                      </div>
+                                      <div class="addToCartToggleTitle">One-Time Purchase</div>
+                                      {% if isOnHolidaySale %}
+                                      <div class="addToCartTogglePrice holidaySalePrice">{{ product.price | divided_by: 100 | round: 2 | minus: moneyOff | round: 2 | times: 100 | round | money_without_trailing_zeros }}</div>
+                                      {% else %}
+                                      <div class="addToCartTogglePrice">{{ product.price | money_without_trailing_zeros }}</div>
+                                      {% endif %}
+                                    </header>
+                                    <footer>
+                                      <span class="toggleBreakSpace indicator" style="width:24px;">&nbsp;</span>
+                                      <div class="bulletedListingWrapper">
+                                        <span class="addToCartToggleBenefit">{{ product.metafields.ebyacf.vip_member_price }} for subscribers</span>
+                                      </div>
+                                      <span class="toggleBreakSpace price" style="visibility:hidden;font-weight: 500;font-size: 1.4rem;">{{ product.price | money_without_trailing_zeros }}</span>
+                                    </footer>
+                                  </li>
+                                  <li class="addToCartToggleButton sub" data-addtocart-type="subscribe">
+                                    <header>
+                                      <div class="addToCartToggleIndicator">
+                                        <div class="addToCartToggleIndicatorLight"></div>
+                                      </div>
+                                      <div class="addToCartToggleTitle">Subscribe</div>
+                                      <div class="addToCartTogglePrice">3 for $39</div>
+                                    </header>
+                                    <footer>
+                                      <span class="toggleBreakSpace indicator" style="width:24px;">&nbsp;</span>
+                                      <div class="bulletedListingWrapper">
+                                        <span class="addToCartToggleBenefit bold"><i class="ebyicon-nicon-repeat"></i>Delivered every 3 months</span>
+                                        <span class="addToCartToggleBenefit flare bold"><i class="ebyicon-nicon-check-alt"></i>Save up to 40% on each delivery</span>
+                                        <span class="addToCartToggleBenefit"><i class="ebyicon-nicon-check-alt"></i>Free shipping & savings on all orders</span>
+                                        <span class="addToCartToggleBenefit"><i class="ebyicon-nicon-check-alt"></i>Skip or cancel</span>
+                                      </div>
+                                      <span class="toggleBreakSpace price" style="visibility:hidden;font-weight: 500;font-size: 1.4rem;">3 for $39</span>
+                                    </footer>
+                                  </li>
+                              </ul>
+                            </div>
+
+                            {% endunless %}
+                        
+                              {% if customer.tags contains 'Active Subscriber' %}
+                                {% if finalSalePrice %}
+                                  {% render 'button-add-to-cart', texto: 'ADD TO CART', type: 'finalPrice', priceAfter: finalSalePrice %}
+                                {% else %}
+                                  {% render 'button-add-to-cart', texto: 'ADD TO CART', type: 'finalPrice', priceAfter: product.metafields.ebyacf.vip_member_price %}
+                                {% endif %}
+                                {% if product.type == "Mask" %}
+                                  <span class="subandsaveCopy">Limited time free mask with any purchase<br/>Use code: MASK</span>
+                                {% endif %}
+                                {% else %}
+                                {% if product.type == "Core Underwear" or product.type == "Mesh Underwear" %}
+                                  {% if isOnHolidaySale %}
+                                    {% render 'button-add-to-cart', texto: 'ADD TO CART', type: 'finalPrice', priceAfter: finalSalePrice %}
+                                  {% else %}
+                                    {% render 'button-add-to-cart', texto: 'ADD TO CART', type: 'normal', priceAfter: product.price %}
+                                  {% endif %}
+                                {% else %}
+                                  {% render 'button-add-to-cart', texto: 'ADD TO CART', type: 'normal', priceAfter: product.price %}
+                                {% endif %}
+                                {% if product.type == "Mask"%}
+                                  <span class="subandsaveCopy">Limited time free mask with any purchase<br/>Use code: MASK</span>
+                                {% endif %}
+                            {% endif %}
+                            {% for productCollection in product.collections -%}
+                              {%- if productCollection.handle == "build-your-custom-box" -%}
+                              <div class="subscribeAndSaveWrapper" id="AddToCartSubscribe">
+                                <div class="buttonWrapper">
+                                  <button name="addbox" id="AddBoxToCart" class="btn btnAddBoxToCart">
+                                    <span id="AddBoxToCartText">Subscribe</span>
+                                  </button>
+                                  <!-- <a class="ebyFancyBtn membershipInfoPopup" data-src="#learnAboutMembership" >?</a> -->
+                                </div>
+                                <span class="subandsaveCopy">Free Shipping over $100<br/>Subscribers never pay shipping</span>
+                              </div>
+                              {% endif %}
+                            {% endfor %}
+    
+                          </div>
+                          
+                      {% else %}
+
+                        {% render 'button-add-to-cart', texto: 'ADD TO CART', type: 'normal', priceAfter: product.price %}
+                        
+                      {% endif %}
+                    
+                  {% endif %}
+                {% endif %}
+
+                <div class="ebyOutofstockCaptureWrapper back_in_stock">
+                  <a class="klaviyo-bis-trigger waves-effect waves-light modal-trigger" href="#bis_modal">Notify Me When Available</a>
+                </div>
+
+                {%- if section.settings.buyit_check_enable -%}
+                {{ form | payment_button }}
+                {%- endif -%}
+              
+                {% if isLiquidation %}
+                <span class="ebySaleNotice">This item is final sale</span>
+                {% endif %}
+
+              	<div class="eby-savings-all-23-wrapper">
+                  <div class="eby-savings-all-23 smd-size-words">
+
+                    {% if customer.tags contains 'Active Subscriber' %}
+                      
+                    {% else %}
+                      <span> <span id="first-mny-bndl-logout"></span><span> for subscribers </span><span> • </span>
+                      <a class="eby-savings-a-subscribe" href="/account/login">Sign In</a> or 
+                      <a
+                        id="subscription-style-special"
+                        class="ebyMicroBtn joinNow eby-savings-a-subscribe"
+                        data-subscribe="default">Subscribe</a>
+                      </span>
+                    {% endif %}
+                  </div>
+                </div>
+            </div>
+        
+        	{%if product.type contains 'Core Underwear' or product.type == "Mesh Underwear" %}
+                {%if customer %}
+                    {% if customer.tags contains 'Active Subscriber'%}
+                        <div class="ebyButtonWrapper center membershipBtns bfx-remove-element">
+                          <div class="subtext">
+                            <h3>AS A Subscriber</h3>
+                            <p>You will save 20% on this item</p>
+                            <p>Ships to you FREE</p>
+                            <p>10% of your purchase will empower women</p>
+                          </div>
+                          <p class="ebyMembershipSubline">{{ shop.metafields.ebyacf.become_a_member_cta_subline }}</p>
+                        </div>
+                    {% else %}
+                        <div class="ebyButtonWrapper center membershipBtns bfx-remove-element">
+                          <a href="/pages/get-your-box" class="ebyMacroBtn ebyBecomeAMemberBtn navyBg" >Subscribe for 20% OFF</a>
+                          <div class="subtext">
+                            <h3>Become a Subscriber &amp; Save 20%</h3>
+                            <p>3 undies delivered every 3 months</p>
+                            <p>New colors in each box</p>
+                            <p>Subscriber-only pricing + Free shipping</p>
+                          </div>
+                          <a href="/pages/membership" class="ebyNavLink icon-link-arrow" >Learn More</a>
+                        </div>
+                    {% endif %}
+                {% else %}
+                    <div class="ebyButtonWrapper center membershipBtns bfx-remove-element">
+                      <a href="/pages/get-your-box" class="ebyMacroBtn ebyBecomeAMemberBtn navyBg" >Subscribe for 20% OFF</a>
+                      <div class="subtext">
+                        <h3>How Subscription Works</h3>
+                        <p>3 undies delivered every 3 months</p>
+                        <p>New colors in each box</p>
+                        <p>Subscribers-only pricing + Free shipping</p>
+                      </div>
+                      <p class="ebyMembershipSubline">{{ shop.metafields.ebyacf.become_a_member_cta_subline }}</p>
+                    </div>
+                {% endif %}
+
+            {% elsif product.type contains 'Cotton' %}
+
+                {%if customer %}
+                    {% if customer.tags contains 'Active Subscriber'%}
+                        <div class="ebyButtonWrapper center membershipBtns bfx-remove-element">
+                          <div class="subtext">
+                            <h3>AS A Subscriber</h3>
+                            <!-- <p>You will save 15% on this item</p> -->
+                            <p>Ships to you FREE</p>
+                            <p>10% of your purchase will empower women</p>
+                          </div>
+                          <p class="ebyMembershipSubline">{{ shop.metafields.ebyacf.become_a_member_cta_subline }}</p>
+                        </div>
+                    {% else %}
+                        <div class="ebyButtonWrapper center membershipBtns bfx-remove-element">
+                          <a href="/pages/get-your-box" class="ebyMacroBtn ebyBecomeAMemberBtn navyBg" >Subscribe for 20% OFF</a>
+                          <div class="subtext">
+                            <h3>Become a Subscriber &amp; Save 20%</h3>
+                            <p>3 undies delivered every 3 months</p>
+                            <p>New colors in each box</p>
+                            <p>Subscriber-only pricing + Free shipping</p>
+                          </div>
+                          <a href="/pages/membership" class="ebyNavLink icon-link-arrow" >Learn More</a>
+                        </div>
+                    {% endif %}
+                {% else %}
+                    <div class="ebyButtonWrapper center membershipBtns bfx-remove-element">
+                      <div class="subtext">
+                        <h3>Become a Subscriber &amp; Save 20%</h3>
+                        <p>3 undies delivered every 3 months</p>
+                        <p>New colors in each box</p>
+                        <p>Subscriber-only pricing + Free shipping</p>
+                      </div>
+                      <a href="/pages/membership" class="ebyNavLink icon-link-arrow" >Learn More</a>
+                    </div>
+                {% endif %}
+        
+        
+        
+        	{% elsif product.type == 'Panty Pack'  %}
+        
+        	
+        		<div class="ebyButtonWrapper center membershipBtns bfx-remove-element">
+                   	<div class="subtext">
+                        <h3>AS A Subscriber</h3>
+                        <p>You will save 15% on this item</p>
+                        <p>Ships to you FREE</p>
+                        <p>10% of your purchase will empower women</p>
+                    </div>
+                    <p class="ebyMembershipSubline">{{ shop.metafields.ebyacf.become_a_member_cta_subline }}</p>
+                </div>
+        
+            {% elsif product.type == 'Surprise Panty Pack' or product.type == 'Season Set' or product.type == 'Bra Pack'  %}
+        
+
+            {% else %}
+
+                {%if customer %}
+                    {% if customer.tags contains 'Active Subscriber'%}
+                        <div class="ebyButtonWrapper center membershipBtns bfx-remove-element">
+                          <div class="subtext">
+                            <h3>As a Subscriber</h3>
+                            <!-- <p>You will save 15% on this item</p> -->
+                            <p>Ships to you FREE</p>
+                            <p>10% of your purchase will empower women</p>
+                          </div>
+                          <p class="ebyMembershipSubline">{{ shop.metafields.ebyacf.become_a_member_cta_subline }}</p>
+                        </div>
+                    {% else %}
+                        <div class="ebyButtonWrapper center membershipBtns bfx-remove-element">
+                          <a href="/pages/get-your-box" class="ebyMacroBtn ebyBecomeAMemberBtn navyBg" >Subscribe for 20% OFF</a>
+                          <div class="subtext">
+                            <h3>Become a Subscriber &amp; Save 20%</h3>
+                            <p>3 undies delivered every 3 months</p>
+                            <p>New colors in each box</p>
+                            <p>Subscriber-only pricing + Free shipping</p>
+                          </div>
+                          <a href="/pages/membership" class="ebyNavLink icon-link-arrow" >Learn More</a>
+                        </div>
+                    {% endif %}
+                {% else %}
+                    <div class="ebyButtonWrapper center membershipBtns bfx-remove-element">
+                      <div class="subtext">
+                        <h3>How Subscription Works</h3>
+                        <p>3 undies delivered every 3 months</p>
+                        <p>New colors in each box</p>
+                        <p>Subscriber-only pricing + Free shipping</p>
+                      </div>
+                      <a href="/pages/membership" class="ebyNavLink icon-link-arrow" >Learn More</a>
+                    </div>
+                {% endif %}
+
+            {% endif %}
+        
+        <!-- end -->
+        {% endif %} 
+        
+        <div id="preproduct-pledge" data-id="{{product.id}}" style="text-align:left!important;"></div>
+        
+      </div>
+  {% endform  %}
+
+  <div class="prodInfo-theMoreYouKnow">
+    <ul>
+      <li><img class="lazyload" data-src="https://cdn.shopify.com/s/files/1/0313/4062/5964/files/cdnicon-thumb_up.svg" alt="EBY's 100% fit guarantee" title="EBY's 100% fit guarantee" /><p>100% fit guarantee</p></li>
+      <li><img class="lazyload" data-src="https://cdn.shopify.com/s/files/1/0313/4062/5964/files/cdnicon-loan.svg" alt="EBY's mission of supporting women owned businesses" title="EBY's mission of supporting women owned businesses" /><p>We turn 10% into business loans for women</p></li>
+    </ul>
+  </div>
+  
+
+  <style>
+    .holidaySaleItem .pdp-image-pannel-wrapper.active:before {
+        content: "Summer Sale";
+        position: absolute;
+        top: 1.4rem !important;
+        left: 1.4rem !important;
+        text-align: center;
+        font-size: 12px;
+        color: #fff;
+        padding: 0 12px;
+        border-radius: 2px;
+        background-color: #d0021b !important;
+        z-index: 2;
+        font-weight: 600;
+        letter-spacing: .5px;
+        line-height: 27px;
+        text-transform: uppercase;
+    }
+    .ship_notice {
+      font-size: 1.2rem;
+      position: absolute;
+      width: 100%;
+      left: 0;
+      top: 0;
+      color: #d0021b;
+      display:none;
+    }
+    .ship_notice[data-status="active"] {
+      display:block;
+    }
+    .pdp .holidayPriceWrapper+.priceProduct.standardPrice.default, .pdp .holidayPriceWrapper.standard+.priceProduct {
+        display: none;
+    }
+    .addToCartTogglePrice.holidaySalePrice {
+      color:#d0021b;
+    }
+    .addToCartTogglePrice.holidaySalePrice:before {
+      content: "{{ product.price | money_without_trailing_zeros }}";
+      text-decoration:line-through;
+      color:#7f85a3;
+      position: absolute;
+      left: -2px;
+    }
+    .radioTypeColors input, .radioTypePrints input {
+  	  display: none;
+    }
+    .sc-bourbon{background:#6F3A21;}
+    .sc-mint{background-color:#70BB9B;}
+    .sc-skyway{background-color:#A4C4E9;}
+    .sc-pink_lady{background-color:#EAB5D8;}
+    .sc-red_plum{background-color:#A1353F;}
+    .sc-gold_dust{background-color:#cc9329;}
+    .sc-strawberry_ice{background-color:#eb9191;}
+    .sc-cadet{background-color:#907f9f;}
+    .sc-blue_opal{background-color:#0a3e6e;}
+    .sc-laurel_green{background-color:#cbd5bb;}
+    .sc-rose_clay{background-color:#d4aca7;}
+    .sc-woodsmoke{background-color:#937764;}
+    .sc-fallen_rock{background-color:#9c877a;}
+    .sc-black{background-color:#171717;}
+    .sc-white{background-color:#ffffff;}
+    .sc-nude{background-color:#d1b5a7;}
+    .sc-green_millieu{background-color:#7B938B;}
+    .sc-sunkissed{background-color:#ba8164;}
+    .sc-grey{background-color:#bebebe;}
+    .sc-provincial_blue{background-color:#6d99be;}
+    .sc-poppy_red{background-color:#d01b10;}
+    .sc-castor_grey{background-color:#52525b;}
+    .sc-blue_iris{background-color:#717dd7;}
+    .sc-fuchsia_festival{background-color:#c32e67;}
+    .sc-rose_dust{background-color:#dbc0c3;}
+    .sc-lime_punch{background-color:#d5da3a;}
+    .sc-beveled_glass{background-color:#99d6cd;}
+    .sc-fjord_blue{background-color:#0e90ce;}
+    .sc-keepsake_lilac{background-color:#d7c0c7;}
+    .sc-puritan_grey{background-color:#ced0d6;}
+    .sc-castle_wall{background-color:#d5c3b6;}
+    .sc-coral_pink{background-color:#f2aea0;}
+    .sc-raindrop{background-color:#cbc7d6;}
+    .sc-caribbean_sea{background-color:#00a7d7;}
+    .sc-ocean_depths{background-color:#018db5;}
+    .sc-hyper_pink{background-color:#ff467f;}
+    .sc-cactus{background-color:#52713e;}
+    .sc-brush{background-color:#e2c3b1;}
+    .sc-port{background-color:#603637;}
+    .sc-espresso{background-color:#452f24;}
+    .sc-roseata_fleur{background-color:#cd9caa;}
+    .sc-brick_dust{background-color:#A9685E;}
+    .sc-peach_bloom{background-color:#D99B7C;}
+    .sc-kiki {
+      background-image: url(https://cdn.shopify.com/s/files/1/0313/4062/5964/files/GEN_kiki_swatch_img.png?v=1683763788);
+      background-size: 33px 33px;
+    }
+    .sc-majestic_bloom {
+      background-image: url(https://cdn.shopify.com/s/files/1/0313/4062/5964/files/GEN---swatch_img---majestic_bloom---hex__8EC2E7.png?v=1676492846);
+      background-size: 33px 33px;
+    }
+    .sc-relic {
+      background-image: url(https://cdn.shopify.com/s/files/1/0313/4062/5964/files/GEN---swatch_img---relic---hex_324D73.png?v=1675343860);
+      background-size: 33px 33px;
+    }
+    .sc-margaux {
+      background-image: url(https://cdn.shopify.com/s/files/1/0313/4062/5964/files/GEN---swatch_img---margaux---hex_C3A38A.png?v=1674736351);
+      background-size: 33px 33px;
+    }
+    .sc-cathay_spice {
+      background-image: url(https://cdn.shopify.com/s/files/1/0313/4062/5964/files/GEN---swatch_img---cathay_spice---hex_DDAC82.png?v=1674736386);
+      background-size: 33px 33px;
+    }
+    .sc-exotic_botanical{
+      background-image:url(https://cdn.shopify.com/s/files/1/0313/4062/5964/files/GEN---swatch_img---exotic_botanical.png?v=1668004617);
+      background-size: 33px 33px;
+    }
+    .sc-spotted_panther{
+      background-image:url(https://cdn.shopify.com/s/files/1/0313/4062/5964/files/GEN---swatch_img---spotted_panther.png?v=1661298092);
+      background-size: 33px 33px;
+    }
+    .sc-victorian{
+      background-image:url(https://cdn.shopify.com/s/files/1/0313/4062/5964/files/GEN---swatch_img---victorian.png?v=1661298093);
+      background-size: 33px 33px;
+    }
+    .sc-el_sonar{
+      background-image:url(https://cdn.shopify.com/s/files/1/0313/4062/5964/files/GEN---swatch_img---el_sonar.png?v=1661298092);
+      background-size: 33px 33px;
+    }
+    .sc-el_sabor{
+      background-image:url(https://cdn.shopify.com/s/files/1/0313/4062/5964/files/GEN---swatch_img---el_sabor.png?v=1661298092);
+      background-size: 33px 33px;
+    }
+    .sc-duchess{
+      background-image:url(https://cdn.shopify.com/s/files/1/0313/4062/5964/files/GEN---swatch_img---duchess.png?v=1661298092);
+      background-size: 33px 33px;
+    }
+    .sc-dark_palm{
+      background-image:url(https://cdn.shopify.com/s/files/1/0313/4062/5964/files/GEN---swatch_img---dark_palm.png?v=1661298092);
+      background-size: 33px 33px;
+    }
+    .sc-blue_meadow{
+      background-image:url(https://cdn.shopify.com/s/files/1/0313/4062/5964/files/GEN---swatch_img---blue_meadow.png?v=1661298092);
+      background-size: 33px 33px;
+    }
+    .sc-versailles{
+      background-image:url(https://cdn.shopify.com/s/files/1/0313/4062/5964/files/GEN---swatch_img---versailles.png?v=1661298092);
+      background-size: 33px 33px;
+    }
+    .sc-sleek_tiger{
+      background-image:url(https://cdn.shopify.com/s/files/1/0313/4062/5964/files/GEN---swatch_img---sleek_tiger.png?v=1661298092);
+      background-size: 33px 33px;
+    }
+    .sc-sakura{
+      background-image:url(https://cdn.shopify.com/s/files/1/0313/4062/5964/files/GEN---swatch_img---sakura.png?v=1661298092);
+      background-size: 33px 33px;
+    }
+    .sc-pose{
+      background-image:url(https://cdn.shopify.com/s/files/1/0313/4062/5964/files/GEN---swatch_img---pose.png?v=1661298092);
+      background-size: 33px 33px;
+    }
+    .sc-piki{
+      background-image:url(https://cdn.shopify.com/s/files/1/0313/4062/5964/files/GEN---swatch_img---piki.png?v=1667407547);
+      background-size: 33px 33px;
+    }
+    .sc-el_viver{background-image:url(https://cdn.shopify.com/s/files/1/0313/4062/5964/files/GEN---swatch_img---el_viver.png?v=1661298092);
+      background-size: 33px 33px;
+    }
+    .sc-la_passion{
+      background-image:url(https://cdn.shopify.com/s/files/1/0313/4062/5964/files/GEN---swatch_img---la_passion.png?v=1661298092);
+      background-size: 33px 33px;
+    }
+    .sc-la_piel{
+      background-image:url(https://cdn.shopify.com/s/files/1/0313/4062/5964/files/GEN---swatch_img---la_piel.png?v=1661298092);
+      background-size: 33px 33px;
+    }
+    .sc-lithograph{
+      background-image:url(https://cdn.shopify.com/s/files/1/0313/4062/5964/files/GEN---swatch_img---lithograph.png?v=1661298092);
+      background-size: 33px 33px;
+    }
+    .sc-midnight_jasmine{
+      background-image:url(https://cdn.shopify.com/s/files/1/0313/4062/5964/files/GEN---swatch_img---midnight_jasmine.png?v=1661298092);
+      background-size: 33px 33px;
+    }
+    .sc-parisian_summer{
+      background-image:url(https://cdn.shopify.com/s/files/1/0313/4062/5964/files/GEN---swatch_img---parisian_summer.png?v=1661298092);
+      background-size: 33px 33px;
+    }
+    .sc-piet{
+      background-image:url(https://cdn.shopify.com/s/files/1/0313/4062/5964/files/GEN---swatch_img---piet.png?v=1661298092);
+      background-size: 33px 33px;
+    }
+    .sc-baroque{
+      background-image:url(https://cdn.shopify.com/s/files/1/0313/4062/5964/files/GEN---swatch_img---baroque.png?v=1661298092);
+      background-size: 33px 33px;
+    }
+    .sc-picnic_rose{
+      background-image:url(https://cdn.shopify.com/s/files/1/0313/4062/5964/files/GEN---swatch_img---picnic_rose.png?v=1661965845);
+      background-size: 33px 33px;
+    }
+    .sc-reptile_stripe{
+      background-image:url(https://cdn.shopify.com/s/files/1/0313/4062/5964/files/GEN---swatch_img---reptile_stripe.png?v=1668704618);
+      background-size: 33px 33px;
+    }
+  </style>
+</div>
+
+
+<script defer type="text/javascript">
+
+
+/*
+  ******************************************************************
+  * When Rebuy is ready modify the prices
+  ******************************************************************
+*/
+window.addEventListener("DOMContentLoaded", (event) => {
+  document.addEventListener("rebuy.ready", function (event) { 
+
+    (function(){
+      // get the widget array
+      const widget = event.detail.widget;
+      const widgetProducts = widget.data.products;
+      const rebuyWidgetIds = ["75385", "74714", "75387", "75389"];
+      const widgetId = widget.id;
+      // Only modify pdp widget if we are on the page
+      if(rebuyWidgetIds.indexOf(widgetId) >= 0){
+        rebuyPriceFx(widgetProducts);
+        saleDiscountRebuy(event)
+      }
+    })();
+
+    function rebuyPriceFx(widgetProducts){
+      // loading indicator
+      const loadingIndicator = document.getElementById("rebuy-loading");
+      const widgetContainer = document.querySelector(".rebuy-widget-container");
+      // savings and price elements
+      const displaySavings = document.querySelector('.eby-savings-all-23-wrapper');
+      const checkSale = document.querySelector('.ebySaleNotice');
+      const vipPriceRebuy = document.querySelectorAll('.rebuy-vip-price-23');
+
+      // Show the loading indicator and hide the widget container
+      loadingIndicator.style.display = "none";
+      widgetContainer.style.display = "block";
+      
+      if(checkSale){
+        displaySavings.style.display = 'none';
+      }
+
+      // display either normal price or subscriber price
+      if(vipPriceRebuy.length <= 0 ){
+        normalSubPrice();
+      }
+      // modify the price and checkbox 
+      rebuyChooseSize();
+      // call choose you Size
+      rebuyHackedSize();
+      /*
+        ************************************************************
+        * Helper functions
+        ************************************************************
+      */
+      function rebuyChooseSize(){
+        
+        const r = new RebuyBundleTotal(widgetProducts); // fc 032323
+        const s = new SubscriberPrice(widgetProducts);
+        const p = new PacksSavings(widgetProducts);
+
+        const subPrice = document.getElementById("subs-mn-price-23");
+        const packsTitle = document.querySelector('.product-name-desktop');
+        const checkPack = packsTitle.innerText.toLowerCase();
+
+        if(checkPack.includes('pack') || checkPack.includes('bundle') || checkPack.includes('set')){
+          p.main(subPrice);
+        } else if(!subPrice){
+          r.main();
+        } else if(subPrice){
+          s.main();
+        }  
+      }
+
+      function normalSubPrice(){
+        // title.parentNode.insertBefore(newPrice, parent.nextSibling);
+        const isUserLogged = document.querySelector('.loggedIn');
+        const normalPrice = document.querySelectorAll('.rebuy-addon-container-23 .rebuy-money');
+        let title = document.querySelectorAll(".rebuy-money");
+        // show normal price or vi pprice
+        widgetProducts.forEach((item, index) => {
+
+          const traillingZero = title[index].innerHTML;
+   
+          if (item.metafields.ebyacf.vip_member_price) {
+            
+            const newPrice = item.metafields.ebyacf.vip_member_price;
+            
+            if(isUserLogged){
+              title[index].insertAdjacentHTML('afterend', `<span class="rebuy-vip-price-23">${newPrice}</span>`);
+              normalPrice[index].classList.add('color-subsPriceOnly23');
+              item.variants.forEach((varSize) => {
+                // check if newPrice it has $ sign
+                if(newPrice.includes('$') ){
+                    varSize.price = newPrice.split('$')[1] + '.00';
+                // check if newPrice doens't have a $ sign but it has a string > 0
+                } else if(newPrice.length > 0){
+                    varSize.price = newPrice + '.00';
+                }
+              });
+            } else {
+              title[index].insertAdjacentHTML('afterend', `<span class="color-subsPriceOnly23 rebuy-vip-price-23">${newPrice}</span>`);
+            }
+          } 
+
+          if(traillingZero.includes('.00')){
+            const newPriceRebuy = traillingZero.split('.')[0];
+            title[index].innerHTML = newPriceRebuy;
+          }
+        });
+      }     
+      // fc 042823 
+      function rebuyHackedSize(){
+        const rebuyCheckedBx = document.querySelectorAll('.rebuy-custom-checkbox-2023');
+
+        const $rebuySizeSelector = document.querySelectorAll('.rebuy-hck-size23');
+        const $rebuySizeVariant = document.querySelectorAll('.rebuy-addon__item-product-options .rebuy-select');
+        
+        for(let el = 0; el < $rebuySizeSelector.length; el++){
+          if (isSafariDesktop()) {
+            $rebuySizeSelector[el].classList.add('active');
+            $rebuySizeVariant[el].classList.add('ghostActive');
+          }
+          // Create a MutationObserver to watch for changes in the element's attributes
+          const observer = new MutationObserver((mutations) => {
+            mutations.forEach((mutation) => {
+              if (mutation.type === 'attributes' && mutation.attributeName === 'class') {
+                if (rebuyCheckedBx[el].classList.contains('checked')) {
+                  $rebuySizeSelector[el].classList.add('active');
+                  $rebuySizeVariant[el].classList.add('ghostActive');
+                  console.log('The "checked" class has been added');
+                } else {
+                  console.log('The "checked" class has been removed');
+                }
+              }
+            });
+          });
+          observer.observe(rebuyCheckedBx[el], { attributes: true });
+        }
+      }
+      
+      function isSafariDesktop() {
+        const userAgent = window.navigator.userAgent;
+        const isSafari = /^((?!chrome|android).)*safari/i.test(userAgent);
+        const isMobile = /Mobi|Android/i.test(userAgent);
+
+        return isSafari && !isMobile;
+      }
+    }
+    function saleDiscountRebuy(event){
+
+      if (event.detail.widget.data.products.length > 0) {
+        const isUserIn = document.querySelector('.loggedIn');
+        let widgetData = event.detail.widget.data;
+        event.detail.widget.data.products.map(function (prod, nth) {
+          const colorRebuy = document.querySelectorAll('.r---product-color---22')[nth].innerHTML;
+          // 20%
+          const twentyColor = ['black','nude','fallen rock','castle wall','raindrop','sunkissed','rose dust'];
+          const twentyPerc = percentage23(prod.product_type, colorRebuy, twentyColor, ['Bralette','Underwear'],nth);
+          // 30%
+          const thirtyColor = ['pink lady','mint'];
+          const thirtyColor2 = ['white','gold dust','relic','peach bloom'];
+          const thirtyPerc1 = percentage23(prod.product_type, colorRebuy, thirtyColor, ['Bralette','Underwear'],nth);
+          const thirtyPerc2 = percentage23(prod.product_type, colorRebuy, thirtyColor2, ['Underwear', '0'],nth);
+          // 40%
+          const fourtyPerc = prod.product_type.includes('Silk');
+          const fourtyPerc2 = prod.product_type.includes('Bodysuit');
+          const fourtyColor1 = ['piki','sleek tiger','red plum',''];
+          const fourtyPerc1 = percentage23(prod.product_type, colorRebuy, fourtyColor1, ['Underwear', '0'],nth);
+          // 70%
+          const fityColor = ['ocean depths'];
+          const firtyPerc = percentage23(prod.product_type, colorRebuy, fityColor, ['Bralette', 'Underwear'],nth);
+          const firtyPerc2 = percentage23(prod.product_type, colorRebuy, ['majestic bloom'], ['Underwear', '0'],nth);
+
+          let tempPrice = 0;
+          if (prod.tags.indexOf('julyfourthsale2023') >= 0 && (isUserIn == null)) {
+            console.log(': sale item detected :');
+            document.querySelectorAll('.rebuy-addon__item-info')[nth].querySelector('.rebuy-addon-container-23 span').style = "color: #d0021b !important;";
+            
+            prod.variants.map(function (prodVariant) {
+              prodVariant.compare_at_price = 0;
+              
+              if (twentyPerc) {
+                tempPrice =  (+prodVariant.price * 80 / 100) * 100;
+                prodVariant.price = tempPrice;
+              } else if (thirtyPerc1 || thirtyPerc2) {
+                tempPrice =  (+prodVariant.price * 70 / 100) * 100;
+                prodVariant.price = tempPrice;
+              } else if (fourtyPerc || fourtyPerc1 || fourtyPerc2) {
+                tempPrice =  (+prodVariant.price * 60 / 100) * 100;
+                prodVariant.price = tempPrice;
+              } else if (firtyPerc || firtyPerc2) {
+                tempPrice =  (+prodVariant.price * 30 / 100) * 100;
+                prodVariant.price = tempPrice;
+              } 
+              
+            });
+          } else if (prod.tags.indexOf('julyfourthsale2023') >= 0 && (isUserIn instanceof HTMLElement)) {
+              console.log(': sale item detected :');
+              document.querySelectorAll('.rebuy-addon__item-info')[nth].querySelector('.rebuy-addon-container-23 span').style = "color: #d0021b !important;";
+            
+              const getSubPrice = document.querySelectorAll('.rebuy-vip-price-23')[nth]
+              let rebuySubPrice = prod.metafields.ebyacf.vip_member_price
+              
+              if(rebuySubPrice.includes('$')){
+                const tempSubp = rebuySubPrice.split('$')[1];
+                rebuySubPrice = tempSubp;
+              }
+
+              if (twentyPerc) {
+                tempPrice =  (+rebuySubPrice * 80 / 100);
+                getSubPrice.innerText = (tempPrice).toLocaleString('en-US', {
+                  style: 'currency',
+                  currency: 'USD',
+                }).replace('.00', '');
+              } else if (thirtyPerc1 || thirtyPerc2) {
+                tempPrice =  (+rebuySubPrice * 70 / 100);
+                getSubPrice.innerText = (tempPrice).toLocaleString('en-US', {
+                  style: 'currency',
+                  currency: 'USD',
+                }).replace('.00', '');
+              } else if (fourtyPerc || fourtyPerc1 || fourtyPerc2) {
+                tempPrice =  (+rebuySubPrice * 60 / 100);
+                getSubPrice.innerText = (tempPrice).toLocaleString('en-US', {
+                  style: 'currency',
+                  currency: 'USD',
+                }).replace('.00', '');
+              } else if (firtyPerc || firtyPerc2) {
+                tempPrice =  (+rebuySubPrice * 30 / 100);
+                getSubPrice.innerText = (tempPrice).toLocaleString('en-US', {
+                  style: 'currency',
+                  currency: 'USD',
+                }).replace('.00', '');
+              } 
+          } 
+        });
+        if(isUserIn instanceof HTMLElement){
+            //document.querySelectorAll('.rebuy-vip-price-23')[n].style = "color: #d0021b !important;";
+            document.querySelectorAll('.rebuy-vip-price-23').forEach((elem)=>{elem.style="color: #d0021b !important;"})
+        }
+        function percentage23(productType, widgetColor, arrColors, type, j){
+          for(const color of arrColors){
+            const isT = (productType.includes(type[0]) && (widgetColor === color)) || (productType.includes(type[1]) && (widgetColor === color))
+            if(isT){
+              return true
+            }
+          }
+        }
+      }
+    }
+  });
+});
+
+</script>

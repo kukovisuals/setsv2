@@ -1,0 +1,2982 @@
+{% if canonical_url contains 'account' %}
+    <script defer type="text/javascript" src="https://www.googletagmanager.com/gtag/js?id=UA-103955744-4"></script>
+    <script defer type="text/javascript">
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);};
+    gtag('js', new Date());
+    
+    gtag('config', 'UA-103955744-4');
+    </script>
+{% endif %}
+<script type="lazyload2">
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-SM2BTQY1PF');
+gtag('config', 'GTM-P3NZM4L');
+
+var useCapture = true;
+var fwEvents = [
+    "fw:video:impression",
+    "fw:video:start",
+    "fw:video:first-quartile",
+    "fw:video:midpoint",
+    "fw:video:third-quartile",
+    "fw:video:complete",
+    "fw:video:session",
+    "fw:video:click-cta",
+    "fw:video:click-share",
+    "fw:video:share",
+    "fw:player:quit",
+    "fw:shopping:hydrate-products",
+    "fw:shopping:cart-updated",
+    "fw:shopping:request-checkout",
+    "fw:shopping:product-clicked",
+    "fw:embed-feed:impression",
+    "fw:embed-feed:impression",
+    "fw:embed-feed:thumbnail-load",
+    "fw:embed-feed:thumbnail-click",
+     "fw:livestream:join",
+   "fw:livestream:quit",
+   "fw:livestream:send-chat",
+   "fw:livestream:send-heart",
+     "fw:player:transition",
+   "fw:storyblock:impression",
+   "fw:video:submit-answer",
+   "fw:video:submit-choice",
+   "fw:shopping:product-clicked",
+"fw:video:click-share",
+"fw:video:share",
+"fw:shopping:cart-updated",
+"fw:shopping:request-checkout",
+];
+(function() {
+        fwEvents.forEach(function (e) {
+            document.addEventListener(e, function(event) {
+                window.dataLayer.push({
+                   'event': e,
+                    'detail': event.detail || {},
+                });
+            }, true);
+        })
+})();
+</script>
+<script defer type="text/javascript">
+{% if customer %}
+	window.customer_id = "{{ customer.id }}";
+    window.customer_email = "{{ customer.email }}";
+    console.log(":init cust:", window.customer_id);
+{% endif %}
+window.money = '{{ shop.money_format }}';
+window.money_format = '{{ shop.money_with_currency_format }}';
+window.currency = '{{ shop.currency }}';
+window.shop_money_format = {{ shop.money_format | strip_html | json }};
+window.shop_money_with_currency_format = {{ shop.money_with_currency_format | strip_html | json }};
+window.loading_url = "{{ 'loading.gif' | asset_url}}";
+window.file_url = "{{''|file_url}}";
+window.asset_url = "{{'Vela'|asset_url|remove:'Vela'}}";
+window.ajaxcart_type = '{{ settings.ajax_cart_method }}';
+window.cart_empty = {{ 'cart.general.empty' | t | json }};
+window.swatch_enable = {{ settings.product_swatch }};
+window.swatch_show_unvailable = {{ settings.product_swatch_unvailable }};
+window.sidebar_multichoise = {{ settings.sidebar_filtercustag_multi }};
+window.float_header = {{ settings.header_float_enable }};
+window.review = {{ settings.product_reviews_enable }};
+window.currencies = {{ settings.show_multiple_currencies }};
+window.countdown_format = "<ul class='list-unstyle list-inline'><li><span class='number'>%D</span><span>Days</span></li><li><span class='number'>%H</span><span>Hours</span></li><li><span class='number'>%M</span><span>Mins</span></li><li><span class='number'>%S</span><span>Secs</span></li></ul>";
+window.APIDomain = 'https://api.join-eby.com';
+window.COREDomain = 'https://shop.join-eby.com/';
+window.stripAPI = '/stripe/';
+window.otherAPI = '/other/';
+window.sideCartUpsellEnable = {{ settings.sidecart_upsell_enable }};
+window.sideCartUpsellProductId = {% if all_products[settings.sidecart_upsell_product] %}{{ all_products[settings.sidecart_upsell_product].id }}{% else %}false{% endif %};
+window.sideCartUpsellProduct2Id = {% if all_products[settings.sidecart_upsell_product2] %}{{ all_products[settings.sidecart_upsell_product2].id }}{% else %}false{% endif %};
+window.sideCartUpsellProduct3Id = {% if all_products[settings.sidecart_upsell_product3] %}{{ all_products[settings.sidecart_upsell_product3].id }}{% else %}false{% endif %};
+window.sideCartUpsellProduct4Id = {% if all_products[settings.sidecart_upsell_product4] %}{{ all_products[settings.sidecart_upsell_product4].id }}{% else %}false{% endif %};
+window.goBack = function (e){
+        var defaultLocation = window.COREDomain;
+        var oldHash = window.location.hash;
+
+        window.history.go(-1); // Try to go back
+
+        var newHash = window.location.hash;
+
+        if(newHash === oldHash && (typeof(document.referrer) !== "string" || document.referrer  === "")){
+            window.setTimeout(function(){
+                // redirect to default location
+                window.location.href = defaultLocation;
+            },1000);
+        }
+        if(e){
+          if(e.preventDefault) {
+          	e.preventDefault();
+          }
+          if (e.preventPropagation) {
+          	e.preventPropagation();
+          }
+        }
+        return false;
+    };
+window.ebyAjax = function (type, url, callback) {
+	var xmlhttp = new XMLHttpRequest();
+	xmlhttp.onreadystatechange = function () {
+    if (xmlhttp.readyState == XMLHttpRequest.DONE && xmlhttp.status == 200) {
+		var data = xmlhttp.responseText;
+        	if (callback) callback(data);
+    	}
+    };
+    xmlhttp.open(type, url, true);
+    xmlhttp.send();
+};
+window.getAttributes = function () {
+    // Find and return cart attributes
+    var attributeRegEx = /attributes\[(.*?)\]/,
+        attributeNameRegex = /\[(.*?)\]/,
+        attribute_selectors = [
+            '[name*="attributes"]',
+        ],
+        attributes = document.querySelectorAll(attribute_selectors.join(',')),
+        attributes_to_update = Array.prototype.slice.apply(attributes),
+        attributes_filtered = window.filterValues(attributes_to_update);
+    var attribute_data = {},
+        utm_attributes = getUTMAttributes(),
+        attributes_from_url = new URLSearchParams(decodeURIComponent(window.location.search));
+    for (let pair of attributes_from_url) {
+        if (attributeRegEx.test(pair[0])) {
+            var attributeName = pair[0]
+                .match(attributeNameRegex)[0];
+            attributeName = attributeName.substring(1, attributeName.length -1);
+            attribute_data[attributeName] = attributes_from_url.get(pair[0]);
+        }
+    }
+    attributes_filtered.forEach(function(attribute) {
+        var name = attribute.getAttribute('name'),
+            value = attribute.value;
+        if (attributeRegEx.test(name)) {
+            var extractedName = name.match(attributeNameRegex)[0];
+            extractedName = extractedName.substring(1, extractedName.length -1);
+            return attribute_data[extractedName] = value;
+        }
+        return attribute_data[name] = value;
+    });
+    if (utm_attributes) {
+        Object.keys(utm_attributes).forEach(function(key) {
+            attribute_data[key] = utm_attributes[key];
+        });
+    }
+    if (!Object.keys(attribute_data).length) return {};
+    return { attributes: Object.assign({}, attribute_data) };
+};
+window.getUTMAttributes = function () {
+    // Retrieve UTMAttributes from Shopify cookie
+    var shopifyCookieRegEx = /^_shopify_sa_p/;
+    var utmRegEx = /^utm_/;
+    var timestampRegEx = /^_shopify_sa_t/;
+    var utmParams = {};
+    var shopifyCookie = "";
+    var timestamp = "";
+    document.cookie.split(";")
+            .map(function(s){
+                return s.trim();
+            })
+            .forEach(function(s){
+                if (shopifyCookieRegEx.test(s)) {
+                    shopifyCookie = s;
+                }
+                if (timestampRegEx.test(s)) {
+                    timestamp = decodeURIComponent(s.split("=")[1]);
+                }
+                return;
+            });
+    var utmValuesFromCookie = shopifyCookie.split("=")[1];
+    decodeURIComponent(utmValuesFromCookie)
+        .split("&")
+        .forEach(function(s){
+            var key = s.split("=")[0];
+            var val = s.split("=")[1];
+            if (utmRegEx.test(key)) {
+                return utmParams[key] = val;
+            }
+            return;
+        });
+    if (!Object.keys(utmParams).length) {
+        return undefined;
+    }
+    utmParams.utm_timestamp = timestamp;
+    utmParams.utm_data_source = "shopify_cookie";
+    return utmParams;
+};
+window.filterValues = function (elems) {
+    // Return inputs with valid values
+    return elems.filter(function(elem) {
+        var is_active_checkbox = elem.getAttribute('type') === 'radio' && elem.checked,
+            is_active_radio = elem.getAttribute('type') === 'checkbox' && elem.checked,
+            is_input = elem.getAttribute('type') !== 'checkbox' && elem.getAttribute('type') !== 'radio';
+        return !!elem.value && (is_input || is_active_checkbox || is_active_radio);
+    });
+};
+/**/
+  
+/* site banner countdown*/
+var countdownEnabled = {{ shop.metafields.ebyacf.enable_sitewide_countdown | default: false }};
+if (!!countdownEnabled) {
+  document.addEventListener("DOMContentLoaded", function() {
+    console.log(':: init counter ::');
+    var endDate = "2022-03-22";
+
+    var countDownDate = new Date(endDate).getTime();
+
+    // Get today's date and time
+    var rightNow = new Date().getTime();
+
+    // Find the distance between now and the count down date
+    var distanceRn = countDownDate - rightNow;
+
+    // Time calculations for days, hours, minutes and seconds
+    var daysRn = Math.floor(distanceRn / (1000 * 60 * 60 * 24));
+    var hoursRn = Math.floor((distanceRn % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    var minutesRn = Math.floor((distanceRn % (1000 * 60 * 60)) / (1000 * 60));
+
+    // If the count down is finished
+    if (distanceRn < 0) {
+      document.getElementById("ebySaleCountdown").innerHTML = "SHOP NOW!";
+    } else{
+      // Display the result in the element with id="demo"
+      document.getElementById("ebySaleCountdown").innerHTML = daysRn + "d " + hoursRn + "h " + minutesRn + "m";
+    }
+
+    // Update the count down every 1 minute
+    var x = setInterval(function() {
+
+      // Get today's date and time
+      var now = new Date().getTime();
+
+      // Find the distance between now and the count down date
+      var distance = countDownDate - now;
+
+      // Time calculations for days, hours, minutes and seconds
+      var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+      var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+      var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+      // Display the result in the element with id="demo"
+      document.getElementById("ebySaleCountdown").innerHTML = days + "d " + hours + "h " + minutes + "m";
+
+      // If the count down is finished
+      if (distance < 0) {
+        clearInterval(x);
+        document.getElementById("ebySaleCountdown").innerHTML = "SHOP NOW!";
+      }
+    }, 60000);
+  });
+
+
+}
+
+window.vela = window.vela || {};
+(vela.cacheSelectors = function () {
+    vela.cache = { $html: $("html"), $body: $("body"), $velaProductImage: $("#ProductPhotoImg"), $velaLoading: $("#loading"), $velaNewletterModal: $("#velaNewsletterModal") };
+}),
+    (vela.init = function () {
+        vela.cacheSelectors(),
+            vela.startTheme(),
+            vela.drawersInit(),
+            vela.swatchProduct(),
+            vela.productThumbImage(),
+            vela.accordion(),
+            vela.floatHeader(),
+            vela.menuMobile(),
+            vela.productCountdown(),
+            vela.quickview(),
+            vela.goToTop(),
+            vela.productLoadMore(),
+            vela.initDropdowns(),
+            window.location.href.indexOf("/account") >= 0 && vela.velaAccountPage(),
+            "modal" == window.ajaxcart_type && ajaxCart.load();
+        var b = 0;
+        function c() {
+            return !($(window).width() > 1024);
+        }
+        function d(b, a) {
+            var c = a.hasClass("active");
+            b.removeClass("active"), c ? a.removeClass("active") : a.addClass("active");
+        }
+        function e(b, a) {
+            var c = a.hasClass("open");
+            b.removeClass("open"), c ? a.removeClass("open") : a.addClass("open");
+        }
+        /* navigation animation FC 110122 */
+        function a() {
+
+            const desktopMenu = $(".eby-header .eby-header-nav");
+            const sideNavigatorDesktop = $(".mobile-nav-desktop");
+            const navigationAnimation = $(".nav-wrapperhrd22");
+            const animationSelector = "scrollDown-anim22";
+            const animationSelectorUp = "scrollUp-anim22";
+            const mobileMenuIcon = $(".eby-mobile-nav");
+            const inlineDskTitle = ".eby-nv-laptop-title";
+            const transparentBkgr = "bkgrn-transparent-color-white";
+            const whiteBkgr = "bkgrn-white-color-dark";
+            const darkBackground = "motivator-bar__wrapper"
+            const stickyMenuMobile = $('.sticky-page-menu-22')
+            const mainMenuTitles = $('.nav-title-hs02 ');
+            const hamburgerLinesDesktop = $('.laptop_only.nv-icn-opncls .btnMenuMobile.ebyicon-hamburger');
+            const hamburgerLines = $('.eby-mobile-nav .btnMenuMobile.ebyicon-hamburger');
+            const mobileJsDrawer = $('.eby-mobile-nav .jsDrawerOpenRight');
+            const darkTheme = 'eby-dark-theme-22';
+            const darkLogo = $(".activate-dark-logo");
+            const lightLogo = $(".activate-white-logo");
+            const lightTheme = 'eby-light-theme-22';
+            const darkBorder = 'eby-border-dark-22';
+            const lightBorder = 'eby-border-light-22';
+            const desktopSubscribe = $('.right_text.desktop_only.ebyMicroBtn');
+            const iconMenu = $('.right_text.sign_in_btn .eby-icon-menu-22');
+            const desktopCart = $('.eby-right-icon-wrpper-22 .jsDrawerOpenRight')
+            const desktopCartBorder = $('.eby-right-icon-wrpper-22 .ebyHeaderCtaWrapper')
+
+            const checkMyRouteHome =  window.location.pathname === '/';
+        
+            const addClassNavigation = (element, selector) => (element.forEach( (e) => e.addClass(selector)));
+            const removeClassNavigation = (element, selector) => (element.forEach( (e) => e.removeClass(selector))); 
+            
+            var c = $(".eby-header"),
+                a = window.pageYOffset || document.documentElement.scrollTop;
+
+            setTimeout(function () {
+
+                const sensitiveRange = Math.abs(a - b) > 10
+                //console.log(sensitiveRange,  Math.abs(a - b), a)
+                if( a === 0 && !checkMyRouteHome){
+                    removeClassNavigation([mobileMenuIcon, desktopMenu], transparentBkgr);
+                    addClassNavigation([mobileMenuIcon, desktopMenu], whiteBkgr);
+                    
+                } else if( a <= 0 && checkMyRouteHome ){
+
+                    darkLogo.removeClass('active')
+                    lightLogo.addClass('active')
+                    hamburgerLinesDesktop.removeClass(lightTheme)
+                    //desktopSubscribe.removeClass(darkBorder)
+                    removeClassNavigation([desktopSubscribe, iconMenu, desktopCartBorder, mobileJsDrawer],darkBorder);
+                    removeClassNavigation([mobileMenuIcon, desktopMenu, stickyMenuMobile], darkBackground);
+                    
+                    mobileJsDrawer.addClass(lightBorder);
+                    addClassNavigation([mobileMenuIcon, desktopMenu, stickyMenuMobile, mainMenuTitles,desktopCart, mobileJsDrawer, hamburgerLinesDesktop, desktopSubscribe], transparentBkgr );
+                    $(inlineDskTitle).css("color","#FFF");
+                    $('.eby-border-light-22-icon').css("stroke", '#FFF')
+                } else if( (a > b) && sensitiveRange ){
+
+                    //going down
+                    addClassNavigation( [navigationAnimation], "scrollDown-anim22");
+                    removeClassNavigation( [navigationAnimation], "scrollUp-anim22");
+                    if(checkMyRouteHome){
+                        lightLogo.removeClass('active')
+                        darkLogo.addClass('active')
+                        hamburgerLinesDesktop.removeClass(darkTheme)
+
+                        removeClassNavigation([desktopMenu, stickyMenuMobile, mainMenuTitles, mobileMenuIcon], transparentBkgr);
+                        addClassNavigation([desktopMenu, stickyMenuMobile, mobileMenuIcon], whiteBkgr );
+                        $(inlineDskTitle).css("color","#04081c");
+                    } else {
+                        removeClassNavigation([stickyMenuMobile], transparentBkgr);
+                        addClassNavigation([stickyMenuMobile], whiteBkgr );
+                
+                        $(inlineDskTitle).css("color","#04081c");
+                    }
+                
+                    $(sideNavigatorDesktop).css("top","20px");
+                } else if( (a < b) && sensitiveRange ){
+                        // going up 
+                        removeClassNavigation( [navigationAnimation], "scrollDown-anim22");
+                        addClassNavigation( [navigationAnimation], "scrollUp-anim22");
+
+                        $(sideNavigatorDesktop).css("top","-32px");
+                        if(checkMyRouteHome){
+                            lightLogo.removeClass('active')
+                            darkLogo.addClass('active')
+
+                            //desktopSubscribe.addClass(darkBorder, lightTheme)
+                            desktopCartBorder.removeClass(lightTheme)
+                            mobileJsDrawer.removeClass(lightBorder);
+                            removeClassNavigation([hamburgerLines,mobileJsDrawer], darkTheme)
+                            removeClassNavigation([mobileMenuIcon, desktopMenu,mobileJsDrawer, desktopSubscribe, desktopCart, hamburgerLinesDesktop], transparentBkgr);
+                            
+                            $('.eby-border-light-22-icon').css("stroke", '#04081c')
+                            
+                            hamburgerLinesDesktop.addClass(lightTheme);
+                            mobileJsDrawer.addClass(darkBorder);
+                            addClassNavigation([desktopSubscribe, iconMenu, desktopCartBorder], darkBorder);
+                            addClassNavigation([mobileMenuIcon, desktopMenu], whiteBkgr );
+                    
+                            $(inlineDskTitle).css("color","#04081c");
+                        } else {
+                            removeClassNavigation([mobileMenuIcon, desktopMenu], transparentBkgr);
+                            addClassNavigation([mobileMenuIcon, desktopMenu], whiteBkgr );
+                    
+                            $(inlineDskTitle).css("color","#04081c");
+                        }
+                }
+                b = a <= 0 ? 1 : a;
+            }, 250);
+        }
+        $(".mega-nav-container > a").click(function (a) {
+            (c() || "/" === window.location.pathname) &&
+                (a.preventDefault(),
+                a.target.className.indexOf("mobileNavMenuDropdown") >= 0
+                    ? (e($(".mobileNavMenuDropdown.prime"), $(a.target)), d($(".mega-nav-container"), $(this).parent()))
+                    : (window.location.href = a.target.parentElement.href ? a.target.parentElement.href : a.target.href));
+        }),
+            $(".mega-nav-column > a.nav-column-header").click(function (a) {
+                (c() || "/" === window.location.pathname) &&
+                    (a.preventDefault(),
+                    a.target.className.indexOf("mobileNavMenuDropdown") >= 0
+                        ? (e($(".mobileNavMenuDropdown.mini"), $(a.target)), d($(".mega-nav-column"), $(this).parent()))
+                        : (window.location.href = a.target.parentElement.href ? a.target.parentElement.href : a.target.href));
+            }),
+            $(window).resize(function () {
+                c() || "/" === window.location.pathname || ($(".mega-nav-container").removeClass("active"), $(".mega-nav-column").removeClass("active"));
+            }),
+            jQuery("body").hasClass("template-index"),
+            $(window).scroll(function () {
+                $("body").hasClass("jsDrawerOpen") || $("body").hasClass("menuMobileActive") || a();
+            }),
+            $("body").hasClass("jsDrawerOpen") || $("body").hasClass("menuMobileActive") || a();
+    }),
+    (vela.getHash = function () {
+        return window.location.hash;
+    }),
+    (vela.lightningDeals = function (a, b) {
+        console.log(":: init lightning deal collection ::", { module: a, collection: b });
+        let d = function (d) {
+                let a = jQuery(".primaryLoaderWrapper"),
+                    b = jQuery(".secondaryLoaderWrapper"),
+                    c = jQuery(".sortCollLoadingWrapper");
+                d ? (a.addClass("active"), b.addClass("active"), c.addClass("active")) : (a.removeClass("active"), b.removeClass("active"), c.removeClass("active"));
+            },
+            e = function (a, b) {
+                let c = a.reduce(function (a, b) {
+                    return (a[b.inventory_item_id] = b.available), a;
+                }, {});
+                return b.map(function (a, b) {
+                    return (a.availQty = c[a.inventory_item_id]), a;
+                });
+            },
+            f = function (c) {
+                let b = jQuery(".pantyStyleOptListing .sortOpt");
+                for (let a = 0; a < b.length; a++) {
+                    let d = jQuery(b[a]).data("sortopt").replace("pantyStyle-", "");
+                    !0 === c[d] && jQuery(b[a]).addClass("online"),
+                        !1 === c[d] && (jQuery(b[a]).removeClass("online"), jQuery(b[a]).hasClass("optOn") && jQuery('.pantyStyleOptListing .sortOpt[data-sortopt="pantyStyle-all"]').trigger("click"));
+                }
+            },
+            g = function (a, c) {
+                var b = { all: !0, thong: !1, bikini: !1, highwaisted: !1, cheeky: !1, brief: !1, g_string: !1, highwaisted_thong: !1 };
+                jQuery(".saleProdTile").removeClass("inStock"),
+                    jQuery(".saleProdTile").removeClass("lastCall"),
+                    a.map(function (a, d) {
+                        let c = a.prodTags.filter(function (a, b) {
+                            if (a.indexOf("pantyType-") >= 0) return a.replace("pantyType-", "");
+                        })[0];
+                        c && a.availQty > 0 && (b[c.replace("pantyType-", "")] = !0),
+                            a.availQty > 5
+                                ? jQuery('.saleProdTile[data-prodtitle="' + a.prodTitle + '"]').addClass("inStock")
+                                : a.availQty > 0 && a.availQty < 2 && jQuery('.saleProdTile[data-prodtitle="' + a.prodTitle + '"]').addClass("lastCall"),
+                            jQuery('.saleProdTile[data-prodtitle="' + a.prodTitle + '"]')
+                                .find(".saleItemOptVal")
+                                .val(a.variantId);
+                    }),
+                    f(b);
+            },
+            c = function (a, b) {
+                let c = b.reduce(function (a, b) {
+                        return a.push(b.id), a;
+                    }, []),
+                    f = "" !== a.selectedVal ? a.selectedVal : a.defaultVal;
+                jQuery.ajax({
+                    type: "POST",
+                    crossDomain: !0,
+                    async: !0,
+                    url: window.APIDomain + window.otherAPI + "eby_stockcheck.php",
+                    data: { data: { variantOpt: a.defaultOpt, variantOptVal: f, prodIdList: c.join(","), warehouseKey: "ecomm" } },
+                    beforeSend: function () {
+                        d(!0);
+                    },
+                    dataType: "json",
+                    headers: { Authorization: "Bearer ddd345d2498c7717a7bbbe86d9d145dc", "Access-Control-Allow-Origin": "*" },
+                    success: function (a) {
+                        if (a) {
+                            let b = e(a.inventoryHealthcheck, a.prodInventoryData);
+                            g(b, f), d(!1);
+                        }
+                    },
+                    error: function (a, b) {
+                        console.log("::stockcheck failure::", { text: b, xhr: a });
+                    },
+                });
+            },
+            h = function (a) {
+                console.log(":: Init headerModule update ::"), jQuery(".collImageHeader");
+                let b = jQuery("#flashsalePanels").children(),
+                    c = ["xs", "sm", "md", "lg", "xl"].indexOf(a) >= 0 ? "missy" : "plus",
+                    d = "missy" === c ? "plus" : "missy";
+                b.map(function (e, b) {
+                    let a = b.children[0];
+                    a.setAttribute("src", a.getAttribute("data-src").replace(d, c)), a.setAttribute("data-src", a.getAttribute("data-src").replace(d, c));
+                });
+            };
+        jQuery(a.primarySorterSelector + " input").on("click", function (d) {
+            (a.selectedVal = d.target.value), h(a.selectedVal), c(a, b);
+        }),
+            c(a, b);
+    }),
+    (vela.cbSelectionsData = []),
+    (vela.cbCurrSelections = []),
+    (vela.cbSelections = function (a, b) {
+        console.log(":: init custombox collection ::", { module: a, collection: b });
+        let c = "34835462357036";
+        var d = !1,
+            e = !1;
+        let f = function (d) {
+                let a = jQuery(".primaryLoaderWrapper"),
+                    b = jQuery(".secondaryLoaderWrapper"),
+                    c = jQuery(".sortCollLoadingWrapper");
+                d ? (a.addClass("active"), b.addClass("active"), c.addClass("active")) : (a.removeClass("active"), b.removeClass("active"), c.removeClass("active"));
+            },
+            g = function () {
+                let a = u();
+                "missy" === a && jQuery(".listingOuterwrapper").removeClass("plusView").addClass("missyView"), "plus" === a && jQuery(".listingOuterwrapper").removeClass("missyView").addClass("plusView");
+            },
+            h = function (a, b) {
+                let c = a.reduce(function (b, a) {
+                    return 46033928236 === a.location_id && (b[a.inventory_item_id] = a.available), b;
+                }, {});
+                return b.map(function (a, b) {
+                    return (a.availQty = c[a.inventory_item_id]), a;
+                });
+            },
+            i = function (c) {
+                let b = jQuery(".pantyStyleOptListing .sortOpt");
+                for (let a = 0; a < b.length; a++) {
+                    let d = jQuery(b[a]).data("sortopt").replace("pantyStyle-", "");
+                    !0 === c[d] && jQuery(b[a]).addClass("online"),
+                        !1 === c[d] && (jQuery(b[a]).removeClass("online"), jQuery(b[a]).hasClass("optOn") && jQuery('.pantyStyleOptListing .sortOpt[data-sortopt="pantyStyle-allcb"]').trigger("click"));
+                }
+            },
+            j = function (a, c) {
+                var b = { all: !0, thong: !1, bikini: !1, highwaisted: !1, cheeky: !1, brief: !1, g_string: !1, highwaisted_thong: !1 };
+                jQuery(".saleProdTile").removeClass("inStock"),
+                    jQuery(".saleProdTile").removeClass("lastCall"),
+                    m(),
+                    a.map(function (a, d) {
+                        let c = a.prodTags.filter(function (a, b) {
+                            if (a.indexOf("pantyType-") >= 0) return a.replace("pantyType-", "");
+                        })[0];
+                        c && a.availQty > 0 && (b[c.replace("pantyType-", "")] = !0),
+                            a.availQty > 5
+                                ? jQuery('.saleProdTile[data-prodtitle="' + a.prodTitle + '"]').addClass("inStock")
+                                : a.availQty > 0 && a.availQty < 2 && jQuery('.saleProdTile[data-prodtitle="' + a.prodTitle + '"]').addClass("lastCall"),
+                            jQuery('.saleProdTile[data-prodtitle="' + a.prodTitle + '"]')
+                                .find(".saleItemOptVal")
+                                .val(a.variantId),
+                            jQuery('.saleProdTile[data-prodtitle="' + a.prodTitle + '"]')
+                                .find(".customBoxProdAdd")
+                                .val(a.variantId),
+                            a.prodTitle.indexOf("Quarterly") >= 0
+                                ? jQuery('.saleProdTile[data-prodtitle="' + a.prodTitle + '"] #cbTilePrdId-quarterly').val(a.variantId)
+                                : a.prodTitle.indexOf("Semi-Annual") >= 0 && jQuery('.saleProdTile[data-prodtitle="' + a.prodTitle + '"] #cbTilePrdId-semi_annual').val(a.variantId);
+                    }),
+                    i(b);
+            },
+            k = function (a, b) {
+                let c = b.reduce(function (a, b) {
+                        return a.push(b.id), a;
+                    }, []),
+                    d = "" !== a.selectedVal ? a.selectedVal : a.defaultVal;
+                jQuery.ajax({
+                    type: "POST",
+                    crossDomain: !0,
+                    async: !0,
+                    url: window.APIDomain + window.otherAPI + "eby_stockcheck.php",
+                    data: { data: { variantOpt: a.defaultOpt, variantOptVal: d, prodIdList: c.join(","), warehouseKey: "ecomm" } },
+                    beforeSend: function () {
+                        f(!0);
+                    },
+                    dataType: "json",
+                    headers: { Authorization: "Bearer ddd345d2498c7717a7bbbe86d9d145dc", "Access-Control-Allow-Origin": "*" },
+                    success: function (a) {
+                        if (a) {
+                            let b = h(a.inventoryHealthcheck, a.prodInventoryData);
+                            (vela.cbSelectionsData = b),
+                                j(b, d),
+                                f(!1),
+                                g(),
+                                localStorage.getItem("ets-cbFirstpantyGranted") && (console.log(":: add my first preselected product ::", localStorage.getItem("ets-cbFirstpantyGranted")), p(localStorage.getItem("ets-cbFirstpantyGranted")));
+                        }
+                    },
+                    error: function (a, b) {
+                        console.log("::stockcheck failure::", { text: b, xhr: a }), window.location.reload();
+                    },
+                });
+            },
+            l = function (a) {
+                console.log(":: Init headerModule update ::", a), jQuery(".collImageHeader");
+                let b = jQuery("#flashsalePanels").children(),
+                    c = ["xs", "sm", "md", "lg", "xl"].indexOf(a) >= 0 ? "missy" : "plus",
+                    d = "missy" === c ? "plus" : "missy";
+                b.map(function (e, b) {
+                    let a = b.children[0];
+                    a.setAttribute("src", a.getAttribute("data-src").replace(d, c)), a.setAttribute("data-src", a.getAttribute("data-src").replace(d, c));
+                });
+            },
+            m = function () {
+                let a = jQuery(".primarySorterWrapper.planType input:checked");
+                if (a) return a.val();
+                console.log("::ERROR:: current plan type not found.");
+            },
+            n = function () {
+                let a = jQuery(".primarySorterWrapper.sizeType input:checked");
+                if (a) return a.val();
+                console.log("::ERROR:: current size type not found.");
+            },
+            o = function (e, b, f, g) {
+                let d = jQuery("img[data-prodId=" + b + "]").attr("data-src") ? jQuery("img[data-prodId=" + b + "]").attr("data-src") : jQuery("img[data-prodId=" + b + "]").attr("src"),
+                    h = u(),
+                    c = f.split(":");
+                return (
+                    "plus" === h &&
+                        "brief" == c[0].toLowerCase() &&
+                        (d = jQuery("img.plus[data-prodId=" + b + "]").attr("data-src") ? jQuery("img.plus[data-prodId=" + b + "]").attr("data-src") : jQuery("img.plus[data-prodId=" + b + "]").attr("src")),
+                    { prdImg: d, prdVarId: e, prdId: b, prdName: c[0].replace("_", " "), prdColor: c[1], prdSize: "" !== a.selectedVal ? a.selectedVal : a.defaultVal, prdInven: "", prdIsLtd: g }
+                );
+            },
+            p = function (i) {
+                let c = i.split("::"),
+                    f = jQuery('.btnAddToCart[data-prodid="' + c[1] + '"]');
+                f.attr("data-isltd");
+                var j = c[1],
+                    k = c[0],
+                    l = f.attr("data-prodCard"),
+                    m = "true" === f.attr("data-isLtd");
+                let b = o(k, j, l, m),
+                    g = vela.cbCurrSelections.length + 1,
+                    n = "<div><img src='" + b.prdImg + "' /></div>",
+                    h = vela.cbCurrSelections.length + 1,
+                    p =
+                        "<div class='cbItemImg' ><img src='" +
+                        b.prdImg +
+                        "' /></div><div><p class='cbItemName'>" +
+                        b.prdName +
+                        "</p><span>" +
+                        b.prdColor +
+                        "</span><span>" +
+                        b.prdSize.toUpperCase() +
+                        "</span></div><div class='cbItemRemove'><button class='cbRemoveItem' data-prodId='" +
+                        b.prdId +
+                        "' data-prodCard='" +
+                        b.prdName +
+                        ":" +
+                        b.prdColor +
+                        "' value='" +
+                        h +
+                        ":" +
+                        b.prdVarId +
+                        "'>Remove</button></div>";
+                jQuery("#cb_minicart_slot-" + g)
+                    .addClass("active")
+                    .html(n),
+                    jQuery("#cb_minicart_exp_slot-" + g + " .cbMinicartExpandedSlotPrdTile")
+                        .addClass("active")
+                        .html(p),
+                    jQuery("#cb_minicart_exp_slot_val-" + h).val(b.prdVarId),
+                    vela.cbCurrSelections.push(b),
+                    e || t(!0),
+                    (d = !0);
+                var q = M.TapTarget.getInstance(jQuery(a.modalHowToSelector));
+                jQuery(".ebyCustomBoxModalBtn").addClass("animate__zoomIn"),
+                    setTimeout(function () {
+                        q.open(),
+                            setTimeout(function () {
+                                q.isOpen && q.close();
+                            }, 2e3);
+                    }, 300);
+            },
+            q = function (a) {
+                let b = vela.cbCurrSelections.length + 1,
+                    d = "<div><img src='" + a.prdImg + "' /></div>",
+                    c = vela.cbCurrSelections.length + 1,
+                    e =
+                        "<div class='cbItemImg' ><img src='" +
+                        a.prdImg +
+                        "' /></div><div><p class='cbItemName'>" +
+                        a.prdName +
+                        "</p><span>" +
+                        a.prdColor +
+                        "</span><span>" +
+                        a.prdSize.toUpperCase() +
+                        "</span></div><div class='cbItemRemove'><button class='cbRemoveItem' data-prodId='" +
+                        a.prdId +
+                        "' data-prodCard='" +
+                        a.prdName +
+                        ":" +
+                        a.prdColor +
+                        "' value='" +
+                        c +
+                        ":" +
+                        a.prdVarId +
+                        "'>Remove</button></div>";
+                jQuery("#cb_minicart_slot-" + b)
+                    .addClass("active")
+                    .html(d),
+                    jQuery("#cb_minicart_exp_slot-" + b + " .cbMinicartExpandedSlotPrdTile")
+                        .addClass("active")
+                        .html(e),
+                    jQuery("#cb_minicart_exp_slot_val-" + c).val(a.prdVarId),
+                    vela.cbCurrSelections.push(a);
+            },
+            r = function (h, f) {
+                console.log(":: removing cbProdItem ::", h);
+                let b = +f,
+                    g = "<p>Select Product</p>";
+                if ((vela.cbCurrSelections.splice(b - 1, 1), 0 !== vela.cbCurrSelections.length && jQuery("#cb_minicart_slot-" + (b + 1)).hasClass("active")))
+                    for (let d = f - 1; d < vela.cbCurrSelections.length; d++) {
+                        let a = d + 2;
+                        if (jQuery("#cb_minicart_slot-" + a).length > 0 && jQuery("#cb_minicart_slot-" + a).hasClass("active")) {
+                            let i = jQuery("#cb_minicart_slot-" + a).html();
+                            jQuery("#cb_minicart_slot-" + (a - 1))
+                                .addClass("active")
+                                .html(i),
+                                jQuery("#cb_minicart_slot-" + a)
+                                    .removeClass("active")
+                                    .html("");
+                        }
+                        if (jQuery("#cb_minicart_exp_slot-" + a).length > 0 && jQuery("#cb_minicart_exp_slot-" + a + " .cbMinicartExpandedSlotPrdTile").hasClass("active")) {
+                            let c = jQuery("#cb_minicart_exp_slot-" + a + " .cbMinicartExpandedSlotPrdTile").html(),
+                                j = jQuery("#cb_minicart_exp_slot_val-" + a).val(),
+                                e = jQuery(c).find("button").val(),
+                                k = +e.split(":")[0] - 1,
+                                l = k + ":" + e.split(":")[1];
+                            (c = c.replace(e, l)),
+                                jQuery("#cb_minicart_exp_slot-" + (a - 1) + " .cbMinicartExpandedSlotPrdTile")
+                                    .addClass("active")
+                                    .html(c),
+                                jQuery("#cb_minicart_exp_slot_val-" + (a - 1)).val(j),
+                                jQuery("#cb_minicart_exp_slot-" + a + " .cbMinicartExpandedSlotPrdTile")
+                                    .removeClass("active")
+                                    .html(g),
+                                jQuery("#cb_minicart_exp_slot_val-" + a).val("");
+                        }
+                    }
+                else
+                    jQuery("#cb_minicart_slot-" + b)
+                        .removeClass("active")
+                        .html(""),
+                        jQuery("#cb_minicart_exp_slot-" + b + " .cbMinicartExpandedSlotPrdTile")
+                            .removeClass("active")
+                            .html(g),
+                        jQuery("#cb_minicart_exp_slot_val-" + b).val("");
+                s();
+            },
+            s = function () {
+                let b = vela.cbCurrSelections,
+                    c = m();
+                if (("quarterly" === c && b.length >= 3) || ("semi_annual" === c && b.length >= 5))
+                    return (
+                        jQuery(a.modalMinicartSelector).addClass("complete"),
+                        jQuery("#currentCustomBoxProgress").addClass("complete").text("Complete!"),
+                        jQuery("#addCustomBoxToCart").prop("disabled", !1),
+                        jQuery("#pantyOptLock").addClass("active"),
+                        "complete"
+                    );
+                {
+                    let d = "";
+                    return (
+                        (d = "quarterly" === c ? "add " + (3 - b.length) + " more product(s)" : "add " + (5 - b.length) + " more product(s)"),
+                        jQuery("#pantyOptLock").hasClass("active") && jQuery("#pantyOptLock").removeClass("active"),
+                        jQuery(a.modalMinicartSelector).removeClass("complete"),
+                        jQuery("#currentCustomBoxProgress").removeClass("complete").text(d),
+                        jQuery("#addCustomBoxToCart").prop("disabled", !0),
+                        0 === b.length && t(!1),
+                        "incomplete"
+                    );
+                }
+            },
+            t = function (a) {
+                switch (a) {
+                    case !0:
+                        console.log("true size lock"), jQuery("#pantySizeOptLock").addClass("active"), (e = !0);
+                        break;
+                    case !1:
+                        console.log("false size lock"), jQuery("#pantySizeOptLock").removeClass("active"), (e = !1);
+                }
+            },
+            u = function () {
+                let a = jQuery(".primarySorterWrapper.sizeType input:checked");
+                if (a) return ["xs", "sm", "md", "lg", "xl"].indexOf(a.val()) >= 0 ? "missy" : "plus";
+                console.log("::ERROR:: current size type not found.");
+            },
+            v = function () {
+                jQuery.getJSON("/cart.js", function (a, b) {
+                    jQuery.ajax({
+                        type: "POST",
+                        crossDomain: !0,
+                        url: window.APIDomain + window.otherAPI + "index.php",
+                        data: { data: a },
+                        dataType: "json",
+                        success: function (b) {
+                            jQuery("body").removeClass("velaCartAdding");
+                            var a = "https://checkout.rechargeapps.com/r/checkout/" + b.checkout.token;
+                            window.offerDataCoupon, (a = `${a}`), (location.href = a);
+                        },
+                    });
+                });
+            };
+        jQuery(a.primarySorterSelector + " input").on("click", function (c) {
+            (a.selectedVal = c.target.value), l(a.selectedVal), k(a, b);
+        }),
+            jQuery(".mainContent").on("change", 'input[name="currPlanType"]', function (a) {
+                console.log(":: update new plan type ::", a.target),
+                    "quarterly" === a.target.value
+                        ? (jQuery("#currentPlanTypeAmt").text("3 panties"),
+                          jQuery(".perkPanties").text("3 panties"),
+                          jQuery(".perkMonths").text("3 months"),
+                          jQuery("#currentPlanTypeCost").text("$39"),
+                          jQuery("#customBoxMembershipFinalCost").text("$39"),
+                          jQuery(".ebyCustomBoxModalBtnWrapper").removeClass("semiannualMode").addClass("quarterlyMode"),
+                          jQuery(".ebyCustomBoxModal").removeClass("semiannualMode").addClass("quarterlyMode"))
+                        : (jQuery("#currentPlanTypeAmt").text("5 panties"),
+                          jQuery(".perkPanties").text("5 panties"),
+                          jQuery(".perkMonths").text("6 months"),
+                          jQuery("#currentPlanTypeCost").text("$65"),
+                          jQuery("#customBoxMembershipFinalCost").text("$65"),
+                          jQuery(".ebyCustomBoxModalBtnWrapper").removeClass("quarterlyMode").addClass("semiannualMode"),
+                          jQuery(".ebyCustomBoxModal").removeClass("quarterlyMode").addClass("semiannualMode")),
+                    "incomplete" === s() ? console.log(":: box capacity changed, now incomplete box ::") : console.log(":: box capacity changed, now box is complete ::");
+            }),
+            jQuery(".mainContent").on("click", ".cbRemoveItem", function (a) {
+                console.log(":: remove ebyCustomBoxItem ::", a.target);
+                var d = a.target.getAttribute("data-prodId"),
+                    b = a.target.value.split(":"),
+                    e = a.target.getAttribute("data-prodCard");
+                let c = o(b[1], d, e);
+                r(c, b[0]), console.log(":: NEW cbPrd removed ::", { cbBoxItem: c });
+            }),
+            jQuery(".mainContent").on("click", "#addCustomBoxToCart", function (o) {
+                if (jQuery(".scid").length > 0) {
+                    jQuery("body").addClass("velaCartAdding");
+                    var e = {};
+                    (e.shopify_customer_id = jQuery(".scid").data("id")), (e.size = jQuery(".primarySorterWrapper.sizeType input:checked").val());
+                    for (var r = 5, f = 0; f < r; f++) {
+                        var h = "product_" + (f + 1);
+                        jQuery(".cbRemoveItem:eq(" + f + ")").length < 1 ||
+                            ((e[h] = {}),
+                            (e[h].product_id = jQuery(".cbRemoveItem:eq(" + f + ")").data("prodid")),
+                            (e[h].variant_id = jQuery(".cbRemoveItem:eq(" + f + ")")
+                                .attr("value")
+                                .split(":")[1]));
+                    }
+                    $.ajax({
+                        type: "POST",
+                        crossDomain: !0,
+                        url: "https://api.join-eby.com/other/custom_box.php",
+                        data: { data: e },
+                        dataType: "json",
+                        success: function (a) {
+                            if ((jQuery("body").removeClass("velaCartAdding"), void 0 === a.success)) alert("An error ocurred! Please try again.");
+                            else {
+                                window.location.href = "https://shop.join-eby.com/account";
+                                return;
+                            }
+                        },
+                        error: function (a, b) {
+                            jQuery("body").removeClass("velaCartAdding"), alert("Error! Please try again.");
+                        },
+                    });
+                    return;
+                }
+                console.log(":: add customBox final to cart ::", { prodSelected: o.target.value, target: o.target });
+                let i = m(),
+                    j = jQuery("#cbTilePrdId-" + i).val(),
+                    b = { tiertwo_sub_price_enabled: "true", "Shipping Option": "pickup Ecommerce WH", product_type: "Main Subscription", shipping_interval_unit_type: "month" };
+                console.log(":: cbVarId ::", j), "quarterly" === i ? ((b.shipping_interval_frequency = 3), (b.tiertwo_sub_price = "39.00")) : ((b.shipping_interval_frequency = 6), (b.tiertwo_sub_price = "65.00"));
+                let g = [],
+                    p = [{ quantity: 1, id: c, properties: { included_in_custombox: !0, "Shipping Option": "Subscription WH", hidden_collateral: !0 } }],
+                    k = vela.cbCurrSelections.reduce(function (b, a) {
+                        let c = { included_in_custombox: !0, "Shipping Option": "pickup Ecommerce WH", ltd_cb_prod: a.prdIsLtd };
+                        return g.push(a.prdVarId), b.push({ quantity: 1, id: a.prdVarId, properties: c }), b;
+                    }, []);
+                (b.subscription_ids = g.join(",")), (b.subscription_ids = j + "," + b.subscription_ids), (b.subscription_ids += "," + c);
+                let l = null;
+                if (localStorage.getItem("ets-privyFreepantyGranted")) {
+                    let q = localStorage.getItem("ets-privyFreepantyGranted");
+                    (l = { quantity: 1, id: q, properties: { "Shipping Option": "pickup Ecommerce WH", FREEPANTY: !0 } }), (b.subscription_ids += "," + q), localStorage.removeItem("ets-privyFreepantyGranted");
+                }
+                let d = { attributes: { has_cb_membership: "true" }, items: [{ quantity: 1, id: j, properties: b }] };
+                if (g.every((a, c, b) => a === b[0])) {
+                    let s = { quantity: g.length, id: g[0], properties: k[0].properties };
+                    d.items = d.items.concat([s]).concat(p);
+                } else d.items = d.items.concat(k).concat(p);
+                "quarterly" === i && k.length > 3 ? (d.items = d.items.slice(0, 4).reverse()) : (d.items = d.items.reverse()),
+                    l && d.items.unshift(l),
+                    console.log(":: add custombox to cart ::", d),
+                    M.Modal.getInstance(jQuery(a.modalMinicartSelector)).close(),
+                    M.Modal.getInstance(jQuery(a.modalAlertSelector)),
+                    setTimeout(function () {
+                        jQuery("body").addClass("velaCartAdding"),
+                            jQuery.ajax({
+                                type: "POST",
+                                url: "/cart/add.js",
+                                async: !0,
+                                data: d,
+                                dataType: "json",
+                                success: function (a) {
+                                    console.log(":: custombox and prods added to cart ::", { data: a }),
+                                        M.toast({ html: "Membership added to cart!", classes: "cbSelectAlert" }),
+                                        n(),
+                                        gtag("event", "build_my_box-add", { event_category: "ebyacq-newSubAddToCart", event_label: "boxAdded-EBYCUSTOM", event_value: "" }),
+                                        localStorage.removeItem("ets-cbFirstpantyGranted"),
+                                        v();
+                                },
+                                error: function (a, b) {
+                                    console.log(":: Membership addToCart failure ::", { text: b, xhr: a }), a.responseJSON && alert(a.responseJSON.description);
+                                },
+                            });
+                    }, 300);
+            }),
+            jQuery(".mainContent").on("click", ".customBoxProdTile .customBoxProdAdd", function (b) {
+                if ((console.log(":: add customBoxProd ::", { prodSelected: b.target.value, target: b.target }), b.target.value)) {
+                    var c = b.target.getAttribute("data-prodId"),
+                        f = b.target.value,
+                        g = b.target.getAttribute("data-prodCard"),
+                        h = "true" === b.target.getAttribute("data-isLtd");
+                    jQuery.getJSON("/cart.js", function (b) {
+                        if (b) {
+                            if ((console.log(":: current cart object ::", { cart: b }), d)) {
+                                console.log(":: current cart has cb ::", { cartAttr: b.attributes, cartItems: b.items });
+                                let i = o(f, c, g, h);
+                                console.log(":: NEW cbPrd added ::", { cbBoxItem: i }),
+                                    q(i),
+                                    e || t(!0),
+                                    "incomplete" === s()
+                                        ? M.toast({ html: "Added a " + i.prdName + " to your custom box!", classes: "cbSelectAlert" })
+                                        : (M.toast({ html: "Added a " + i.prdName + " to your custom box!", classes: "cbSelectAlert" }), M.Modal.getInstance(jQuery(a.modalMinicartSelector)).open());
+                            } else {
+                                let j = o(f, c, g, h);
+                                console.log(":: NEW cbPrd added ::", { cbBoxItem: j }), (d = !0);
+                                var k = M.TapTarget.getInstance(jQuery(a.modalHowToSelector));
+                                jQuery(".ebyCustomBoxModalBtn").addClass("animate__zoomIn"),
+                                    q(j),
+                                    t(!0),
+                                    setTimeout(function () {
+                                        k.open(),
+                                            setTimeout(function () {
+                                                k.isOpen && k.close();
+                                            }, 2e3);
+                                    }, 300);
+                            }
+                        } else console.log("::ERROR:: cart not found");
+                    });
+                } else console.log("::ERROR:: no variant id for product");
+            }),
+            M.Modal.init(document.querySelectorAll(a.modalSelectors)),
+            M.TapTarget.init(jQuery(a.modalHowToSelector), { onOpen: function (a) {} }),
+            jQuery(".mainContent").on("click", ".ebyCustomBoxModalBtn", function (a) {
+                console.log(":: open ebyCustomBoxModal ::", a.target), s();
+            }),
+            jQuery(".mainContent").on("click", ".modal-close", function (a) {
+                console.log(":: close ebyCustomBoxModal ::", a.target);
+            }),
+            jQuery("body").on("click", ".checkoutNowBtn", function (a) {
+                console.log(":: go directly to checkout ::", a.target), v();
+            }),
+            localStorage.getItem("ets-privyFreepantyGranted") && (jQuery("#currentPlanType").addClass("hasFreepantyUnlocked"), jQuery("#ebyCustomBoxModal h4").addClass("hasFreepantyUnlocked")),
+            console.log(":: init pull cart ::"),
+            jQuery.getJSON("/cart.js", function (c) {
+                if (c) {
+                    if ((console.log(":: cart object pulled ::", { cart: c }), ("true" === c.attributes.has_cb_membership || "true" === c.attributes.has_snd_membership) && c.items.length > 0)) {
+                        console.log("already have subscription");
+                        var e = !1;
+                        if (
+                            (c.items.map(function (a, b) {
+                                a.title.indexOf("Subscription") >= 0 && (e = !0);
+                            }),
+                            e)
+                        ) {
+                            let d = document.querySelector("#warningPopup");
+                            M.Modal.init(d, { dismissible: !1, preventScrolling: !1 }), M.Modal.getInstance(d).open();
+                        }
+                    }
+                    k(a, b);
+                } else k(a, b), console.log(":: No cart found ::");
+            });
+    }),
+    (vela.bp3SelectionsData = []),
+    (vela.bp3CurrSelections = []),
+    (vela.bp3Selections = function (a, b) {
+        console.log(":: init buidd a pack 3 collection ::", { module: a, collection: b });
+        var c = !1,
+            d = !1;
+        let e = function (d) {
+                let a = jQuery(".primaryLoaderWrapper"),
+                    b = jQuery(".secondaryLoaderWrapper"),
+                    c = jQuery(".sortCollLoadingWrapper");
+                d ? (a.addClass("active"), b.addClass("active"), c.addClass("active")) : (a.removeClass("active"), b.removeClass("active"), c.removeClass("active"));
+            },
+            f = function () {
+                let a = s();
+                "missy" === a && jQuery(".listingOuterwrapper").removeClass("plusView").addClass("missyView"), "plus" === a && jQuery(".listingOuterwrapper").removeClass("missyView").addClass("plusView");
+            },
+            g = function (a, b) {
+                let c = a.reduce(function (b, a) {
+                    return 46033928236 === a.location_id && (b[a.inventory_item_id] = a.available), b;
+                }, {});
+                return b.map(function (a, b) {
+                    return (a.availQty = c[a.inventory_item_id]), a;
+                });
+            },
+            h = function (c) {
+                let b = jQuery(".pantyStyleOptListing .sortOpt");
+                for (let a = 0; a < b.length; a++) {
+                    let d = jQuery(b[a]).data("sortopt").replace("pantyStyle-", "");
+                    !0 === c[d] && jQuery(b[a]).addClass("online"),
+                        !1 === c[d] && (jQuery(b[a]).removeClass("online"), jQuery(b[a]).hasClass("optOn") && jQuery('.pantyStyleOptListing .sortOpt[data-sortopt="pantyStyle-allcb"]').trigger("click"));
+                }
+            },
+            i = function (a, c) {
+                var b = { all: !0, thong: !1, bikini: !1, highwaisted: !1, cheeky: !1, brief: !1, g_string: !1, highwaisted_thong: !1 };
+                jQuery(".saleProdTile").removeClass("inStock"),
+                    jQuery(".saleProdTile").removeClass("lastCall"),
+                    m(),
+                    a.map(function (a, d) {
+                        let c = a.prodTags.filter(function (a, b) {
+                            if (a.indexOf("pantyType-") >= 0) return a.replace("pantyType-", "");
+                        })[0];
+                        c && a.availQty > 0 && (b[c.replace("pantyType-", "")] = !0),
+                            a.availQty > 5
+                                ? jQuery('.saleProdTile[data-prodtitle="' + a.prodTitle + '"]').addClass("inStock")
+                                : a.availQty > 0 && a.availQty < 2 && jQuery('.saleProdTile[data-prodtitle="' + a.prodTitle + '"]').addClass("lastCall"),
+                            jQuery('.saleProdTile[data-prodtitle="' + a.prodTitle + '"]')
+                                .find(".saleItemOptVal")
+                                .val(a.variantId),
+                            jQuery('.saleProdTile[data-prodtitle="' + a.prodTitle + '"]')
+                                .find(".customBoxProdAdd")
+                                .val(a.variantId),
+                            a.prodTitle.indexOf("Quarterly") >= 0
+                                ? jQuery('.saleProdTile[data-prodtitle="' + a.prodTitle + '"] #cbTilePrdId-quarterly').val(a.variantId)
+                                : a.prodTitle.indexOf("Semi-Annual") >= 0 && jQuery('.saleProdTile[data-prodtitle="' + a.prodTitle + '"] #cbTilePrdId-semi_annual').val(a.variantId);
+                    }),
+                    h(b);
+            },
+            j = function (a, b) {
+                let c = b.reduce(function (a, b) {
+                        return a.push(b.id), a;
+                    }, []),
+                    d = "" !== a.selectedVal ? a.selectedVal : a.defaultVal;
+                jQuery.ajax({
+                    type: "POST",
+                    crossDomain: !0,
+                    async: !0,
+                    url: window.APIDomain + window.otherAPI + "eby_stockcheck.php",
+                    data: { data: { variantOpt: a.defaultOpt, variantOptVal: d, prodIdList: c.join(","), warehouseKey: "ecomm" } },
+                    beforeSend: function () {
+                        e(!0);
+                    },
+                    dataType: "json",
+                    headers: { Authorization: "Bearer ddd345d2498c7717a7bbbe86d9d145dc", "Access-Control-Allow-Origin": "*" },
+                    success: function (a) {
+                        if (a) {
+                            let b = g(a.inventoryHealthcheck, a.prodInventoryData);
+                            (vela.bp3SelectionsData = b), i(b, d), e(!1), f();
+                        }
+                    },
+                    error: function (a, b) {
+                        console.log("::stockcheck failure::", { text: b, xhr: a });
+                    },
+                });
+            },
+            k = function (a) {
+                console.log(":: Init headerModule update ::", a), jQuery(".collImageHeader");
+                let b = jQuery("#flashsalePanels").children(),
+                    c = ["xs", "sm", "md", "lg", "xl"].indexOf(a) >= 0 ? "missy" : "plus",
+                    d = "missy" === c ? "plus" : "missy";
+                b.map(function (e, b) {
+                    let a = b.children[0];
+                    a.setAttribute("src", a.getAttribute("data-src").replace(d, c)), a.setAttribute("data-src", a.getAttribute("data-src").replace(d, c));
+                });
+            },
+            l = function () {
+                jQuery("#ebyCustomBoxModal .modalCloseTextLink").trigger("click"), r(!1);
+                let g = vela.lspCurrSelections.length + 1;
+                vela.lspCurrSelections = [];
+                for (var c = 1; c < g; c++) {
+                    let b = c,
+                        h = "",
+                        i = "#cb_minicart_slot-" + b,
+                        j = "#cb_minicart_exp_slot-" + b,
+                        f = "<p>Select Product</p>",
+                        k = "#cb_minicart_exp_slot-" + b + " .cbMinicartExpandedSlotPrdTile";
+                    if (0 !== vela.lspCurrSelections.length && jQuery("#cb_minicart_slot-" + (b + 1)).hasClass("active")) {
+                        let a = c;
+                        if (jQuery("#cb_minicart_slot-" + a).length > 0 && jQuery("#cb_minicart_slot-" + a).hasClass("active")) {
+                            let l = jQuery("#cb_minicart_slot-" + a).html();
+                            jQuery("#cb_minicart_slot-" + a)
+                                .addClass("active")
+                                .html(l),
+                                jQuery("#cb_minicart_slot-" + a)
+                                    .removeClass("active")
+                                    .html("");
+                        }
+                        if (jQuery("#cb_minicart_exp_slot-" + a).length > 0 && jQuery("#cb_minicart_exp_slot-" + a + " .cbMinicartExpandedSlotPrdTile").hasClass("active")) {
+                            let d = jQuery("#cb_minicart_exp_slot-" + a + " .cbMinicartExpandedSlotPrdTile").html(),
+                                m = jQuery("#cb_minicart_exp_slot_val-" + a).val(),
+                                e = jQuery(d).find("button").val(),
+                                n = +e.split(":")[0] - 1,
+                                o = n + ":" + e.split(":")[1];
+                            (d = d.replace(e, o)),
+                                jQuery("#cb_minicart_exp_slot-" + a + " .cbMinicartExpandedSlotPrdTile")
+                                    .addClass("active")
+                                    .html(d),
+                                jQuery("#cb_minicart_exp_slot_val-" + a).val(m),
+                                jQuery("#cb_minicart_exp_slot-" + a + " .cbMinicartExpandedSlotPrdTile")
+                                    .removeClass("active")
+                                    .html(f),
+                                jQuery("#cb_minicart_exp_slot_val-" + a).val("");
+                        }
+                    } else jQuery(j).removeClass("active"), jQuery(i).removeClass("active").html(h), jQuery(k).removeClass("active").html(f), jQuery("#cb_minicart_exp_slot_val-" + b).val("");
+                }
+                q();
+            },
+            m = function () {
+                let a = jQuery(".primarySorterWrapper.planType input:checked");
+                if (a) return a.val();
+                console.log("::ERROR:: current plan type not found.");
+            },
+            n = function (e, b, f, g) {
+                let d = jQuery("img[data-prodId=" + b + "]").attr("data-src") ? jQuery("img[data-prodId=" + b + "]").attr("data-src") : jQuery("img[data-prodId=" + b + "]").attr("src"),
+                    h = s(),
+                    c = f.split(":");
+                return (
+                    "plus" === h &&
+                        "brief" == c[0].toLowerCase() &&
+                        (d = jQuery("img.plus[data-prodId=" + b + "]").attr("data-src") ? jQuery("img.plus[data-prodId=" + b + "]").attr("data-src") : jQuery("img.plus[data-prodId=" + b + "]").attr("src")),
+                    { prdImg: d, prdVarId: e, prdId: b, prdName: c[0].replace("_", " "), prdColor: c[1], prdSize: "" !== a.selectedVal ? a.selectedVal : a.defaultVal, prdInven: "", prdIsLtd: g }
+                );
+            },
+            o = function (a) {
+                let b = vela.bp3CurrSelections.length + 1,
+                    d = "<div><img src='" + a.prdImg + "' /></div>",
+                    c = vela.bp3CurrSelections.length + 1,
+                    e =
+                        "<div class='cbItemImg' ><img src='" +
+                        a.prdImg +
+                        "' /></div><div><p class='cbItemName'>" +
+                        a.prdName +
+                        "</p><span>" +
+                        a.prdColor +
+                        "</span><span>" +
+                        a.prdSize.toUpperCase() +
+                        "</span></div><div class='cbItemRemove'><button class='cbRemoveItem' data-prodId='" +
+                        a.prdId +
+                        "' data-prodCard='" +
+                        a.prdName +
+                        ":" +
+                        a.prdColor +
+                        "' value='" +
+                        c +
+                        ":" +
+                        a.prdVarId +
+                        "'>Remove</button></div>";
+                jQuery("#cb_minicart_exp_slot-" + b).addClass("active"),
+                    jQuery("#cb_minicart_slot-" + b)
+                        .addClass("active")
+                        .html(d),
+                    jQuery("#cb_minicart_exp_slot-" + b + " .cbMinicartExpandedSlotPrdTile")
+                        .addClass("active")
+                        .html(e),
+                    jQuery("#cb_minicart_exp_slot_val-" + c).val(a.prdVarId),
+                    vela.bp3CurrSelections.push(a);
+            },
+            p = function (h, f) {
+                console.log(":: removing cbProdItem ::", h);
+                let b = +f,
+                    g = "<p>Select Product</p>";
+                if ((vela.bp3CurrSelections.splice(b - 1, 1), 0 !== vela.bp3CurrSelections.length && jQuery("#cb_minicart_slot-" + (b + 1)).hasClass("active")))
+                    for (let d = f - 1; d < vela.bp3CurrSelections.length; d++) {
+                        let a = d + 2;
+                        if (jQuery("#cb_minicart_slot-" + a).length > 0 && jQuery("#cb_minicart_slot-" + a).hasClass("active")) {
+                            let i = jQuery("#cb_minicart_slot-" + a).html();
+                            jQuery("#cb_minicart_slot-" + (a - 1))
+                                .addClass("active")
+                                .html(i),
+                                jQuery("#cb_minicart_slot-" + a)
+                                    .removeClass("active")
+                                    .html("");
+                        }
+                        if (jQuery("#cb_minicart_exp_slot-" + a).length > 0 && jQuery("#cb_minicart_exp_slot-" + a + " .cbMinicartExpandedSlotPrdTile").hasClass("active")) {
+                            let c = jQuery("#cb_minicart_exp_slot-" + a + " .cbMinicartExpandedSlotPrdTile").html(),
+                                j = jQuery("#cb_minicart_exp_slot_val-" + a).val(),
+                                e = jQuery(c).find("button").val(),
+                                k = +e.split(":")[0] - 1,
+                                l = k + ":" + e.split(":")[1];
+                            (c = c.replace(e, l)),
+                                jQuery("#cb_minicart_exp_slot-" + (a - 1) + " .cbMinicartExpandedSlotPrdTile")
+                                    .addClass("active")
+                                    .html(c),
+                                jQuery("#cb_minicart_exp_slot_val-" + (a - 1)).val(j),
+                                jQuery("#cb_minicart_exp_slot-" + a + " .cbMinicartExpandedSlotPrdTile")
+                                    .removeClass("active")
+                                    .html(g),
+                                jQuery("#cb_minicart_exp_slot_val-" + a).val("");
+                        }
+                    }
+                else
+                    jQuery("#cb_minicart_exp_slot-" + b).removeClass("active"),
+                        jQuery("#cb_minicart_slot-" + b)
+                            .removeClass("active")
+                            .html(""),
+                        jQuery("#cb_minicart_exp_slot-" + b + " .cbMinicartExpandedSlotPrdTile")
+                            .removeClass("active")
+                            .html(g),
+                        jQuery("#cb_minicart_exp_slot_val-" + b).val("");
+                q();
+            },
+            q = function () {
+                let b = vela.bp3CurrSelections,
+                    c = m();
+                if (("quarterly" === c && b.length >= 3) || ("semi_annual" === c && b.length >= 6))
+                    return (
+                        jQuery(a.modalMinicartSelector).addClass("complete"),
+                        jQuery("#currentCustomBoxProgress").addClass("complete").text("Complete!"),
+                        jQuery("#addCustomPackToCart").prop("disabled", !1),
+                        jQuery("#pantyOptLock").addClass("active"),
+                        "complete"
+                    );
+                {
+                    let d = "";
+                    return (
+                        (d = "quarterly" === c ? "add " + (3 - b.length) + " more product(s)" : "add " + (6 - b.length) + " more product(s)"),
+                        jQuery("#pantyOptLock").hasClass("active") && jQuery("#pantyOptLock").removeClass("active"),
+                        jQuery(a.modalMinicartSelector).removeClass("complete"),
+                        jQuery("#currentCustomBoxProgress").removeClass("complete").text(d),
+                        jQuery("#addCustomPackToCart").prop("disabled", !0),
+                        0 === b.length && r(!1),
+                        "incomplete"
+                    );
+                }
+            },
+            r = function (a) {
+                switch (a) {
+                    case !0:
+                        console.log("true size lock"), jQuery("#pantySizeOptLock").addClass("active"), (d = !0);
+                        break;
+                    case !1:
+                        console.log("false size lock"), jQuery("#pantySizeOptLock").removeClass("active"), (d = !1);
+                }
+            },
+            s = function () {
+                let a = jQuery(".primarySorterWrapper.sizeType input:checked");
+                if (a) return ["xs", "sm", "md", "lg", "xl"].indexOf(a.val()) >= 0 ? "missy" : "plus";
+                console.log("::ERROR:: current size type not found.");
+            };
+        jQuery(a.primarySorterSelector + " input").on("click", function (c) {
+            (a.selectedVal = c.target.value), k(a.selectedVal), j(a, b);
+        }),
+            jQuery(".mainContent").on("change", 'input[name="currPlanType"]', function (a) {
+                console.log(":: update new plan type ::", a.target),
+                    "quarterly" === a.target.value
+                        ? (jQuery("#currentPlanTypeAmt").text("3 panties"),
+                          jQuery(".perkPanties").text("3 panties"),
+                          jQuery(".perkMonths").text("3 months"),
+                          jQuery("#currentPlanTypeCost").text("$39"),
+                          jQuery("#customBoxMembershipFinalCost").text("$39"),
+                          jQuery(".ebyCustomBoxModalBtnWrapper").removeClass("semiannualMode").addClass("quarterlyMode"),
+                          jQuery(".ebyCustomBoxModal").removeClass("semiannualMode").addClass("quarterlyMode"))
+                        : (jQuery("#currentPlanTypeAmt").text("6 panties"),
+                          jQuery(".perkPanties").text("6 panties"),
+                          jQuery(".perkMonths").text("6 months"),
+                          jQuery("#currentPlanTypeCost").text("$78"),
+                          jQuery("#customBoxMembershipFinalCost").text("$78"),
+                          jQuery(".ebyCustomBoxModalBtnWrapper").removeClass("quarterlyMode").addClass("semiannualMode"),
+                          jQuery(".ebyCustomBoxModal").removeClass("quarterlyMode").addClass("semiannualMode")),
+                    "incomplete" === q() ? console.log(":: box capacity changed, now incomplete box ::") : console.log(":: box capacity changed, now box is complete ::");
+            }),
+            jQuery(".mainContent").on("click", ".cbRemoveItem", function (a) {
+                console.log(":: remove ebyCustomBoxItem ::", a.target);
+                var d = a.target.getAttribute("data-prodId"),
+                    b = a.target.value.split(":"),
+                    e = a.target.getAttribute("data-prodCard");
+                let c = n(b[1], d, e);
+                p(c, b[0]), console.log(":: NEW cbPrd removed ::", { cbBoxItem: c });
+            }),
+            jQuery(".mainContent").on("click", "#addCustomPackToCart", function (f) {
+                f.preventDefault(), $("body").addClass("velaCartAdding");
+                var h = $(".cbMinicartExpandedListing .cbMinicartExpandedSlot.active").length,
+                    a = [],
+                    c = [],
+                    d = $(".cbMinicartExpandedListing .cbMinicartExpandedSlot.active");
+                d.each(function (e, f) {
+                    if ("" != $(this).find("input").val()) var b = $(this).find("input").val();
+                    let d = {};
+                    (d = 3 == h ? { build_a_pack: "pack_3", "Shipping Option": "pickup Ecommerce WH" } : { build_a_pack: "pack_6", "Shipping Option": "pickup Ecommerce WH" }), c.push(b), a.push({ quantity: 1, id: b, properties: d });
+                });
+                let g = c.every((a, c, b) => a == b[0]),
+                    b = {};
+                if (g) {
+                    console.log(":: log of current selected variants for all-of-a-kind-pack ::");
+                    let e = a[0].properties;
+                    (e.build_id = c.join(",")), (b.finalProdData = [{ quantity: d.length, id: a[0].id, properties: e }]);
+                } else
+                    console.log(":: log of current selected variants for pack ::", a),
+                        (b = a.reduce(
+                            function (a, b) {
+                                return (b.properties.build_id = a.idListing.join(",")), a.finalProdData.push({ quantity: 1, id: b.id, properties: b.properties }), a;
+                            },
+                            { idListing: c, finalProdData: [] }
+                        ));
+                jQuery("body").addClass("velaCartAdding"),
+                    console.log(":: pack data to send ::", b),
+                    jQuery.ajax({
+                        type: "POST",
+                        url: "/cart/add.js",
+                        async: !0,
+                        data: { items: b.finalProdData },
+                        dataType: "json",
+                        success: function (a) {
+                            console.log(":: labor day pack added! ::", { data: a }),
+                                jQuery("body").removeClass("velaCartAdding"),
+                                M.toast({ html: "Pack added to cart!", classes: "cbSelectAlert" }),
+                                l(),
+                                ShopifyAPI.getCart(a),
+                                setTimeout(function () {
+                                    jQuery(".ebyMinicart").trigger("click");
+                                }, 300);
+                        },
+                        error: function (a, b) {
+                            console.log(":: BuildAPack addToCart failure ::", { text: b, xhr: a }), a.responseJSON && alert(a.responseJSON.description);
+                        },
+                    });
+            }),
+            jQuery(".mainContent").on("click", ".customBoxProdTile .customBoxProdAdd", function (b) {
+                if ((console.log(":: add customBoxProd ::", { prodSelected: b.target.value, target: b.target }), b.target.value)) {
+                    var e = b.target.getAttribute("data-prodId"),
+                        f = b.target.value,
+                        g = b.target.getAttribute("data-prodCard"),
+                        h = "true" === b.target.getAttribute("data-isLtd");
+                    jQuery.getJSON("/cart.js", function (b) {
+                        if (b) {
+                            if ((console.log(":: current cart object ::", { cart: b }), c)) {
+                                console.log(":: current cart has cb ::", { cartAttr: b.attributes, cartItems: b.items });
+                                let i = n(f, e, g, h);
+                                console.log(":: NEW cbPrd added ::", { cbBoxItem: i }),
+                                    o(i),
+                                    d || r(!0),
+                                    "incomplete" === q()
+                                        ? M.toast({ html: "Added a " + i.prdName + " to your pack!", classes: "cbSelectAlert" })
+                                        : (M.toast({ html: "Added a " + i.prdName + " to your pack!", classes: "cbSelectAlert" }), M.Modal.getInstance(jQuery(a.modalMinicartSelector)).open());
+                            } else {
+                                let j = n(f, e, g, h);
+                                console.log(":: NEW cbPrd added ::", { cbBoxItem: j }), (c = !0);
+                                var k = M.TapTarget.getInstance(jQuery(a.modalHowToSelector));
+                                jQuery(".ebyCustomBoxModalBtn").addClass("animate__zoomIn"),
+                                    o(j),
+                                    r(!0),
+                                    setTimeout(function () {
+                                        k.open(),
+                                            setTimeout(function () {
+                                                k.isOpen && k.close();
+                                            }, 2e3);
+                                    }, 300);
+                            }
+                        } else console.log("::ERROR:: cart not found");
+                    });
+                } else console.log("::ERROR:: no variant id for product");
+            }),
+            M.Modal.init(document.querySelectorAll(a.modalSelectors)),
+            M.TapTarget.init(jQuery(a.modalHowToSelector), { onOpen: function (a) {} }),
+            jQuery(".mainContent").on("click", ".ebyCustomBoxModalBtn", function (a) {
+                console.log(":: open ebyCustomBoxModal ::", a.target), q();
+            }),
+            jQuery(".mainContent").on("click", ".modal-close", function (a) {
+                console.log(":: close ebyCustomBoxModal ::", a.target);
+            }),
+            jQuery("body").on("click", ".checkoutNowBtn", function (a) {
+                console.log(":: go directly to checkout ::", a.target), (window.location.href = "/checkout");
+            }),
+            console.log(":: init pull cart ::"),
+            jQuery.getJSON("/cart.js", function (c) {
+                c ? (console.log(":: cart object pulled ::", { cart: c }), j(a, b)) : (j(a, b), console.log(":: No cart found ::"));
+            });
+    }),
+    (vela.lspSelectionsData = []),
+    (vela.lspCurrSelections = []),
+    (vela.lspSelections = function (a, b) {
+        console.log(":: init Labor Sale Pack collection ::", { module: a, collection: b });
+        var c = !1,
+            d = !1;
+        let e = function (d) {
+                let a = jQuery(".primaryLoaderWrapper"),
+                    b = jQuery(".secondaryLoaderWrapper"),
+                    c = jQuery(".sortCollLoadingWrapper");
+                d ? (a.addClass("active"), b.addClass("active"), c.addClass("active")) : (a.removeClass("active"), b.removeClass("active"), c.removeClass("active"));
+            },
+            f = function () {
+                let a = s();
+                "missy" === a && jQuery(".listingOuterwrapper").removeClass("plusView").addClass("missyView"), "plus" === a && jQuery(".listingOuterwrapper").removeClass("missyView").addClass("plusView");
+            },
+            g = function (a, b) {
+                let c = a.reduce(function (b, a) {
+                    return 46033928236 === a.location_id && (b[a.inventory_item_id] = a.available), b;
+                }, {});
+                return b.map(function (a, b) {
+                    return (a.availQty = c[a.inventory_item_id]), a;
+                });
+            },
+            h = function (c) {
+                let b = jQuery(".pantyStyleOptListing .sortOpt");
+                for (let a = 0; a < b.length; a++) {
+                    let d = jQuery(b[a]).data("sortopt").replace("pantyStyle-", "");
+                    !0 === c[d] && jQuery(b[a]).addClass("online"),
+                        !1 === c[d] && (jQuery(b[a]).removeClass("online"), jQuery(b[a]).hasClass("optOn") && jQuery('.pantyStyleOptListing .sortOpt[data-sortopt="pantyStyle-allcb"]').trigger("click"));
+                }
+            },
+            i = function (a, c) {
+                var b = { all: !0, thong: !1, bikini: !1, highwaisted: !1, cheeky: !1, brief: !1, g_string: !1, highwaisted_thong: !1 };
+                jQuery(".saleProdTile").removeClass("inStock"),
+                    jQuery(".saleProdTile").removeClass("lastCall"),
+                    m(),
+                    a.map(function (a, d) {
+                        let c = a.prodTags.filter(function (a, b) {
+                            if (a.indexOf("pantyType-") >= 0) return a.replace("pantyType-", "");
+                        })[0];
+                        c && a.availQty > 0 && (b[c.replace("pantyType-", "")] = !0),
+                            a.availQty > 5
+                                ? jQuery('.saleProdTile[data-prodtitle="' + a.prodTitle + '"]').addClass("inStock")
+                                : a.availQty > 0 && a.availQty < 2 && jQuery('.saleProdTile[data-prodtitle="' + a.prodTitle + '"]').addClass("lastCall"),
+                            jQuery('.saleProdTile[data-prodtitle="' + a.prodTitle + '"]')
+                                .find(".saleItemOptVal")
+                                .val(a.variantId),
+                            jQuery('.saleProdTile[data-prodtitle="' + a.prodTitle + '"]')
+                                .find(".customBoxProdAdd")
+                                .val(a.variantId),
+                            a.prodTitle.indexOf("Quarterly") >= 0
+                                ? jQuery('.saleProdTile[data-prodtitle="' + a.prodTitle + '"] #cbTilePrdId-quarterly').val(a.variantId)
+                                : a.prodTitle.indexOf("Semi-Annual") >= 0 && jQuery('.saleProdTile[data-prodtitle="' + a.prodTitle + '"] #cbTilePrdId-semi_annual').val(a.variantId);
+                    }),
+                    h(b);
+            },
+            j = function (a, b) {
+                let c = b.reduce(function (a, b) {
+                        return a.push(b.id), a;
+                    }, []),
+                    d = "" !== a.selectedVal ? a.selectedVal : a.defaultVal;
+                jQuery.ajax({
+                    type: "POST",
+                    crossDomain: !0,
+                    async: !0,
+                    url: window.APIDomain + window.otherAPI + "eby_stockcheck.php",
+                    data: { data: { variantOpt: a.defaultOpt, variantOptVal: d, prodIdList: c.join(","), warehouseKey: "ecomm" } },
+                    beforeSend: function () {
+                        e(!0);
+                    },
+                    dataType: "json",
+                    headers: { Authorization: "Bearer ddd345d2498c7717a7bbbe86d9d145dc", "Access-Control-Allow-Origin": "*" },
+                    success: function (a) {
+                        if (a) {
+                            let b = g(a.inventoryHealthcheck, a.prodInventoryData);
+                            (vela.lspSelectionsData = b), i(b, d), e(!1), f();
+                        }
+                    },
+                    error: function (a, b) {
+                        console.log("::stockcheck failure::", { text: b, xhr: a });
+                    },
+                });
+            },
+            k = function (a) {
+                console.log(":: Init headerModule update ::", a), jQuery(".collImageHeader");
+                let b = jQuery("#flashsalePanels").children(),
+                    c = ["xs", "sm", "md", "lg", "xl"].indexOf(a) >= 0 ? "missy" : "plus",
+                    d = "missy" === c ? "plus" : "missy";
+                b.map(function (e, b) {
+                    let a = b.children[0];
+                    a.setAttribute("src", a.getAttribute("data-src").replace(d, c)), a.setAttribute("data-src", a.getAttribute("data-src").replace(d, c));
+                });
+            },
+            l = function () {
+                jQuery("#ebyCustomBoxModal .modalCloseTextLink").trigger("click"), r(!1);
+                let g = vela.lspCurrSelections.length + 1;
+                vela.lspCurrSelections = [];
+                for (var c = 1; c < g; c++) {
+                    let b = c,
+                        h = "",
+                        i = "#cb_minicart_slot-" + b,
+                        j = "#cb_minicart_exp_slot-" + b,
+                        f = "<p>Select Product</p>",
+                        k = "#cb_minicart_exp_slot-" + b + " .cbMinicartExpandedSlotPrdTile";
+                    if (0 !== vela.lspCurrSelections.length && jQuery("#cb_minicart_slot-" + (b + 1)).hasClass("active")) {
+                        let a = c;
+                        if (jQuery("#cb_minicart_slot-" + a).length > 0 && jQuery("#cb_minicart_slot-" + a).hasClass("active")) {
+                            let l = jQuery("#cb_minicart_slot-" + a).html();
+                            jQuery("#cb_minicart_slot-" + a)
+                                .addClass("active")
+                                .html(l),
+                                jQuery("#cb_minicart_slot-" + a)
+                                    .removeClass("active")
+                                    .html("");
+                        }
+                        if (jQuery("#cb_minicart_exp_slot-" + a).length > 0 && jQuery("#cb_minicart_exp_slot-" + a + " .cbMinicartExpandedSlotPrdTile").hasClass("active")) {
+                            let d = jQuery("#cb_minicart_exp_slot-" + a + " .cbMinicartExpandedSlotPrdTile").html(),
+                                m = jQuery("#cb_minicart_exp_slot_val-" + a).val(),
+                                e = jQuery(d).find("button").val(),
+                                n = +e.split(":")[0] - 1,
+                                o = n + ":" + e.split(":")[1];
+                            (d = d.replace(e, o)),
+                                jQuery("#cb_minicart_exp_slot-" + a + " .cbMinicartExpandedSlotPrdTile")
+                                    .addClass("active")
+                                    .html(d),
+                                jQuery("#cb_minicart_exp_slot_val-" + a).val(m),
+                                jQuery("#cb_minicart_exp_slot-" + a + " .cbMinicartExpandedSlotPrdTile")
+                                    .removeClass("active")
+                                    .html(f),
+                                jQuery("#cb_minicart_exp_slot_val-" + a).val("");
+                        }
+                    } else jQuery(j).removeClass("active"), jQuery(i).removeClass("active").html(h), jQuery(k).removeClass("active").html(f), jQuery("#cb_minicart_exp_slot_val-" + b).val("");
+                }
+                q();
+            },
+            m = function () {
+                let a = jQuery(".primarySorterWrapper.planType input:checked");
+                if (a) return a.val();
+                console.log("::ERROR:: current plan type not found.");
+            },
+            n = function (e, b, f, g) {
+                let d = jQuery("img[data-prodId=" + b + "]").attr("data-src") ? jQuery("img[data-prodId=" + b + "]").attr("data-src") : jQuery("img[data-prodId=" + b + "]").attr("src"),
+                    h = s(),
+                    c = f.split(":");
+                return (
+                    "plus" === h &&
+                        "brief" == c[0].toLowerCase() &&
+                        (d = jQuery("img.plus[data-prodId=" + b + "]").attr("data-src") ? jQuery("img.plus[data-prodId=" + b + "]").attr("data-src") : jQuery("img.plus[data-prodId=" + b + "]").attr("src")),
+                    { prdImg: d, prdVarId: e, prdId: b, prdName: c[0].replace("_", " "), prdColor: c[1], prdSize: "" !== a.selectedVal ? a.selectedVal : a.defaultVal, prdInven: "", prdIsLtd: g }
+                );
+            },
+            o = function (a) {
+                let b = vela.lspCurrSelections.length + 1,
+                    d = "<div><img src='" + a.prdImg + "' /></div>",
+                    c = vela.lspCurrSelections.length + 1,
+                    e =
+                        "<div class='cbItemImg' ><img src='" +
+                        a.prdImg +
+                        "' /></div><div><p class='cbItemName'>" +
+                        a.prdName +
+                        "</p><span>" +
+                        a.prdColor +
+                        "</span><span>" +
+                        a.prdSize.toUpperCase() +
+                        "</span></div><div class='cbItemRemove'><button class='cbRemoveItem' data-prodId='" +
+                        a.prdId +
+                        "' data-prodCard='" +
+                        a.prdName +
+                        ":" +
+                        a.prdColor +
+                        "' value='" +
+                        c +
+                        ":" +
+                        a.prdVarId +
+                        "'>Remove</button></div>";
+                jQuery("#cb_minicart_exp_slot-" + b).addClass("active"),
+                    jQuery("#cb_minicart_slot-" + b)
+                        .addClass("active")
+                        .html(d),
+                    jQuery("#cb_minicart_exp_slot-" + b + " .cbMinicartExpandedSlotPrdTile")
+                        .addClass("active")
+                        .html(e),
+                    jQuery("#cb_minicart_exp_slot_val-" + c).val(a.prdVarId),
+                    vela.lspCurrSelections.push(a);
+            },
+            p = function (h, f) {
+                console.log(":: removing cbProdItem ::", h);
+                let b = +f,
+                    g = "<p>Select Product</p>";
+                if ((vela.lspCurrSelections.splice(b - 1, 1), 0 !== vela.lspCurrSelections.length && jQuery("#cb_minicart_slot-" + (b + 1)).hasClass("active")))
+                    for (let d = f - 1; d < vela.lspCurrSelections.length; d++) {
+                        let a = d + 2;
+                        if (jQuery("#cb_minicart_slot-" + a).length > 0 && jQuery("#cb_minicart_slot-" + a).hasClass("active")) {
+                            let i = jQuery("#cb_minicart_slot-" + a).html();
+                            jQuery("#cb_minicart_slot-" + (a - 1))
+                                .addClass("active")
+                                .html(i),
+                                jQuery("#cb_minicart_slot-" + a)
+                                    .removeClass("active")
+                                    .html("");
+                        }
+                        if (jQuery("#cb_minicart_exp_slot-" + a).length > 0 && jQuery("#cb_minicart_exp_slot-" + a + " .cbMinicartExpandedSlotPrdTile").hasClass("active")) {
+                            let c = jQuery("#cb_minicart_exp_slot-" + a + " .cbMinicartExpandedSlotPrdTile").html(),
+                                j = jQuery("#cb_minicart_exp_slot_val-" + a).val(),
+                                e = jQuery(c).find("button").val(),
+                                k = +e.split(":")[0] - 1,
+                                l = k + ":" + e.split(":")[1];
+                            (c = c.replace(e, l)),
+                                jQuery("#cb_minicart_exp_slot-" + (a - 1) + " .cbMinicartExpandedSlotPrdTile")
+                                    .addClass("active")
+                                    .html(c),
+                                jQuery("#cb_minicart_exp_slot_val-" + (a - 1)).val(j),
+                                jQuery("#cb_minicart_exp_slot-" + a + " .cbMinicartExpandedSlotPrdTile")
+                                    .removeClass("active")
+                                    .html(g),
+                                jQuery("#cb_minicart_exp_slot_val-" + a).val("");
+                        }
+                    }
+                else
+                    jQuery("#cb_minicart_exp_slot-" + b).removeClass("active"),
+                        jQuery("#cb_minicart_slot-" + b)
+                            .removeClass("active")
+                            .html(""),
+                        jQuery("#cb_minicart_exp_slot-" + b + " .cbMinicartExpandedSlotPrdTile")
+                            .removeClass("active")
+                            .html(g),
+                        jQuery("#cb_minicart_exp_slot_val-" + b).val("");
+                q();
+            },
+            q = function () {
+                let b = vela.lspCurrSelections,
+                    c = m();
+                if (("quarterly" === c && b.length >= 3) || ("semi_annual" === c && b.length >= 6))
+                    return (
+                        jQuery(a.modalMinicartSelector).addClass("complete"),
+                        jQuery("#currentCustomBoxProgress").addClass("complete").text("Complete!"),
+                        jQuery("#addCustomBoxToCart").prop("disabled", !1),
+                        jQuery("#pantyOptLock").addClass("active"),
+                        "complete"
+                    );
+                {
+                    let d = "";
+                    return (
+                        (d = "quarterly" === c ? "add " + (3 - b.length) + " more product(s)" : "add " + (6 - b.length) + " more product(s)"),
+                        jQuery("#pantyOptLock").hasClass("active") && jQuery("#pantyOptLock").removeClass("active"),
+                        jQuery(a.modalMinicartSelector).removeClass("complete"),
+                        jQuery("#currentCustomBoxProgress").removeClass("complete").text(d),
+                        jQuery("#addCustomBoxToCart").prop("disabled", !0),
+                        0 === b.length && r(!1),
+                        "incomplete"
+                    );
+                }
+            },
+            r = function (a) {
+                switch (a) {
+                    case !0:
+                        console.log("true size lock"), jQuery("#pantySizeOptLock").addClass("active"), (d = !0);
+                        break;
+                    case !1:
+                        console.log("false size lock"), jQuery("#pantySizeOptLock").removeClass("active"), (d = !1);
+                }
+            },
+            s = function () {
+                let a = jQuery(".primarySorterWrapper.sizeType input:checked");
+                if (a) return ["xs", "sm", "md", "lg", "xl"].indexOf(a.val()) >= 0 ? "missy" : "plus";
+                console.log("::ERROR:: current size type not found.");
+            };
+        jQuery(a.primarySorterSelector + " input").on("click", function (c) {
+            (a.selectedVal = c.target.value), k(a.selectedVal), j(a, b);
+        }),
+            jQuery(".mainContent").on("change", 'input[name="currPlanType"]', function (a) {
+                console.log(":: update new plan type ::", a.target),
+                    "quarterly" === a.target.value
+                        ? (jQuery("#currentPlanTypeAmt").text("3 panties"),
+                          jQuery(".perkPanties").text("3 panties"),
+                          jQuery(".perkMonths").text("3 months"),
+                          jQuery(".salePrice").text("$11"),
+                          jQuery("#currentPlanTypeCost").text("$33"),
+                          jQuery("#customBoxMembershipFinalCost").text("$33"),
+                          jQuery(".ebyCustomBoxModalBtnWrapper").removeClass("semiannualMode").addClass("quarterlyMode"),
+                          jQuery(".ebyCustomBoxModal").removeClass("semiannualMode").addClass("quarterlyMode"))
+                        : (jQuery("#currentPlanTypeAmt").text("6 panties"),
+                          jQuery(".perkPanties").text("6 panties"),
+                          jQuery(".perkMonths").text("6 months"),
+                          jQuery(".salePrice").text("$9"),
+                          jQuery("#currentPlanTypeCost").text("$54"),
+                          jQuery("#customBoxMembershipFinalCost").text("$54"),
+                          jQuery(".ebyCustomBoxModalBtnWrapper").removeClass("quarterlyMode").addClass("semiannualMode"),
+                          jQuery(".ebyCustomBoxModal").removeClass("quarterlyMode").addClass("semiannualMode")),
+                    "incomplete" === q() ? console.log(":: box capacity changed, now incomplete box ::") : console.log(":: box capacity changed, now box is complete ::");
+            }),
+            jQuery(".mainContent").on("click", ".cbRemoveItem", function (a) {
+                console.log(":: remove ebyCustomBoxItem ::", a.target);
+                var d = a.target.getAttribute("data-prodId"),
+                    b = a.target.value.split(":"),
+                    e = a.target.getAttribute("data-prodCard");
+                let c = n(b[1], d, e);
+                p(c, b[0]), console.log(":: NEW cbPrd removed ::", { cbBoxItem: c });
+            }),
+            jQuery(".mainContent").on("click", "#addCustomBoxToCart", function (f) {
+                f.preventDefault(), $("body").addClass("velaCartAdding");
+                var h = $(".cbMinicartExpandedListing .cbMinicartExpandedSlot.active").length,
+                    a = [],
+                    c = [],
+                    d = $(".cbMinicartExpandedListing .cbMinicartExpandedSlot.active");
+                d.each(function (e, f) {
+                    if ("" != $(this).find("input").val()) var b = $(this).find("input").val();
+                    let d = {};
+                    (d = 3 == h ? { labor_sale_pack: "pack_3", "Shipping Option": "pickup Ecommerce WH" } : { labor_sale_pack: "pack_6", "Shipping Option": "pickup Ecommerce WH" }), c.push(b), a.push({ quantity: 1, id: b, properties: d });
+                });
+                let g = c.every((a, c, b) => a == b[0]),
+                    b = {};
+                if (g) {
+                    console.log(":: log of current selected variants for all-of-a-kind-pack ::");
+                    let e = a[0].properties;
+                    (e.build_id = c.join(",")), (b.finalProdData = [{ quantity: d.length, id: a[0].id, properties: e }]);
+                } else
+                    console.log(":: log of current selected variants for pack ::", a),
+                        (b = a.reduce(
+                            function (a, b) {
+                                return (b.properties.build_id = a.idListing.join(",")), a.finalProdData.push({ quantity: 1, id: b.id, properties: b.properties }), a;
+                            },
+                            { idListing: c, finalProdData: [] }
+                        ));
+                jQuery("body").addClass("velaCartAdding"),
+                    console.log(":: pack data to send ::", b),
+                    jQuery.ajax({
+                        type: "POST",
+                        url: "/cart/add.js",
+                        async: !0,
+                        data: { items: b.finalProdData },
+                        dataType: "json",
+                        success: function (a) {
+                            console.log(":: labor day pack added! ::", { data: a }),
+                                jQuery("body").removeClass("velaCartAdding"),
+                                M.toast({ html: "Labor Day Pack added to cart!", classes: "cbSelectAlert" }),
+                                l(),
+                                ShopifyAPI.getCart(a),
+                                setTimeout(function () {
+                                    jQuery(".ebyMinicart").trigger("click");
+                                }, 300);
+                        },
+                        error: function (a, b) {
+                            console.log(":: Membership addToCart failure ::", { text: b, xhr: a }), a.responseJSON && alert(a.responseJSON.description);
+                        },
+                    });
+            }),
+            jQuery(".mainContent").on("click", ".customBoxProdTile .customBoxProdAdd", function (b) {
+                if ((console.log(":: add customBoxProd ::", { prodSelected: b.target.value, target: b.target }), b.target.value)) {
+                    var e = b.target.getAttribute("data-prodId"),
+                        f = b.target.value,
+                        g = b.target.getAttribute("data-prodCard"),
+                        h = "true" === b.target.getAttribute("data-isLtd");
+                    jQuery.getJSON("/cart.js", function (b) {
+                        if (b) {
+                            if ((console.log(":: current cart object ::", { cart: b }), c)) {
+                                console.log(":: current cart has cb ::", { cartAttr: b.attributes, cartItems: b.items });
+                                let i = n(f, e, g, h);
+                                console.log(":: NEW cbPrd added ::", { cbBoxItem: i }),
+                                    o(i),
+                                    d || r(!0),
+                                    "incomplete" === q()
+                                        ? M.toast({ html: "Added a " + i.prdName + " to your pack!", classes: "cbSelectAlert" })
+                                        : (M.toast({ html: "Added a " + i.prdName + " to your pack!", classes: "cbSelectAlert" }), M.Modal.getInstance(jQuery(a.modalMinicartSelector)).open());
+                            } else {
+                                let j = n(f, e, g, h);
+                                console.log(":: NEW cbPrd added ::", { cbBoxItem: j }), (c = !0);
+                                var k = M.TapTarget.getInstance(jQuery(a.modalHowToSelector));
+                                jQuery(".ebyCustomBoxModalBtn").addClass("animate__zoomIn"),
+                                    o(j),
+                                    r(!0),
+                                    setTimeout(function () {
+                                        k.open(),
+                                            setTimeout(function () {
+                                                k.isOpen && k.close();
+                                            }, 1e3);
+                                    }, 300);
+                            }
+                        } else console.log("::ERROR:: cart not found");
+                    });
+                } else console.log("::ERROR:: no variant id for product");
+            }),
+            M.Modal.init(document.querySelectorAll(a.modalSelectors)),
+            M.TapTarget.init(jQuery(a.modalHowToSelector), { onOpen: function (a) {} }),
+            jQuery(".mainContent").on("click", ".ebyCustomBoxModalBtn", function (a) {
+                console.log(":: open ebyCustomBoxModal ::", a.target), q();
+            }),
+            jQuery(".mainContent").on("click", ".modal-close", function (a) {
+                console.log(":: close ebyCustomBoxModal ::", a.target);
+            }),
+            jQuery("body").on("click", ".checkoutNowBtn", function (a) {
+                console.log(":: go directly to checkout ::", a.target), (window.location.href = "/checkout");
+            }),
+            console.log(":: init pull cart ::"),
+            jQuery.getJSON("/cart.js", function (c) {
+                c ? (console.log(":: cart object pulled ::", { cart: c }), j(a, b)) : (j(a, b), console.log(":: No cart found ::"));
+            });
+    }),
+    (vela.collStockedProdData = []),
+    (vela.collFiltersInit = function (a, b) {
+        var c = null;
+        (a.currentFiltersObj.filterColor = []),
+            (a.currentFiltersObj.filterStyle = []),
+            (a.currentFiltersObj.filterFabric = []),
+            (a.currentFiltersObj.filterSale = []),
+            (a.prodTypes = { hasBralettes: !1, hasPanties: !1, hasTanks: !1, hasTees: !1, hasWraps: !1, hasBodysuits: !1 }),
+            (a.selectedBraletteVal = null),
+            (a.selectedTankVal = null);
+        let d = function () {
+                0 === jQuery(".item.tileAvail:not(.filterHide)").length
+                    ? jQuery("#filtered-prod-listing-alert").addClass("active").fadeIn()
+                    : jQuery("#filtered-prod-listing-alert").hasClass("active") && jQuery("#filtered-prod-listing-alert").removeClass("active").fadeOut();
+            },
+            e = function (d) {
+                let a = jQuery(".primaryLoaderWrapper"),
+                    b = jQuery(".secondaryLoaderWrapper"),
+                    c = jQuery(".sortCollLoadingWrapper");
+                d ? (a.addClass("active"), b.addClass("active"), c.addClass("active")) : (a.removeClass("active"), b.removeClass("active"), c.removeClass("active"));
+            },
+            f = function (b, c) {
+                let d = b.reduce(function (b, a) {
+                    return 46033928236 === a.location_id && (b[a.inventory_item_id] = a.available), b;
+                }, {});
+                return c.map(function (b, c) {
+                    return (
+                        !a.prodTypes.hasPanties && b.prodType.indexOf("Underwear") >= 0 && (a.prodTypes.hasPanties = !0),
+                        !a.prodTypes.hasBralettes && b.prodType.indexOf("Bralette") >= 0 && (a.prodTypes.hasBralettes = !0),
+                        !a.prodTypes.hasTanks && b.prodType.indexOf("Tank") >= 0 && (a.prodTypes.hasTanks = !0),
+                        !a.prodTypes.hasBodysuits && b.prodType.indexOf("Bodysuit") >= 0 && (a.prodTypes.hasBodysuits = !0),
+                        !a.prodTypes.hasTees && (b.prodType.indexOf("Muscle Tee") >= 0 || b.prodType.indexOf("Crop Top") >= 0) && (a.prodTypes.hasTees = !0),
+                        !a.prodTypes.hasWraps && b.prodType.indexOf("Wrap") >= 0 && (a.prodTypes.hasWraps = !0),
+                        (b.availQty = d[b.inventory_item_id]),
+                        b
+                    );
+                });
+            },
+            g = function (b) {
+                let a = b.replace(/ /g, "_");
+                return ["thong", "bikini", "highwaisted", "cheeky", "brief", "g_string", "highwaisted_thong", "comfort_shape", "bralette", "tank", "muscle_tee", "top", "pack", "bodysuit"].indexOf(a) >= 0
+                    ? "filterStyle"
+                    : ["colors", "neutrals", "prints"].indexOf(a) >= 0
+                    ? "filterColor"
+                    : ["signature", "cotton", "mesh"].indexOf(a) >= 0
+                    ? "filterFabric"
+                    : ["default", "25per"].indexOf(a) >= 0
+                    ? "filterSale"
+                    : void 0;
+            },
+            h = function (a, f) {
+                var b = { thong: !1, bikini: !1, highwaisted: !1, cheeky: !1, brief: !1, g_string: !1, highwaisted_thong: !1, comfort_shape: !1, pack: !1 },
+                    c = { bralette: !1 },
+                    d = { tank: !1, muscle_tee: !1, top: !1, wrap: !1, bodysuit: !1 },
+                    e = { cotton: !1, signature: !1, mesh: !1 };
+                jQuery(".saleProdTile").removeClass("inStock"),
+                    jQuery(".saleProdTile").removeClass("lastCall"),
+                    a.map(function (a, r) {
+                        if (a.prodType.indexOf("Underwear") >= 0) {
+                            let g = a.prodTags.filter(function (a, b) {
+                                    if (a.indexOf("pantyType-") >= 0) return a.replace("pantyType-", "");
+                                })[0],
+                                i = "core" === a.prodType.replace(" Underwear", "").toLowerCase() ? "signature" : "cotton";
+                            g && a.availQty > 5 && ((b[g.replace("pantyType-", "")] = !0), (e[i] = !0));
+                        }
+                        if (a.prodType.indexOf("Bralette") >= 0) {
+                            let j = a.prodTags.filter(function (a, b) {
+                                    if (a.indexOf("bralette") >= 0) return "bralette";
+                                })[0],
+                                k = "core" === a.prodType.replace(" Bralette", "").toLowerCase() ? "signature" : "cotton";
+                            j && a.availQty > 5 && ((c.bralette = !0), (e[k] = !0));
+                        }
+                        if (a.prodType.indexOf("Bodysuit") >= 0) {
+                            let l = a.prodTags.filter(function (a, b) {
+                                    if (a.indexOf("bodysuit") >= 0) return "bodysuit";
+                                })[0],
+                                m = "signature";
+                            l && a.availQty > 5 && ((d.bodysuit = !0), (e[m] = !0));
+                        }
+                        if (a.prodType.indexOf("Tank") >= 0) {
+                            let h = a.prodTags.filter(function (a, b) {
+                                    if (a.indexOf("topType-") >= 0) return a.replace("topType-", "");
+                                })[0],
+                                n = a.prodTags.filter(function (a, b) {
+                                    if (a.indexOf("topFabric-") >= 0) return a.replace("topFabric-", "");
+                                })[0];
+                            h && a.availQty > 5 && ((d[h.replace("topType-", "")] = !0), (e[n] = !0));
+                        }
+                        if (a.prodType.indexOf("Crop Top") >= 0 || a.prodType.indexOf("Emissary Tank") >= 0 || a.prodType.indexOf("XBusiness Tee") >= 0) {
+                            let o = "top",
+                                p = a.prodTags.filter(function (a, b) {
+                                    if (a.indexOf("topFabric-") >= 0) return a.replace("topFabric-", "");
+                                })[0];
+                            o && a.availQty > 5 && ((d.top = !0), (e[p] = !0));
+                        }
+                        a.availQty > 10 ? jQuery('.saleProdTile[data-prodsku="' + a.prodId + '"]').addClass("inStock") : a.availQty > 0 && a.availQty <= 10 && jQuery('.saleProdTile[data-prodsku="' + a.prodId + '"]').addClass("lastCall");
+                        let f = jQuery('.tileFilterable[data-prodsku="' + a.prodId + '"]');
+                        if (f.find("a").attr("href")) {
+                            let q = f.find("a").attr("href").split("?variant=")[0];
+                            f.find("a").attr("href", q + "?variant=" + a.variantId);
+                        }
+                        jQuery('.tileFilterable[data-prodsku="' + a.prodId + '"]')
+                            .find(".filterItemOptVal")
+                            .val(a.variantId);
+                    }),
+                    i({ fabrics: e, bralettes: c, panties: b, tops: d });
+            },
+            i = function (c) {
+                let b = jQuery("#collFiltersModule .ebyFilterOptWrapper.secondaryFilterListing .sortOpt");
+                ((c.fabrics.cotton || !c.fabrics.signature || c.fabrics.mesh) && (!c.fabrics.cotton || c.fabrics.signature || c.fabrics.mesh)) || jQuery(".fabricTypeOptionsTile").hide();
+                for (let a = 0; a < b.length; a++) {
+                    let d = jQuery(b[a]).data("optval");
+                    jQuery(b[a]).hasClass("optType-panty") && (c.panties[d] ? jQuery(b[a]).show() : jQuery(b[a]).hide()),
+                        jQuery(b[a]).hasClass("optType-fabric") && (c.fabrics[d] ? jQuery(b[a]).show() : jQuery(b[a]).hide()),
+                        jQuery(b[a]).hasClass("optType-bralette") && (c.bralettes[d] ? jQuery(b[a]).show() : jQuery(b[a]).hide()),
+                        jQuery(b[a]).hasClass("optType-top") && (c.tops[d] ? jQuery(b[a]).show() : jQuery(b[a]).hide()),
+                        jQuery(b[a]).hasClass("optType-tee") && (c.tops[d] ? jQuery(b[a]).show() : jQuery(b[a]).hide());
+                }
+            },
+            j = function (d) {
+                jQuery(".ebyProdTileListWrapper .ebyProdTile").removeClass("tileAvail"), jQuery("#pageContent").hasClass("noFilterMode");
+                let b = localStorage.getItem("filterPrefEbyShopping"),
+                    c = b ? b.split("::")[0] : "";
+                b && b.split("::")[1], b && b.split("::")[2];
+                let e = { xs: "0XS", sm: "0S", md: "0M", lg: "0L", xl: "0XL", "1x": "01X", "2x": "02X", "3x": "03X", "4x": "04X" },
+                    f = Object.keys(e).indexOf(c);
+                if (
+                    (d.map(function (c, d) {
+                        let b = jQuery(".ebyProdTileListWrapper .ebyProdTile[data-prodsku='" + c.prodId + "']");
+                        (c.prodType.indexOf("Bralette") >= 0 && !a.selectedBraletteVal) ||
+                        (c.prodType.indexOf("Tank") >= 0 && !a.selectedTankVal) ||
+                        (c.prodType.indexOf("Bodysuit") >= 0 && !a.selectedTankVal) ||
+                        (c.prodType.indexOf("Underwear") >= 0 && !a.selectedVal)
+                            ? b.addClass("quickAddOverride")
+                            : b.hasClass("quickAddOverride") && b.removeClass("quickAddOverride"),
+                            c.availQty > 5
+                                ? (b.addClass("tileAvail"), b.removeClass("tileUnavail"))
+                                : (c.prodType.indexOf("Bralette") >= 0 && !a.selectedBraletteVal) ||
+                                  (c.prodType.indexOf("Tank") >= 0 && !a.selectedTankVal) ||
+                                  (c.prodType.indexOf("Bodysuit") >= 0 && !a.selectedTankVal) ||
+                                  (c.prodType.indexOf("Underwear") >= 0 && !a.selectedVal)
+                                ? (b.addClass("tileAvail"), b.removeClass("tileUnavail"), b.addClass("quickAddOverride"))
+                                : (b.removeClass("tileAvail"), b.addClass("tileUnavail"), b.hasClass("quickAddOverride") && b.removeClass("quickAddOverride"));
+                    }),
+                    c.length > 0)
+                ) {
+                    let g = [];
+                    vela.collStockedProdData.map(function (a, b) {
+                        if(a.variantSku !== null){
+                          console.log(":: collStockedProdDataOne ::", a),
+                              0 >= a.variantSku.indexOf(e[c]) && a.prodType.indexOf("Underwear") >= 0
+                                  ? (console.log(":: collStockedProdDataOne, unavailTwo ::", { pSize: c.toUpperCase(), p: a }), jQuery('.ebyProdTile[data-prodsku="' + a.prodId + '"]').addClass("filterHide"))
+                                  : g.push(a.prodId);
+                        }
+                    }),
+                        window.origCollProds.map(function (a, b) {
+                            a.variants[f] && a.variants[f].title !== c && a.type.indexOf("Underwear") >= 0 && jQuery('.ebyProdTile[data-prodsku="' + a.id + '"]').addClass("filterHide"),
+                                0 > g.indexOf(a.id) && (console.log(":this prod is not in the size I want:", a), jQuery('.ebyProdTile[data-prodsku="' + a.id + '"]').addClass("filterHide"));
+                        });
+                }
+                a.prodTypes.hasPanties ||
+                    (jQuery(".sizeModeToggle.pantySize").hide(),
+                    jQuery(".pantySizeType").hide(),
+                    a.prodTypes.hasBralettes
+                        ? (jQuery(".sizeModeToggle.braletteSize").show(),
+                          jQuery(".sizeModeToggleWrapper").hasClass("tankSizeView") || (jQuery(".sizeModeToggleWrapper").attr("class", "sizeModeToggleWrapper braletteSizeView"), jQuery(".braletteSizeType").show()))
+                        : a.prodTypes.hasTanks &&
+                          (jQuery(".sizeModeToggle.tankSize").show(),
+                          jQuery(".sizeModeToggleWrapper").hasClass("braletteSizeView") || (jQuery(".sizeModeToggleWrapper").attr("class", "sizeModeToggleWrapper tankSizeView"), jQuery(".tankSizeType").show()))),
+                    a.prodTypes.hasBralettes || (jQuery(".sizeModeToggle.braletteSize").hide(), jQuery(".braletteSizeType").hide()),
+                    a.prodTypes.hasTanks || (jQuery(".sizeModeToggle.tankSize").hide(), jQuery(".tankSizeType").hide()),
+                    jQuery(".item.ebyProdTile.upsellTile.firstUpsellTile.tileFilterable").show();
+            },
+            k = function (b, i) {
+                let g = i.reduce(function (a, b) {
+                        return a.push(b.id), a;
+                    }, []),
+                    k = "" !== b.selectedVal ? b.selectedVal : b.defaultVal,
+                    c = b.selectedVariantOptsVals ? b.selectedVariantOptsVals : b.variantOptsVals;
+                if ("null::null::null" === c) c = "xs::xs::xs";
+                else {
+                    let a = c.split("::");
+                    "null" === a[0] && (a[0] = "xs"), "null" === a[1] && (a[1] = "xs"), "null" === a[2] && (a[2] = "xs"), (c = a[0] + "::" + a[1] + "::" + a[2]);
+                }
+                jQuery.ajax({
+                    type: "POST",
+                    crossDomain: !0,
+                    url: window.APIDomain + window.otherAPI + "eby_stockcheck-filters_update.php",
+                    data: { data: { variantOpt: b.defaultOpt, variantOptVal: k, variantOptsVals: c, prodListCount: g.length, prodIdList: g.join(","), warehouseKey: "ecomm" } },
+                    beforeSend: function () {
+                        e(!0);
+                    },
+                    dataType: "json",
+                    headers: { Authorization: "Bearer ddd345d2498c7717a7bbbe86d9d145dc", "Access-Control-Allow-Origin": "*" },
+                    success: function (a) {
+                        if (a) {
+                            let b = f(a.inventoryHealthcheck, a.prodInventoryData);
+                            (vela.collStockedProdData = b), (window.origCollProds = i), h(b, k), j(b), e(!1), jQuery("#currentFilteringPantySizeCopy span").text(c.split("::")[0]), d();
+                        }
+                        jQuery("#filtered-prod-listing").hasClass("initialized") || jQuery("#filtered-prod-listing").addClass("initialized");
+                    },
+                    error: function (a, b) {
+                        console.log("::stockcheck failure::", { text: b, xhr: a }), jQuery("#filtered-prod-listing").hasClass("initialized") || jQuery("#filtered-prod-listing").addClass("initialized");
+                    },
+                });
+            },
+            l = function (h, i, b) {
+                a.filtersToInclude.push(h), a.currentFiltersObj[i].push(h), c.addChip({ tag: h.replace("_", " ") });
+                let d = a.currentFiltersObj.filterColor.length,
+                    e = a.currentFiltersObj.filterStyle.length,
+                    f = a.currentFiltersObj.filterFabric.length,
+                    g = a.currentFiltersObj.filterSale.length;
+                switch (i) {
+                    case "filterColor":
+                        1 == a.filtersToInclude.length
+                            ? (b.map(function (b, a) {
+                                  jQuery(a).addClass("filterHide");
+                              }),
+                              b.map(function (c, b) {
+                                  a.currentFiltersObj.filterColor.indexOf(jQuery(b).attr("data-prodcolorgroup")) >= 0 && jQuery(b).removeClass("filterHide");
+                              }))
+                            : (b.map(function (b, a) {
+                                  jQuery(a).addClass("filterHide");
+                              }),
+                              0 == e && d > 0 && 0 == f && 0 == g
+                                  ? b.map(function (c, b) {
+                                        a.currentFiltersObj.filterColor.indexOf(jQuery(b).attr("data-prodcolorgroup")) >= 0 && jQuery(b).removeClass("filterHide");
+                                    })
+                                  : e > 0 && d > 0 && 0 == f && 0 == g
+                                  ? b.map(function (c, b) {
+                                        a.currentFiltersObj.filterStyle.indexOf(jQuery(b).attr("data-prodtype")) >= 0 &&
+                                            a.currentFiltersObj.filterColor.indexOf(jQuery(b).attr("data-prodcolorgroup")) >= 0 &&
+                                            jQuery(b).removeClass("filterHide");
+                                    })
+                                  : 0 == e && d > 0 && f > 0 && 0 == g
+                                  ? b.map(function (c, b) {
+                                        a.currentFiltersObj.filterColor.indexOf(jQuery(b).attr("data-prodcolorgroup")) >= 0 &&
+                                            a.currentFiltersObj.filterFabric.indexOf(jQuery(b).attr("data-prodfabric")) >= 0 &&
+                                            jQuery(b).removeClass("filterHide");
+                                    })
+                                  : 0 == e && d > 0 && 0 == f && g > 0
+                                  ? b.map(function (c, b) {
+                                        a.currentFiltersObj.filterSale.indexOf(jQuery(b).attr("data-prodSale")) >= 0 &&
+                                            a.currentFiltersObj.filterColor.indexOf(jQuery(b).attr("data-prodcolorgroup")) >= 0 &&
+                                            jQuery(b).removeClass("filterHide");
+                                    })
+                                  : e > 0 &&
+                                    d > 0 &&
+                                    f > 0 &&
+                                    g > 0 &&
+                                    b.map(function (c, b) {
+                                        a.currentFiltersObj.filterStyle.indexOf(jQuery(b).attr("data-prodtype")) >= 0 &&
+                                            a.currentFiltersObj.filterColor.indexOf(jQuery(b).attr("data-prodcolorgroup")) >= 0 &&
+                                            a.currentFiltersObj.filterFabric.indexOf(jQuery(b).attr("data-prodfabric")) >= 0 &&
+                                            a.currentFiltersObj.filterSale.indexOf(jQuery(b).attr("data-prodSale")) >= 0 &&
+                                            jQuery(b).removeClass("filterHide");
+                                    }));
+                        break;
+                    case "filterStyle":
+                        1 == a.filtersToInclude.length
+                            ? (console.log("11111"),
+                              b.map(function (b, a) {
+                                  jQuery(a).addClass("filterHide");
+                              }),
+                              b.map(function (c, b) {
+                                  a.currentFiltersObj.filterStyle.indexOf(jQuery(b).attr("data-prodtype")) >= 0 && jQuery(b).removeClass("filterHide");
+                              }))
+                            : (console.log("222"),
+                              b.map(function (b, a) {
+                                  jQuery(a).addClass("filterHide");
+                              }),
+                              e > 0 && 0 == d && 0 == f && 0 == g
+                                  ? b.map(function (c, b) {
+                                        a.currentFiltersObj.filterStyle.indexOf(jQuery(b).attr("data-prodtype")) >= 0 && jQuery(b).removeClass("filterHide");
+                                    })
+                                  : e > 0 && d > 0 && 0 == f && 0 == g
+                                  ? b.map(function (c, b) {
+                                        a.currentFiltersObj.filterStyle.indexOf(jQuery(b).attr("data-prodtype")) >= 0 &&
+                                            a.currentFiltersObj.filterColor.indexOf(jQuery(b).attr("data-prodcolorgroup")) >= 0 &&
+                                            jQuery(b).removeClass("filterHide");
+                                    })
+                                  : e > 0 && 0 == d && f > 0 && 0 == g
+                                  ? b.map(function (c, b) {
+                                        a.currentFiltersObj.filterStyle.indexOf(jQuery(b).attr("data-prodtype")) >= 0 &&
+                                            a.currentFiltersObj.filterFabric.indexOf(jQuery(b).attr("data-prodfabric")) >= 0 &&
+                                            jQuery(b).removeClass("filterHide");
+                                    })
+                                  : e > 0 && 0 == d && 0 == f && g > 0
+                                  ? b.map(function (c, b) {
+                                        a.currentFiltersObj.filterSale.indexOf(jQuery(b).attr("data-prodSale")) >= 0 && a.currentFiltersObj.filterStyle.indexOf(jQuery(b).attr("data-prodtype")) >= 0 && jQuery(b).removeClass("filterHide");
+                                    })
+                                  : e > 0 &&
+                                    d > 0 &&
+                                    f > 0 &&
+                                    g > 0 &&
+                                    b.map(function (c, b) {
+                                        a.currentFiltersObj.filterStyle.indexOf(jQuery(b).attr("data-prodtype")) >= 0 &&
+                                            a.currentFiltersObj.filterColor.indexOf(jQuery(b).attr("data-prodcolorgroup")) >= 0 &&
+                                            a.currentFiltersObj.filterFabric.indexOf(jQuery(b).attr("data-prodfabric")) >= 0 &&
+                                            a.currentFiltersObj.filterSale.indexOf(jQuery(b).attr("data-prodSale")) >= 0 &&
+                                            jQuery(b).removeClass("filterHide");
+                                    }));
+                        break;
+                    case "filterFabric":
+                        1 == a.filtersToInclude.length
+                            ? (b.map(function (b, a) {
+                                  jQuery(a).addClass("filterHide");
+                              }),
+                              b.map(function (c, b) {
+                                  a.currentFiltersObj.filterFabric.indexOf(jQuery(b).attr("data-prodfabric")) >= 0 && jQuery(b).removeClass("filterHide");
+                              }))
+                            : (b.map(function (b, a) {
+                                  jQuery(a).addClass("filterHide");
+                              }),
+                              0 == e && 0 == d && f > 0 && 0 == g
+                                  ? b.map(function (c, b) {
+                                        a.currentFiltersObj.filterFabric.indexOf(jQuery(b).attr("data-prodfabric")) >= 0 && jQuery(b).removeClass("filterHide");
+                                    })
+                                  : e > 0 && 0 == d && f > 0 && 0 == g
+                                  ? b.map(function (c, b) {
+                                        a.currentFiltersObj.filterFabric.indexOf(jQuery(b).attr("data-prodfabric")) >= 0 &&
+                                            a.currentFiltersObj.filterStyle.indexOf(jQuery(b).attr("data-prodtype")) >= 0 &&
+                                            jQuery(b).removeClass("filterHide");
+                                    })
+                                  : 0 == e && d > 0 && f > 0 && 0 == g
+                                  ? b.map(function (c, b) {
+                                        a.currentFiltersObj.filterFabric.indexOf(jQuery(b).attr("data-prodfabric")) >= 0 &&
+                                            a.currentFiltersObj.filterColor.indexOf(jQuery(b).attr("data-prodcolorgroup")) >= 0 &&
+                                            jQuery(b).removeClass("filterHide");
+                                    })
+                                  : 0 == e && 0 == d && f > 0 && g > 0
+                                  ? b.map(function (c, b) {
+                                        a.currentFiltersObj.filterFabric.indexOf(jQuery(b).attr("data-prodfabric")) >= 0 && a.currentFiltersObj.filterSale.indexOf(jQuery(b).attr("data-prodSale")) >= 0 && jQuery(b).removeClass("filterHide");
+                                    })
+                                  : e > 0 &&
+                                    d > 0 &&
+                                    f > 0 &&
+                                    g > 0 &&
+                                    b.map(function (c, b) {
+                                        a.currentFiltersObj.filterStyle.indexOf(jQuery(b).attr("data-prodtype")) >= 0 &&
+                                            a.currentFiltersObj.filterColor.indexOf(jQuery(b).attr("data-prodcolorgroup")) >= 0 &&
+                                            a.currentFiltersObj.filterFabric.indexOf(jQuery(b).attr("data-prodfabric")) >= 0 &&
+                                            a.currentFiltersObj.filterSale.indexOf(jQuery(b).attr("data-prodSale")) >= 0 &&
+                                            jQuery(b).removeClass("filterHide");
+                                    }));
+                        break;
+                    case "filterSale":
+                        1 == a.filtersToInclude.length
+                            ? (b.map(function (b, a) {
+                                  jQuery(a).addClass("filterHide");
+                              }),
+                              b.map(function (c, b) {
+                                  a.currentFiltersObj.filterSale.indexOf(jQuery(b).attr("data-prodSale")) >= 0 && jQuery(b).removeClass("filterHide");
+                              }))
+                            : (b.map(function (b, a) {
+                                  jQuery(a).addClass("filterHide");
+                              }),
+                              0 == e && 0 == d && 0 == f && g > 0
+                                  ? b.map(function (c, b) {
+                                        a.currentFiltersObj.filterSale.indexOf(jQuery(b).attr("data-prodSale")) >= 0 && jQuery(b).removeClass("filterHide");
+                                    })
+                                  : e > 0 && 0 == d && 0 == f && g > 0
+                                  ? b.map(function (c, b) {
+                                        a.currentFiltersObj.filterSale.indexOf(jQuery(b).attr("data-prodSale")) >= 0 && a.currentFiltersObj.filterStyle.indexOf(jQuery(b).attr("data-prodtype")) >= 0 && jQuery(b).removeClass("filterHide");
+                                    })
+                                  : 0 == e && 0 == d && f > 0 && g > 0
+                                  ? b.map(function (c, b) {
+                                        a.currentFiltersObj.filterSale.indexOf(jQuery(b).attr("data-prodSale")) >= 0 && a.currentFiltersObj.filterFabric.indexOf(jQuery(b).attr("data-prodfabric")) >= 0 && jQuery(b).removeClass("filterHide");
+                                    })
+                                  : 0 == e && d > 0 && 0 == f && g > 0
+                                  ? b.map(function (c, b) {
+                                        a.currentFiltersObj.filterSale.indexOf(jQuery(b).attr("data-prodSale")) >= 0 &&
+                                            a.currentFiltersObj.filterColor.indexOf(jQuery(b).attr("data-prodcolorgroup")) >= 0 &&
+                                            jQuery(b).removeClass("filterHide");
+                                    })
+                                  : e > 0 &&
+                                    d > 0 &&
+                                    f > 0 &&
+                                    g > 0 &&
+                                    b.map(function (c, b) {
+                                        a.currentFiltersObj.filterStyle.indexOf(jQuery(b).attr("data-prodtype")) >= 0 &&
+                                            a.currentFiltersObj.filterColor.indexOf(jQuery(b).attr("data-prodcolorgroup")) >= 0 &&
+                                            a.currentFiltersObj.filterFabric.indexOf(jQuery(b).attr("data-prodfabric")) >= 0 &&
+                                            a.currentFiltersObj.filterSale.indexOf(jQuery(b).attr("data-prodSale")) >= 0 &&
+                                            jQuery(b).removeClass("filterHide");
+                                    }));
+                }
+            },
+            m = function (i, h, b) {
+                a.filtersToInclude.splice(a.filtersToInclude.indexOf(i), 1),
+                    a.currentFiltersObj[h].splice(a.currentFiltersObj[h].indexOf(i), 1),
+                    c.chipsData.map(function (a, b) {
+                        a.tag.replace(" ", "_") === i && c.deleteChip(b);
+                    });
+                let d = a.currentFiltersObj.filterColor.length,
+                    e = a.currentFiltersObj.filterStyle.length,
+                    f = a.currentFiltersObj.filterFabric.length,
+                    g = a.currentFiltersObj.filterSale.length;
+                if (0 == a.filtersToInclude.length)
+                    b.map(function (b, a) {
+                        jQuery(a).removeClass("filterHide");
+                    });
+                else
+                    switch (h) {
+                        case "filterColor":
+                            0 == d
+                                ? (b.map(function (b, a) {
+                                      jQuery(a).addClass("filterHide");
+                                  }),
+                                  e > 0 && 0 == f && 0 == g
+                                      ? b.map(function (c, b) {
+                                            a.currentFiltersObj.filterStyle.indexOf(jQuery(b).attr("data-prodtype")) >= 0 && jQuery(b).removeClass("filterHide");
+                                        })
+                                      : 0 == e && f > 0 && 0 == g
+                                      ? b.map(function (c, b) {
+                                            a.currentFiltersObj.filterFabric.indexOf(jQuery(b).attr("data-prodfabric")) >= 0 && jQuery(b).removeClass("filterHide");
+                                        })
+                                      : 0 == e && 0 == f && g > 0
+                                      ? b.map(function (c, b) {
+                                            a.currentFiltersObj.filterSale.indexOf(jQuery(b).attr("data-prodSale")) >= 0 && jQuery(b).removeClass("filterHide");
+                                        })
+                                      : e > 0 &&
+                                        f > 0 &&
+                                        g > 0 &&
+                                        b.map(function (c, b) {
+                                            a.currentFiltersObj.filterStyle.indexOf(jQuery(b).attr("data-prodtype")) >= 0 &&
+                                                a.currentFiltersObj.filterFabric.indexOf(jQuery(b).attr("data-prodfabric")) >= 0 &&
+                                                a.currentFiltersObj.filterSale.indexOf(jQuery(b).attr("data-prodSale")) >= 0 &&
+                                                jQuery(b).removeClass("filterHide");
+                                        }))
+                                : (b.map(function (b, a) {
+                                      jQuery(a).addClass("filterHide");
+                                  }),
+                                  0 == e && d > 0 && 0 == f && 0 == g
+                                      ? b.map(function (c, b) {
+                                            a.currentFiltersObj.filterColor.indexOf(jQuery(b).attr("data-prodcolorgroup")) >= 0 && jQuery(b).removeClass("filterHide");
+                                        })
+                                      : e > 0 && d > 0 && 0 == f && 0 == g
+                                      ? b.map(function (c, b) {
+                                            a.currentFiltersObj.filterStyle.indexOf(jQuery(b).attr("data-prodtype")) >= 0 &&
+                                                a.currentFiltersObj.filterColor.indexOf(jQuery(b).attr("data-prodcolorgroup")) >= 0 &&
+                                                jQuery(b).removeClass("filterHide");
+                                        })
+                                      : 0 == e && d > 0 && f > 0 && 0 == g
+                                      ? b.map(function (c, b) {
+                                            a.currentFiltersObj.filterColor.indexOf(jQuery(b).attr("data-prodcolorgroup")) >= 0 &&
+                                                a.currentFiltersObj.filterFabric.indexOf(jQuery(b).attr("data-prodfabric")) >= 0 &&
+                                                jQuery(b).removeClass("filterHide");
+                                        })
+                                      : 0 == e && d > 0 && 0 == f && g > 0
+                                      ? b.map(function (c, b) {
+                                            a.currentFiltersObj.filterColor.indexOf(jQuery(b).attr("data-prodcolorgroup")) >= 0 &&
+                                                a.currentFiltersObj.filterSale.indexOf(jQuery(b).attr("data-prodSale")) >= 0 &&
+                                                jQuery(b).removeClass("filterHide");
+                                        })
+                                      : e > 0 &&
+                                        d > 0 &&
+                                        f > 0 &&
+                                        g > 0 &&
+                                        b.map(function (c, b) {
+                                            a.currentFiltersObj.filterStyle.indexOf(jQuery(b).attr("data-prodtype")) >= 0 &&
+                                                a.currentFiltersObj.filterColor.indexOf(jQuery(b).attr("data-prodcolorgroup")) >= 0 &&
+                                                a.currentFiltersObj.filterFabric.indexOf(jQuery(b).attr("data-prodfabric")) >= 0 &&
+                                                a.currentFiltersObj.filterSale.indexOf(jQuery(b).attr("data-prodSale")) >= 0 &&
+                                                jQuery(b).removeClass("filterHide");
+                                        }));
+                            break;
+                        case "filterStyle":
+                            0 == e
+                                ? (b.map(function (b, a) {
+                                      jQuery(a).addClass("filterHide");
+                                  }),
+                                  d > 0 && 0 == f && 0 == g
+                                      ? b.map(function (c, b) {
+                                            a.currentFiltersObj.filterColor.indexOf(jQuery(b).attr("data-prodcolorgroup")) >= 0 && jQuery(b).removeClass("filterHide");
+                                        })
+                                      : 0 == d && f > 0 && 0 == g
+                                      ? b.map(function (c, b) {
+                                            a.currentFiltersObj.filterFabric.indexOf(jQuery(b).attr("data-prodfabric")) >= 0 && jQuery(b).removeClass("filterHide");
+                                        })
+                                      : 0 == d && 0 == f && g > 0
+                                      ? b.map(function (c, b) {
+                                            a.currentFiltersObj.filterSale.indexOf(jQuery(b).attr("data-prodSale")) >= 0 && jQuery(b).removeClass("filterHide");
+                                        })
+                                      : d > 0 &&
+                                        f > 0 &&
+                                        g > 0 &&
+                                        b.map(function (c, b) {
+                                            a.currentFiltersObj.filterColor.indexOf(jQuery(b).attr("data-prodcolorgroup")) >= 0 &&
+                                                a.currentFiltersObj.filterFabric.indexOf(jQuery(b).attr("data-prodfabric")) >= 0 &&
+                                                a.currentFiltersObj.filterSale.indexOf(jQuery(b).attr("data-prodSale")) >= 0 &&
+                                                jQuery(b).removeClass("filterHide");
+                                        }))
+                                : (b.map(function (b, a) {
+                                      jQuery(a).addClass("filterHide");
+                                  }),
+                                  e > 0 && 0 == d && 0 == f && 0 == g
+                                      ? b.map(function (c, b) {
+                                            a.currentFiltersObj.filterStyle.indexOf(jQuery(b).attr("data-prodtype")) >= 0 && jQuery(b).removeClass("filterHide");
+                                        })
+                                      : e > 0 && d > 0 && 0 == f && 0 == g
+                                      ? b.map(function (c, b) {
+                                            a.currentFiltersObj.filterStyle.indexOf(jQuery(b).attr("data-prodtype")) >= 0 &&
+                                                a.currentFiltersObj.filterColor.indexOf(jQuery(b).attr("data-prodcolorgroup")) >= 0 &&
+                                                jQuery(b).removeClass("filterHide");
+                                        })
+                                      : e > 0 && 0 == d && f > 0 && 0 == g
+                                      ? b.map(function (c, b) {
+                                            a.currentFiltersObj.filterStyle.indexOf(jQuery(b).attr("data-prodtype")) >= 0 &&
+                                                a.currentFiltersObj.filterFabric.indexOf(jQuery(b).attr("data-prodfabric")) >= 0 &&
+                                                jQuery(b).removeClass("filterHide");
+                                        })
+                                      : e > 0 && 0 == d && 0 == f && g > 0
+                                      ? b.map(function (c, b) {
+                                            a.currentFiltersObj.filterStyle.indexOf(jQuery(b).attr("data-prodtype")) >= 0 &&
+                                                a.currentFiltersObj.filterSale.indexOf(jQuery(b).attr("data-prodSale")) >= 0 &&
+                                                jQuery(b).removeClass("filterHide");
+                                        })
+                                      : e > 0 &&
+                                        d > 0 &&
+                                        f > 0 &&
+                                        g > 0 &&
+                                        b.map(function (c, b) {
+                                            a.currentFiltersObj.filterStyle.indexOf(jQuery(b).attr("data-prodtype")) >= 0 &&
+                                                a.currentFiltersObj.filterColor.indexOf(jQuery(b).attr("data-prodcolorgroup")) >= 0 &&
+                                                a.currentFiltersObj.filterFabric.indexOf(jQuery(b).attr("data-prodfabric")) >= 0 &&
+                                                a.currentFiltersObj.filterSale.indexOf(jQuery(b).attr("data-prodSale")) >= 0 &&
+                                                jQuery(b).removeClass("filterHide");
+                                        }));
+                            break;
+                        case "filterFabric":
+                            0 == f
+                                ? (b.map(function (b, a) {
+                                      jQuery(a).addClass("filterHide");
+                                  }),
+                                  e > 0 && 0 == d && 0 == g
+                                      ? b.map(function (c, b) {
+                                            a.currentFiltersObj.filterStyle.indexOf(jQuery(b).attr("data-prodtype")) >= 0 && jQuery(b).removeClass("filterHide");
+                                        })
+                                      : 0 == e && d > 0 && 0 == g
+                                      ? b.map(function (c, b) {
+                                            a.currentFiltersObj.filterColor.indexOf(jQuery(b).attr("data-prodcolorgroup")) >= 0 && jQuery(b).removeClass("filterHide");
+                                        })
+                                      : 0 == e && 0 == d && g > 0
+                                      ? b.map(function (c, b) {
+                                            a.currentFiltersObj.filterSale.indexOf(jQuery(b).attr("data-prodSale")) >= 0 && jQuery(b).removeClass("filterHide");
+                                        })
+                                      : e > 0 &&
+                                        d > 0 &&
+                                        g > 0 &&
+                                        b.map(function (c, b) {
+                                            a.currentFiltersObj.filterColor.indexOf(jQuery(b).attr("data-prodcolorgroup")) >= 0 &&
+                                                a.currentFiltersObj.filterStyle.indexOf(jQuery(b).attr("data-prodtype")) >= 0 &&
+                                                a.currentFiltersObj.filterSale.indexOf(jQuery(b).attr("data-prodSale")) >= 0 &&
+                                                jQuery(b).removeClass("filterHide");
+                                        }))
+                                : (b.map(function (b, a) {
+                                      jQuery(a).addClass("filterHide");
+                                  }),
+                                  0 == e && 0 == d && f > 0 && 0 == g
+                                      ? b.map(function (c, b) {
+                                            a.currentFiltersObj.filterFabric.indexOf(jQuery(b).attr("data-prodfabric")) >= 0 && jQuery(b).removeClass("filterHide");
+                                        })
+                                      : e > 0 && 0 == d && f > 0 && 0 == g
+                                      ? b.map(function (c, b) {
+                                            a.currentFiltersObj.filterFabric.indexOf(jQuery(b).attr("data-prodfabric")) >= 0 &&
+                                                a.currentFiltersObj.filterStyle.indexOf(jQuery(b).attr("data-prodtype")) >= 0 &&
+                                                jQuery(b).removeClass("filterHide");
+                                        })
+                                      : 0 == e && d > 0 && f > 0 && 0 == g
+                                      ? b.map(function (c, b) {
+                                            a.currentFiltersObj.filterFabric.indexOf(jQuery(b).attr("data-prodfabric")) >= 0 &&
+                                                a.currentFiltersObj.filterColor.indexOf(jQuery(b).attr("data-prodcolorgroup")) >= 0 &&
+                                                jQuery(b).removeClass("filterHide");
+                                        })
+                                      : 0 == e && 0 == d && f > 0 && g > 0
+                                      ? b.map(function (c, b) {
+                                            a.currentFiltersObj.filterFabric.indexOf(jQuery(b).attr("data-prodfabric")) >= 0 &&
+                                                a.currentFiltersObj.filterSale.indexOf(jQuery(b).attr("data-prodSale")) >= 0 &&
+                                                jQuery(b).removeClass("filterHide");
+                                        })
+                                      : e > 0 &&
+                                        d > 0 &&
+                                        f > 0 &&
+                                        g > 0 &&
+                                        b.map(function (c, b) {
+                                            a.currentFiltersObj.filterStyle.indexOf(jQuery(b).attr("data-prodtype")) >= 0 &&
+                                                a.currentFiltersObj.filterColor.indexOf(jQuery(b).attr("data-prodcolorgroup")) >= 0 &&
+                                                a.currentFiltersObj.filterFabric.indexOf(jQuery(b).attr("data-prodfabric")) >= 0 &&
+                                                a.currentFiltersObj.filterSale.indexOf(jQuery(b).attr("data-prodSale")) >= 0 &&
+                                                jQuery(b).removeClass("filterHide");
+                                        }));
+                            break;
+                        case "filterSale":
+                            0 == g
+                                ? (b.map(function (b, a) {
+                                      jQuery(a).addClass("filterHide");
+                                  }),
+                                  e > 0 && 0 == d && 0 == f
+                                      ? b.map(function (c, b) {
+                                            a.currentFiltersObj.filterStyle.indexOf(jQuery(b).attr("data-prodtype")) >= 0 && jQuery(b).removeClass("filterHide");
+                                        })
+                                      : 0 == e && d > 0 && 0 == f
+                                      ? b.map(function (c, b) {
+                                            a.currentFiltersObj.filterColor.indexOf(jQuery(b).attr("data-prodcolorgroup")) >= 0 && jQuery(b).removeClass("filterHide");
+                                        })
+                                      : 0 == e && 0 == d && f > 0
+                                      ? b.map(function (c, b) {
+                                            a.currentFiltersObj.filterFabric.indexOf(jQuery(b).attr("data-prodfabric")) >= 0 && jQuery(b).removeClass("filterHide");
+                                        })
+                                      : e > 0 &&
+                                        d > 0 &&
+                                        f > 0 &&
+                                        b.map(function (c, b) {
+                                            a.currentFiltersObj.filterColor.indexOf(jQuery(b).attr("data-prodcolorgroup")) >= 0 &&
+                                                a.currentFiltersObj.filterStyle.indexOf(jQuery(b).attr("data-prodtype")) >= 0 &&
+                                                a.currentFiltersObj.filterFabric.indexOf(jQuery(b).attr("data-prodfabric")) >= 0 &&
+                                                jQuery(b).removeClass("filterHide");
+                                        }))
+                                : (b.map(function (b, a) {
+                                      jQuery(a).addClass("filterHide");
+                                  }),
+                                  0 == e && 0 == d && 0 == f && g > 0
+                                      ? b.map(function (c, b) {
+                                            a.currentFiltersObj.filterSale.indexOf(jQuery(b).attr("data-prodSale")) >= 0 && jQuery(b).removeClass("filterHide");
+                                        })
+                                      : e > 0 && 0 == d && 0 == f && g > 0
+                                      ? b.map(function (c, b) {
+                                            a.currentFiltersObj.filterFabric.indexOf(jQuery(b).attr("data-prodfabric")) >= 0 &&
+                                                a.currentFiltersObj.filterStyle.indexOf(jQuery(b).attr("data-prodtype")) >= 0 &&
+                                                jQuery(b).removeClass("filterHide");
+                                        })
+                                      : 0 == e && d > 0 && 0 == f && g > 0
+                                      ? b.map(function (c, b) {
+                                            a.currentFiltersObj.filterFabric.indexOf(jQuery(b).attr("data-prodfabric")) >= 0 &&
+                                                a.currentFiltersObj.filterColor.indexOf(jQuery(b).attr("data-prodcolorgroup")) >= 0 &&
+                                                jQuery(b).removeClass("filterHide");
+                                        })
+                                      : 0 == e && 0 == d && f > 0 && g > 0
+                                      ? b.map(function (c, b) {
+                                            a.currentFiltersObj.filterFabric.indexOf(jQuery(b).attr("data-prodfabric")) >= 0 &&
+                                                a.currentFiltersObj.filterSale.indexOf(jQuery(b).attr("data-prodSale")) >= 0 &&
+                                                jQuery(b).removeClass("filterHide");
+                                        })
+                                      : e > 0 &&
+                                        d > 0 &&
+                                        f > 0 &&
+                                        g > 0 &&
+                                        b.map(function (c, b) {
+                                            a.currentFiltersObj.filterStyle.indexOf(jQuery(b).attr("data-prodtype")) >= 0 &&
+                                                a.currentFiltersObj.filterColor.indexOf(jQuery(b).attr("data-prodcolorgroup")) >= 0 &&
+                                                a.currentFiltersObj.filterFabric.indexOf(jQuery(b).attr("data-prodfabric")) >= 0 &&
+                                                a.currentFiltersObj.filterSale.indexOf(jQuery(b).attr("data-prodSale")) >= 0 &&
+                                                jQuery(b).removeClass("filterHide");
+                                        }));
+                    }
+            },
+            n = function () {
+                let c = (a.selectedVariantOptsVals ? a.selectedVariantOptsVals : a.variantOptsVals).split("::");
+                for (var b = 0; b < c.length; b++)
+                    0 === b
+                        ? document.getElementById("filterPantySize-" + c[b]) && (document.getElementById("filterPantySize-" + c[b]).checked = !0)
+                        : 1 === b
+                        ? document.getElementById("filterBraletteSize-" + c[b]) && (document.getElementById("filterBraletteSize-" + c[b]).checked = !0)
+                        : 2 === b && document.getElementById("filterTankSize-" + c[b]) && (document.getElementById("filterTankSize-" + c[b]).checked = !0);
+            };
+        jQuery("body").on("click", ".sizeModeToggle", function (c) {
+            c.target;
+            let d = c.target.value,
+                a = jQuery(".sizeModeToggleWrapper"),
+                b = jQuery(".sizeModeToggleWrapper").attr("class").replace("sizeModeToggleWrapper ", "");
+            if ((console.log("::update size module sizesPanel::", jQuery("")), a.hasClass(d.replace("Size") + "View"))) console.log(":: sizePanel already on::");
+            else
+                switch (d) {
+                    case "pantySize":
+                        (a[0].className = "sizeModeToggleWrapper pantySizeView"), jQuery("." + b.replace("View", "Type")).hide(), jQuery(".pantySizeType").show();
+                        break;
+                    case "braletteSize":
+                        (a[0].className = "sizeModeToggleWrapper braletteSizeView"), jQuery("." + b.replace("View", "Type")).hide(), jQuery(".braletteSizeType").show();
+                        break;
+                    case "tankSize":
+                        (a[0].className = "sizeModeToggleWrapper tankSizeView"), jQuery("." + b.replace("View", "Type")).hide(), jQuery(".tankSizeType").show();
+                }
+        }),
+            jQuery(a.primaryFilterToolbarSelector + " input").on("click", function (b) {
+                console.log(":: clicked filter ::", { isChecked: b.target.checked, input: b.target }),
+                    "filterPantySize" === b.target.name
+                        ? (b.target.value === a.selectedVal && localStorage.getItem("filterPrefEbyShopping") && ((a.selectedVal = null), (b.target.checked = !1)),
+                          (a.prodTypes.hasTanks && a.prodTypes.hasBodysuits) || (a.selectedTankVal = null),
+                          a.prodTypes.hasBralettes || (a.selectedBraletteVal = null))
+                        : "filterBraletteSize" === b.target.name
+                        ? (b.target.value === a.selectedBraletteVal && localStorage.getItem("filterPrefEbyShopping") && ((a.selectedBraletteVal = null), (b.target.checked = !1)),
+                          a.prodTypes.hasPanties || (a.selectedVal = null),
+                          (a.prodTypes.hasTanks && a.prodTypes.hasBodysuits) || (a.selectedTankVal = null))
+                        : "filterTankSize" !== b.target.name ||
+                          (b.target.value === a.selectedTankVal && localStorage.getItem("filterPrefEbyShopping") && ((a.selectedTankVal = null), (b.target.checked = !1)),
+                          a.prodTypes.hasPanties || (a.selectedVal = null),
+                          a.prodTypes.hasBralettes || (a.selectedBraletteVal = null)),
+                    a.selectedVal ||
+                        a.selectedBraletteVal ||
+                        a.selectedTankVal ||
+                        (localStorage.removeItem("filterPrefEbyShopping"),
+                        jQuery(".ebyCollTemplate").addClass("noFilterMode"),
+                        [].forEach.call(jQuery(".item.ebyProdTile"), function (a) {
+                            jQuery(a).addClass("noFilterType"), jQuery(a).removeClass("quickAddOverride filterHide");
+                        }),
+                        console.log(":: all filters off ::")),
+                    j(vela.collStockedProdData);
+            }),
+            jQuery(a.primaryFilterToolbarSelector + " input").on("change", function (c) {
+                jQuery(".ebyCollTemplate").hasClass("noFilterMode") &&
+                    (console.log(":: update the FilterMode ::"),
+                    [].forEach.call(jQuery(".item.ebyProdTile"), function (a) {
+                        jQuery(a).removeClass("noFilterType");
+                    }),
+                    jQuery(".ebyCollTemplate").removeClass("noFilterMode")),
+                    console.log(":: new size selected ::", c.target);
+                let d = (a.selectedVariantOptsVals ? a.selectedVariantOptsVals : a.variantOptsVals).split("::");
+                switch (c.target.name) {
+                    case "filterPantySize":
+                        jQuery("#currentFilteringPantySizeCopy span").text(c.target.value),
+                            (d[0] = c.target.value),
+                            (a.selectedVariantOptsVals = d.join("::")),
+                            (a.selectedVal = c.target.value),
+                            console.log(":: sizePrimary updated - panty ::", a);
+                        break;
+                    case "filterBraletteSize":
+                        (d[1] = c.target.value), (a.selectedVariantOptsVals = d.join("::")), (a.selectedBraletteVal = c.target.value), console.log(":: sizePrimary updated - bralette ::", a);
+                        break;
+                    case "filterTankSize":
+                        (d[2] = c.target.value), (a.selectedVariantOptsVals = d.join("::")), (a.selectedTankVal = c.target.value), console.log(":: sizePrimary updated - tank ::", a);
+                }
+                k(a, b),
+                    localStorage.setItem("filterPrefEbyShopping", a.selectedVariantOptsVals),
+                    window.innerWidth < 1024 &&
+                        (jQuery("#collFiltersModule").removeClass("mobViewActive"),
+                        jQuery(".filterNavItem.sizeTypeOptionsTile.primaryFilterToolbar").hasClass("active") || jQuery(".filterNavItem.sizeTypeOptionsTile.primaryFilterToolbar").addClass("active"));
+            }),
+            jQuery(a.secondaryFilterToolbarSelector + " input").on("click", function (b) {
+                console.log(":: new filter selected/deselected ::", b.target), console.log(":: new filter selected/deselected data ::", a.filtersToInclude);
+                let c = b.target.value,
+                    e = b.target.name,
+                    f = jQuery(".ebyProdTileListWrapper .item");
+                window.innerWidth < 770 &&
+                    (jQuery("#collFiltersModule").removeClass("mobViewActive"),
+                    jQuery(".filterNavItem.sizeTypeOptionsTile.primaryFilterToolbar").hasClass("active") || jQuery(".filterNavItem.sizeTypeOptionsTile.primaryFilterToolbar").addClass("active")),
+                    b.target.checked ? (console.log(":: added filter :: right before", a.filtersToInclude), l(c, e, f)) : m(c, e, f),
+                    jQuery(".ebyCollTemplate").hasClass("noFilterMode") || d();
+            }),
+            jQuery(a.sortbyPrimeSelector).on("change", function (a) {}),
+            jQuery(".header.ebyFilterIcon").on("click", function (a) {
+                jQuery(a.target).closest(".ebyBannerSummaryHeader").toggleClass("active");
+            }),
+            jQuery(window).scroll(function () {
+                let a = jQuery(".ecfAvailFiltersListWrapper .ecfHeader").innerHeight() >= 385 ? jQuery(document).innerHeight() - 2150 : jQuery(document).innerHeight() - 1600;
+                jQuery(document).scrollTop() > 50 && jQuery(document).scrollTop() <= a && jQuery(document).innerWidth() > 760
+                    ? jQuery("#collFiltersModule").addClass("desktopScrollFilter")
+                    : jQuery("#collFiltersModule").removeClass("desktopScrollFilter");
+            }),
+            jQuery.getJSON("/cart.js", function (f) {
+                if ("no-filter" !== a.defaultVal || localStorage.getItem("filterPrefEbyShopping")) {
+                    if (
+                        (jQuery(".ebyCollTemplate").hasClass("noFilterMode") &&
+                            ([].forEach.call(jQuery(".item.ebyProdTile"), function (a) {
+                                jQuery(a).removeClass("noFilterType");
+                            }),
+                            jQuery(".ebyCollTemplate").removeClass("noFilterMode")),
+                        f)
+                    ) {
+                        var e = document.querySelector(".ecfAppliedFilterListing.chips");
+                        (c = M.Chips.init(e, {
+                            data: [],
+                            onChipAdd: function (a) {},
+                            onChipDelete: function (h, d) {
+                                let a = d.innerText.replace("close", ""),
+                                    e = jQuery(".ebyProdTileListWrapper .item"),
+                                    b = g(a),
+                                    f = b + "-" + a.replace(/ /g, "_"),
+                                    c = document.getElementById(f);
+                                c.checked && ((c.checked = !1), m(a, b, e));
+                            },
+                        })),
+                            jQuery(".ecfAppliedFilterListing input").attr("readonly", !0),
+                            n();
+                        let d = a.variantOptsVals.split("::");
+                        "null" !== d[0] && (a.selectedVal = d[0]), "null" !== d[1] && (a.selectedBraletteVal = d[1]), "null" !== d[2] && (a.selectedTankVal = d[2]), k(a, b);
+                    } else k(a, b), console.log(":: No cart found ::");
+                } else {
+                    console.log(":: default collection mode enabled ::");
+                    var e = document.querySelector(".ecfAppliedFilterListing.chips");
+                    (c = M.Chips.init(e, {
+                        data: [],
+                        onChipAdd: function (a) {},
+                        onChipDelete: function (h, d) {
+                            let a = d.innerText.replace("close", ""),
+                                e = jQuery(".ebyProdTileListWrapper .item"),
+                                b = g(a),
+                                f = b + "-" + a.replace(/ /g, "_"),
+                                c = document.getElementById(f);
+                            c.checked && ((c.checked = !1), m(a, b, e));
+                        },
+                    })),
+                        jQuery(".ecfAppliedFilterListing input").attr("readonly", !0),
+                        k(a, b);
+                }
+            });
+    }),
+    (vela.collFiltersLite = function (i) {
+        var g,
+            h,
+            d = { currentFiltersObj: {} };
+        (d.currentFiltersObj.filterColor = []),
+            (d.currentFiltersObj.filterStyle = []),
+            (d.currentFiltersObj.filterFabric = []),
+            (d.currentFiltersObj.filterSale = []),
+            (d.prodTypes = { hasBralettes: !1, hasPanties: !1, hasTanks: !1, hasTees: !1, hasWraps: !1, hasBodysuits: !1 }),
+            (d.selectedBraletteVal = null),
+            (d.selectedTankVal = null),
+            console.log(":: collFilters LITE fire ::", i);
+        let j = function () {
+                0 === jQuery(".item.tileAvail:not(.filterHide)").length
+                    ? jQuery("#filtered-prod-listing-alert").addClass("active").fadeIn()
+                    : jQuery("#filtered-prod-listing-alert").hasClass("active") && jQuery("#filtered-prod-listing-alert").removeClass("active").fadeOut();
+            },
+            k = function (d) {
+                let a = jQuery(".primaryLoaderWrapper"),
+                    b = jQuery(".secondaryLoaderWrapper"),
+                    c = jQuery(".sortCollLoadingWrapper");
+                d ? (a.addClass("active"), b.addClass("active"), c.addClass("active")) : (a.removeClass("active"), b.removeClass("active"), c.removeClass("active"));
+            },
+            l = function (a, b) {
+                let c = a.reduce(function (b, a) {
+                    return 46033928236 === a.location_id && (b[a.inventory_item_id] = a.available), b;
+                }, {});
+                return b.map(function (a, b) {
+                    return (
+                        !d.prodTypes.hasPanties && a.prodType.indexOf("Underwear") >= 0 && (d.prodTypes.hasPanties = !0),
+                        !d.prodTypes.hasBralettes && a.prodType.indexOf("Bralette") >= 0 && (d.prodTypes.hasBralettes = !0),
+                        !d.prodTypes.hasTanks && a.prodType.indexOf("Tank") >= 0 && (d.prodTypes.hasTanks = !0),
+                        !d.prodTypes.hasBodysuits && a.prodType.indexOf("Bodysuit") >= 0 && (d.prodTypes.hasBodysuits = !0),
+                        !d.prodTypes.hasTees && (a.prodType.indexOf("Muscle Tee") >= 0 || a.prodType.indexOf("Crop Top") >= 0) && (d.prodTypes.hasTees = !0),
+                        !d.prodTypes.hasWraps && a.prodType.indexOf("Wrap") >= 0 && (d.prodTypes.hasWraps = !0),
+                        (a.availQty = c[a.inventory_item_id]),
+                        a
+                    );
+                });
+            },
+            m = function (c) {
+                let b = jQuery("#collFiltersModule .ebyFilterOptWrapper.secondaryFilterListing .sortOpt");
+                ((c.fabrics.cotton || !c.fabrics.signature || c.fabrics.mesh) && (!c.fabrics.cotton || c.fabrics.signature || c.fabrics.mesh)) || jQuery(".fabricTypeOptionsTile").hide();
+                for (let a = 0; a < b.length; a++) {
+                    let d = jQuery(b[a]).data("optval");
+                    jQuery(b[a]).hasClass("optType-panty") && (c.panties[d] ? jQuery(b[a]).show() : jQuery(b[a]).hide()),
+                        jQuery(b[a]).hasClass("optType-fabric") && (c.fabrics[d] ? jQuery(b[a]).show() : jQuery(b[a]).hide()),
+                        jQuery(b[a]).hasClass("optType-bralette") && (c.bralettes[d] ? jQuery(b[a]).show() : jQuery(b[a]).hide()),
+                        jQuery(b[a]).hasClass("optType-top") && (c.tops[d] ? jQuery(b[a]).show() : jQuery(b[a]).hide()),
+                        jQuery(b[a]).hasClass("optType-tee") && (c.tops[d] ? jQuery(b[a]).show() : jQuery(b[a]).hide());
+                }
+            },
+            n = function (a, f) {
+                var b = { thong: !1, bikini: !1, highwaisted: !1, cheeky: !1, brief: !1, g_string: !1, highwaisted_thong: !1, comfort_shape: !1, pack: !1 },
+                    c = { bralette: !1 },
+                    d = { tank: !1, muscle_tee: !1, top: !1, wrap: !1, bodysuit: !1 },
+                    e = { cotton: !1, signature: !1, mesh: !1 };
+                jQuery(".saleProdTile").removeClass("inStock"),
+                    jQuery(".saleProdTile").removeClass("lastCall"),
+                    a.map(function (a, r) {
+                        if (a.prodType.indexOf("Underwear") >= 0) {
+                            let g = a.prodTags.filter(function (a, b) {
+                                    if (a.indexOf("pantyType-") >= 0) return a.replace("pantyType-", "");
+                                })[0],
+                                i = "core" === a.prodType.replace(" Underwear", "").toLowerCase() ? "signature" : "cotton";
+                            g && a.availQty > 5 && ((b[g.replace("pantyType-", "")] = !0), (e[i] = !0));
+                        }
+                        if (a.prodType.indexOf("Bralette") >= 0) {
+                            let j = a.prodTags.filter(function (a, b) {
+                                    if (a.indexOf("bralette") >= 0) return "bralette";
+                                })[0],
+                                k = "core" === a.prodType.replace(" Bralette", "").toLowerCase() ? "signature" : "cotton";
+                            j && a.availQty > 5 && ((c.bralette = !0), (e[k] = !0));
+                        }
+                        if (a.prodType.indexOf("Bodysuit") >= 0) {
+                            let l = a.prodTags.filter(function (a, b) {
+                                    if (a.indexOf("bodysuit") >= 0) return "bodysuit";
+                                })[0],
+                                m = "signature";
+                            l && a.availQty > 5 && ((d.bodysuit = !0), (e[m] = !0));
+                        }
+                        if (a.prodType.indexOf("Tank") >= 0) {
+                            let h = a.prodTags.filter(function (a, b) {
+                                    if (a.indexOf("topType-") >= 0) return a.replace("topType-", "");
+                                })[0],
+                                n = a.prodTags.filter(function (a, b) {
+                                    if (a.indexOf("topFabric-") >= 0) return a.replace("topFabric-", "");
+                                })[0];
+                            h && a.availQty > 5 && ((d[h.replace("topType-", "")] = !0), (e[n] = !0));
+                        }
+                        if (a.prodType.indexOf("Crop Top") >= 0 || a.prodType.indexOf("Emissary Tank") >= 0 || a.prodType.indexOf("XBusiness Tee") >= 0) {
+                            let o = "top",
+                                p = a.prodTags.filter(function (a, b) {
+                                    if (a.indexOf("topFabric-") >= 0) return a.replace("topFabric-", "");
+                                })[0];
+                            o && a.availQty > 5 && ((d.top = !0), (e[p] = !0));
+                        }
+                        a.availQty > 10 ? jQuery('.saleProdTile[data-prodsku="' + a.prodId + '"]').addClass("inStock") : a.availQty > 0 && a.availQty <= 10 && jQuery('.saleProdTile[data-prodsku="' + a.prodId + '"]').addClass("lastCall");
+                        let f = jQuery('.tileFilterable[data-prodsku="' + a.prodId + '"]');
+                        if (f.find("a").attr("href")) {
+                            let q = f.find("a").attr("href").split("?variant=")[0];
+                            a.availQty > 5 && f.find("a").attr("href", q + "?variant=" + a.variantId);
+                        }
+                        jQuery('.tileFilterable[data-prodsku="' + a.prodId + '"]')
+                            .find(".filterItemOptVal")
+                            .val(a.variantId);
+                    }),
+                    m({ fabrics: e, bralettes: c, panties: b, tops: d });
+            },
+            o = function (c) {
+                jQuery(".ebyProdTileListWrapper .ebyProdTile").removeClass("tileAvail"), jQuery("#pageContent").hasClass("noFilterMode");
+                let a = localStorage.getItem("filterPrefEbyShopping"),
+                    b = a ? a.split("::")[0] : "";
+                a && a.split("::")[1], a && a.split("::")[2];
+                let d = { xs: "0XS", sm: "0S", md: "0M", lg: "0L", xl: "0XL", "1x": "01X", "2x": "02X", "3x": "03X", "4x": "04X" },
+                    e = Object.keys(d).indexOf(b);
+                if (
+                    (c.map(function (a, c) {
+                        let b = jQuery(".ebyProdTileListWrapper .ebyProdTile[data-prodsku='" + a.prodId + "']");
+                        a.availQty > 5 && (b.addClass("tileAvail"), b.removeClass("tileUnavail"));
+                    }),
+                    b.length > 0)
+                ) {
+                    jQuery('.item.ebyProdTile[data-prodispanty="true"]:not(.tileAvail)').hide();
+                    let f = [];
+                    vela.collStockedProdData.map(function (a, c) {
+                        console.log(":: collStockedProdDataOne ::", a),
+                            0 >= a.variantSku.indexOf(d[b]) && a.prodType.indexOf("Underwear") >= 0
+                                ? (console.log(":: collStockedProdDataOne, unavailTwo ::", { pSize: b.toUpperCase(), p: a }), jQuery('.ebyProdTile[data-prodsku="' + a.prodId + '"]').addClass("filterHide"))
+                                : f.push(a.prodId);
+                    }),
+                        window.origCollProds.map(function (a, c) {
+                            a.variants[e] && a.variants[e].title !== b && a.type.indexOf("Underwear") >= 0 && jQuery('.ebyProdTile[data-prodsku="' + a.id + '"]').addClass("filterHide"),
+                                0 > f.indexOf(a.id) && (console.log(":this prod is not in the size I want:", a), jQuery('.ebyProdTile[data-prodsku="' + a.id + '"]').addClass("filterHide"));
+                        });
+                }
+                jQuery(".item.ebyProdTile.upsellTile.firstUpsellTile.tileFilterable").show();
+            },
+            e,
+            a,
+            b,
+            c,
+            f;
+        (g = i),
+            (h = ""),
+            jQuery(".ebyProdTile.epcWrapper").each(function (b, a) {
+                h += "," + jQuery(a).attr("data-prodsku");
+            }),
+            (h = h.slice(1)),
+            (a = (e = localStorage.getItem("filterPrefEbyShopping")) ? e.split("::")[0] : "null"),
+            (b = e ? e.split("::")[1] : "null"),
+            (c = e ? e.split("::")[2] : "null"),
+            (f = e || null),
+            (a = jQuery('.sortOpt label input[name="filterPantySize"]:checked')),
+            (b = jQuery('.sortOpt label input[name="filterBraletteSize"]:checked')),
+            (c = jQuery('.sortOpt label input[name="filterTankSize"]:checked')),
+            (a = "null" === a || "" === a || 0 === a.length ? "xs" : a.val()),
+            (b = "null" === b || "" === b || 0 === b.length ? "xs" : b.val()),
+            (c = "null" === c || "" === c || 0 === c.length ? "xs" : c.val()),
+            f || (f = a + "::" + b + "::" + c),
+            jQuery.ajax({
+                type: "POST",
+                crossDomain: !0,
+                url: window.APIDomain + window.otherAPI + "eby_stockcheck-filters_update.php",
+                data: { data: { variantOpt: "pantySize", variantOptVal: a, variantOptsVals: f, prodListCount: g.length, prodIdList: g, warehouseKey: "ecomm" } },
+                beforeSend: function () {
+                    k(!0);
+                },
+                dataType: "json",
+                headers: { Authorization: "Bearer ddd345d2498c7717a7bbbe86d9d145dc", "Access-Control-Allow-Origin": "*" },
+                success: function (b) {
+                    if ((console.log(":: LITE stockcheck success::", b), b)) {
+                        let c = l(b.inventoryHealthcheck, b.prodInventoryData);
+                        n(c, a), o(c), k(!1), jQuery("#currentFilteringPantySizeCopy span").text(f.split("::")[0]), j();
+                    }
+                },
+                error: function (a, b) {
+                    console.log("::stockcheck failure::", { text: b, xhr: a });
+                },
+            });
+    });
+  var ebyStockCheckApi = function (prodIdList, warehouse) {
+    jQuery.ajax({
+        type: "POST",
+        crossDomain: !0,
+        async: !0,
+        url: window.APIDomain + window.otherAPI + "eby_stockcheck.php",
+        data: { data: { variantOpt: "xs", variantOptVal: "xs", prodIdList: prodIdList, warehouseKey:  warehouse} },
+        beforeSend: function () {
+            //d(!0);
+        },
+        dataType: "json",
+        headers: { Authorization: "Bearer ddd345d2498c7717a7bbbe86d9d145dc", "Access-Control-Allow-Origin": "*" },
+        success: function (a) {
+            console.log(':: successful stock check api ::', a);
+            if (a) {
+                let inventoryLibrary = a.inventoryHealthcheck.reduce(function(acc, invItem){ acc[invItem.inventory_item_id] = invItem.available; return acc;}, {});
+
+                return a.prodInventoryData.map(function (item, index) {
+                    item['avail_qty_left'] = inventoryLibrary[item.inventory_item_id];
+                });
+            }
+        },
+        error: function (a, b) {
+            console.log("::stockcheck failure::", { text: b, xhr: a });
+        },
+    });
+  };
+  var ebyStockCheckApiForUse = function (prodIdList, warehouse) {
+    return jQuery.ajax({
+        type: "POST",
+        crossDomain: !0,
+        async: !0,
+        url: window.APIDomain + window.otherAPI + "eby_stockcheck_all.php",
+        data: { data: { variantOpt: "", variantOptVal: "", prodIdList: prodIdList, warehouseKey:  warehouse} },
+        beforeSend: function () {
+            //d(!0);
+        },
+        dataType: "json",
+        headers: { Authorization: "Bearer ddd345d2498c7717a7bbbe86d9d145dc", "Access-Control-Allow-Origin": "*" },
+        success: function (a) {
+            console.log(':: successful stock check api ::', a);
+            if (a) {
+                let inventoryLibrary = a.inventoryHealthcheck.reduce(function(acc, invItem){ acc[invItem.inventory_item_id] = invItem.available; return acc;}, {});
+
+                return a.prodInventoryData.map(function (item, index) {
+                    item['avail_qty_left'] = inventoryLibrary[item.inventory_item_id];
+                });
+            }
+        },
+        error: function (a, b) {
+            console.log("::stockcheck failure::", { text: b, xhr: a });
+        },
+    });
+  };
+var ebyStockCheck = function (a, b) {
+    var tempProd = a;
+    jQuery.ajax({
+        url: "https://api.shopify-inventory.jtcinteractive.com/shop/eby-by-sofia-vergara.myshopify.com/multi_variant_locations/" + a.variants.reduce((acc,variant)=> {return acc  += "," + variant.id}, "").slice(1),
+        type: "get",
+        success: function (b) {
+            console.log(":: stock inventory return ::", b);
+            let data = b;
+          
+            var c = data,
+                d = {};
+            Object.keys(c).map(function (b, e) {
+                console.log("::prodVarId output::", b);
+                let a = c[b];
+                a.locations[0].stock < 5 &&
+                    (console.log("::varData OOS flag for - " + tempProd.variants[e].title + "::"),
+                    jQuery('.swatch-element[data-value="' + tempProd.variants[e].title + '"]').hasClass("soldout") ||
+                        (jQuery('.swatch-element[data-value="' + tempProd.variants[e].title + '"]')
+                            .addClass("soldout")
+                            .removeClass("available"),
+                        jQuery('.swatch-element[data-value="' + tempProd.variants[e].title + '"] label')
+                            .attr("available", "false")[0]
+                            .removeAttribute("data-available"),
+                        (d[tempProd.variants[e].title] = b),
+                        1 === jQuery('#swatch-option1 .swatch-selected[orig-value="' + tempProd.variants[e].title + '"]').length && $(".back_in_stock").addClass("false")));
+
+                if (a.locations[0].stock < 5) {
+                  vela.updatePdpStockDropdownsData({opt: tempProd.variants[e].title, is_in_stock: false});
+                } else {
+                  vela.updatePdpStockDropdownsData({opt: tempProd.variants[e].title, is_in_stock: true});
+                }
+            }),
+                document.querySelector(".klaviyo-bis-trigger").addEventListener("click", function (a) {
+                    console.log(":: klaviyo click and update oos options ::"),
+                        setTimeout(function () {
+                            var a = jQuery("#klaviyo-bis-iframe").contents().find("#klaviyo-bis-modal #variants");
+                            Object.keys(d).map(function (b, c) {
+                                0 === a.find('option[value="' + d[b] + '"]').length && a.append('<option value="' + d[b] + '">' + b + "</option>");
+                            });
+                        }, 300);
+                });
+            // update dropdowns options by stock status
+            if (document.querySelectorAll('.ebyForm_select').length > 0) {
+                vela.updateDropdownOptsWithStockStatus();
+            }
+        },
+    });
+},
+    ebyGetPdpStock = function (a, b) {
+        jQuery.ajax({
+            url: "https://inventorylocations.checkmyapp.net/inventory/products/eby-by-sofia-vergara.myshopify.com/[" + a + "]",
+            type: "get",
+            success: function (b) {
+                return console.log(":: stock inventory return ::", b), b[a].product.variants;
+            },
+        });
+    };
+!(function (a) {
+    "complete" === document.readyState || "interactive" === document.readyState
+        ? a()
+        : (document.addEventListener("DOMContentLoaded", a),
+          window.addEventListener("bfx-isInternational-cookieSet", function (a) {
+              console.log("::bfx-isInternational event handler:" + JSON.stringify(a.detail)),
+                  !0 === a.detail.isInternational
+                      ? (console.log("::International/isCanada:: online"),
+                        "ca" === a.detail.userCountryCode.toLowerCase()
+                            ? (document.getElementsByTagName("body")[0].className += " isInternational ca-only scrollable")
+                            : (document.getElementsByTagName("body")[0].className += " isInternational scrollable"),
+                        document.getElementById("addCustomBoxToCart") && (document.getElementById("addCustomBoxToCart").className += " bfx-checkout international"),
+                        (window.ebyInt = !0),
+                        (document.querySelector(".mainContent").className = document.querySelector(".mainContent").className + " " + a.detail.userCountryCode + "-store"),
+                        setTimeout(function () {
+                            document.getElementById("intToggIndicator").setAttribute("src", "https://bfx-objects.prd.borderfree.com/v1/dist/images/context-chooser/flags/" + a.detail.userCountryCode + ".gif");
+                        }, 300))
+                      : ((window.ebyInt = !1),
+                        console.log("::International/isCanada:: offline"),
+                        setTimeout(function () {
+                            document.getElementById("intToggIndicator").setAttribute("src", "https://bfx-objects.prd.borderfree.com/v1/dist/images/context-chooser/flags/US.gif");
+                        }, 300));
+          }));
+})(function () {
+    var a = [].slice.call(document.querySelectorAll("[data-src]"));
+    function b(a) {
+        var b = a.getAttribute("data-src"),
+            c = a.getAttribute("data-srcset");
+        b && a.setAttribute("src", b), c && a.setAttribute("srcset", c), a.removeAttribute("data-src"), a.removeAttribute("data-srcset"), a.classList.add("lazyloaded");
+    }
+    if ("IntersectionObserver" in window) {
+        var d = new IntersectionObserver(function (a) {
+            a.forEach(function (a) {
+                if (a.isIntersecting) {
+                    var c = a.target;
+                    b(c), d.unobserve(c);
+                }
+            });
+        });
+        a.forEach(function (a) {
+            "SCRIPT" === a.tagName ? b(a) : d.observe(a);
+        });
+    } else a.forEach(b);
+    var c = [].slice.call(document.querySelectorAll(".lazy-background"));
+    if ("IntersectionObserver" in window) {
+        var e = new IntersectionObserver(function (a, b) {
+            a.forEach(function (a) {
+                a.isIntersecting && (a.target.classList.add("visible"), e.unobserve(a.target));
+            });
+        });
+        c.forEach(function (a) {
+            e.observe(a);
+        });
+    }
+});
+</script>
+<!-- impact -->
+<script type="lazyload2"> (function(a,b,c,d,e,f,g){e['ire_o']=c;e[c]=e[c]||function(){(e[c].a=e[c].a||[]).push(arguments)};f=d.createElement(b);g=d.getElementsByTagName(b)[0];f.async=1;f.src=a;g.parentNode.insertBefore(f,g);})('https://utt.impactcdn.com/A3249726-edba-4396-8edd-fcc97e07b9511.js','script','ire',document,window);  </script>
+{% if customer %}
+    <script defer type="application/javascript">(function(w,d,t,r,u){w[u]=w[u]||[];w[u].push({'projectId':'10000','properties':{'pixelId':'10172108','userEmail': '{{ customer.email }}'}});var s=d.createElement(t);s.src=r;s.async=true;s.onload=s.onreadystatechange=function(){var y,rs=this.readyState,c=w[u];if(rs&&rs!="complete"&&rs!="loaded"){return}try{y=YAHOO.ywa.I13N.fireBeacon;w[u]=[];w[u].push=function(p){y([p])};y(c)}catch(e){}};var scr=d.getElementsByTagName(t)[0],par=scr.parentNode;par.insertBefore(s,scr)})(window,document,"script","https://s.yimg.com/wi/ytc.js","dotq");</script>
+{% else %}
+    <script type="lazyload2">(function(w,d,t,r,u){w[u]=w[u]||[];w[u].push({'projectId':'10000','properties':{'pixelId':'10172108','userEmail': ''}});var s=d.createElement(t);s.src=r;s.async=true;s.onload=s.onreadystatechange=function(){var y,rs=this.readyState,c=w[u];if(rs&&rs!="complete"&&rs!="loaded"){return}try{y=YAHOO.ywa.I13N.fireBeacon;w[u]=[];w[u].push=function(p){y([p])};y(c)}catch(e){}};var scr=d.getElementsByTagName(t)[0],par=scr.parentNode;par.insertBefore(s,scr)})(window,document,"script","https://s.yimg.com/wi/ytc.js","dotq");</script>
+{% endif %}
+
+<script type="lazyload2">
+    !function (w, d, t) {
+      w.TiktokAnalyticsObject=t;var ttq=w[t]=w[t]||[];ttq.methods=["page","track","identify","instances","debug","on","off","once","ready","alias","group","enableCookie","disableCookie"],ttq.setAndDefer=function(t,e){t[e]=function(){t.push([e].concat(Array.prototype.slice.call(arguments,0)))}};for(var i=0;i<ttq.methods.length;i++)ttq.setAndDefer(ttq,ttq.methods[i]);ttq.instance=function(t){for(var e=ttq._i[t]||[],n=0;n<ttq.methods.length;n++)ttq.setAndDefer(e,ttq.methods[n]);return e},ttq.load=function(e,n){var i="https://analytics.tiktok.com/i18n/pixel/events.js";ttq._i=ttq._i||{},ttq._i[e]=[],ttq._i[e]._u=i,ttq._t=ttq._t||{},ttq._t[e]=+new Date,ttq._o=ttq._o||{},ttq._o[e]=n||{};var o=document.createElement("script");o.type="text/javascript",o.async=!0,o.src=i+"?sdkid="+e+"&lib="+t;var a=document.getElementsByTagName("script")[0];a.parentNode.insertBefore(o,a)};
+      ttq.load('CBK4Q5RC77U0CJTABNJG');
+      ttq.instance('CBK4Q5RC77U0CJTABNJG').page();
+    }(window, document, 'ttq');
+  
+	(function(){"use strict";var e=null,b="4.0.0",
+	n="32808",
+	additional="term=value",
+	t,r,i;try{t=top.document.referer!==""?encodeURIComponent(top.document.referrer.substring(0,2048)):""}catch(o){t=document.referrer!==null?document.referrer.toString().substring(0,2048):""}try{r=window&&window.top&&document.location&&window.top.location===document.location?document.location:window&&window.top&&window.top.location&&""!==window.top.location?window.top.location:document.location}catch(u){r=document.location}try{i=parent.location.href!==""?encodeURIComponent(parent.location.href.toString().substring(0,2048)):""}catch(a){try{i=r!==null?encodeURIComponent(r.toString().substring(0,2048)):""}catch(f){i=""}}var l,c=document.createElement("script"),h=null,p=document.getElementsByTagName("script"),d=Number(p.length)-1,v=document.getElementsByTagName("script")[d];if(typeof l==="undefined"){l=Math.floor(Math.random()*1e17)}h="dx.mountain.com/spx?"+"dxver="+b+"&shaid="+n+"&tdr="+t+"&plh="+i+"&cb="+l+additional;c.type="text/javascript";c.src=("https:"===document.location.protocol?"https://":"http://")+h;v.parentNode.insertBefore(c,v)})()
+</script>

@@ -1,0 +1,787 @@
+<script type="lazyload2">
+{% if settings.core_colors != '' and product.handle != 'eby-cloth-mask' %}
+let coreColors = ({{ settings.core_colors | json }}).split(',');
+let haveCore = false,
+	haveLimited = false,
+	sizeSelect = '',
+	productsSiblingsId = '';
+const prodStockId = "{{ product.id }}";
+if (typeof window.productsSiblings === "undefined") {
+	window.productsSiblings = [];
+}
+if (typeof window.activeSwatch === "undefined") {
+	window.activeSwatch = "";
+}
+window.productsSiblings[{{ product.handle | json }}] = {{ product | json }};
+window.productsSiblings[{{ product.handle | json }}].url = {{ product.url | json }};
+
+window.updateProductColors = function(handle, sizeSelect) {
+	let url = new URL(document.location);
+	let urlOrigin = url.origin
+	if (window.productsSiblings[handle] != null && document.querySelector('.swatch-view-item .swatch-custom-image[swatch-url="'+urlOrigin+window.productsSiblings[handle].url+'"]') != null) {
+    	let imgSize = document.querySelector('.swatch-view-item .swatch-custom-image[swatch-url="'+urlOrigin+window.productsSiblings[handle].url+'"]');
+    	let variantProductsSiblings = false;
+    	let variantProductsSiblingsStock = true;
+    	console.log('-------variants', handle);
+    	for (let idVariant of Object.keys(window.productsSiblings[handle].variants)) {
+    		//console.log('idVariant',idVariant,window.productsSiblings[handle].variants[idVariant].id,'sizeSelect','option1',sizeSelect,window.productsSiblings[handle].variants[idVariant].option1,'productsSiblingsStock',window.productsSiblingsStock[window.productsSiblings[handle].id]);
+    		if (window.productsSiblings[handle].variants[idVariant].option1 == sizeSelect && window.productsSiblingsStock[window.productsSiblings[handle].id] != null) {
+    		let variantId = window.productsSiblings[handle].variants[idVariant].id;
+    		let variantProductStock = window.productsSiblingsStock[window.productsSiblings[handle].id].product.variants[variantId];
+    		if (variantProductStock != null) {
+    			variantProductsSiblings = true;
+                console.log('-------variants stock', variantProductStock);
+    			if (variantProductStock.inventoryItem.locations[0].available < 2) {
+    			variantProductsSiblingsStock = false;
+    			}
+    		}
+    		}
+    		//console.log('variantProductsSiblings',variantProductsSiblings,'variantProductsSiblingsStock',variantProductsSiblingsStock);
+    	}
+    	//console.log('end-------variants',handle,'variantProductsSiblings',variantProductsSiblings,'variantProductsSiblingsStock',variantProductsSiblingsStock,imgSize.parentNode);
+    	if (variantProductsSiblings == true && variantProductsSiblingsStock == true) {
+    		imgSize.classList.remove('swatch-item-unavailable');
+    		imgSize.parentNode.classList.remove('swatch-view-item-unavailable');
+    		imgSize.parentNode.querySelectorAll('.swatch-unavailable').forEach(itemUnavailable => {itemUnavailable.remove();});
+            if (window.location.href.indexOf(handle) >= 0) {
+              $('.back_in_stock').removeClass('false');
+              $('.klaviyo-bis-trigger').removeClass('forceShow');
+            }
+    	} else {
+    		console.log("::varData OOS flag for - "+ handle + "::");
+            if (window.location.href.indexOf(handle) >= 0) {
+              $('#AddToCart').addClass('disabled').prop('disabled', true);
+              $('#AddToCartText').html("Sold Out");
+              $('.back_in_stock').addClass('false');
+              $('.klaviyo-bis-trigger').addClass('forceShow');
+            }
+    		imgSize.classList.add('swatch-item-unavailable');
+    		imgSize.parentNode.classList.add('swatch-view-item-unavailable');
+    		//console.log('swatch-unavailable',imgSize.parentNode.querySelector('.swatch-unavailable'));
+    		if (imgSize.parentNode.querySelector('.swatch-unavailable') == null) {
+        		let swatchUnavailable = document.createElement("div");
+        		swatchUnavailable.classList.add('swatch-unavailable');
+        		swatchUnavailable.setAttribute('swatch-inside','true');
+        		swatchUnavailable.innerHTML = "<empty></empty>"
+        		imgSize.appendChild(swatchUnavailable);
+    		}
+    	}
+	}
+}
+window.updateProductsColors = function(sizeSelect) {
+	//console.log('window.productsSiblings',window.productsSiblings,'window.productsSiblingsStock',window.productsSiblingsStock);
+	//console.log({{ product.handle | json }});
+	window.updateProductColors({{ product.handle | json }}, sizeSelect);
+	//console.log('window.productsSiblings',window.productsSiblings,'sizeSelect',sizeSelect);
+	for (let handle of Object.keys(window.productsSiblings)) {
+	//console.log('productSibling',window.productsSiblings[handle]);
+	window.updateProductColors(handle, sizeSelect);
+	}
+}
+
+console.log('coreColors',coreColors);
+const swatchColor = document.querySelector('form.formAddToCart');
+// Options for the observer (which mutations to observe)
+const config = { attributes: true, childList: true, subtree: true };
+// Callback function to execute when mutations are observed
+const callback = function(mutationsList, observer) {
+	for(const mutation of mutationsList) {
+	//console.log('mutation',mutation.target);
+	if (mutation.type === 'childList') {
+		//console.log('A child node has been added or removed.');
+		let isSwatchColor = false,
+			isSwatchSize = false,
+			nodeParent = null;
+
+		// For Core Underwear or Core Bralette
+		//console.log("typeof mutation.target.classList !== 'undefined'",typeof mutation.target.classList !== 'undefined',"mutation.target.classList.contains('swatches')",mutation.target.classList.contains('swatches'));
+		if ((typeof mutation.target.classList !== 'undefined') && (mutation.target.classList.contains('swatches'))) {
+		mutation.target.querySelectorAll('div[option-name*="Color"').forEach(item => {
+			//console.log('item',item,'innerhtml',item.innerHTML);
+			if (typeof item.getAttribute === 'function') {
+			//console.log('item.getAttribute',item.getAttribute('option-name'));
+			if (item.getAttribute('option-name') != null) {
+				let notSwatched = ['vip','cb'];
+				let isNotSwatched = false;
+				let optionName = item.getAttribute('option-name');
+				let optionNameArray = optionName.split(' ');
+				if (optionNameArray.length = 1) {
+				if (notSwatched.indexOf(optionNameArray[0].toLowerCase()) >= 0) {
+					isNotSwatched = true;
+				}
+				} else if (optionNameArray.length = 2) {
+				if ((notSwatched.indexOf(optionNameArray[0].toLowerCase()) >= 0) || (notSwatched.indexOf(optionNameArray[1].toLowerCase()) >= 0)) {
+					isNotSwatched = true;
+				}
+				}
+				//console.log('notSwatched',notSwatched,'Color',optionName.includes("Color"),'toLowerCase',optionName.toLowerCase(),'isNotSwatched',isNotSwatched);
+				if ((optionName.includes("Color") == true) && isNotSwatched == false) {
+				isSwatchColor = true;
+				nodeParent = item;
+				return;
+				}
+				if ((optionName.includes("Size") == true) && isNotSwatched == false) {
+				isSwatchSize = true;
+				nodeParent = item;
+				return;
+				}
+			}
+			}
+		});
+		}
+		// For other products
+		//console.log('parentElement-getAttribute',typeof mutation.target.getAttribute === 'function');
+		if (typeof mutation.target.getAttribute === 'function') {
+		//console.log('parentElement-getAttribute',mutation.target.getAttribute('option-name'));
+		if (mutation.target.getAttribute('option-name') != null) {
+			//console.log('parentElement-getAttribute',mutation.target.getAttribute('option-name').includes("Color"));
+			if (mutation.target.getAttribute('option-name').includes("Color") == true) {
+			isSwatchColor = true;
+			nodeParent = mutation.target;
+			}
+			if (mutation.target.getAttribute('option-name').includes("Size") == true) {
+			isSwatchSize = true;
+			nodeParent = mutation.target;
+			}
+		}
+		}
+
+		//console.log('isSwatchColor',isSwatchColor,'isSwatchSize',isSwatchSize,'nodeParent',nodeParent);
+		if (isSwatchColor == true && nodeParent != null) {
+		let swatchView = nodeParent.querySelector(".swatch-view"),
+			isCore = false,
+			colorSelect = '',
+			isActivated = false,
+			deactivateAddToCart = false;
+		if (typeof window.productsSiblings === "undefined") {
+			window.productsSiblings = [];
+		}
+		if (typeof window.productsSiblingsStock === "undefined") {
+			window.productsSiblingsStock = [];
+		}
+		
+		console.log(':: product data log ::', prodStockId);
+		ebyStockCheck(prodStockId);
+		if (productsSiblingsId == '') {
+			productsSiblingsId = prodStockId.toString();
+		}
+		//console.log('productsSiblingsId',productsSiblingsId);
+		//console.log('Object.keys(window.productsSiblings).length',Object.keys(window.productsSiblings).length);
+		if (Object.keys(window.productsSiblings).length == 0 || Object.keys(window.productsSiblings).length == 1) {
+			jQuery.ajax({
+			dataType: "json",
+			url: '/search?type=product&q=' + {{ product.title | handleize | split: '-' | join: '+OR+' | json }} + '&view=json-products',
+			async: false,
+			success: function(search) {
+				//console.log('Search', search);
+				if (search.results_count > 0) {
+				if (search.results.length != 0) {
+					for (let productSearch of search.results) {
+					//console.log('result', productSearch);
+					window.productsSiblings[productSearch.handle] = productSearch;
+					}
+				}
+				}
+			}
+			});
+		}
+		//console.log('window.productsSiblings',window.productsSiblings);
+		
+		swatchView.querySelectorAll(".swatch-view-item").forEach(item => {
+			//console.log('item.querySelector(".swatch-custom-image")',item.querySelector('.swatch-custom-image'));
+			if (item.querySelector('.swatch-custom-image') !=  null) {
+			let swatchUrl = item.querySelector('.swatch-custom-image').getAttribute('swatch-url').split('/products/')[1];
+			//console.log('swatchUrl',swatchUrl);
+			if (swatchUrl != null && window.productsSiblings[swatchUrl] != undefined) {
+				if (productsSiblingsId != '') {
+				productsSiblingsId = productsSiblingsId.concat(',');
+				}
+				//console.log('swatchUrl',swatchUrl,'window.productsSiblings',window.productsSiblings[swatchUrl]);
+				productsSiblingsId = productsSiblingsId.concat(window.productsSiblings[swatchUrl].id.toString());
+			}
+			}
+			//item.style.display = "none"
+			//console.log("item",item,item.getAttribute('orig-value'));
+			if (coreColors.indexOf(item.getAttribute('orig-value').toLowerCase()) >= 0) {
+			item.classList.add("color-core");
+			haveCore = true;
+			} else {
+			haveLimited = true;
+			}
+			//console.log('innerHTML',item.innerHTML);
+			if (item.innerHTML.includes('swatch-selected')) {
+			colorSelect = item.getAttribute('orig-value');
+
+			const url = new URL(document.location)
+			let params = url.searchParams;
+			//console.log('params',params);
+			let color = params.get('color');
+			let fromCollection = params.get('fromCollection');
+			if (fromCollection != null) {
+				params.delete('fromCollection');
+				url.search = params;
+				window.history.pushState({}, '', url);
+			}
+			//console.log('colorPreselect',color,'fromCollection',fromCollection);
+			if (color == colorSelect || fromCollection != null) {
+				if (item.classList.contains('color-core')) {
+				isCore = true;
+				}
+			} else {
+				if (!isActivated) {
+				let btnAddToCart = document.querySelector(".btn.btnAddToCart");
+				if (btnAddToCart != null && swatchView.querySelectorAll(".swatch-view-item").length > 1) {
+					deactivateAddToCart = true;
+				}
+				}
+			}
+			} else {
+			//console.log(':: no default found ::', document.getElementById('pdp-color-text'));
+			let defaultColorText = document.getElementById('pdp-color-text');
+			if (!!defaultColorText) {
+				let colorTextForSwatch = defaultColorText.innerText.split(" ");
+				colorTextForSwatch = colorTextForSwatch.map((word) => { 
+					if(word[0] != null) {
+						return word[0].toUpperCase() + word.substring(1); 
+					}
+				}).join(" ");
+				let colorSwatchToActivate = document.querySelector('.swatch-view-item[orig-value="'+colorTextForSwatch+'"]');
+				if (!!colorSwatchToActivate) {
+				if (!isActivated){
+					console.log(":: swatch found to activate ::", colorSwatchToActivate);
+					window.activeSwatch = colorSwatchToActivate;
+					// click it
+					colorSwatchToActivate.click();
+					isActivated = true;
+				}
+				}
+			}
+			}
+		});
+		
+//           if (!!deactivateAddToCart && !isActivated) {
+//             let btnAddToCart = document.querySelector(".btn.btnAddToCart");
+//             btnAddToCart.classList.add("disabled");
+//             btnAddToCart.setAttribute('disabled',true);
+//             btnAddToCart.querySelector("span").setAttribute('data-text',btnAddToCart.querySelector("span").innerText);
+//             btnAddToCart.querySelector("span").setAttribute('data-need-color',true);
+//             btnAddToCart.querySelector("span").innerText = "Select Color";
+
+//             document.querySelectorAll(".swatch-variant-name").forEach(itemSwatch => { itemSwatch.innerText = ""; });
+//             colorSelect = "";
+//             //item.querySelector(".swatch-selected").classList.remove("swatch-selected");
+//           }
+
+		var divSelectTypeColors = document.createElement("div");
+		divSelectTypeColors.classList.add("radioTypeColors");
+		//console.log('haveCore',haveCore,'haveLimited',haveLimited);
+		if (haveCore == true) {
+			var inputColorCore = document.createElement("input");
+			inputColorCore.setAttribute('type','radio');
+			inputColorCore.setAttribute('id','colorCore');
+			inputColorCore.setAttribute('name','typeColor');
+
+			var labelColorCore = document.createElement("label");
+			labelColorCore.classList.add("radioTypeColors-tab");
+			if (isCore == true) {
+			labelColorCore.classList.add("active");
+			}
+			labelColorCore.setAttribute('for','colorCore');
+			labelColorCore.innerHTML = 'Colors<span>: </span><span class="swatch-variant-name"></span>';
+
+			var pageColorCore = document.createElement("div");
+			pageColorCore.classList.add("radioTypeColors-page","core-page");
+			var pageContentColorCore = document.createElement("div");
+			pageContentColorCore.classList.add("page-contents");
+			pageColorCore.appendChild(pageContentColorCore);
+			var newSwatchView = document.createElement("ul");
+			newSwatchView.classList.add("swatch-view","swatch-view-custom-image");
+			pageContentColorCore.appendChild(newSwatchView);
+
+			//console.log('core',swatchView.querySelectorAll(".swatch-view-item.color-core"));
+			swatchView.querySelectorAll(".swatch-view-item.color-core").forEach(item => {
+			newSwatchView.appendChild(item);
+			});
+
+			divSelectTypeColors.appendChild(inputColorCore);
+			divSelectTypeColors.appendChild(pageColorCore);
+			divSelectTypeColors.appendChild(labelColorCore);
+			divSelectTypeColors.classList.add("core");
+		}
+		if (haveLimited == true) {
+			var inputColorLimited = document.createElement("input");
+			inputColorLimited.setAttribute('type','radio');
+			inputColorLimited.setAttribute('id','colorLimited');
+			inputColorLimited.setAttribute('name','typeColor');
+
+			var labelColorLimited = document.createElement("label");
+			labelColorLimited.classList.add("radioTypeColors-tab");
+			if (isCore == false) {
+			labelColorLimited.classList.add("active");
+			}
+			labelColorLimited.setAttribute('for','colorLimited');
+			if (document.getElementById('AddToCartText').innerHTML === "Sold Out") {
+				labelColorLimited.innerHTML = 'Prints<span>: </span><span class="swatch-variant-name"></span>';
+			} else {
+				labelColorLimited.innerHTML = 'Prints<span>: </span><span class="swatch-variant-name"></span>';
+			}
+			
+			
+			var pageColorLimited = document.createElement("div");
+			pageColorLimited.classList.add("radioTypeColors-page","limited-page");
+			var pageContentColorLimited = document.createElement("div");
+			pageContentColorLimited.classList.add("page-contents");
+			pageColorLimited.appendChild(pageContentColorLimited);
+			var newSwatchView = document.createElement("ul");
+			newSwatchView.classList.add("swatch-view","swatch-view-custom-image");
+			pageContentColorLimited.appendChild(newSwatchView);
+
+			//console.log('notCore',swatchView.querySelectorAll(".swatch-view-item:not(.color-core)"));
+			swatchView.querySelectorAll(".swatch-view-item:not(.color-core)").forEach(item => {
+			newSwatchView.appendChild(item);
+			});
+
+			divSelectTypeColors.appendChild(inputColorLimited);
+			divSelectTypeColors.appendChild(pageColorLimited);
+			divSelectTypeColors.appendChild(labelColorLimited);
+			divSelectTypeColors.classList.add("limited");
+		}
+
+		if ((haveCore == true || haveLimited == true) && nodeParent.querySelector('.swatch-single .radioTypeColors') == null) {
+			observer.disconnect();
+
+			//console.log('add divSelectTypeColors');
+			nodeParent.querySelector('.swatch-single').appendChild(divSelectTypeColors);
+			console.log('isCore',isCore,'haveCore',haveCore,'haveLimited',haveLimited);
+			if (haveCore == true) {
+			document.getElementById("colorCore").checked = true;
+			console.log('::colorSelect::',colorSelect);
+
+			if (colorSelect != '') {
+				if (window.activeSwatch != null && window.activeSwatch != '') {
+				if (window.activeSwatch.parentElement.parentElement.parentElement.classList.contains('core-page')) {
+					document.querySelector(`.radioTypeColors-tab[for="colorCore"] .swatch-variant-name`).innerHTML = colorSelect; 
+				}
+				}
+			}
+			} else {
+			document.getElementById("colorLimited").checked = true;
+			console.log('::colorSelect::',colorSelect);
+
+			if (colorSelect != '') {
+				if (window.activeSwatch != null && window.activeSwatch != '') {
+				if (window.activeSwatch.parentElement.parentElement.parentElement.classList.contains('limited-page')) {
+					document.querySelector(`.radioTypeColors-tab[for="colorLimited"] .swatch-variant-name`).innerHTML = colorSelect; 
+				}
+				}
+			}
+			}
+
+			function enableBtnAddToCart(origValue) {
+			let btnAddToCart = document.querySelector(".btn.btnAddToCart");
+			if (btnAddToCart != null) {
+				if (btnAddToCart.querySelector("span").innerText == "Select Color") {
+				if (btnAddToCart.querySelector("span").getAttribute('data-text') != 'Sold Out') {
+					btnAddToCart.classList.remove("disabled");
+					btnAddToCart.removeAttribute('disabled');
+				}
+				btnAddToCart.querySelector("span").innerText = btnAddToCart.querySelector("span").getAttribute('data-text');
+				btnAddToCart.querySelector("span").removeAttribute('data-need-color');
+				
+				document.querySelectorAll(".swatch-variant-name").forEach(itemSwatch => { itemSwatch.innerText = origValue; });
+				//console.log('swatch-custom-image',document.querySelector('.swatch-custom-image[orig-value="' + origValue + '"]'));
+				document.querySelector('.swatch-custom-image[orig-value="' + origValue + '"]').classList.add("swatch-selected");
+				}
+			}
+			}
+
+			if (document.querySelector('.radioTypeColors') != null) {
+			document.querySelector('.radioTypeColors').querySelectorAll(".swatch-view-item").forEach(item => {
+				
+				item.addEventListener("mouseenter", (e) => {
+				if (item.hasAttribute('orig-value')) {
+					const getColor = item.getAttribute('orig-value');
+					if (item.classList.contains('color-core')) {
+					document.querySelector(`.radioTypeColors-tab[for="colorCore"] .swatch-variant-name`).innerHTML = getColor;
+					} else {
+					document.querySelector(`.radioTypeColors-tab[for="colorLimited"] .swatch-variant-name`).innerHTML = getColor;
+					}
+				}
+				});
+				item.addEventListener("mouseleave", (e) => {
+				if (item.classList.contains('color-core')) {
+					if (window.activeSwatch != null && window.activeSwatch.parentElement.parentElement.parentElement.classList.contains('core-page')) {
+					document.querySelector(`.radioTypeColors-tab[for="colorCore"] .swatch-variant-name`).innerHTML = window.activeSwatch.getAttribute('orig-value');
+					} else {
+					document.querySelector(`.radioTypeColors-tab[for="colorCore"] .swatch-variant-name`).innerHTML = "";
+					}
+				} else {
+					if (window.activeSwatch != null && window.activeSwatch.parentElement.parentElement.parentElement.classList.contains('limited-page')) {
+					document.querySelector(`.radioTypeColors-tab[for="colorLimited"] .swatch-variant-name`).innerHTML = window.activeSwatch.getAttribute('orig-value');
+					} else {
+					document.querySelector(`.radioTypeColors-tab[for="colorLimited"] .swatch-variant-name`).innerHTML = "";
+					}
+				}
+				});
+				
+				item.addEventListener("click", (e) => {
+				//console.log('swatch-custom-image',item.querySelector('.swatch-custom-image').hasAttribute('swatch-url'),item.querySelector('.swatch-custom-image').hasAttribute('current-product'));
+				if (item.querySelector('.swatch-custom-image').hasAttribute('swatch-url') == false || item.querySelector('.swatch-custom-image').hasAttribute('current-product') == true) {
+					console.log('if-1',e.currentTarget.parentElement.parentElement.parentElement.classList,e.currentTarget.parentElement.parentElement.parentElement.classList.contains("core-page"));
+					let radioTypeColors = document.querySelector('.radioTypeColors');
+					document.querySelectorAll(".swatches.swatches-type-products .swatch-variant-name").forEach(swatchVariantName => {
+					swatchVariantName.innerText = item.getAttribute('orig-value');
+					if (e.currentTarget.parentElement.parentElement.parentElement.classList.contains("limited-page")) {
+						swatchVariantName.innerText = item.getAttribute('orig-value');
+						//console.log('swatchVariantName',swatchVariantName,swatchVariantName.innerText);
+						setTimeout(function(){
+						swatchVariantName.innerText = item.getAttribute('orig-value');
+						}, 100);
+					}
+					});
+					if (e.currentTarget.parentElement.parentElement.parentElement.classList.contains("core-page")) {
+					if (radioTypeColors.querySelector('[for="colorCore"]') != null ) {
+						radioTypeColors.querySelector('[for="colorCore"]').classList.add("active");
+					}
+					if (radioTypeColors.querySelector('[for="colorLimited"]') != null ) {
+						radioTypeColors.querySelector('[for="colorLimited"]').classList.remove("active");
+					}
+					} else {
+					if (radioTypeColors.querySelector('[for="colorCore"]') != null ) {
+						radioTypeColors.querySelector('[for="colorCore"]').classList.remove("active");
+					}
+					if (radioTypeColors.querySelector('[for="colorLimited"]') != null ) {
+						radioTypeColors.querySelector('[for="colorLimited"]').classList.add("active");
+					}
+					}
+					enableBtnAddToCart(item.getAttribute('orig-value'));
+				} else if (item.querySelector('.swatch-custom-image').hasAttribute('current-product') == false) {
+					console.log('if-2');
+					e.stopPropagation();
+					let url = item.querySelector('.swatch-custom-image').getAttribute('swatch-url');
+					let parameters = new URLSearchParams(document.location.search);
+					//console.log('search',parameters);
+					parameters.delete('variant');
+					//console.log('parameters',parameters.toString());
+
+					function getOptionIndexKey(t, e) {
+					var i = '["data-object", "data-index", "data-product-option", "data-option-index", "name", "data-option-position"]',
+						a = e;
+					for (var s = 0; s < i.length; s++)
+						if (t.hasAttribute(i[s])) {
+						var r = t.getAttribute(i[s]);
+						if (r.match(RegExp("option\\d+", "gi"))) {
+							a = r;
+							break
+						}
+						}
+					return a
+					}
+
+					var c = "";
+
+					for (var t = {}, e = document.querySelectorAll('select[class*="single-option-selector"]'), i = 0; i < e.length; i++) {
+					var a = "option" + (i + 1)
+						, s = e[i].value;
+					if (a = getOptionIndexKey(e[i], a),
+					e[i].hasAttribute("orig-value"))
+						s = e[i].options[e[i].selectedIndex].getAttribute("orig-value");
+					t[a] = s
+					}
+					for (var e = {}, i = 1, a = "option" + i; "undefined" != typeof t[a]; )
+					e[a] = t[a],
+					a = "option" + (i += 1);
+					var h = e;
+					var u = Object.keys(h);
+
+					for (var p = 0; p < u.length; p++) {
+					var g = u[p]
+						, v = h[g];
+					c += "&" + g + "=" + encodeURIComponent(v)
+					}
+					"" != c && (c = c.replace(RegExp("^&", "gi"), "?"))
+
+					var m = url;
+					//"SELECT" == l.tagName && (m = l.value);
+					if (c == '') {
+					c = c + '?';
+					} else {
+					c = c + '&';
+					}
+					c = c + 'color=' + encodeURIComponent(item.querySelector('.swatch-custom-image').getAttribute('orig-value'));
+					var w = m + c;
+
+					/* Only for Test */
+					/*
+					let params = (new URL(document.location)).searchParams;
+					//console.log('params',params);
+					let variantB = params.get('variant_b');
+					console.log('variantB',variantB);
+					if (variantB != null) {
+					w = w + '&variant_b';
+					}
+					*/
+					/* End Only for Test */
+
+					//console.log('w',w);
+					window.location.replace ? window.location.replace(w) : window.location.href = w
+				} else if (item.querySelector('.swatch-custom-image').hasAttribute('current-product') == true) {
+					enableBtnAddToCart(item.getAttribute('orig-value'));
+				}
+				});
+			});
+			}
+			//console.log('productsSiblingsId',productsSiblingsId,'window.productsSiblingsStock[productsSiblingsId]',window.productsSiblingsStock[productsSiblingsId]);
+			if (productsSiblingsId != '') {
+			jQuery.ajax({
+				url:'https://inventorylocations.checkmyapp.net/inventory/products/eby-by-sofia-vergara.myshopify.com/['+productsSiblingsId+']', 
+				type:'get',
+				async:false,
+				success:function (data) {
+				console.log(":: stock inventory return ::", data);
+				if (Object.keys(window.productsSiblingsStock).length != 0) {
+					for (let handle of Object.keys(data)) {
+					window.productsSiblingsStock[handle] = data[handle];
+					}
+				} else {
+					window.productsSiblingsStock = data;
+				}
+				}
+			});
+			}
+			if (sizeSelect != '') {
+			window.updateProductsColors(sizeSelect);
+			}
+		}
+		} else if (isSwatchSize == true && nodeParent != null) {
+		nodeParent.querySelector(".swatch-view").querySelectorAll(".swatch-view-item").forEach(item => {
+			item.addEventListener("click", (e) => {
+			window.updateProductsColors(e.currentTarget.getAttribute('orig-value'));
+			});
+			if (item.innerHTML.includes('swatch-selected')) {
+			sizeSelect = item.getAttribute('orig-value');
+			//console.log('sizeSelect',sizeSelect);
+			}
+		});
+		}
+	}
+	else if (mutation.type === 'attributes') {
+		//console.log('The ' + mutation.attributeName + ' attribute was modified.');
+	}
+	}
+};
+// Create an observer instance linked to the callback function
+const observer = new MutationObserver(callback);
+// Start observing the target node for configured mutations
+observer.observe(swatchColor, config);
+//document.getElementById('productSelect').selectedIndex = -1
+//document.getElementById('productSelect').dispatchEvent(new Event('change'));
+{% endif %}
+
+</script>
+
+<style>
+.formAddToCart .swatches > div[option-name*="Size"] {
+margin-bottom: 2.5rem;
+}
+.formAddToCart .swatches > div[option-name="Color"] .swatch-single,
+.formAddToCart .swatches > div[option-name*="Color"] .swatch-single {
+display: flex;
+flex-direction: column-reverse;
+}
+.formAddToCart .swatches > div[option-name="Color"] .swatch-single .swatch-option-name,
+.formAddToCart .swatches > div[option-name*="Color"] .swatch-single .swatch-option-name {
+display: none;
+}
+.radioTypeColors,
+.radioTypePrints {
+  display: grid;
+  height: 100%;
+  width: 100%;
+  grid-template-rows: 31px 1fr;
+  grid-template-columns: 1fr;
+  row-gap: 20px;
+}
+.radioTypeColors.core.limited,
+.radioTypePrints.core.limited{
+  grid-template-columns: 1fr 1fr;
+}
+.radioTypeColors input,
+.radioTypePrints input{
+  display: none;
+}
+.radioTypeColors .radioTypeColors-tab,
+.radioTypePrints .radioTypePrints-tab {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  width: 100%;
+  height: 100%;
+  appearance: none;
+  outline: none;
+  padding: 5px 8px;
+  background: #ffffff;
+  border: 1px solid #0064ff;
+  color: #0064ff;
+  font-size: 14px;
+  transition: 0.2s all ease-in-out !important;
+  margin: 0;
+  position: relative;
+}
+.radioTypeColors .radioTypeColors-tab:first-of-type,
+.radioTypePrints .radioTypePrints-tab:first-of-type {
+  border-top-left-radius: 45px;
+  border-bottom-left-radius: 45px;
+}
+.radioTypeColors .radioTypeColors-tab:last-of-type,
+.radioTypePrints .radioTypePrints-tab:last-of-type {
+  border-top-right-radius: 45px;
+  border-bottom-right-radius: 45px;
+}
+.radioTypeColors input[type="radio"]:checked + .radioTypeColors-page + .radioTypeColors-tab,
+.radioTypePrints input[type="radio"]:checked + .radioTypePrints-page + .radioTypePrints-tab {
+  background: #0064ff;
+  color: #fff;
+  position: relative;
+}
+.radioTypeColors input[type="radio"]:checked + .radioTypeColors-page + .radioTypeColors-tab:after,
+.radioTypePrints input[type="radio"]:checked + .radioTypePrints-page + .radioTypePrints-tab:after {
+  content: '';
+  border-left: 6px solid #fff;
+  border-right: 6px solid #fff;
+  border-top: 7px solid #0064ff;
+  border-bottom: 6px solid #fff;
+  display: block;
+  position: absolute;
+  bottom: -14px;
+  left: calc(50% - 6px);
+}
+.radioTypeColors .radioTypeColors-page,
+.radioTypePrints .radioTypePrints-page {
+grid-column-start: 1;
+grid-row-start: 2;
+grid-column-end: span 1;
+padding: 0 0;
+display: flex;
+opacity: 0;
+transition: opacity 0.2s ease-in-out;
+}
+.radioTypeColors.core.limited .radioTypeColors-page,
+.radioTypePrints.core.limited .radioTypePrints-page {
+grid-column-end: span 2;
+}
+.radioTypeColors input[type="radio"]:checked + .radioTypeColors-page,
+.radioTypePrints input[type="radio"]:checked + .radioTypePrints-page {
+opacity: 1;
+z-index: 1;
+}
+.radioTypeColors .radioTypeColors-page .swatch-view li,
+.radioTypePrints .radioTypePrints-page .swatch-view li {
+margin: 0 10px 10px 0;
+}
+
+.pdp .proBoxInfo .formAddToCart ul.swatch-view li .swatch-selected.swatch-custom-image.swatch-item-unavailable {
+background: inherit !important;
+}
+.swatch-view-item.swatch-view-item-unavailable {
+order: 2;
+}
+.swatch-custom-image.swatch-item-unavailable .star-set-image,
+.swatch-custom-image.swatch-item-unavailable .swatch-unavailable {
+display: block;
+opacity: .2;
+}
+.swatch-custom-image.swatch-item-unavailable .swatch-unavailable {
+background-image: linear-gradient(to bottom left, transparent 50%, #000000 50%, #000000 52%, transparent 50%),linear-gradient(to bottom right, transparent 50%, #000000 50%, #000000 52%, transparent 50%);
+}
+.swatch-view-item .swatch-tool-tip {
+display: none !important;
+visibility: hidden !important;
+opacity: 0 !important;
+}
+
+/* Only Variant B */
+.formAddToCart .swatches > div[option-name*="Color"] .swatch-single > .swatch-label {
+	display: none !important;
+}
+.radioTypeColors,
+.radioTypePrints {
+	display: flex !important;
+	flex-direction: column !important;
+	grid-template-rows: inherit !important;
+	grid-template-columns: inherit !important;
+	row-gap: inherit !important;
+}
+.radioTypeColors .radioTypeColors-tab,
+.radioTypePrints .radioTypePrints-tab {
+	display: block !important;
+	cursor: inherit !important;
+	padding: inherit !important;
+	background: inherit !important;
+	border: inherit !important;
+	color: #00435f !important;
+	margin: 0 !important;
+    color: #00082f !important;
+    align-items: center;
+    justify-content: center;
+    appearance: none;
+    outline: none;
+    font-size: 13px;
+    transition: 0.2s all ease-in-out !important;
+    position: relative;
+    font-weight: 500;
+}
+.radioTypeColors .radioTypeColors-tab .swatch-variant-name,
+.radioTypePrints .radioTypePrints-tab .swatch-variant-name{
+	color:#7f8397; /* fc 09092022*/
+    margin-left: 7px;
+}
+.radioTypeColors .radioTypeColors-tab span:first-of-type,
+.radioTypePrints .radioTypePrints-tab span:first-of-type {
+	display: inline !important;
+}
+.radioTypeColors .radioTypeColors-tab.active span.swatch-variant-name,
+.radioTypePrints .radioTypePrints-tab.active span.swatch-variant-name {
+	display: inline !important;
+}
+.radioTypeColors .radioTypeColors-tab:first-of-type,
+.radioTypeColors .radioTypeColors-tab:last-of-type,
+.radioTypePrints .radioTypePrints-tab:first-of-type,
+.radioTypePrints .radioTypePrints-tab:last-of-type{
+	border-radius: inherit !important;
+	/*margin-bottom: 0.75rem !important; fc 091222*/
+}
+.radioTypeColors input[type="radio"]:checked + .radioTypeColors-page + .radioTypeColors-tab,
+.radioTypePrints input[type="radio"]:checked + .radioTypePrints-page + .radioTypePrints-tab{
+	background: inherit !important;
+	color: #00435f !important;
+	position: inherit !important;
+}
+.radioTypeColors input[type="radio"]:checked + .radioTypeColors-page + .radioTypeColors-tab:after,
+.radioTypePrints input[type="radio"]:checked + .radioTypePrints-page + .radioTypePrints-tab:after {
+	content: inherit !important;
+}
+.radioTypeColors .radioTypeColors-page,
+.radioTypePrints .radioTypePrints-page {
+	opacity: inherit !important;
+  margin-top: 9px; /*fc 091222*/
+}
+.radioTypeColors .radioTypeColors-tab:first-of-type {
+	order: 1 !important;
+}
+.radioTypeColors .radioTypeColors-page.core-page{
+	order: 2 !important;
+      margin-top: 9px; /*fc 0912222*/
+}
+.radioTypeColors .radioTypeColors-tab:last-of-type {
+	order: 3 !important;
+/* 	margin-top: 1rem;  fc 091222 */ 
+}
+.radioTypeColors .radioTypeColors-tab:last-of-type[for="colorCore"] {
+	order: 1 !important;
+}
+.radioTypeColors .radioTypeColors-page.limited-page {
+	order: 4 !important;
+}
+</style>

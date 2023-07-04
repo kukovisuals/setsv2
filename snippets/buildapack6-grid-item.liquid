@@ -1,0 +1,132 @@
+{% if product.type == "Core Underwear" %}
+    {% for prodTag in product.tags %}
+        {% if prodTag contains "pantyType-" %}
+            {%- assign prodNameTitle = prodTag | replace: "pantyType-", "" -%}
+        {% endif %}
+        {% if prodTag contains "pantyColor-" %}
+            {%- assign prodColorTitle = prodTag | replace: "pantyColor-", "" | replace: "_", " " -%}
+        {% endif %}
+		{% if prodTag contains "newCustomBoxPrice-" %}
+            {%- assign prodDealPrice = prodTag | replace: "newCustomBoxPrice-", "" | replace: "_", " " -%}
+        {% endif %}
+    {% endfor %}
+{% elsif product.type == "Core Bralette" %}
+    {%- assign prodNameTitle = "Bralette" -%}
+    {% for prodTag in product.tags %}
+        {% if prodTag contains "braletteColor-" %}
+            {%- assign prodColorTitle = prodTag | replace: "braletteColor-", "" | replace: "_", " " -%}
+        {% endif %}
+		{% if prodTag contains "newCustomBoxPrice-" %}
+            {%- assign prodDealPrice = prodTag | replace: "newCustomBoxPrice-", "" | replace: "_", " " -%}
+        {% endif %}
+    {% endfor %}
+{% elsif product.type == "Mask" %}
+    {%- assign prodNameTitle = "Mask" -%}
+    {% for prodTag in product.tags %}
+        {% if prodTag contains "maskColor-" %}
+            {%- assign prodColorTitle = prodTag | replace: "maskColor-", "" | replace: "_", " " -%}
+        {% endif %}
+		{% if prodTag contains "newCustomBoxPrice-" %}
+            {%- assign prodDealPrice = prodTag | replace: "newCustomBoxPrice-", "" | replace: "_", " " -%}
+        {% endif %}
+    {% endfor %}
+{% elsif product.type == "Pack" %}
+    {%- assign prodNameTitle = "3 Pack" -%}
+    {% for prodTag in product.tags %}
+        {% if prodTag contains "packColor-" %}
+            {%- assign prodColorTitle = prodTag | replace: "packColor-", "" | replace: "_", " " -%}
+        {% endif %}
+		{% if prodTag contains "newCustomBoxPrice-" %}
+            {%- assign prodDealPrice = prodTag | replace: "newCustomBoxPrice-", "" | replace: "_", " " -%}
+        {% endif %}
+    {% endfor %}
+{% endif %}
+
+{%- unless proImageSize -%}
+	{%- assign proImageSize = '350x' -%}
+{%- endunless -%}
+{%- assign on_sale = true -%}
+{%- if product.compare_at_price > product.price -%}
+    {%- assign on_sale = true -%}
+{%- endif -%}
+{%- assign sold_out = true -%}
+{%- if product.available -%}
+    {%- assign sold_out = false -%}
+{%- endif -%}
+{%- assign prodIsLtd = false -%}
+
+{% if prodNameTitle == "highwaisted_thong" %}
+	{% assign prdImgFileName = "hwthong" %}
+{% else %}
+	{% assign prdImgFileName = prodNameTitle %}
+{% endif %}
+
+
+{% if prodNameTitle == "brief" %}
+	{% assign prdImgFileName = "brief" %}
+	{% assign prdPlusImgFileName = "fcbrief" %}
+{% else %}
+	{% assign prdPlusImgFileName = "false" %}
+{% endif %}
+
+{% assign customBoxImageSrc = prodColorTitle | replace: " ", "" | append: "---" | append: prdImgFileName | append: "---prod-cb--2x.jpg" %}
+
+<div class="velaProBlock grid {{ product-grid-item }}{% if  lastItemPro == 0 or forloop.last %} lastItem{% endif %} saleProdTileWrapper customBoxProdTile" data-price="{{ product.price | money_without_currency }}" sa-swatch-root="true">
+  	<div class="velaProBlockInner">
+        <div class="proHImage d-flex flexJustifyCenter saleProdHeader">
+            <div class="proFeaturedImage" href="{{ product.url }}">
+              	{% if prdPlusImgFileName != "false" %}
+              		<img class="t1 img-responsive missy lazyload" alt="{{ product.featured_image.alt | escape }}" data-src="{{ customBoxImageSrc | file_img_url: 'master' }}" data-prodId="{{product.id}}" />
+              		{% assign customBoxPlusImageSrc = prodColorTitle | replace: " ", "" | append: "---" | append: prdPlusImgFileName | append: "---prod-cb--2x.jpg" %}
+              		<img class="t1 img-responsive plus lazyload" alt="{{ product.featured_image.alt | escape }}" data-src="{{ customBoxPlusImageSrc | file_img_url: 'master' }}" data-prodId="{{product.id}}" />
+              	{% else %}
+              		<img class="t1 img-responsive uni lazyload" alt="{{ product.featured_image.alt | escape }}" data-src="{{ customBoxImageSrc | file_img_url: 'master' }}" data-prodId="{{product.id}}" />
+              	{% endif %}
+            </div>
+          	{% if product.metafields.ebyacf.is_cb_limited_edition %}
+          	{%- assign prodIsLtd = true -%}
+            <span class="labelSale">LTD</span>
+          	{% endif %}
+          	<div class="saleProdColorWrapper">
+          		<p class="saleProdColor">
+                    {{ prodColorTitle | capitalize  | replace: "_", " " }}
+                </p>
+          	</div>
+        </div>
+      	<div class="proContent saleProdFooter">
+          	<div class="saleProdFooterCol">
+          		<h5 class="proName saleProdName">
+                    {{ prodNameTitle | capitalize | replace: "_", " " }}
+                </h5>
+                <div class="proReviews">
+                  <span class="shopify-product-reviews-badge" data-id="{{ product.id }}"></span>
+                </div>
+              	{% comment %}
+                <div class="proPrice">
+                    <div class="lightningDealPriceWrapper">
+                        <div class="lightningDealPrice">
+                          <p class="origPrice">{{ product.price | money_without_trailing_zeros  }}</p>
+                          <p class="salePrice">{{ prodDealPrice | money_without_trailing_zeros  }}</p>
+                        </div>
+                    </div>
+                </div>
+              	{% endcomment %}
+          	</div>
+          	<div class="saleProdFooterCol buttonWrapperCol">
+          		<input class="saleItemOptVal" type="hidden" name="id" value="{{ product.variants.first.id }}" />
+                {%- if sold_out -%}
+                    <button class="btn customBoxProdAdd btnAddToCart disabled" value="{{ product.variants.first.id }}" disabled>
+                      {{ 'products.product.sold_out' | t }}
+                    </button>
+                {%- else -%}
+                    <button class="btn customBoxProdAdd inStock btnAddToCart" data-prodId="{{product.id}}" data-isLtd="{{ prodIsLtd }}" data-prodCard="{{ prodNameTitle | capitalize }}:{{ prodColorTitle | capitalize }}" value="{{ product.variants.first.id }}">
+                      Add to Box
+                    </button>
+                    <button class="btn customBoxProdAdd btnAddToCart disabled hidden" value="{{ product.variants.first.id }}" disabled>
+                      Sold Out
+                    </button>
+                {%- endif -%}
+          	</div>
+        </div>
+    </div>
+</div>

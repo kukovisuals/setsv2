@@ -1,0 +1,38 @@
+{% assign handle = subnav_type | downcase %}
+{% case handle %}
+  {% when "shop all" %}
+     
+  {% when "bralettes" %}
+     {% assign nav_name = linklists["home-mobile-bras-22"].links %}
+    <div class="mega-nav collapsible-body">
+        <div class="mega-nav-columns">
+          {% render 'eby-mobile-all-submenu' eby_navigation: nav_name, isLink: 0 %}
+      </div>
+    </div>
+  {% when "panties" %}
+     {% assign nav_name = linklists["home-mobile-panties-22"].links %}
+     <div class="mega-nav collapsible-body">
+        <div class="mega-nav-columns">
+          {% render 'eby-mobile-all-submenu' eby_navigation: nav_name, isLink: 0 %}
+      </div>
+    </div>
+  {% when "apparel" %}
+     {% assign nav_name = linklists["home-mobile-apparel-22"].links %}
+     <div class="mega-nav collapsible-body">
+        <div class="mega-nav-columns">
+          {% render 'eby-mobile-all-submenu' eby_navigation: nav_name, isLink: 0 %}
+      </div>
+    </div>
+  {% when "our boxes" %}
+  {% when "best sellers" %}
+  {% when "new arrivals" %}
+  {% when "subscription" %}
+  {% when "about us" %}
+  {% when "sets" %}
+  {% when "last call 70% off" %}
+  {% when "reviews" %}
+  {% when "gift cards" %}
+   
+  {% else %}
+     A name in menu nav is not true read {{ handle }}
+{% endcase %}

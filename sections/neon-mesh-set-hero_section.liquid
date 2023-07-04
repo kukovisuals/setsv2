@@ -1,0 +1,299 @@
+{% if section.settings.desk_img != blank %}
+  <section class="permium_hero_section">
+    <div class="section-wrap eby-different-height22">
+      <div class="section_image eby-setPositionRelative">
+        <img
+          data-src="https://cdn.shopify.com/s/files/1/0313/4062/5964/files/mobile---placeholder---kiki.jpg?v=1683912692"
+          id="eby-img-mesh-hero0"
+          class="mobile_image lazyloadPload"
+          width="375"
+          height="478"
+          alt="{{ section.settings.mob_img.alt }}"
+          title="Sheer Mesh" />
+        <img
+          data-src="https://cdn.shopify.com/s/files/1/0313/4062/5964/files/mobile---placeholder---kiki.jpg?v=1683912692"
+          id="eby-img-mesh-hero1"
+          class="ipad_image lazyloadPload"
+          width="762"
+          height="762"
+          alt="{{ section.settings.ipad_img.alt }}"
+          title="Sheer Mesh" />
+        <img
+          data-src="https://cdn.shopify.com/s/files/1/0313/4062/5964/files/Desktop---placeholder---kiki.jpg?v=1683912692"
+          id="eby-img-mesh-hero2"
+          class="desktop_image lazyloadPload"
+          width="1024"
+          height="720"
+          alt="{{ section.settings.desk_img.alt }}"
+          title="Sheer Mesh" />
+      </div>
+      <div class="homepage-video-parent">
+        <div class="homepage-video-cont-22 iphone_only">
+          <video
+            playsInline
+            loop
+            muted="true"
+            autoplay
+            poster=""
+            preload="metadata"
+            id="homepage-vid-1"
+            class="iphone_only lazyload heroVideo">
+            <source
+              width="100%"
+              height="100%"
+              type="video/mp4">
+          </video>
+        </div>
+        <div class="homepage-video-cont-22 ipads_only">
+          <video
+            playsInline
+            loop
+            muted="true"
+            autoplay
+            poster=""
+            preload="metadata"
+            id="homepage-vid-2"
+            class="ipads_only lazyload heroVideo">
+            <source
+              width="100%"
+              height="100%"
+              type="video/mp4">
+          </video>
+        </div>
+        <div class="homepage-video-cont-22 laptop_only">
+          <video
+            playsInline
+            loop
+            muted="true"
+            autoplay
+            poster=""
+            preload="metadata"
+            id="homepage-vid-3"
+            class="laptop_only lazyload heroVideo">
+            <source
+              width="100%"
+              height="100%"
+              type="video/mp4">
+          </video>
+        </div>
+      </div>
+      <div class="section_content {{ section.settings.text_align }} highlighterBtn">
+        <div class="content_top center-simple-higher">
+          <a href="{{ section.settings.button_link }}" class="iphone_only">
+            {% if section.settings.title != blank %}{% endif %}
+            {% if section.settings.sub_title != blank %}{% endif %}
+            <img
+              class="mobile_image lazyload"
+              width="316"
+              height="200"
+              alt="Silky Soft. Sexy. Seamless"
+              title="Silky Soft. Sexy. Seamless"
+              data-src="https://cdn.shopify.com/s/files/1/0313/4062/5964/files/TITLE-Sheer4-title-mbl.svg?v=1669226827" />
+          </a>
+          <a href="{{ section.settings.button_link }}" class="ipads_only">
+            {% if section.settings.title != blank %}{% endif %}
+            {% if section.settings.sub_title != blank %}{% endif %}
+            <img
+              class="ipad_image lazyload"
+              width="769"
+              height="720"
+              alt="Silky Soft. Sexy. Seamless"
+              title="Silky Soft. Sexy. Seamless"
+              data-src="https://cdn.shopify.com/s/files/1/0313/4062/5964/files/TITLE-Sheer4-title-dsk.svg?v=1669226827" />
+          </a>
+          <a href="{{ section.settings.button_link }}" class="laptop_only">
+            {% if section.settings.title != blank %}{% endif %}
+            {% if section.settings.sub_title != blank %}{% endif %}
+            <img
+              class="desktop_image lazyload"
+              width="1024"
+              height="720"
+              alt="Silky Soft. Sexy. Seamless"
+              title="Silky Soft. Sexy. Seamless"
+              data-src="https://cdn.shopify.com/s/files/1/0313/4062/5964/files/TITLE-Sheer4-title-dsk.svg?v=1669226827" />
+          </a>
+        </div>
+
+        {% if section.settings.button_text != blank and section.settings.button_link != blank %}
+          <div class="content_bottom">
+
+            <div class="container-rel-sm-r12">
+              <a href="{{ section.settings.button_link }}">
+                <span class="center-simple-main">
+                  SHOP NOW
+                </span>
+              </a>
+            </div>
+          </div>
+        {% endif %}
+      </div>
+
+    </div>
+  </section>
+
+{% endif %}
+
+{% schema %}
+  {
+    "name": "Hero Banner",
+    "settings": [
+      {
+        "type": "image_picker",
+        "id": "desk_img",
+        "label": "Desktop Image"
+      },
+      {
+        "type": "image_picker",
+        "id": "ipad_img",
+        "label": "Ipad Image"
+      },
+      {
+        "type": "image_picker",
+        "id": "mob_img",
+        "label": "Mobile Image"
+      },
+      {
+        "type": "text",
+        "id": "title",
+        "label": "Title"
+      }, {
+        "type": "text",
+        "id": "sub_title",
+        "label": "Sub Title"
+      }, {
+        "type": "select",
+        "id": "text_align",
+        "label": "Text alignment",
+        "options": [
+          {
+            "value": "text_left",
+            "label": "Left"
+          }, {
+            "value": "text_center",
+            "label": "Center"
+          }, {
+            "value": "text_right",
+            "label": "Right"
+          }
+        ],
+        "default": "text_center"
+      }, {
+        "type": "url",
+        "id": "button_link",
+        "label": "Button URL"
+      }, {
+        "type": "text",
+        "id": "button_text",
+        "label": "Button Text"
+      }
+    ]
+  }
+{% endschema %}
+<script defer type="text/javascript">
+
+  const heroVideo1 = document.getElementById("homepage-vid-1");
+  const heroVideo2 = document.getElementById("homepage-vid-2");
+  const heroVideo3 = document.getElementById("homepage-vid-3");
+  const vidMbl = "https://cdn.shopify.com/videos/c/o/v/97f68eb1595147d192018b7c998bb18d.mp4"
+  const vidLarge = "https://cdn.shopify.com/videos/c/o/v/44cc06fd8c174939a1d7dc7070f81abe.mp4"
+      
+      /*
+      let mediaSource = new MediaSource();
+      
+      // Attach the media source to the video element
+      heroVideo1.src = URL.createObjectURL(mediaSource);
+      
+      // Wait for the media source to open
+      mediaSource.addEventListener("sourceopen", function() {
+          // Create a source buffer with H.264 codec
+          let sourceBuffer = mediaSource.addSourceBuffer("video/mp4; codecs='avc1.4D401E, mp4a.40.2'");
+      
+          // Fetch the video data
+          fetch(vidMbl)
+          .then(response => response.arrayBuffer())
+          .then(data => {
+            // Append the video data to the source buffer
+            sourceBuffer.appendBuffer(data);
+      
+            // Wait for the updateend event, which is fired when the video data has been appended to the source buffer
+            sourceBuffer.addEventListener("updateend", function() {
+              // Signal that the media source is now ready
+              mediaSource.endOfStream();
+      
+              // Play the video
+              video.play();
+            });
+          });
+      });
+      */
+      
+      
+        document.addEventListener("DOMContentLoaded", function() {
+        
+        // reload video if viewport changes
+        let currentSizeView = window.innerWidth
+        
+        
+        function reportWindowSize() {
+          const deltaChange = Math.abs(currentSizeView - window.innerWidth)
+        
+          if(deltaChange > 100){
+            setTimeout(() => {
+            something()
+            }, 1000)
+          }
+        }
+        
+        window.onresize = reportWindowSize;
+        
+        something()
+        if (!!window.localStorage.getItem("err")) {
+          setTimeout(function() {
+            console.log(":show referral:");
+            $("#init-ebyrefpop")[0].click();
+            window.localStorage.removeItem("err");
+          }, 2000); 
+        }
+        });
+        
+        
+        function detectMob() {
+          const toMatch = [
+            /Android/i,
+            /webOS/i,
+            /iPhone/i,
+            /iPad/i,
+            /iPod/i,
+            /BlackBerry/i,
+            /Windows Phone/i
+          ];
+        
+        return toMatch.some((toMatchItem) => {
+            return navigator.userAgent.match(toMatchItem);
+          });
+        }
+        
+        function something(){
+          const innerX = window.innerWidth;
+          //document.getElementById('drawhere').innerHTML =  innerX + ' px'
+          console.log(innerX)
+          if (innerX < 768) {
+              document.getElementById("eby-img-mesh-hero0").style.display = "none";
+              runVideo(heroVideo1, vidMbl, innerX)
+          }
+          else if ( innerX > 768 && innerX < 1023) {
+              document.getElementById("eby-img-mesh-hero1").style.display = "none";
+              runVideo(heroVideo2, vidLarge, innerX)
+          }
+          else if (innerX > 1023) {
+              document.getElementById("eby-img-mesh-hero2").style.display = "none";
+              runVideo(heroVideo3, vidLarge, innerX)
+          }
+        }
+        
+        function runVideo(el, vid, x) {
+          el.src = vid;
+          el.play().then(() => {
+            console.log("Video playing", x)
+          });
+        }</script>

@@ -1,0 +1,54 @@
+<div class="velaFormAccount loginMain">
+    <div id="pageContent">
+        <div class="loginBlock">
+            <div id="frmAccountTabRegister" class="tab-pane{% unless isLogin %} active{% endunless %}">
+                <div id="CustomerRegisterForm" class="formAccount formAccountRegister">
+                    <div class="loginHeading">
+                      <h2>Activate Your Account</h2>
+                    </div>
+                    {% form 'create_customer' %}
+                        <div class="ebyFormSubHeader">
+                          <p>Enter the email you used to order and choose a new password below to finish creating your EBY account.</p>
+                          <p class="hidden">Enter offer code <span class="ebyCouponCodeHighlight">ACTIVATE25</span> at checkout to receive 25% off.</p>
+                        </div>
+                        <div class="formContent">
+                            {%- if form.errors -%}
+                                <div class="alert alert-danger eby">
+                                    Almost there! We sent you a link to confirm your email. Please check your email and click on this link. Thanks!
+                                </div>
+                            {%- endif -%}
+                            <div class="form-group{% if form.errors contains 'email' %} has-error{% endif %}">
+                                <label for="Email" class="hidden">{{ 'customer.register.email' | t }}</label>
+                                <input autocomplete="off" type="email" name="customer[email]" id="Email" class="form-control" placeholder="{{ 'customer.register.email' | t }}" {% if form.email %} value="{{ form.email }}"{% endif %} required {% unless isLogin %}autofocus{% endunless %}>
+                            </div>
+                            <div class="row">
+                                <div class="col-xs-6">
+                                    <div class="form-group">
+                                        <label for="FirstName" class="hidden">{{ 'customer.register.first_name' | t }}</label>
+                                        <input type="text" name="customer[first_name]" id="FirstName" class="form-control" placeholder="{{ 'customer.register.first_name' | t }}" {% if form.first_name %}value="{{ form.first_name }}"{% endif %} required >
+                                    </div>
+                                </div>
+                                <div class="col-xs-6">
+                                    <div class="form-group">
+                                        <label for="LastName" class="hidden">{{ 'customer.register.last_name' | t }}</label>
+                                        <input type="text" name="customer[last_name]" id="LastName" class="form-control" placeholder="{{ 'customer.register.last_name' | t }}" {% if form.last_name %}value="{{ form.last_name }}"{% endif %}>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group form-group--pasword{% if form.errors contains 'password' %} has-error{% endif %}">
+                                <label for="CreatePassword" class="hidden">{{ 'customer.register.password' | t }}</label>
+                                <input autocomplete="off" type="password" name="customer[password]" id="CreatePassword" class="form-control" placeholder="{{ 'customer.register.password' | t }}" required>
+                                {% comment %}
+                                <a href="javascript:void(0)" class="velaShowPassword">{{ 'customer.account.show_password' | t }}</a>
+                                {% endcomment %}
+                            </div>
+                            <div class="form-button">
+                                <input type="submit" value="Create Account" class="btn btnVelaOne">
+                            </div>
+                        </div>
+                    {% endform %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

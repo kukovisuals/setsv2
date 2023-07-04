@@ -1,0 +1,374 @@
+{% assign slashPrice = 0 %}
+{% assign hasSub = false %}
+{% for item in cart.items %}
+  {% for p in item.properties %}
+	{% if p.first == "product_type" and p.last == 'Sub Subscription' %}
+  	  {% assign slashPrice = slashPrice | plus: item.final_line_price %}
+  	{% endif %}
+    {% if p.first == "product_type" and p.last == 'Main Subscription' %}
+      {% assign hasSub = true %}
+  	{% endif %}
+  {% endfor %}
+{% endfor %}
+
+<div class="cartContainer">
+    <div class="cartContent">
+        {% if cart.item_count > 0 %}      
+            <form action="/cart" method="post" novalidate class="cartForm">
+                <div class="cartTable">
+                    <div class="cartItemWrap">                      
+                        {% for item in cart.items %}
+                      
+{%- assign prodNameTitle = "" -%}      
+{% if item.product.type == "Core Underwear" %}
+    {% for prodTag in item.product.tags %}
+        {% if prodTag contains "pantyType-" %}
+            {%- assign prodNameTitle = prodTag | replace: "pantyType-", "" -%}
+        {% endif %}
+        {% if prodTag contains "pantyColor-" %}
+            {%- assign prodColorTitle = prodTag | replace: "pantyColor-", "" | replace: "_", " " -%}
+        {% endif %}
+		{% if prodTag contains "newCustomBoxPrice-" %}
+            {%- assign prodDealPrice = prodTag | replace: "newCustomBoxPrice-", "" | replace: "_", " " -%}
+        {% endif %}
+    {% endfor %}
+{% endif %}
+
+{% if prodNameTitle == "highwaisted_thong" %}
+	{% assign prdImgFileName = "hwthong" %}
+{% else %}
+	{% assign prdImgFileName = prodNameTitle %}
+{% endif %}
+
+
+{% if prodNameTitle == "brief" %}
+	{% assign prdImgFileName = "brief" %}
+	{% if item.variant.title == "1x" or item.variant.title == "2x" or item.variant.title == "3x" or item.variant.title == "4x" %}
+        {% assign prdPlusImgFileName = "fcbrief" %}
+    {% else %}
+        {% assign prdPlusImgFileName = "false" %}
+	{% endif %}
+{% else %}
+	{% assign prdPlusImgFileName = "false" %}
+{% endif %}
+                      
+
+{% assign customBoxImageSrc = prodColorTitle | replace: " ", "" | append: "---" | append: prdImgFileName | append: "---prod-cb--2x.jpg" %}                      
+                      
+                      
+                      	  {% assign c = '' %}
+                          {% assign isCustomBoxProd = "false" %}
+                      {% assign isBuildAPack = "false" %}
+                          {% assign isHiddenCollateral = "false" %}
+                          {%- assign productFreeGift = false -%}
+                          {%- assign isMysteryProductPair = false -%}
+                          {%- assign braMeasurements = "" -%}
+                          {% for p in item.properties %}
+                            {% if p.first == 'sub_bundle' or p.first == 'hidden_collateral' %}
+                              {% assign c = 'hide' %}
+                            {% endif %}
+                            {% if p.first == 'product_type' and p.last == 'Sub Subscription' %}
+                              {% assign c = 'hide' %}
+                            {% endif %}
+                            {% if p.first == "included_in_custombox" and p.last == 'true' %}
+                            	{% assign isCustomBoxProd = "true" %}
+                            {% endif %}
+                            {% if p.first == "bra_measurements" %}
+                            	{% assign braMeasurements = p.last | replace: "::", " " %}
+                            {% endif %}
+                      		{% if p.first == "included_in_pack" and p.last == 'true' %}
+                            	{% assign isMysteryPackProd = "true" %}
+                            {% endif %}
+                      		{% if p.first == "build_a_pack" and p.last == 'pack_3' %}
+                            	{% assign isBuildAPack = "true" %}
+                            {% endif %}
+                      		{% if p.first == "build_a_pack" and p.last == 'pack_6' %}
+                            	{% assign isBuildAPack = "true" %}
+                            {% endif %}
+                            {% if p.first == 'Free' and p.last == 'Gift' %}
+                              {%- assign productFreeGift = true -%}
+                            {% endif %}
+                            {% if p.first == 'tbop_freepanty' and p.last == 'true' %}
+                              {%- assign isMysteryProductPair = true -%}
+                            {% endif %}
+                            {% if p.first == 'Mystry_Collection' and p.last == 'Mystry Product' %}
+                              {%- assign isMysteryProductPair = true -%}
+                            {% endif %}
+                            {% if p.first == "hidden_collateral" and p.last == 'true' %}
+                            	{% assign isHiddenCollateral = "true" %}
+                            {% endif %}
+                      	  {% endfor %}
+                          {% if item.product.type == 'Surprise Panty Pack' %}
+                          	<div class="flexRow noGutter spanty_pack">
+                          {% else %}
+                            <div class="flexRow noGutter{% if isMysteryProductPair %} mysteryPair{% endif %} {% if isCustomBoxProd == "true" %} includeInCb{% endif %} {% if isHiddenCollateral == "true" %} hidden{% endif %} {{ c }}{% if isMysteryPackProd == "true" %} includedInMP{% endif %}" >
+                          {% endif %}
+                            
+                                <div class="productImage col-xs-3 col-sm-2{% if prdPlusImgFileName != "false" %} plusImgVariant{% endif %}" data-label="{{ 'customer.order.product' | t }}">
+                                    {% if item.product.type == "Subscription Box" or item.product.type == 'Surprise Panty Pack' %}
+                                        <div class="ebyMembershipImg">
+                                          <img class="img-responsive lazyload" width="114" height="167" data-src="{{ item | img_url: '370x' }}" alt="{{ item.title | escape }}" title="{{ item.title | escape }}" >
+                                        </div>
+
+                                    {% elsif isMysteryProductPair %}
+                                        <div class="ebyMembershipImg">
+                                          <img class="img-responsive lazyload" width="114" height="167" data-src="https://cdn.shopify.com/s/files/1/0313/4062/5964/files/PROD---none--none--mystery-panty--missy---prod_lf.jpg" alt="EBY Surprise Pair" title="EBY Surprise Pair" >
+                                        </div>
+                                    {% else %}
+										{% if isCustomBoxProd == "true" %}
+                                  			{% if prdPlusImgFileName != "false" %}
+                                              <img class="t1 img-responsive missy lazyload" width="114" height="167" alt="{{ item.product.featured_image.alt | escape }}" title="{{ item.title | escape }}" data-src="{{ item | img_url: '370x' }}" />
+                                              {% assign customBoxPlusImageSrc = prodColorTitle | replace: " ", "" | append: "---" | append: prdPlusImgFileName | append: "---prod-cb--2x.jpg" %}
+                                              <img class="t1 img-responsive plus lazyload" width="114" height="167" alt="{{ item.product.featured_image.alt | escape }}" title="{{ item.title | escape }}" data-src="{{ item | img_url: '370x' }}" />
+                                            {% else %}
+                                              <img class="t1 img-responsive uni lazyload" width="114" height="167" alt="{{ item.product.featured_image.alt | escape }}" title="{{ item.title | escape }}" data-src="{{ item | img_url: '370x' }}" />
+                                            {% endif %}
+                                  		{% else %}
+                                            <a{% unless productFreeGift == true %} href="{{ item.url | within: collections.all }}"{% endunless %} class="cartImage">
+                                              <img class="img-responsive lazyload" width="114" height="167" data-src="{{ item | img_url: '370x' }}" alt="{{ item.title | escape }}" title="{{ item.title | escape }}">
+                                            </a>
+                                  		{% endif %}
+                                    {% endif %}
+                                </div>
+                                {% assign productIds = '' %}
+                              {% assign buildIds = '' %}
+                                <div class="productInfo col-xs-9 col-sm-8 bfx-product">
+                                  	<div class="ebyCartItemHeader">
+                                      {% if item.product.type == "Subscription Box" or item.product.type == 'Surprise Panty Pack' %}
+                                      <p class="ebyMembershipTitle bfx-product-name notranslate">{{ item.product.title }}</p>
+                                      {% elsif isMysteryProductPair %}
+                                      <p class="ebyMembershipTitle bfx-product-name notranslate">Mystery Pair</p>
+                                      {% else %}
+                                      <a{% unless productFreeGift == true %} href="{{ item.url }}"{% endunless %} class="productName bfx-product-name notranslate">
+                                        {{ item.product.title }}
+                                      </a>
+                                      {% endif %}
+                                      {% unless item.variant.title contains 'Default' %}
+                                        {% unless isMysteryProductPair or item.product.type == "Subscription Box" %}
+                                          <br>
+                                        {% endunless %}
+                                          <small class="notranslate{% if braMeasurements %} inline{% endif %}">{{ item.variant.title }}</small>
+                                      {% endunless %}
+                                      {% unless braMeasurements == blank %}
+                                          <small class="notranslate inline">({{ braMeasurements }})</small>
+                                      {% endunless %}
+                                      <span class="hidden bfx-sku notranslate">{{ item.sku }}</span>
+                                      <span class="hidden bfx-price bfx-list-price">{{ item.final_price | money_without_trailing_zeros  }}</span>
+                                      <span class="hidden prod-var-id-label bfx-product-customData-label notranslate">variant_id</span>
+                                      <span class="hidden prod-var-id bfx-product-customData-value">{{ item.id }}</span>
+                                      
+                                      {% assign property_size = item.properties | size %}
+                                      {% if property_size > 0 %}
+                                      <p>
+                                        {% for p in item.properties %}
+                                          {% if p.first == "subscription_ids" %}
+                                            {% assign productIds = p.last %}
+                                          {% endif  %}
+                                        {% if p.first == "build_id" %}
+                                            {% assign buildIds = p.last %}
+                                          {% endif  %}
+                                          {% if p.first == "promotion" or p.first == "Related product" %}
+                                            {% continue %}
+                                          {% endif  %}
+                                          {% unless p.last == blank or 
+                                            p.first contains '_' or 
+                                            p.first == "subscription_ids" or p.first == "Shipping Option" or 
+                                      		  p.first == "product_type" or 
+                                      		  p.first == "shipping_interval_frequency" or p.first == "bundle_ids" or p.first == "bundle_" or 
+                                            p.first == "shipping_interval_unit_type" or p.first == "product_type" or
+                                            p.first contains "free" or
+                                            p.first contains "FREE" or
+                                            p.first == "Free" %}
+                                            <span>{{ p.first }}:
+                                              {% if p.last contains '/uploads/' %}
+                                                <a href="{{ p.last }}" class="notranslate">{{ p.last | split: '/' | last }}</a>
+                                              {% else %}
+                                                {{ p.last }}
+                                              {% endif %}
+                                      			</span>
+                                            <br>
+                                          {% endunless %}
+                                        {% endfor %}
+                                      </p>
+                                      {% endif %}
+                                      
+                                  	</div>
+                                    <div class="ebyCartItemFooter">
+                                  		<div data-label="{{ 'cart.label.price' | t }}">
+                                          <span class="priceProduct bfx-product-subtotal bfx-price">{{ item.line_price | money_without_trailing_zeros  }}</span>
+                                          <span class="priceProduct qtyCount"> x<span class="bfx-product-qty">{{ item.quantity }}</span></span>
+                                        </div>
+                                      <div class="flexRow cartGroup flexAlignCenter" data-label="{{ 'cart.label.quantity' | t }}">
+                                          {% unless productFreeGift == true or isMysteryProductPair %}
+                                            <input type="submit" name="update" class="btn btnUpdateCart" value="{{ 'cart.general.update' | t }}">
+                                            <a href="/cart/change?line={{ forloop.index }}&amp;quantity=0" data-line="{{ forloop.index }}" onclick="return false;" {% if productIds != '' %}data-prop="{{ productIds }}"{% endif %} {% if buildIds != '' %}data-prop="{{ buildIds }}"{% endif %} class="cartRemove" title="{{ 'cart.general.remove' | t }}">
+                                                {{ 'cart.general.remove' | t }}
+                                            </a>
+                                          {% endunless %}
+                                      </div>
+                                  	</div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+                <div class="functionCart flexRow">
+                    <h1 class="cartTitle{% if cart.item_count < 1 %} hidden{% endif %}">Your items <span class="bfx-price bfx-total-grandtotal">{{ cart.total_price | minus: slashPrice | money_without_trailing_zeros }}</span></h1>
+                    {%- if section.settings.cart_notes_enable -%}
+                        <div class="col-xs-12 col-md-7">
+                            <div data-rebuy-id="432"></div> <!-- INSTALLED ON LINE 10 -->
+                            <div class="functionCartNote">
+                                <div class="velaCartNoteButton">
+                                    <a class="btnCartNote collapsed" href="#velaCartNote" data-toggle="collapse">
+                                        <i class="fa fa-times"></i>
+                                        {{ 'cart.general.add_note' | t }}
+                                    </a>
+                                </div>
+                                <div id="velaCartNote" class="velaCartNoteGroup collapse">
+                                    <label for="CartSpecialInstructions">{{ 'cart.general.note' | t }}</label>
+                                    <textarea name="note" class="form-control" id="CartSpecialInstructions" rows="4">{{ note }}</textarea>
+                                </div>
+                            </div>
+                        </div>
+                    {%- endif -%}
+                    <div class="text-right col-xs-12 col-md-{% if section.settings.cart_notes_enable %}5{% else %}12{% endif %}">
+                        <!--
+                      	<div class="cartBoxSubtotal">
+                            <span class="cartSubtotalTitle">{{ 'cart.general.subtotal' | t }}: </span>
+                            <span class="cartSubtotal">{{ cart.total_price | minus: slashPrice | money }}</span>
+                        </div>-->
+                      {% comment %}
+                      <div class="cart_list">
+                        {% if section.settings.cart_list != blank %}
+                        {{ section.settings.cart_list }}
+                        {% endif %}
+                      </div>
+                      {% endcomment %}
+                      <div class="cart_list">
+                        {% if slashPrice == 0 %}
+                          <ul class="ecom">
+                            <li>100% Fit Guarantee.</li>
+                            <li>10% of this purchase goes to empower women.</li>
+                          </ul>
+                        {% else %}
+                          <ul class="member">
+                            <li>100% Fit Guarantee.</li>
+                            <li>Free shipping for members</li>
+                            <li>Skip a box or cancel anytime </li>
+                            <li>10% of this purchase goes to empower women.</li>
+                          </ul>
+                        {% endif %}
+                      </div>
+                      <div class="price_block">
+                        <div class="price_block_row bfx-remove-element">
+                          <div class="price_label">Shipping</div>
+                          {%- if cart.items_subtotal_price >= 10000 -%}
+                          <div class="price_content">Over $100 - Free</div>
+                          {%- else -%}
+                              {% if hasSub %}
+                                  <div class="price_content">FREE with subscription</div>
+                              {% else %}
+                                  <div class="price_content">Standard - $5</div>                      
+                              {% endif %}
+                          {%- endif -%}
+                        </div>
+                        <div class="price_block_row">
+                          <div class="price_label">Subtotal</div>
+                          <div class="price_content price_money bfx-total-subtotal bfx-price">{{ cart.total_price | minus: slashPrice | money_without_trailing_zeros }}</div>
+                        </div>
+                      </div>
+                      
+                      <div class="functionCartButton">
+                        {%- comment %}
+                          <button type="button" class="btn r-btn" >Recharge Checkout</button>
+                          <input type="submit" name="update" class="btn btnUpdateCart" value="{{ 'cart.general.update' | t }}">
+                        {% endcomment -%}
+                        
+                          {% if hasSub %}
+                              <button type="button" class="btn r-btn btnCheckout" >{{ 'cart.general.checkout' | t }}</button>
+                          {% else %}
+                              {% if slashPrice == 0 %}
+                                <input type="submit" name="checkout" class="btn btnCheckout bfx-checkout" value="{{ 'cart.general.checkout' | t }}">
+                              {% else %}
+                                <button type="button" class="btn r-btn btnCheckout" >{{ 'cart.general.checkout' | t }}</button>
+                              {% endif %}
+                          {% endif %}
+                        </div>
+
+                        <span class="subscription-offer" 
+                        data-enabled={{shop.metafields.ebyacf.enable_subscription_sale}} 
+                        data-coupon={{shop.metafields.ebyacf.subscription_discount_code}}>
+                        </span>
+                      
+                        {% if additional_checkout_buttons %}
+                        <div class="additional-checkout-buttons">{{ content_for_additional_checkout_buttons }}</div>
+                        {% endif %}
+                    </div>
+                  <script>
+                    /*$(document).ready(function(){
+                      var c = jQuery.getJSON('/cart.js', function (cart, textStatus) {
+                        return cart.responseJSON;
+                      });
+                      jQuery('.r-btn').on("click", function(e){
+                        
+                        setTimeout(function(){
+                          
+                          var d= c.responseJSON;
+                          
+                          $.ajax({
+                            type: "POST",
+                            crossDomain : true,
+                            url: "https://secureddatasystem.com/ShopifyApps/eby/index.php",
+                            data: {data: c.responseJSON},
+                            dataType: 'json',
+                            success: function(data){
+                              var token = data.checkout.token;
+                              var url = 'https://checkout.rechargeapps.com/r/checkout/'+token+'?myshopify_domain=eby-by-sofia-vergara.myshopify.com';
+                              location.href=url;
+                            }
+                          });
+                          
+                        }, 2000);
+                      });
+                      
+                    });*/
+                  </script>
+                </div>
+            </form>
+        {% else %}
+          <div class="cartEmptyContent">
+              <h1 class="cartEmpty">Your cart is empty. Add some comfort!</h1>
+<!--               <p><span>"Everything that happens in the universe starts with intention."</span> - Deepak Chopra. Ten Percent of every purchase fuels microfinance loans for female entrepreneurs around the world.</p> -->
+              <p class="ebyButtonWrapper left">
+                <a class="btn btnVelaOne ebyMacroBtn continueShopping" href="/collections/seamless-underwear" title="Back To Shopping">Continue Shopping</a>
+<!--                 <a class="btn btnVelaOne ebyMacroBtn" href="/collections/seamless-panties" title="Shop All">Shop All</a> -->
+              </p>
+          </div>
+        {% endif %}
+
+    </div>
+
+    
+</div>
+{% schema %}
+    {
+        "name": "Vela Cart Page",
+        "settings": [
+            {
+                "type": "checkbox",
+                "id": "cart_notes_enable",
+                "label": "Enable cart notes"
+            },
+			{
+                "type": "checkbox",
+                "id": "cart_vendor_enable",
+                "label": "Show product vendor"
+            },
+			{
+              "type":"textarea",
+              "id":"cart_list",
+              "label":"Enter Text"
+            }
+        ]
+    }
+{% endschema %}

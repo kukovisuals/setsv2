@@ -1,0 +1,28 @@
+{% if customer.tags contains 'Active Subscriber' or customer.tags contains 'Inactive Subscriber'%}
+<script type="text/javascript">
+  if (window.location.href.indexOf("?style=") <= 0) {
+  	window.location.href = '/account';
+  }
+</script>
+{% else %}
+<script type="text/javascript" defer>
+  'use strict';
+  document.addEventListener('DOMContentLoaded', function () {
+    vela.addEbyMembershipBox('default', {
+      styleGroup : null,
+      colorGroup : null,
+      sizeGroup  : null,
+      planGroup  : null
+    });
+  });
+</script>
+{% endif %}
+<section id="pageContent" class="quiz_content quiz_curiated_box_mode">
+  <div class="container-full">
+    <div class="pageContainer">
+      <div class="pageContent" style="min-height:600px;">
+        
+      </div>
+    </div>
+  </div>
+</section>

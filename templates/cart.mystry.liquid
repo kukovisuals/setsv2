@@ -1,0 +1,55 @@
+{% layout none %}
+{% assign add_item = '' %}
+{% assign show = false %}
+{% assign collShow = false %}
+  {% for item in cart.items %}
+    {% for p in item.properties %}
+    {% if p.first == "Mystry_Collection" %}
+    {% assign show = true %}
+    {% break %}
+    {% endif %}
+  {% endfor %}
+{% endfor %}
+
+{% assign collection = collections['liquidation-mystery-panty-pool'] %}
+{% assign mystery_products_list = '' %}
+{% paginate collection.products by 70 %}
+{% for product in collection.products %}
+{% assign mystery_products_list = mystery_products_list | append: product.id | append : ',' %}
+{% endfor %}
+{% endpaginate %}
+{% assign mystery_products_list = mystery_products_list %}
+
+{% for item in cart.items %}
+
+  {% assign main = forloop %}
+  {% assign get_size = '' %}
+
+  {% if main.first %}
+      {% for itemCollection in item.product.collections %}
+        {% if itemCollection.handle == 'bralettes-for-women' or itemCollection.handle == 'eby-seamless-clothing' %}
+          {% assign collShow = true %}
+        {% endif %}
+      {% endfor %}
+
+      {% for option in item.options_with_values %}
+          {% assign get_size = option.value %}
+      {% endfor %}
+  {% endif %}
+
+
+  {% for product in collection.products | limit: 200 %}
+      {% if pro_id_list contains product.id %}
+          {% continue %}
+      {% endif %}
+      {% unless show %}
+          {% for variant in product.variants %}
+                  {% if get_size == variant.title %}
+                  ["<div class='mystry_product {% if show or collShow %}hide{% endif %}'><div class='mystry_pdp_wrapper'><div class='mystry_pdp_image'></div><div class='mystry_pdp_content'><div class='mystry_title'><p class='r---product-fabric---22'>Seamless</p><p class='r---product-title---22'>Surprise Pair</p><p class='r---product-color---22'>Mystery</p><div class='drawerProductPrice'><div class='priceProduct'><span>{{ '500' | money_without_trailing_zeros }}</span></div></div></div><div class='mystry_bottom'><div class='mystry_btn'><a href='#' class='mystryAdd' data-ids='{{ mystery_products_list }}' data-size='{{ get_size }}' data-title='{{ variant.title }}'><span>Add</span></a></div></div></div></div></div>"]
+                  {% endif %}
+          {% endfor %}
+          {% break %}
+       {% endunless %}
+  {% endfor %}
+
+{% endfor %}

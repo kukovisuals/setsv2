@@ -1,0 +1,189 @@
+{%- if settings.show_motivator_bar -%}
+<script type="text/javascript" async>
+  function checkBalanceValue(current_price) {
+    var balance = {%- if settings.cart_total_motivator != blank -%}{{ settings.cart_total_motivator }}{%- else -%}75{%- endif -%};
+    return (balance - current_price);
+  }
+</script>
+{% if settings.subscribe_offer %}
+<!-- motivator -->
+<div class="motivator-bar__wrapper">
+  {% if customer and customer.tags contains "Active Subscriber" %}
+  <div id="ribbonOne" class="motivator-bar text-center ribbonOne active">
+    {% if shop.metafields.ebyacf.enable_holiday_mode__global %}
+    <a class="motivator-bar__wrapper__fixedLink" href="/pages/underwear-subscription-membership">
+    Subscribe & Get Extra Panty: code EXTRA
+    </a>
+    {% else %}
+      <!--     <a class="motivator-bar__wrapper__fixedLink" href="#" data-lion-refer>
+    Give $10, Get $10 • <u>Share Your Link</u>
+    </a> -->
+    <a class="motivator-bar__wrapper__fixedLink us" data-ribbon-mode="us-sub_nps" data-ribbon-url="membership_page" href="/collections/seamless-underwear">
+     Summer Sale &nbsp; • &nbsp; Up To 50% Off Sitewide &nbsp; • &nbsp; <u>Shop Now</u>
+    </a>
+    {% endif %}
+  </div>
+  {% else %}
+  <div id="ribbonOne" class="motivator-bar text-center ribbonOne active">
+    {% if shop.metafields.ebyacf.enable_holiday_mode__global %}
+    <a class="motivator-bar__wrapper__fixedLink" href="/pages/underwear-subscription-membership">
+    Subscribe & Get 1 FREE Bralette: code EXTRA
+    </a>
+    {% else %}
+    <a class="motivator-bar__wrapper__fixedLink us" data-ribbon-mode="us-sub_nps" data-ribbon-url="membership_page" href="/collections/seamless-underwear">
+     Summer Sale &nbsp; • &nbsp; Up To 50% Off Sitewide &nbsp; • &nbsp; <u>Shop Now</u>
+    </a>
+    <a class="motivator-bar__wrapper__fixedLink ca intStore" data-ribbon-mode="ca-ecomm_5frs" data-ribbon-url="best_sellers" href="/collections/best-sellers">
+    <i class="ebyicon-shipping"></i> 5CAD Flat On Orders Over 85CAD • <u>SHOP TODAY</u> 
+    </a>
+    <a class="motivator-bar__wrapper__fixedLink general intStore" data-ribbon-mode="int-ecomm_default" data-ribbon-url="best_sellers" href="/collections/best-sellers">
+    <i class="ebyicon-shipping"></i> Now Shipping Internationally • <u>SHOP TODAY</u> 
+    </a>
+    {% endif %}
+  </div>
+  {% endif %}
+  {% if customer and customer.tags contains "Active Subscriber" %}
+    <div id="ribbonTwo" class="motivator-bar text-center ribbonTwo">
+      {% if shop.metafields.ebyacf.enable_holiday_mode__global %}
+      <a class="motivator-bar__wrapper__fixedLink" href="/pages/underwear-subscription-membership">
+      Subscribe & Get FREE Extra Bralette: code EXTRA
+      </a>
+      {% else %}
+      <a class="motivator-bar__wrapper__fixedLink us" href="/pages/introducing-the-only-bra">
+        Back In Stock &nbsp; • &nbsp; The Only Bra In New Colors &nbsp; • &nbsp; <u>Shop Now</u>
+      </a>
+      <a class="motivator-bar__wrapper__fixedLink general intStore" href="/pages/introducing-the-only-bra">
+        Back In Stock &nbsp; • &nbsp; The Only Bra In New Colors &nbsp; • &nbsp; <u>Shop Now</u>
+      </a>
+      {% endif %}
+    </div>
+  {% else %}
+    <div id="ribbonTwo" class="motivator-bar text-center ribbonTwo">
+      {% if shop.metafields.ebyacf.enable_holiday_mode__global %}
+      <a class="motivator-bar__wrapper__fixedLink" href="/pages/underwear-subscription-membership">
+      Subscribe & Get FREE Extra Bralette: code EXTRA
+      </a>
+      {% else %}
+      <a class="motivator-bar__wrapper__fixedLink us" href="/collections/best-sellers">
+        Any Time &nbsp; • &nbsp; Free Shipping On Orders Of $125+ &nbsp; • &nbsp; <u>START SAVING</u>
+      </a>
+<!--       <a class="motivator-bar__wrapper__fixedLink us" href="/pages/underwear-subscription-membership">
+        Subscription Sale &nbsp; • &nbsp; 50% Off With Code SUB50 &nbsp; • &nbsp; <u>START SAVING</u>
+      </a> -->
+      <a class="motivator-bar__wrapper__fixedLink general intStore" href="/pages/underwear-subscription-membership">
+        Subscription Sale  •  50% Off With Code SUB50  •  <u>START SAVING</u>
+      </a>
+      {% endif %}
+    </div>
+  {% endif %}
+</div>
+{% else %}
+{% if shop.metafields.ebyacf.enable_sitewide_countdown%}
+<!-- motivator -->
+<div class="motivator-bar__wrapper">
+  <div class="motivator-bar text-center">
+    <span class="close right ebyicon-close-thin">&nbsp;</span>
+    <a class="motivator-bar__wrapper__fixedLink" href="/collections/memorial-day-sale">{{ settings.initial_message_motivator }} - <span id="ebySaleCountdown"></span></a>
+  </div>
+</div>
+{% else %}
+{% unless handle contains 'independence-day-pack-sale' or handle contains 'labor-day-sale-packs' %}
+<div class="motivator-bar__wrapper">
+  <div class="motivator-bar text-center">
+    <span class="close right ebyicon-close-thin">&nbsp;</span>
+    <a class="motivator-bar__wrapper__fixedLink" href="/collections/thong-panties">Buy 2, Get 1 Free Thong</a>
+  </div>
+</div>
+{%endunless%}
+{% endif %}
+{% endif %}
+<script type="text/javascript" defer>
+  function setCookie(cname, cvalue, exdays) {
+    var d = new Date();
+    d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
+    var expires = "expires=" + d.toUTCString();
+    document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+  }
+  
+  function getCookie(cname) {
+    var name = cname + "=";
+    var decodedCookie = decodeURIComponent(document.cookie);
+    var ca = decodedCookie.split(';');
+    for (var i = 0; i < ca.length; i++) {
+      var c = ca[i];
+      while (c.charAt(0) == ' ') {
+        c = c.substring(1);
+      }
+      if (c.indexOf(name) == 0) {
+        return c.substring(name.length, c.length);
+      }
+    }
+    return "";
+  }
+  function checkMotivatorBanner(current_price){
+  
+    var balance = {%- if settings.cart_total_motivator != blank -%}{{ settings.cart_total_motivator }}{%- else -%}75{%- endif -%},
+        message = "<span class=\"initial-message\">{{ settings.initial_message_motivator }}</span>",
+    cookie_motivator = false;
+  
+    cookie_motivator = getCookie('_smcust');
+    if(cookie_motivator == "true"){
+      if($('.motivator-bar').hasClass('initial')){
+        $('.motivator-bar').removeClass('initial');
+      }
+      var fire_banner = false, class_banner="";
+      if((checkBalanceValue(current_price)) < 0){
+        if(!$('.motivator-bar').hasClass('confirmation')){
+          fire_banner = true;
+          class_banner = 'confirmation';
+          $('.motivator-bar').removeClass('second');
+        }
+        message = "<span class=\"confirmation-message\">{{ settings.confirmation_message_motivator }}</span>";
+      }else{
+        message = "<span class=\"motivator-message\">{{ settings.before_balance_motivator }}<span class=\"balance\"> $"+ parseFloat(checkBalanceValue(current_price)).toFixed(2) +" </span>{{ settings.after_balance_motivator }}</span>";
+        if(!$('.motivator-bar').hasClass('second')){
+          fire_banner = true;
+          class_banner = 'second';
+          $('.motivator-bar').removeClass('confirmation');
+        }else{
+          $('.motivator-bar .motivator-message').remove();
+          {% if settings.aditional_message != blank %}
+            $(message).insertBefore(".ribbon-shipping");
+          {% else %}
+            $(message).insertBefore(".icon-motivator.second");
+            //$('.motivator-bar').addClass(class_banner).show();
+          {% endif %}
+        }
+      }
+    }else{
+      fire_banner = true;
+      class_banner = 'initial';
+      setCookie("_smcust", "true", 1);
+    }
+    if(fire_banner){
+      $('.motivator-bar').removeClass('initial second confirmation');
+      $('.motivator-bar .motivator-message, .motivator-bar .confirmation-message, .motivator-bar .initial-message').remove();
+      {% if settings.aditional_message != blank %}
+        $(message).insertBefore(".ribbon-shipping");
+      {% else %}
+        $(message).insertBefore(".icon-motivator.second");
+      {% endif %}
+    }
+  
+  
+  }
+  
+  document.addEventListener("DOMContentLoaded", function() {
+    $('.motivator-bar .close').on('click', function(){
+      $('.motivator-bar').dequeue().slideUp( 300 ).removeClass('initial second confirmation');
+      jQuery('.ebyTopBannerWrapper').hide();
+      $('.mainContent').addClass('noTopBanner');
+      $('.eby-header').addClass('noTopBanner');
+    });
+    checkMotivatorBanner({{ cart.total_price | divided_by: 100.0 }});
+    //$('#CartCount').text({{ cart.item_count }});
+    //$('#CartCountMobile').text({{ cart.item_count }});
+  });
+  
+</script>
+{%- endif -%}

@@ -1,0 +1,25 @@
+{%- unless settings.free_gift_enabled == true and product.id == all_products[settings.free_gift_product].id -%}
+<div class="col">
+  <div class="col-wrap">
+    <div class="collection-img">
+      <a href="{{ product.url }}">
+        {% if product.featured_image != blank %} 
+        <img class="lazyload" data-src="{{ product.featured_image | img_url: 'master' }}" alt="{{ product.featured_image.alt }}" title="{{ product.featured_image.alt }}">
+        {% endif %}
+      </a>
+    </div>
+    <div class="collection-detail">
+      <h4><a href="{{ product.url }}">{{ product.title }}</a></h4>
+      <div class="pricebox">
+        <p><span class="bfx-price">{{ product.price | money_without_trailing_zeros }}</span> ( <span class="bfx-price">{{ product.metafields.ebyacf.vip_member_price }}</span> MEMBERS )</p>
+        <div class="pro_review">  
+          <span class="stamped-product-reviews-badge stamped-main-badge" data-id="{{ product.id }}" data-product-sku="{{ product.selected_or_first_available_variant.sku }}" data-product-type="{{product.type}}" data-product-title="{{product.title}}" style="display: inline-block;"></span>
+        </div>
+      </div>
+      <div class="collection-link">
+        <a href="{{ product.url }}" class="btn btn1">SHOP NOW</a>
+      </div>
+    </div>
+  </div>
+</div>
+{%- endunless -%}

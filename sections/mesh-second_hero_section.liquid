@@ -1,0 +1,150 @@
+<section class="eby-premium_content_block">
+  <div class="premium_content_block_innerwrapper">
+    <ul class="premium_content_wrapper">
+      <li class="premium_content_item">
+        <div class="premium_content_item_wrapper">
+          <img class="lazyload" title="" alt="" data-src="https://cdn.shopify.com/s/files/1/0313/4062/5964/files/USP---SHEER---seamless_2x_9f42a6c8-0d44-449d-9d5f-49459071411d.jpg"/>
+          <div class="text-titlewrpper">
+
+            <p>
+              <b>SEAMLESS</b>
+            </p>
+            <span>
+              Clean edges disappear under your clothes
+            </span>
+          </div>
+        </div>
+      </li>
+      <li class="premium_content_item">
+        <div class="premium_content_item_wrapper">
+          <img class="iphones_only lazyload" title="" alt="" data-src="https://cdn.shopify.com/s/files/1/0313/4062/5964/files/usp-sheer-noslip-dsk.webp?v=1669233973"/>
+          <img class="laptop_only lazyload" title="" alt="" data-src="https://cdn.shopify.com/s/files/1/0313/4062/5964/files/usp-sheer-noslip-dsk.webp?v=1669233973"/>
+          <div class="text-titlewrpper">
+            <p>
+              <b>Slip Proof Technology</b>
+            </p>
+            <span>Your intimates will always stay in place</span>
+          </div>
+        </div>
+      </li>
+      <li class="premium_content_item">
+        <div class="premium_content_item_wrapper">
+          <img class="iphones_only lazyload" title="" alt="" data-src="https://cdn.shopify.com/s/files/1/0313/4062/5964/files/usp-sheer-lightweight-mbl.webp?v=1669233895"/>
+          <img class="laptop_only lazyload" title="" alt="" data-src="https://cdn.shopify.com/s/files/1/0313/4062/5964/files/usp-sheer-lightweight-dsk.webp?v=1669233896"/>
+          <div class="text-titlewrpper">
+
+            <p>
+              <b>Supportive Dynamic Fabric</b>
+            </p>
+            <span>Feels like you’re wearing nothing at all</span>
+          </div>
+        </div>
+      </li>
+      <li class="premium_content_item">
+        <div class="premium_content_item_wrapper">
+          <img class="iphones_only lazyload" title="" alt="" data-src="https://cdn.shopify.com/s/files/1/0313/4062/5964/files/usp-sheer-soft-mbl.webp?v=1669233856"/>
+          <img class="laptop_only lazyload" title="" alt="" data-src="https://cdn.shopify.com/s/files/1/0313/4062/5964/files/usp-sheer-soft-dsk.webp?v=1669233856"/>
+          <div class="text-titlewrpper">
+
+            <p>
+              <b>Softness You Have to Feel to Believe</b>
+            </p>
+            <span>The softest mesh that’ll ever touch your skin</span>
+          </div>
+        </div>
+      </li>
+    </ul>
+  </div>
+</section>
+{% if section.settings.desk_img != blank %}
+  <section class="permium_hero_section small_con">
+    <div class="section-wrap">
+      <div class="section_image">
+
+        {% if section.settings.desk_img != blank %}
+          <img data-src="https://cdn.shopify.com/s/files/1/0313/4062/5964/files/footer-placeholder-dsk.webp?v=1669226383" class="desktop_image" alt="{{ section.settings.desk_img.alt }}">
+        {% endif %}
+        {% if section.settings.ipad_img != blank %}
+          <img data-src="https://cdn.shopify.com/s/files/1/0313/4062/5964/files/footer-placeholder-tbl.webp?v=1669226266" class="ipad_image" alt="{{ section.settings.ipad_img.alt }}">
+        {% elsif section.settings.desk_img != blank %}
+          <img data-src="https://cdn.shopify.com/s/files/1/0313/4062/5964/files/TITLE-Sheer4-title-dsk.svg?v=1669226827" class="ipad_image" alt="{{ section.settings.desk_img.alt }}">
+          {% else %}
+        {% endif %}
+        {% if section.settings.mob_img != blank %}
+          <img data-src="https://cdn.shopify.com/s/files/1/0313/4062/5964/files/footer-placeholder-mbl.webp?v=1669226266" class="mobile_image" alt="{{ section.settings.mob_img.alt }}">
+        {% elsif section.settings.desk_img != blank %}
+          <img data-src="https://cdn.shopify.com/s/files/1/0313/4062/5964/files/TITLE-Sheer4-title-mbl.svg?v=1669226827" class="mobile_image" alt="{{ section.settings.desk_img.alt }}">
+          {% else %}
+        {% endif %}
+      </div>
+      <div class="section_content {{ section.settings.text_align }}">
+        <div class="content_top">
+          <img class="iphones_only lazyload" width="400" height="130" alt="Silky Soft. Sexy. Seamless" title="Silky Soft. Sexy. Seamless" data-src="https://cdn.shopify.com/s/files/1/0313/4062/5964/files/TITLE-Sheer4-title-mbl.svg?v=1669226827"/>
+          <img class="laptop_only lazyload" width="400" height="130" alt="Silky Soft. Sexy. Seamless" title="Silky Soft. Sexy. Seamless" data-src="https://cdn.shopify.com/s/files/1/0313/4062/5964/files/1440_-_SHEER_-_title.svg?v=1643819949"/>
+        </div>
+        {% if section.settings.button_text != blank  and section.settings.button_link != blank %}
+          <div class="content_bottom">
+            <a href="{{ section.settings.button_link }}">SHOP NOW</a>
+          </div>
+        {% endif %}
+      </div>
+    </div>
+  </section>
+{% endif %}
+
+{% schema %}
+  {
+    "name": "Hero Banner",
+    "settings": [
+      {
+        "type": "image_picker",
+        "id": "desk_img",
+        "label": "Desktop Image"
+      },
+      {
+        "type": "image_picker",
+        "id": "ipad_img",
+        "label": "Ipad Image"
+      },
+      {
+        "type": "image_picker",
+        "id": "mob_img",
+        "label": "Mobile Image"
+      },
+      {
+        "type": "text",
+        "id": "title",
+        "label": "Title"
+      }, {
+        "type": "text",
+        "id": "sub_title",
+        "label": "Sub Title"
+      }, {
+        "type": "select",
+        "id": "text_align",
+        "label": "Text alignment",
+        "options": [
+          {
+            "value": "text_left",
+            "label": "Left"
+          }, {
+            "value": "text_center",
+            "label": "Center"
+          }, {
+            "value": "text_right",
+            "label": "Right"
+          }
+        ],
+        "default": "text_center"
+      }, {
+        "type": "url",
+        "id": "button_link",
+        "label": "Button URL"
+      }, {
+        "type": "text",
+        "id": "button_text",
+        "label": "Button Text"
+      }
+    ]
+  }
+{% endschema %}

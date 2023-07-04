@@ -1,0 +1,78 @@
+<section class="two_cols">
+
+  {% for block in section.blocks %}
+  {% if block.settings.content != blank %}
+  <div class="two_col">
+    {% if block.settings.image != blank %}
+    <div class="image_cols">
+      <img src="{{ block.settings.image }}" alt="{{ block.settings.image }}">
+    </div>
+    {% endif %}
+    <div class="image_content">
+      {{ block.settings.content }}
+      {% if block.settings.button_link != blank and block.settings.button_text != blank %}
+      <div class="content_full_box full_box text-center">
+        <a href="{{ block.settings.button_link }}" class="btn scroll_btn">{{ block.settings.button_text }}</a>
+      </div>
+      {% endif %}
+    </div>
+  </div>
+  {% endif %}
+  {% endfor %}
+
+  
+  {% if section.settings.button_links != blank and section.settings.button_texts != blank %}
+  <div class="full_box hide_mobile text-center">
+    <a href="{{ section.settings.button_links }}" class="btn scroll_btn">{{ section.settings.button_texts }}</a>
+  </div>
+   {% endif %}
+
+</section>
+
+
+{% schema %}
+  {
+    "name": "Two Cols Section",
+    "settings": [
+      {
+        "id": "button_links",
+        "type": "url",
+        "label": "Button URL"
+      },
+      {
+        "type": "text",
+        "id": "button_texts",
+        "label": "Button Text"
+      }
+	],
+	"blocks": [
+      {
+        "type": "two_cols",
+        "name": "Two Cols",
+		"limit": 2,
+        "settings": [
+		  {
+            "id": "image",
+            "type": "text",
+            "label": "Image"
+          },
+		  {
+            "type": "richtext",
+            "id": "content",
+            "label": "Content"
+          },
+	  	  {
+            "id": "button_link",
+            "type": "url",
+            "label": "Button URL"
+          },
+          {
+            "type": "text",
+            "id": "button_text",
+            "label": "Button Text"
+          }
+		]
+	  }
+	]
+  }
+{% endschema %}

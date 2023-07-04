@@ -1,0 +1,58 @@
+<section class="alala-hero-section">
+  <div class="section-wrap">
+    <div class="col-group">
+      <div class="col left-col">
+        <div class="col-wrap">
+          {% if section.settings.desktop-image != blank %}
+          <img src="{{ section.settings.desktop-image | img_url: 'master'}}" class="desktop-image" alt="">
+          {% endif %}
+          {% if section.settings.mobile-image != blank %}
+          <img src="{{ section.settings.mobile-image | img_url: 'master'}}" class="mobile-image" alt="">
+          {% else %}
+          <img src="{{ section.settings.desktop-image | img_url: 'master'}}" class="mobile-image" alt="">
+          {% endif %}
+        </div>
+      </div>
+      <div class="col right-col">
+        <div class="col-wrap">
+          <div class="col-content">
+            <div class="col-content-wrap">
+              
+              <div class="section-logo">
+                <svg width="109" class="eby_logo" height="69" viewBox="0 0 109 69" fill="none" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M109 17.1742H100.241L103.203 0L91.7895 24.7056H99.8049L97.0859 41.0538L109 17.1742ZM70.1572 17.1684L82.7272 47.5201V68.9994H93.6763V47.0627L81.643 17.1684H70.1572ZM55.0662 56.1587C55.0662 58.7268 53.9947 60.2837 51.1607 60.2837H46.8064V46.8191H50.7018C53.5345 46.8191 55.0662 48.3759 55.0662 51.4112V56.1587ZM46.8064 25.8847H50.9319C53.7646 25.8847 54.8374 27.5193 54.8374 30.0874V34.6004C54.8374 37.6363 53.3057 39.1147 50.4717 39.1147H46.8064V25.8847ZM58.1291 42.4616C63.3362 41.5274 65.251 37.7134 65.251 32.811V29.0748C65.251 21.6827 60.7329 17.1684 52.4636 17.1684H35.7796V68.9994H52.6918C60.9618 68.9994 65.5564 64.5641 65.5564 57.0916V52.1115C65.5564 47.2862 63.5657 43.629 58.1291 42.4616ZM0 17.1684V69H22.839L24.7207 59.4952H10.9497V46.2743H22.9716V37.8695H10.9497V26.5067H25.0993V17.1684H0Z" fill="#000C48"/></svg>
+                <span class="section-logo-text">/</span>
+              </div>
+              {% if section.settings.title != blank %}
+              <h6 class="sub-title">{{ section.settings.title }}</h6>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+{% schema %}
+  {
+    "name": "Banner Section",
+    "settings": [
+	  {
+		"type": "image_picker",
+		"id": "desktop-image",
+		"label": "Desktop Image"
+	  },
+	  {
+		"type": "image_picker",
+		"id": "mobile-image",
+		"label": "Mobile Image"
+	  },
+	  {
+		"type": "text",
+		"id": "title",
+		"label": "Title"
+	  }
+	]
+  }
+{% endschema %}

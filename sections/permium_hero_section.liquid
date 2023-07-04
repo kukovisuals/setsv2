@@ -1,0 +1,101 @@
+ {% if section.settings.desk_img != blank %}
+<section class="permium_hero_section">
+  <div class="section-wrap">
+    <div class="section_image">
+      {% if section.settings.desk_img != blank %}
+      <img src="{{ section.settings.desk_img | img_url: 'master' }}" class="desktop_image" alt="{{ section.settings.desk_img.alt }}">
+      {% endif %}
+      {% if section.settings.ipad_img != blank %}
+      <img src="{{ section.settings.ipad_img | img_url: 'master' }}" class="ipad_image" alt="{{ section.settings.ipad_img.alt }}">
+      {% elsif section.settings.desk_img != blank %}
+      <img src="{{ section.settings.desk_img | img_url: 'master' }}" class="ipad_image" alt="{{ section.settings.desk_img.alt }}">
+      {% else %}
+      {% endif %}
+      {% if section.settings.mob_img != blank %}
+      <img src="{{ section.settings.mob_img | img_url: 'master' }}" class="mobile_image" alt="{{ section.settings.mob_img.alt }}">
+      {% elsif section.settings.desk_img != blank %}
+      <img src="{{ section.settings.desk_img | img_url: 'master' }}" class="mobile_image" alt="{{ section.settings.desk_img.alt }}">
+      {% else %}
+      {% endif %}
+    </div>
+    <div class="section_content {{ section.settings.text_align }}">
+      <div class="content_top">
+        {% if section.settings.title != blank %}
+        <h1>{{ section.settings.title }}</h1>
+        {% endif %}
+        {% if section.settings.sub_title != blank %}
+        <p>{{ section.settings.sub_title }}</p>
+        {% endif %}
+      </div>
+      {% if section.settings.button_text != blank  and section.settings.button_link != blank %}
+      <div class="content_bottom">
+        <a href="{{ section.settings.button_link }}">{{ section.settings.button_text }}</a>
+      </div>
+      {% endif %}
+    </div>
+  </div>
+</section>
+{% endif %}
+
+{% schema %}
+  {
+    "name": "Hero Banner",
+    "settings": [
+	  {
+		"type": "image_picker",
+		"id": "desk_img",
+		"label": "Desktop Image"
+	  },
+	  {
+		"type": "image_picker",
+		"id": "ipad_img",
+		"label": "Ipad Image"
+	  },
+	  {
+		"type": "image_picker",
+		"id": "mob_img",
+		"label": "Mobile Image"
+	  },
+	  {
+		"type": "text",
+		"id": "title",
+		"label": "Title"
+	  },
+	  {
+		"type": "text",
+		"id": "sub_title",
+		"label": "Sub Title"
+	  },
+      {
+        "type": "select",
+        "id": "text_align",
+        "label": "Text alignment",
+        "options": [
+          {
+            "value": "text_left",
+            "label": "Left"
+          },
+          {
+            "value": "text_center",
+            "label": "Center"
+          },
+          {
+            "value": "text_right",
+            "label": "Right"
+          }
+        ],
+        "default": "text_center"
+      },
+	  {
+        "type": "url",
+        "id": "button_link",
+        "label": "Button URL"
+      },
+      {
+        "type": "text",
+        "id": "button_text",
+        "label": "Button Text"
+      }	
+	]
+  }
+{% endschema %}

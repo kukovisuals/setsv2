@@ -1,0 +1,662 @@
+<style>
+    ::selection {
+        color: none;
+        background: none;
+    }
+    .pdp .pdpImagePanel{
+         flex-direction: row;
+         flex-wrap: wrap;
+    }
+     .pdp-image-pannel-wrapper.bottom{
+         margin: 9px 0 3px 8px;
+         display: inline-flex;
+         flex-direction: row;
+         position: relative;
+    }
+     .pdp-image-pannel-wrapper{
+         display: none;
+    }
+     .pdp-image-pannel-wrapper.active{
+         display: block;
+    }
+     .template-product .slide{
+         margin-right: 8px;
+         width: 10.45%;
+         width: 38px;
+         height: 48px;
+    }
+     .template-product .slide .imgWrapper {
+         height: 100%;
+    }
+     .pdpImagePanneleby .imgWrapper {
+         width: 100%;
+         aspect-ratio: 2.5 / 3;
+    }
+     .pdp-image-pannel-wrapper.active{
+         min-width: 376px;
+         min-height: 471px;
+    }
+     .mainContent img{
+        /*aspect-ratio: 2.5 / 3;
+        */
+    }
+     .template-product .slide{
+         width: 38px;
+         height: 48px;
+         position:relative;
+    }
+     .slide.pdpImagePanneleby{
+         cursor: pointer;
+    }
+     .pdp .ab.proBoxImage{
+         position: relative;
+       -webkit-tap-highlight-color: transparent;
+    }
+  .pdp .mobile-intro .product-name{
+    color: var(--rebuy-text-color)
+  }
+  .paly-button-2022{
+    position:absolute;
+    width:100%;
+    height: 100%;
+    background-color: rgb(255,255,255,0.3);
+  }
+  .play-button-g-holder{
+    width:50%;
+    height:50%;
+  }
+  .slide.pdpImagePanneleby.active {
+    border: 1px solid #00082f;
+    box-shadow: 0px 0px 3px 0px #00082f;
+  }
+
+
+
+
+
+  .pdpImagePanel-Slider-2022{
+    position:relative;
+  }
+  .eby-arrow-left-right{
+     position: absolute;
+    width: 100%;
+    height: 44px;
+    top: 41%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index:10;
+  }
+  .eby-arrow-left-right svg{
+    width: 33px;
+    fill: #9b9b9b;
+  }
+  .eby-svg-right, .eby-svg-left{
+    cursor:pointer;    
+    margin: auto 10px;
+  }
+
+  .velaProductGallerySlider video {
+    width: 100%;
+  }
+  /* fc 012423 */
+  
+  #eby-pdp-video{
+    object-fit: contain;
+  }
+  #eby-pdp-video::-webkit-media-controls {
+    display: none !important;
+  }
+  
+  
+    /*************************** Tablet ****************************/
+     @media (min-width: 768px){
+       .pdp-image-pannel-wrapper.bottom{
+           margin: 17px 0 3px 3px;
+       }
+       .pdpImagePanel-Slider-2022{
+         width: 100%;
+       }
+       .eby-svg-right{
+         margin-right: 6px;
+       }
+       .eby-svg-left{
+         margin-left: 6px;
+       }
+       /*---------title and prices-------------*/
+       .pdp .proBoxInfo .formAddToCart{
+         margin-top:0px; /* fc 031023 */
+       }
+     }
+    /*************************** Laptop ****************************/
+     @media (min-width: 1024px){
+         .pdp .pdpImagePanel {
+             display: flex;
+             flex-direction: row-reverse;
+             flex-wrap: nowrap;
+               justify-content: flex-end;
+        }
+         .pdp-image-pannel-wrapper.bottom{
+             flex-direction: column;
+        }
+         .pdpImagePanel-Slider-2022{
+             width: 91%;
+             min-width: 494px;
+             min-height: 618px;
+        }
+         .template-product .slide{
+             min-width: 60px;
+             min-height: 75px;
+             margin-right: 12px;
+             margin-bottom: 13px;
+               margin-left: 3px;
+        }
+         .pdp .velaProductGallerySlider{
+             width: 100%;
+        }
+         .pdp-image-pannel-wrapper.bottom{
+             margin: 3px 0 0 0px;
+        }
+       .pdp .proBoxInfo_outr .proBoxInfo{
+         padding-top:32px;
+       }
+       .eby-arrow-left-right{
+         width:96%;
+       }
+    }
+    /*************************** Desktop ****************************/
+     @media (min-width: 1440px){
+       .eby-parent-container-2022{
+             margin: auto 195px;
+       }
+       .pdpImagePanel-Slider-2022 {
+             max-height: 862px;
+             width: 91%;
+        }
+         .eby-container-pdp-2022 {
+             margin: 0;
+             margin-left: 123px;
+        }
+/*          .pdp .col-xs-12.col-md-6.col-lg-6.mb30.proBoxInfo_outr{
+             min-width: 555px;
+           width: 46%;
+        } */
+       .pdp .pdpImagePanel{
+         justify-content: flex-end;
+       }
+/*        .pdp .ab.proBoxImage{
+             max-width: 888px;
+       } */
+       
+       .pdp .proBoxInfo_outr .proBoxInfo{
+         padding-top:23px;
+       }
+      .pdp .proBoxInfo .swatches{
+         margin-top: 24px;
+       }
+       .pdp .proBoxInfo .proButton{
+         margin-top:32px;
+       }
+    }
+     
+
+
+</style>
+{% if product.type contains "Surprise Panty Pack"  %}
+  <div class="velaProductGallerySlider">
+    <div class="pdpImagePanel" data-slidefor="small">
+      <div class="slide" data-alt="{{ product.images[1].alt | escape }}" style="min-height: 287px;">
+        <div class="active imgWrapper"
+             data-imageid="{{ product.images[1].id }}"
+             data-image="{{ product.images[1].src | img_url: proImageSize }}"
+             data-zoom-image="{{ product.images[1].src | img_url: 'master' }}">
+          <img class="lazyload" width="187" height="287" data-src="{{ product.images[1].src | img_url: '750x' }}" alt="{{ product.images[1].alt | escape }}">
+        </div>
+      </div>
+      <div class="slide animatedGif" style="min-height: 287px;">
+        <div class="activeGif imgWrapper"
+             data-imageid="{{ product.images[2].id }}"
+             data-image="{{ product.images[2].src | img_url: proImageSize }}"
+             data-zoom-image="{{ product.images[1].src | img_url: 'master' }}">
+          <img class="lazyload" id="animGif" width="187" height="287" data-src="{{ product.images[2].src | img_url: '750x' }}" alt="{{ product.images[2].alt | escape }}">
+        </div>
+        {%- for image in product.images -%}
+           {% if forloop.index == 2 %}
+              {% continue %}
+           {% else %}
+              <div class="activeGifReplacement" data-src="{{ image.src | img_url: '750x' }}"></div>
+          {% endif %}
+        {%- endfor -%}
+      </div>
+    </div>
+  </div>
+
+  <script type="text/javascript" defer>
+    (function (){
+      //console.log('run animated gif');
+      
+        var imgGifWrapper = document.getElementById('animGif');
+        var gifArr = ['{{ product.images[0].src | img_url: '750x' }}', 
+                     '{{ product.images[2].src | img_url: '750x' }}', 
+                     '{{ product.images[3].src | img_url: '750x' }}', 
+                     '{{ product.images[4].src | img_url: '750x' }}'];
+         var currentGif = 0;
+                      
+         setInterval(() => {
+            //console.log('loop run', currentGif);
+      if (currentGif == 3) {
+              imgGifWrapper.src = gifArr[0];
+            currentGif = 0;
+            } else {
+              imgGifWrapper.src = gifArr[currentGif + 1];
+          currentGif = currentGif+1;
+            }
+          }, 2000);
+    })();
+  </script>
+{% elsif product.type == "Bodysuit"  %}
+
+  <div class="velaProductGallerySlider"> 
+      <div class="pdpImagePanel" data-slidefor="small">
+  
+          <!--fc 091422 -->        
+          <div class="pdpImagePanel-Slider-2022">
+              
+              <!--------arrows------>
+              <div class=eby-arrow-left-right>
+                    <div class="eby-svg-left" id="eby-left-2022">
+                        <?xml version="1.0"?>
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 26 26">
+                            <path d="M10.595,13l8.584-8.764c0.383-0.392,0.38-1.019-0.008-1.406l-1.536-1.536c-0.391-0.391-1.026-0.39-1.417,0.002L5.293,12.293 C5.098,12.488,5,12.744,5,13c0,0.256,0.098,0.512,0.293,0.707l10.925,10.997c0.39,0.393,1.025,0.394,1.417,0.002l1.536-1.536 c0.387-0.387,0.391-1.015,0.008-1.406L10.595,13z"/>
+                        </svg>
+                    </div>
+
+                    <div class="eby-svg-right" id="eby-right-2022">
+                        <?xml version="1.0"?>            
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 26 26">
+                          <path d="M15.405,13L6.821,4.236C6.438,3.845,6.442,3.217,6.829,2.83l1.536-1.536c0.391-0.391,1.026-0.39,1.417,0.002l10.925,10.997 C20.902,12.488,21,12.744,21,13c0,0.256-0.098,0.512-0.293,0.707L9.782,24.704c-0.39,0.393-1.025,0.394-1.417,0.002L6.829,23.17 c-0.387-0.387-0.391-1.015-0.008-1.406L15.405,13z"/>
+                        </svg>
+                    </div>
+                </div>
+  
+              {%- for pdpImageDefaultfc in product.images limit:4 -%}
+                  {% assign srcName = pdpImageDefaultfc.src | downcase  %}
+                    {% if srcName contains 'feed--' or srcName contains 'plus--' %}
+                      {% continue %}
+                    {% else %}
+                        {% if forloop.first %}
+                            <div class="pdp-image-pannel-wrapper active" id="slider-{{ pdpImageDefaultfc.id }}">
+                        {% elsif pdpImageDefaultfc.position == 2 %}
+                          <div class="pdp-image-pannel-wrapper" style="display:none">
+                        {% else %}
+                            <div class="pdp-image-pannel-wrapper" id="slider-{{ pdpImageDefaultfc.id }}">
+                        {% endif %}
+                            <div class="pdpImagePanneleby" data-alt="{{ pdpImageDefaultfc.alt | escape }}">
+                              <div class="imgWrapper" data-imageid="{{ pdpImageDefaultfc.id }}" data-image="{{ pdpImageDefaultfc.src | img_url: proImageSize }}" data-zoom-image="{{ pdpImageDefaultfc.src | img_url: 'master' }}">
+                                  <img class="lazyloadPload" width="376" height="471" src="{{ pdpImageDefaultfc.src | img_url: '750x' }}" alt="{{ pdpImageDefaultfc.alt | escape }}" title={{ pdpImageDefaultfc.alt | escape }}/>
+                              </div>
+                            </div>
+                          </div>
+                      {% endif %}
+            {%- endfor -%}
+
+            <!--gift video -->
+              <div class="pdp-image-pannel-wrapper" id="slider-{{ product.images[1].id }}">
+                    
+                    <div class="pdpImagePanneleby">
+                        <div class="imgWrapper"
+                           data-imageid="{{ product.images[1].id }}"
+                           data-image="{{ product.images[1].src | img_url: proImageSize }}"
+                           data-zoom-image="{{ product.images[1].src | img_url: 'master' }}">
+                            <img style="visibility: visible;" id="animGif" width="187" height="287" src="{{ product.images[1].src | img_url: '750x' }}" alt="{{ product.images[1].alt | escape }}">
+                        </div>
+                    </div>
+                    {%- for image in product.images -%}
+                       {% if forloop.first == true %}
+                          {% continue %}
+                       {% else %}
+                          <div class="imgWrapper" data-src="{{ image.src | img_url: '750x' }}"></div>
+                      {% endif %}
+                    {%- endfor -%}
+                  </div>
+         
+          </div>
+          
+          <!--thumbnail -->
+          <div class="pdp-image-pannel-wrapper bottom pdp-09-22">
+              {%- for image in product.images limit:4 -%}
+                  {% assign srcName = image.src | downcase  %}
+                    {% if srcName contains 'feed--' or srcName contains 'plus--' %}
+                      {% continue %}
+                    {% else %}
+                        <div class="slide pdpImagePanneleby" data-imageid="{{ image.id }}">
+                              
+                              {% if image.position == 2 %}
+                              <div class="paly-button-2022">
+                                <?xml version="1.0"?>
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="-13 -20 50 50">
+                                  <g class="play-button-g-holder">
+                                    <path d="M 12 2 C 6.4889972 2 2 6.4889972 2 12 C 2 17.511003 6.4889972 22 12 22 C 17.511003 22 22 17.511003 22 12 C 22 6.4889972 17.511003 2 12 2 z M 12 4 C 16.430123 4 20 7.5698774 20 12 C 20 16.430123 16.430123 20 12 20 C 7.5698774 20 4 16.430123 4 12 C 4 7.5698774 7.5698774 4 12 4 z M 9 7 L 9 17 L 18 12 L 9 7 z"/>
+                                  </g>
+                                </svg>
+                              </div>
+                              {% endif %}
+                          
+                              <div class="imgWrapper" data-imageid="{{ image.id }}" data-image="{{ image.src | img_url: proImageSize }}" data-zoom-image="{{ image.src | img_url: 'master' }}">
+                                  <img id="thumbnail-{{ image.id }}" class="lazyloadPload" width="38" height="48" src="{{ image.src | img_url: '750x' }}" alt="{{ image.alt | escape }}" title={{ pdpImageDefaultfc.alt | escape }}/>
+                              </div>
+                        </div>
+                    {% endif %}
+              {%- endfor -%}
+
+            
+          </div>
+          <!--fc 091422 -->
+  
+      </div>
+  </div>
+
+  <script type="text/javascript" defer>
+    (function (){
+      //console.log('run animated gif');
+      
+        var imgGifWrapper = document.getElementById('animGif');
+        var gifArr = ['{{ product.images[1].src | img_url: '750x' }}', 
+                     '{{ product.images[2].src | img_url: '750x' }}', 
+                     '{{ product.images[3].src | img_url: '750x' }}',
+                     '{{ product.images[5].src | img_url: '750x' }}',
+                     '{{ product.images[6].src | img_url: '750x' }}'];
+         var currentGif = 1;
+                      
+         setInterval(() => {
+            //console.log('loop run', currentGif);
+      if (currentGif == 4) {
+              imgGifWrapper.src = gifArr[0];
+            currentGif = 1;
+            } else {
+              imgGifWrapper.src = gifArr[currentGif + 1];
+          currentGif = currentGif+1;
+            }
+          }, 2000);
+    })();
+  </script>
+{% else %}
+
+  {%- if section.settings.prodetail_style == "detail_style2" or section.settings.prodetail_style == "detail_style3" -%}
+      {%- if product.images.size > 1 -%}
+        <div id="productThumbs" class="proThumbnails">
+          <div class="owl-thumblist">
+            <div class="owl-carousel" data-item = "1" >
+              {%- for image in product.images -%}
+                {%- assign itemNumber = forloop.index | modulo:5 -%}
+                {%- if itemNumber == 1 -%}
+                  <div class="thumbItem">
+                {%- endif -%}
+                    <div {% if forloop.first %}class="active"{% endif %} href="{{ image.src | img_url: 'master' }}"
+                       data-imageid="{{ image.id }}"
+                       data-image="{{ image.src | img_url: proImageSize }}"
+                       data-zoom-image="{{ image.src | img_url: 'master' }}">
+                      <img class="lazyload" width="187" height="287" data-src="{{ image.src | img_url: '200x' }}" alt="{{ image.alt | escape }}">
+                    </div>
+                 {%- if itemNumber == 0 or  forloop.last -%}
+                    </div>
+                 {%- endif -%}
+               {%- endfor -%}
+            </div>
+          </div>
+        </div>
+      {%- endif -%}
+      <div id="proFeaturedImage" class="proFeaturedImage mb20">
+        {%- assign featured_image = product.selected_or_first_available_variant.featured_image | default: product.featured_image -%}
+        <img id="ProductPhotoImg"
+             class="lazyload"
+             alt="{{ featured_image.alt | escape }}"
+             width="187" height="287"
+             data-src="{{ featured_image | img_url: proImageSize }}"
+             data-zoom-enable="{{ section.settings.product_zoom_enable }}"
+             data-zoom-image="{{ featured_image | img_url: 'master' }}"
+             data-zoom-scroll="{{ section.settings.product_scroll_zoom }}"
+             data-zoom-type="{{ section.settings.product_zoom_type }}"
+             data-zoom-width="{{ section.settings.product_zoom_width }}"
+             data-zoom-height="{{ section.settings.product_zoom_height }}"
+             data-zoom-lens="{{ section.settings.product_lens_size }}"
+             data-lens-shape="{{ section.settings.product_lens_type }}"
+             />
+              <!-- <button id="velaViewImage" class="btn hidden-xs hidden-sm">
+          <i class="icons icon-size-fullscreen"></i>
+          </button> -->
+      </div>
+    {%- else -%}
+      {%- if product.images.size < 2 -%}
+        <div id="proFeaturedImage" class="proFeaturedImage">
+          {%- assign featured_image = product.selected_or_first_available_variant.featured_image | default: product.featured_image -%}
+          <img id="ProductPhotoImg"
+               class="lazyload"
+               alt="{{ featured_image.alt | escape }}"
+               width="187" height="287"
+               data-src="{{ featured_image | img_url: proImageSize }}"
+               data-zoom-enable="{{ section.settings.product_zoom_enable }}"
+               data-zoom-image="{{ featured_image | img_url: 'master' }}"
+               data-zoom-scroll="{{ section.settings.product_scroll_zoom }}"
+               data-zoom-type="{{ section.settings.product_zoom_type }}"
+               data-zoom-width="{{ section.settings.product_zoom_width }}"
+               data-zoom-height="{{ section.settings.product_zoom_height }}"
+               data-zoom-lens="{{ section.settings.product_lens_size }}"
+               data-lens-shape="{{ section.settings.product_lens_type }}"
+               />
+        </div>
+      {%- endif -%}
+
+
+        {%- if product.images.size > 1 -%}
+            {% if product.type == "Mask" %}
+                <div class="velaProductGallerySlider">
+                  <div class="pdpImagePanel" data-slidefor="small">
+                    {% if product.selected_variant %}
+                      <div class="pdp-image-pannel-wrapper active" id="slider-{{ product.selected_variant.image.id }}">
+                        <div class="pdpImagePanneleby" data-alt="{{ product.selected_variant.image.alt | escape }}" style="min-height: 287px;">
+                          <div class="imgWrapper"
+                               data-imageid="{{ product.selected_variant.image.id }}"
+                               data-image="{{ product.selected_variant.image.src | img_url: proImageSize }}"
+                               data-zoom-image="{{ product.selected_variant.image.src | img_url: 'master' }}">
+                            <img class="lazyloadPload" width="187" height="287" src="{{ product.selected_variant.image.src | img_url: '750x' }}" data-imgSrc="{{ product.selected_variant.image.src | img_url: '750x' }}" alt="{{ product.selected_variant.image.alt | escape }}">
+                          </div>
+                        </div>
+                      </div>
+                      {%- for image in product.images limit:2 -%}
+                        {% if forloop.index == 2 %}
+                          <div class="pdp-image-pannel-wrapper" id="slider-{{ image.id }}">
+                            <div class="pdpImagePanneleby" data-alt="{{ product.selected_variant.image.alt | escape }}" style="min-height: 287px;">
+                              <div class="imgWrapper"
+                                   data-imageid="{{ image.id }}"
+                                   data-image="{{ image.src | img_url: proImageSize }}"
+                                   data-zoom-image="{{ image.src | img_url: 'master' }}">
+                                <img class="lazyloadPload" width="187" height="287" src="{{ image.src | img_url: '750x' }}" data-imgSrc="{{ image.src | img_url: '750x' }}" alt="{{ image.alt | escape }}">
+                              </div>
+                          </div>
+                        </div>
+                        {% endif %}
+                      {%- endfor -%}
+                      <div class="pdp-image-pannel-wrapper bottom pdp-09-22">
+                            {%- for image in product.images limit:2 -%}
+                            <div class="slide pdpImagePanneleby" data-imageid="{{ image.id }}">
+                                  <div class="imgWrapper" data-imageid="{{ image.id }}" data-image="{{ image.src | img_url: proImageSize }}" data-zoom-image="{{ image.src | img_url: 'master' }}">
+                                      <img id="thumbnail-{{ image.id }}" class="lazyloadPload" width="38" height="48" src="{{ image.src | img_url: '750x' }}" alt="{{ image.alt | escape }}" title={{ pdpImageDefaultfc.alt | escape }}/>
+                                  </div>
+                                <!-- </a> -->
+                            </div>
+                            {%- endfor -%}
+                        </div>
+                    {% else %}
+                        {%- for image in product.images limit:2 -%}
+                          <div class="slide{% if forloop.first %} slideOne{% else %} slideTwo{% endif %}" data-alt="{{ image.alt | escape }}" style="min-height: 287px;">
+                            <div {% if forloop.first %}class="active"{% endif %} href="javascript:void(0);"
+                               data-imageid="{{ image.id }}"
+                               data-image="{{ image.src | img_url: proImageSize }}"
+                               data-zoom-image="{{ image.src | img_url: 'master' }}">
+                              <img class="lazyloadPload" width="187" height="287" src="{{ image.src | img_url: '750x' }}" data-imgSrc="{{ image.src | img_url: '750x' }}" alt="{{ image.alt | escape }}">
+                            </div>
+                          </div>
+                        {%- endfor -%}
+                    {% endif %}
+                  </div>
+                  <div class="pdpImagePanel hide" data-slidefor="large">
+                    {% if product.selected_variant %}
+                      {%- for image in product.images -%}
+                        <div class="slide{% if forloop.first %} slideOne{% else %} slideTwo{% endif %}" data-alt="{{ image.alt | escape }}" style="min-height: 287px;">
+                          <div {% if forloop.first %}class="active"{% endif %} href="javascript:void(0);"
+                               data-imageid="{{ image.id }}"
+                               data-image="{{ image.src | img_url: proImageSize }}"
+                               data-zoom-image="{{ image.src | img_url: 'master' }}">
+                            <img class="lazyloadPload" width="187" height="287" src="{{ image.src | img_url: '750x' }}" data-imgSrc="{{ image.src | img_url: '750x' }}" alt="{{ image.alt | escape }}">
+                          </div>
+                        </div>
+                      {%- endfor -%}
+                    {% else %}
+                        {%- for image in product.images -%}
+                          {% if forloop.index <= 2 %}
+                            {% continue %}
+                          {% else %}
+                            <div class="slide{% if forloop.first %} slideOne{% else %} slideTwo{% endif %}" data-alt="{{ image.alt | escape }}" style="min-height: 287px;">
+                              <div {% if forloop.first %}class="active"{% endif %} href="javascript:void(0);"
+                                 data-imageid="{{ image.id }}"
+                                 data-image="{{ image.src | img_url: proImageSize }}"
+                                 data-zoom-image="{{ image.src | img_url: 'master' }}">
+                                <img class="lazyloadPload" width="187" height="287" src="{{ image.src | img_url: '750x' }}" data-imgSrc="{{ image.src | img_url: '750x' }}" alt="{{ image.alt | escape }}">
+                              </div>
+                            </div>
+                          {% endif %}
+                        {%- endfor -%}
+                    {% endif %}
+                  </div>
+                </div>
+            {% else %}
+                <div class="velaProductGallerySlider">
+                  
+                  <!--fc 08252022 -->
+                    <div class="pdpImagePanel" data-slidefor="small">
+                          
+                        <div class="pdpImagePanel-Slider-2022">
+                            <!--------arrows------>
+                            <div class=eby-arrow-left-right>
+                                  <div class="eby-svg-left" id="eby-left-2022">
+                                      <?xml version="1.0"?>
+                                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 26 26">
+                                          <path d="M10.595,13l8.584-8.764c0.383-0.392,0.38-1.019-0.008-1.406l-1.536-1.536c-0.391-0.391-1.026-0.39-1.417,0.002L5.293,12.293 C5.098,12.488,5,12.744,5,13c0,0.256,0.098,0.512,0.293,0.707l10.925,10.997c0.39,0.393,1.025,0.394,1.417,0.002l1.536-1.536 c0.387-0.387,0.391-1.015,0.008-1.406L10.595,13z"/>
+                                      </svg>
+                                  </div>
+      
+                                  <div class="eby-svg-right" id="eby-right-2022">
+                                      <?xml version="1.0"?>            
+                                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 26 26">
+                                        <path d="M15.405,13L6.821,4.236C6.438,3.845,6.442,3.217,6.829,2.83l1.536-1.536c0.391-0.391,1.026-0.39,1.417,0.002l10.925,10.997 C20.902,12.488,21,12.744,21,13c0,0.256-0.098,0.512-0.293,0.707L9.782,24.704c-0.39,0.393-1.025,0.394-1.417,0.002L6.829,23.17 c-0.387-0.387-0.391-1.015-0.008-1.406L15.405,13z"/>
+                                      </svg>
+                                  </div>
+                              </div>
+                            
+                            {%- for pdpImageDefaultfc in product.images limit:10 -%}
+                              {% assign srcName = pdpImageDefaultfc.src | downcase  %}
+                                {% if srcName contains 'feed--' or srcName contains 'plus--' %}
+                                  {% continue %}
+                                {% else %}
+                                    {% if forloop.first %}
+                                        <div class="pdp-image-pannel-wrapper active" id="slider-{{ pdpImageDefaultfc.id }}">
+                                    {% else %}
+                                        <div class="pdp-image-pannel-wrapper" id="slider-{{ pdpImageDefaultfc.id }}">
+                                    {% endif %}
+                                    <div class="pdpImagePanneleby" data-alt="{{ pdpImageDefaultfc.alt | escape }}">
+                                      <div class="imgWrapper" data-imageid="{{ pdpImageDefaultfc.id }}" data-image="{{ pdpImageDefaultfc.src | img_url: proImageSize }}" data-zoom-image="{{ pdpImageDefaultfc.src | img_url: 'master' }}">
+                                        
+                                      {% if pdpImageDefaultfc.src contains 'VID-b'  %}
+                                          <video id="eby-pdp-video" autoplay loop muted webkit-playsinline playsinline>
+                                            <source data-src='https://cdn.shopify.com/videos/c/o/v/57224b5fcb3b4f63a8a37934d9cca384.mp4' type="video/mp4" />
+                                            <p>
+                                              Your browser doesn't support HTML video. Here is a
+                                            </p>
+                                          </video>
+                                      {% elsif pdpImageDefaultfc.src contains 'VID-r'  %}
+                                          <video id="eby-pdp-video" autoplay loop muted webkit-playsinline playsinline>
+                                            <source data-src='https://cdn.shopify.com/videos/c/o/v/76a80bc47255495fadc1cb3223b667d0.mp4' type="video/mp4" />
+                                            <p>
+                                              Your browser doesn't support HTML video. Here is a
+                                            </p>
+                                          </video>
+                                      {% else %}     
+                                          <img class="lazyload" data-imgbr="test-image" width="376" height="471" data-src="{{ pdpImageDefaultfc.src | img_url: '750x' }}" alt="{{ pdpImageDefaultfc.alt | escape }}" title="{{ pdpImageDefaultfc.alt | escape }}"/>
+                                          {% endif %}
+                                      </div>
+                                    </div>
+                               {% endif %}
+                              </div>
+                          {%- endfor -%}
+                        </div>
+                        
+
+                        <div class="pdp-image-pannel-wrapper bottom pdp-09-22">
+                            {%- for image in product.images limit:10 -%}
+                              {% assign srcName = image.src | downcase  %}
+                                {% if srcName contains 'feed--' or srcName contains 'plus--' %}
+                                  {% continue %}
+                                {% else %}
+                                  <div class="slide pdpImagePanneleby" data-imageid="{{ image.id }}">
+                                        <div class="imgWrapper" data-imageid="{{ image.id }}" data-image="{{ image.src | img_url: proImageSize }}" data-zoom-image="{{ image.src | img_url: 'master' }}">
+                                            <img id="thumbnail-{{ image.id }}" class="lazyloadPload" width="38" height="48" src="{{ image.src | img_url: 'size:60x75' }}" alt="{{ image.alt | escape }}" title="{{ pdpImageDefaultfc.alt | escape }}"/>
+                                        </div>
+                                      <!-- </a> -->
+                                  </div>
+                               {% endif %}
+                            {%- endfor -%}
+                        </div>
+                    </div>
+                    <!--fc 08252022 -->
+
+                  
+                  <div class="pdpImagePanel hide" data-slidefor="large">
+                    {%- for image in product.images -%}
+                      {% if forloop.index <= 2 %}
+                        {% continue %}
+                      {% else %}
+                        <div class="slide" data-alt="{{ image.alt | escape }}" style="min-height: 287px;">
+                          <div {% if forloop.first %}class="active imgWrapper"{% else %}class="imgWrapper"{% endif %} href="javascript:void(0);"
+                             data-imageid="{{ image.id }}"
+                             data-image="{{ image.src | img_url: proImageSize }}"
+                             data-zoom-image="{{ image.src | img_url: 'master' }}">
+                            <img class="lazyloadPload" width="187" height="287" src="{{ image.src | img_url: '750x' }}" alt="{{ image.alt | escape }}">
+                          </div>
+                        </div>
+                      {% endif %}
+                    {%- endfor -%}
+                  </div>
+                </div>
+            {% endif %}
+        {%- endif -%}
+
+    {%- endif -%}
+
+
+{% endif %}
+<script type="text/javascript">
+
+  (function(){
+
+    const onlyBraVid = document.getElementById('eby-pdp-video');
+
+    if(onlyBraVid instanceof HTMLElement){
+      
+        const videoSource = onlyBraVid.querySelector('source');
+        const videoUrl = videoSource.getAttribute('data-src');
+      
+        // Fetch the video and store it as a blob
+        fetch(videoUrl)
+          .then(response => response.blob())
+          .then(blob => {
+            const videoBlobUrl = URL.createObjectURL(blob);
+            videoSource.src = videoBlobUrl;
+            onlyBraVid.load();
+          })
+          .catch(error => {
+            console.error('Error fetching the video:', error);
+          }); 
+        }
+  })();
+</script>

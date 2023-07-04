@@ -1,0 +1,1221 @@
+<script id="CartTemplate" type="text/template">
+  {% raw %}
+    <form action="/cart" method="post" novalidate class="cart ajaxcart">
+      <div class="ajaxCartInner">
+        <div class="top_cart_ttl">
+            {% endraw %}{% render 'discount-rules', showProgressBar:true, showProgressBarSideCart:true %}{% raw %}
+              
+            <header>
+                <span class="cartSubtotalHeading">Your Items<a class="removeAllBtn" href="/cart/clear">Remove All</a></span>
+                <span class="cartSubtotal bfx-total-subtotal bfx-price">{{{totalPriceWithoutShipping}}}</span>
+            </header>
+
+            <footer>
+                <span class="unlocks_s_title">Shipping</span>
+                <span class="gamification_unlocks">
+                    {{#if hasPriorityShipping}}
+                        <span id="unlock_three" class="shipping_unlock_value">Free priority, 2-5 days</span>
+                    {{/if}}
+                    {{#if isFreeShipping}}              
+                        <span id="unlock_two" class="shipping_unlock_value{{#if hasPriorityShipping}} hidden{{/if}}">Free standard, 5-7 days</span>
+                    {{/if}}
+                    {{#if hasStandardShipping}}
+                        <span id="unlock_one" class="shipping_unlock_value">$5 standard, 5-7 days</span>
+                    {{/if}}
+                </span>
+            </footer>
+            <!--<p class="ebyClearCartBtnWrapper"><a href="/cart/clear" class="ebyClearCartBtn">Empty Cart</a></p>-->
+        </div>
+
+        <style>
+          .ajaxcart__subs {
+            -webkit-flex-direction: row;
+            -ms-flex-direction: row;
+            flex-direction: row;
+            -webkit-flex-wrap: nowrap;
+            -ms-flex-wrap: nowrap;
+            flex-wrap: nowrap;
+            color: #000c48;
+            text-align: left;
+            /*max-width: 360px;*/
+            margin: 0 20px 1rem;
+            position: relative;
+            background: #FFFFFF;
+            border-radius: 4px;
+            display: none;
+          }
+          .ajaxcart__subs.ajaxcart__subs-show {
+            display: -ms-flexbox;
+            display: -webkit-flex;
+            display: flex;
+          }
+          @media (min-width: 701px) {
+            .ajaxcart__subs {
+              margin: 0 12.5px 1rem;
+            }
+          }
+          @media (max-width: 374px) {
+            .ajaxcart__subs {
+              margin: 0 8px 1rem;
+            }
+          }
+          .ajaxcart__subs > label {
+            margin: 0;
+            width: 100%;
+            font-size: 1.2rem;
+            line-height: 1;
+            padding: 1rem;
+            -ms-flex-item-align: center!important;
+            align-self: center!important;
+          }
+          .ajaxcart__subs .ajaxcart__form-subs-label {
+            font-size: 1.4rem;
+            font-weight: 500;
+            line-height: 1.15;
+            padding-left: 16px;
+          }
+          .ajaxcart__subs .ajaxcart__form-subs-text {
+            padding-left: 20px;
+            display: block;
+          }
+          .ajaxcart__subs .ajaxcart__form-subs-text small {
+            font-size: 1.2rem;
+            font-weight: normal;
+            line-height: 1;
+            display: block;
+            margin-top: 2px;
+          }
+          .ajaxcart__subs .ajaxcart__form-subs_label__deliver_every {
+            border-left: 1px solid #E4E4E4;
+            -ms-flex: 0 0 34%;
+            flex: 0 0 34%;
+            max-width: 34%;
+            text-align: center;
+          }
+          .ajaxcart__subs .u-hiddenVisually {
+            /*display: none;*/
+          }
+
+          .ajaxcart__subs .ajaxcart__form-subs + .ajaxcart__form-subs-label {
+            display: block;
+            position: relative;
+            cursor: pointer;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+          }
+          .ajaxcart__subs .ajaxcart__form-subs {
+            position: absolute;
+            opacity: 0;
+            cursor: pointer;
+          }
+          .ajaxcart__subs .ajaxcart__form-subs + .ajaxcart__form-subs-label:before {
+            top: calc(50% - 6px);
+            top: 12px;
+            left: 16px;
+            height: 12px;
+            width: 12px;
+            border: 1px solid #0064FF;
+            border-radius: 50%;
+          }
+          .ajaxcart__subs .ajaxcart__form-subs + .ajaxcart__form-subs-label:before,
+          .ajaxcart__subs .ajaxcart__form-subs + .ajaxcart__form-subs-label:after {
+            content: "";
+            position: absolute;
+          }
+          .ajaxcart__subs .ajaxcart__form-subs + .ajaxcart__form-subs-label:after {
+            content: "";
+            position: absolute;
+            opacity: 0;
+          }
+          .ajaxcart__subs .ajaxcart__form-subs:checked + .ajaxcart__form-subs-label:after,
+          .ajaxcart__subs .ajaxcart__form-subs + .ajaxcart__form-subs-label:hover:after {
+            opacity: 1;
+          }
+          .ajaxcart__subs .ajaxcart__form-subs + .ajaxcart__form-subs-label:after {
+            top: calc(50% - 3px);
+            top: 15px;
+            left: 19px;
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: #2031BA;
+            -webkit-transition: 0.3s all ease-in-out !important;
+            transition: 0.3s all ease-in-out !important;
+          }
+
+          .ajaxcart__subs .notIE {
+            position: relative;
+            max-width: 76px;
+          }
+          .ajaxcart__subs select {
+            display: inline-block;
+            outline: none;
+            font-size: 1.2rem;
+            line-height: 1.4rem;
+            color: #0064FF;
+            border: 1px solid transparent;
+            box-sizing: border-box;
+            border-radius: 0;
+            background: #FFF;
+            padding: 2px 2px 0 0;
+          }
+          .ajaxcart__subs .notIE,
+          .ajaxcart__subs select {
+            display: block;
+            margin: 0 auto;
+          }
+          .ajaxcart__subs .notIE .fancyArrow {
+            width: 15px;
+            height: calc(100% - 6px);
+            position: absolute;
+            display: inline-block;
+            top: 3px;
+            right: 0;
+            pointer-events: none;
+            background: #fff;
+          }
+          .ajaxcart__subs .notIE .fancyArrow:after {
+            content: "";
+            width: 10px;
+            height: 10px;
+            position: absolute;
+            display: inline-block;
+            top: calc(50% - 1px);
+            right: 4px;
+            border-top: 5px solid #0064FF;
+            border-left: 5px solid transparent;
+            border-right: 5px solid transparent;
+            border-bottom: 5px solid transparent;
+          }
+          /*target Internet Explorer 9 and Internet Explorer 10:*/
+          @media screen and (min-width: 0\0) {
+            .ajaxcart__subs .notIE .fancyArrow {
+              display: none;
+            }
+          }
+        </style>
+
+        {% endraw %}
+          {% comment %}
+          {% if customer %}
+                <div class="ebyCartPromiseCopy">
+                	<p><span>EBY turns your power into opportunity for other women.</span>10% of your purchase empowers female owned businesses around the world through ethical micro-lending.</p>
+  				</div>
+          {% else %}          
+                <div class="ebyCartPromiseCopy">
+                	<p><span>"So comfortable,</span>I feel like I'm wearing nothing."</p>
+  				</div>
+          {% endif %}
+
+          {% endcomment %}
+          {% assign isSubscription = false %}
+          {% assign subscriptionTitle = "" %}
+          {% assign cartItems = cart.items %}
+          {% assign subBoxCostByProd = 0 %}
+          {% assign cartItemsCount = cart.item_count %}
+          {% assign subRelatedCartItems = 0 %}
+
+          {% for item in cartItems %}
+            {% if (item.product.type == "Subscription Box") %}
+              {% assign isSubscription = true %}
+              {% assign subscriptionTitle = item.product.title %}
+            {% endif %}
+            {% assign itemProps = item.properties | join: ', ' %}
+            {% if itemProps contains "included_in_custombox" or itemProps contains "included_in_membership" %}
+              {% assign subBoxCostByProd = subBoxCostByProd | plus: item.original_price %}
+            {% endif %}
+            {% if itemProps contains "product_type" %}
+              {% assign subRelatedCartItems = subRelatedCartItems | plus: 1 %}
+            {% endif %}
+          {% endfor %}
+        {% raw %}
+
+        {{#if hasSubscriptionInCart }}
+        
+          <div class="cartItemsGrouping subGrouping">
+            <header class="cartItemsHeader">
+              <span>
+                {% endraw %}
+                  {% if subscriptionTitle contains "Custom" %}
+                      EBY Subscription
+                  {% else %}
+                      EBY Subscription
+                  {% endif %}
+                {% raw %}
+              </span>
+            </header>
+            <div class="cartItemsListingWrapper">
+              <div class="ajaxCartProduct isMembership{{#if state_ralated_product }} related{{/if}} bfx-product"{{#if state_ralated_product }} data-related-id="{{ number_related }}"{{/if}}>
+              <div class="drawerProduct ajaxCartRow" data-line="{{line}}" {{#unless showIcon}}data-prop="{{#if bundle}}bundle{{/if}}{{#if subscription}}subscription{{/if}}"{{/unless}} data-vid="{{id}}">
+              {{#items}}
+                  {{#if isSubscriptionMembership }}  
+                        <div class="customBoxProd bfx-product">
+                          <div class="drw-cus-div">
+                            {{#if isIncludedInCustomBox }}
+                                {{#if customBoxIsPlus }}
+                                    <div class="drawerProductImage bfx-product-image" style="background-image:url({{img}})">
+                                      <a{{#unless productFreeGift}} href="{{url}}"{{/unless}}></a>
+                                    </div>
+                                {{else}}
+                                    <div class="drawerProductImage bfx-product-image" style="background-image:url({{img}})">
+                                      <a{{#unless productFreeGift}} href="{{url}}"{{/unless}}></a>
+                                    </div>
+                                {{/if}}
+                            {{else if (ifHasProperty 'Mystry_Collection' properties)}}
+                            <div class="drawerProductImage bfx-product-image" style="background-image:url(https://cdn.shopify.com/s/files/1/0313/4062/5964/files/mystery-panty-1.jpg?v=1629474307)">
+                              <a{{#unless productFreeGift}} href="{{url}}"{{/unless}}></a>
+                            </div>
+                            {{else if (ifHasProperty 'tbop_freepanty' properties)}}
+                            <div class="drawerProductImage bfx-product-image" style="background-image:url(https://cdn.shopify.com/s/files/1/0313/4062/5964/files/PROD---none--none--mystery-panty--missy---prod_lf.jpg)">
+                              <a{{#unless productFreeGift}} href="{{url}}"{{/unless}}></a>
+                            </div>
+                            {{else if (ifHasProperty 'FREEPANTY' properties)}}
+                            <div class="drawerProductImage bfx-product-image" style="background-image:url(https://cdn.shopify.com/s/files/1/0313/4062/5964/files/free-panty-v4.jpg?v=1629474531)">
+                              <a{{#unless productFreeGift}} href="{{url}}"{{/unless}}></a>
+                            </div>
+                            {{else}}
+                            <div class="drawerProductImage bfx-product-image" style="background-image:url({{img}})">
+                              <a{{#unless productFreeGift}} href="{{url}}"{{/unless}}></a>
+                            </div>
+                            {{/if}}
+                            
+                            <div class="drawerProductContent">
+                              <div class="drawerProductTitle {{#if hasDiscount}}has-discount{{/if}}">
+                                {{#if subscription}}
+                                <p class="bfx-product-name notranslate">{{ membershipName }}</p>
+                                {{else if isIncludedInCustomBox}}
+                                <p class="bfx-product-name notranslate">{{ getProductName name }}</p>
+                                {{else if (ifHasProperty 'Mystry_Collection' properties)}}
+                                <p class="bfx-product-name notranslate">Surprise Pair</p>
+                                {{else if (ifHasProperty 'tbop_freepanty' properties)}}
+                                <div class="onetimeTitleWrapper">
+                                  <span class="onetimeTitle prod_line">Free Pair</span>
+                                  <span class="onetimeTitle prod_style">Mystery Style</span>
+                                  <span  class="onetimeTitle prod_color">Mystery Color</span>
+                                </div>
+                                {{else if (ifHasProperty 'FREEPANTY' properties)}}
+                                <p class="bfx-product-name notranslate">Free Panty Addon</p>
+                                {{else}}
+                                <a{{#unless productFreeGift}} href="{{url}}"{{/unless}} class="bfx-product-name notranslate">{{ getProductName name }}</a>
+                                {{/if}}
+                                            
+                                {{#unless productFreeGift}}
+                                {{#if variation}}
+                                    <span class="{{#if (ifHasProperty 'Mystry_Collection' properties)}} change_style{{/if}}{{#if (ifHasProperty 'tbop_freepanty' properties)}} change_style{{/if}}{{#if (ifHasProperty 'FREEPANTY' properties)}} change_style{{/if}}">{{variation}}</span>
+                                {{/if}}
+                                {{/unless}}
+                                {{#properties}}
+                                  {{#each this}}
+                                    {{#if this}}
+                                      <span class="ebyprop {{@key}} notranslate">{{@key}}: {{this}}</span>
+                                    {{/if}}
+                                  {{/each}}
+                                {{/properties}}
+                                {% endraw %}
+                                  {% if settings.cart_vendor_enable %}
+                                {% raw %}
+                                <span>{{ vendor }}</span>
+                                {% endraw %}
+                                  {% endif %}
+                                {% raw %}
+                                <span class="hidden bfx-price bfx-list-price">{{discountedPrice}}</span>
+                                <span class="hidden bfx-sku notranslate">{{ prodSku }}</span>
+                                <span class="hidden prod-var-id-label bfx-product-customData-label">variant_id</span>
+                                <span class="hidden prod-var-id bfx-product-customData-value">{{id}}</span>
+                                <div class="drawerProductDelete">
+                                  <div class="cartRemoveBox">
+                                    {{#unless productFreeGift}}
+                                    <a href="#" class="cartRemove btnClose" onclick="return false;" data-line="{{ line }}" data-prop="{{#if bundle}}{{bundleIDS}}{{/if}}{{#if subscription}}{{subscriptionIDs}}{{/if}}{{buildIDs}}" {{#if (ifHasProperty 'labor_sale_pack' properties)}} data-packIds="{{buildIDs}}"{{/if}} data-vid="{{id}}" {{#if (ifHasProperty 'build_a_pack' properties)}} data-prdtype="buildapack_child"{{/if}}>
+            							{% endraw %}<span>{{ 'cart.general.remove' | t }}</span>{% raw %}
+                                    </a>
+                                    {{/unless}}
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="drawerActionsFooter">
+                            <div class="subRenewalDetails">
+                                <div class="iconWrapper"><i class="ebyicon-nicon-repeat"></i></div>
+                                <div class="iconCopyWrapper">
+                                    <!--  <span>1 box · 3 new panties · every 3 months</span> -->
+                                    {% endraw %}
+                                      {% if subscriptionTitle contains "Custom" %}
+                                          <span>3 new panties every 3 months</span>
+                                      {% else %}
+                                          <span>3 new panties every 3 months</span>
+                                      {% endif %}
+                                    {% raw %}
+                                    <span>Skip or cancel anytime</span>
+                                </div>
+                            </div>
+                            <div class="drawerProductPrice">
+                              <div class="priceProduct">
+                                {% endraw %}
+                                  <span id="sub-box-org-price-text" class="strikethrough-price"><s class="bfx-old-price bfx-price">{{ subBoxCostByProd | money_without_trailing_zeros }}</s></span>
+                                {% raw %}
+                                <span class="{{#if hasDiscount}}has-discount{{/if}} bfx-product-subtotal bfx-price">{{{itemTotal}}}</span>
+                              </div>
+                            </div>
+                          </div>
+                      </div>
+                  {{/if}}
+
+                  {{#if isIncludedInCustomBox }}
+                  <div class="{{#if isHiddenCollateral}} hidden{{/if}}{{#if isIncludedInCustomBox}} customBoxItem{{/if}} bfx-product"{{#if state_ralated_product }} data-related-id="{{ number_related }}"{{/if}}>
+                	<div class="drawerProduct ajaxCartRow" data-line="{{line}}" {{#unless showIcon}}data-prop="{{#if bundle}}bundle{{/if}}{{#if subscription}}subscription{{/if}}"{{/unless}} data-vid="{{id}}">
+                      <div class="drw-cus-div">
+                      	{{#if isIncludedInCustomBox }}
+                            {{#if customBoxIsPlus }}
+                                <div class="drawerProductImage bfx-product-image" style="background-image:url({{img}})">
+                                  <a{{#unless productFreeGift}} href="{{url}}"{{/unless}}></a>
+                                </div>
+                            {{else}}
+                                <div class="drawerProductImage bfx-product-image" style="background-image:url({{img}})">
+                                  <a{{#unless productFreeGift}} href="{{url}}"{{/unless}}></a>
+                                </div>
+                            {{/if}}
+                        {{else if (ifHasProperty 'Mystry_Collection' properties)}}
+                        <div class="drawerProductImage bfx-product-image" style="background-image:url(https://cdn.shopify.com/s/files/1/0313/4062/5964/files/mystery-panty-1.jpg?v=1629474307)">
+                          <a{{#unless productFreeGift}} href="{{url}}"{{/unless}}></a>
+                        </div>
+                        {{else if (ifHasProperty 'tbop_freepanty' properties)}}
+                        <div class="drawerProductImage bfx-product-image" style="background-image:url(https://cdn.shopify.com/s/files/1/0313/4062/5964/files/PROD---none--none--mystery-panty--missy---prod_lf.jpg)">
+                          <a{{#unless productFreeGift}} href="{{url}}"{{/unless}}></a>
+                        </div>
+                        {{else if (ifHasProperty 'FREEPANTY' properties)}}
+                        <div class="drawerProductImage bfx-product-image" style="background-image:url(https://cdn.shopify.com/s/files/1/0313/4062/5964/files/free-panty-v4.jpg?v=1629474531)">
+                          <a{{#unless productFreeGift}} href="{{url}}"{{/unless}}></a>
+                        </div>
+                        {{else}}
+                        <div class="drawerProductImage bfx-product-image" style="background-image:url({{img}})">
+                          <a{{#unless productFreeGift}} href="{{url}}"{{/unless}}></a>
+                        </div>
+                        {{/if}}
+                        
+                        <div class="drawerProductContent">
+                          <div class="drawerProductTitle {{#if hasDiscount}}has-discount{{/if}}">
+                            {{#if subscription}}
+                            <p class="bfx-product-name notranslate">{{ membershipName }}</p>
+                            {{else if isIncludedInCustomBox}}
+                            <div class="onetimeTitleWrapper">
+                              <span class="onetimeTitle prod_line">{{ productFabric }}</span>
+                              <span class="onetimeTitle prod_style"><a{{#unless productFreeGift}} href="{{url}}"{{/unless}}>{{ productStyle }}</a></span>
+                              <span  class="onetimeTitle prod_color">{{ productColor }}</span>
+                              <a{{#unless productFreeGift}} href="{{url}}"{{/unless}} class="bfx-product-name notranslate">{{ getProductName name }}</a>
+                            </div>
+                            {{else if (ifHasProperty 'Mystry_Collection' properties)}}
+                            <p class="bfx-product-name notranslate">Surprise Pair</p>
+                            {{else if (ifHasProperty 'tbop_freepanty' properties)}}
+                            <div class="onetimeTitleWrapper">
+                              <span class="onetimeTitle prod_line">Free Pair</span>
+                              <span class="onetimeTitle prod_style">Mystery Style</span>
+                              <span  class="onetimeTitle prod_color">Mystery Color</span>
+                            </div>
+                            {{else if (ifHasProperty 'FREEPANTY' properties)}}
+                            <p class="bfx-product-name notranslate">Free Panty Addon</p>
+                            {{else}}
+                            <div class="onetimeTitleWrapper">
+                              <span class="onetimeTitle prod_line">{{ productFabric }}</span>
+                              <span class="onetimeTitle prod_style"><a{{#unless productFreeGift}} href="{{url}}"{{/unless}}>{{ productStyle }}</a></span>
+                              <span  class="onetimeTitle prod_color">{{ productColor }}</span>
+                              <a{{#unless productFreeGift}} href="{{url}}"{{/unless}} class="bfx-product-name notranslate">{{ getProductName name }}</a>
+                            </div>
+                            {{/if}}
+                                        
+                            {{#unless productFreeGift}}
+                            {{#if variation}}
+                                <span class="{{#if (ifHasProperty 'Mystry_Collection' properties)}} change_style{{/if}}{{#if (ifHasProperty 'tbop_freepanty' properties)}} change_style{{/if}}{{#if (ifHasProperty 'FREEPANTY' properties)}} change_style{{/if}}">{{variation}}</span>
+                            {{/if}}
+                            {{/unless}}
+                            {{#properties}}
+                              {{#each this}}
+                                {{#if this}}
+                                  <span class="ebyprop {{@key}} notranslate">{{@key}}: {{this}}</span>
+                                {{/if}}
+                              {{/each}}
+                            {{/properties}}
+                            {% endraw %}
+                              {% if settings.cart_vendor_enable %}
+                            {% raw %}
+                            <span>{{ vendor }}</span>
+                            {% endraw %}
+                              {% endif %}
+                            {% raw %}
+                            <span class="hidden bfx-price bfx-list-price">{{discountedPrice}}</span>
+                            <span class="hidden bfx-sku notranslate">{{ prodSku }}</span>
+                            <span class="hidden prod-var-id-label bfx-product-customData-label">variant_id</span>
+                            <span class="hidden prod-var-id bfx-product-customData-value">{{id}}</span>
+                            <div class="drawerProductDelete">
+                              <div class="cartRemoveBox">
+                                {{#unless productFreeGift}}
+                                <a href="#" class="cartRemove btnClose" onclick="return false;" data-line="{{ line }}" data-prop="{{#if bundle}}{{bundleIDS}}{{/if}}{{#if subscription}}{{subscriptionIDs}}{{/if}}{{buildIDs}}" {{#if (ifHasProperty 'labor_sale_pack' properties)}} data-packIds="{{buildIDs}}"{{/if}} data-vid="{{id}}" {{#if (ifHasProperty 'build_a_pack' properties)}} data-prdtype="buildapack_child"{{/if}}>
+        							{% endraw %}<span>{{ 'cart.general.remove' | t }}</span>{% raw %}
+                                </a>
+                                {{/unless}}
+                              </div>
+                            </div>
+                          </div>
+                          <div class="drawerActionsFooter">
+                            <div class="drawerProductQty {{#if (ifHasProperty 'Mystry_Collection' properties)}} change_style{{/if}}{{#if (ifHasProperty 'tbop_freepanty' properties)}} change_style{{/if}}{{#if (ifHasProperty 'FREEPANTY' properties)}} change_style{{/if}}">
+                              <div class="velaQty">
+                                {{#unless productFreeGift}}
+                                <button type="button" class="qtyAdjust velaQtyButton velaQtyMinus" data-id="{{id}}" data-qty="{{itemMinus}}" data-line="{{line}}">
+                                  <span class="txtFallback">&minus;</span>
+                                </button>
+                                <input type="text" name="updates[]" class="qtyNum velaQtyText bfx-product-qty" data-prop="{{#if bundle}}{{bundleIDS}}{{/if}}{{#if subscription}}{{subscriptionIDs}}{{/if}}" data-upsell="{{#if isProductUpsell}}true{{else}}false{{/if}}" value="{{itemQty}}" min="0" data-id="{{id}}" data-line="{{line}}"  pattern="[0-9]*" readonly />
+                                <button type="button" class="qtyAdjust velaQtyButton velaQtyPlus" data-id="{{id}}" data-line="{{line}}" data-qty="{{itemAdd}}">
+                                  <span class="txtFallback">+</span>
+                                </button>
+                                {{else}}
+                                <input type="hidden" name="updates[]" class="qtyNum velaQtyText bfx-product-qty" data-prop="{{#if bundle}}{{bundleIDS}}{{/if}}{{#if subscription}}{{subscriptionIDs}}{{/if}}" value="{{itemQty}}" data-id="{{id}}" data-line="{{line}}" readonly/>
+                                <span class="qtyNum velaQtyText" style="height:inherit;text-align:right;">{{itemQty}}</span>
+                                {{/unless}}
+                              </div>
+                            </div>
+                            <div class="drawerProductPrice">
+                              <div class="priceProduct">
+                                {{#unless productFreeGift}}
+                                {{#if hasDiscount}}
+                                  <span class="strikethrough-price"><s class="bfx-old-price bfx-price">{{{originalTotal}}}</s></span>
+                                {{/if}}
+                                <span class="{{#if hasDiscount}}has-discount{{/if}} bfx-product-subtotal bfx-price">{{{itemTotal}}}</span>
+                                {{else}}
+                                <span class="bfx-product-subtotal bfx-price">Free</span>
+                                {{/unless}}
+                              </div>
+                            </div>
+          				</div>
+                        </div>
+                      </div>
+          		  </div>
+                  </div>
+                  {{/if}}
+  
+              {{/items}}
+              </div>
+              </div>
+              <div class="drawerProduct ajaxCartRow savingsRow bfx-remove-element" data-line="{{line}}">
+                <div class="ajaxUpsellIcon">
+                    <i class="ebyicon-promo"></i>
+                </div>
+                <div class="prodItem-promoSummaryCopy">
+                    You're saving {{ totalSubBoxSavings }} as a subscriber
+                </div>
+              </div>
+            </div>
+          </div>
+
+        {{/if }}
+        <div class="cartItemsGrouping otpGrouping">
+          {{#if hasOnetimesInCart}}
+              {{#if hasSubscriptionInCart}}
+                <header class="cartItemsHeader"><span>One-time Purchases</span></header>
+              {{/if}}
+          {{/if}}
+          
+          <div class="cartItemsListingWrapper">
+              {{#items}}
+                {{#if isSubscriptionMembership }}
+
+                {{ else if isIncludedInCustomBox }}
+
+                {{ else }}
+                <div class="ajaxCartProduct{{#if (ifHasProperty 'labor_sale_pack' properties)}} ldsPack{{/if}}{{#if (ifHasProperty 'mystery_pack' properties)}} packParentProd ldsPack{{/if}}{{#if isLdsLastPackItem }} lastLdsPackItem{{/if}}{{#if (ifHasProperty 'FREEPANTY' properties)}} freepanty_add_pdp{{/if}}{{#if (ifHasProperty 'Mystry_Collection' properties)}} mystry_add_pdp{{/if}}{{#if (ifHasProperty 'tbop_freepanty' properties)}} mystry_add_pdp{{/if}}{{#if subsubscription}}hide{{/if}}{{#if (ifHasProperty 'included_in_pack' properties)}} hide{{/if}}{{#if (ifHasProperty 'build_a_pack' properties)}} ldsPack{{/if}}{{#if isSubscriptionMembership}} isMembership{{/if}}{{#if isHiddenCollateral}} hidden{{/if}}{{#if isIncludedInCustomBox}} customBoxItem{{/if}}{{#if isLtd}} ltdProdItem{{/if}}{{#if state_ralated_product }} related{{/if}} bfx-product"{{#if state_ralated_product }} data-related-id="{{ number_related }}"{{/if}}>
+                	<div class="drawerProduct ajaxCartRow" data-line="{{line}}" {{#unless showIcon}}data-prop="{{#if bundle}}bundle{{/if}}{{#if subscription}}subscription{{/if}}"{{/unless}} data-vid="{{id}}">
+                    <div class="drw-cus-div">
+                    	{{#if isIncludedInCustomBox }}
+                          {{#if customBoxIsPlus }}
+                              <div class="drawerProductImage bfx-product-image" style="background-image:url({{img}})">
+                                <a{{#unless productFreeGift}} href="{{url}}"{{/unless}}></a>
+                              </div>
+                          {{else}}
+                              <div class="drawerProductImage bfx-product-image" style="background-image:url({{img}})">
+                                <a{{#unless productFreeGift}} href="{{url}}"{{/unless}}></a>
+                              </div>
+                          {{/if}}
+                      {{else if (ifHasProperty 'Mystry_Collection' properties)}}
+                      <div class="drawerProductImage bfx-product-image" style="background-image:url(https://cdn.shopify.com/s/files/1/0313/4062/5964/files/mystery-panty-1.jpg?v=1629474307)">
+                        <a{{#unless productFreeGift}} href="{{url}}"{{/unless}}></a>
+                      </div>
+                      {{else if (ifHasProperty 'tbop_freepanty' properties)}}
+                      <div class="drawerProductImage bfx-product-image" style="background-image:url(https://cdn.shopify.com/s/files/1/0313/4062/5964/files/PROD---none--none--mystery-panty--missy---prod_lf.jpg)">
+                        <a{{#unless productFreeGift}} href="{{url}}"{{/unless}}></a>
+                      </div>
+                      {{else if (ifHasProperty 'FREEPANTY' properties)}}
+                      <div class="drawerProductImage bfx-product-image" style="background-image:url(https://cdn.shopify.com/s/files/1/0313/4062/5964/files/free-panty-v4.jpg?v=1629474531)">
+                        <a{{#unless productFreeGift}} href="{{url}}"{{/unless}}></a>
+                      </div>          
+                      {{else}}
+                      <div class="drawerProductImage bfx-product-image" style="background-image:url({{img}})">
+                        <a{{#unless productFreeGift}} href="{{url}}"{{/unless}}></a>
+                      </div>
+                      {{/if}}
+                      
+                      <div class="drawerProductContent">
+                        <div class="drawerProductTitle {{#if hasDiscount}}has-discount{{/if}}">
+                          {{#if subscription}}
+                          <p class="bfx-product-name notranslate">{{ membershipName }}</p>
+                          {{else if isIncludedInCustomBox}}
+                          <div class="onetimeTitleWrapper">
+                            <span class="onetimeTitle prod_line">{{ productFabric }}</span>
+                            <span class="onetimeTitle prod_style"><a{{#unless productFreeGift}} href="{{url}}"{{/unless}}>{{ productStyle }}</a></span>
+                            <span  class="onetimeTitle prod_color">{{ productColor }}</span>
+                            <a{{#unless productFreeGift}} href="{{url}}"{{/unless}} class="bfx-product-name notranslate">{{ getProductName name }}</a>
+                          </div>
+                          {{else if (ifHasProperty 'Mystry_Collection' properties)}}
+                          <p class="bfx-product-name notranslate">Surprise Pair</p>
+                          {{else if (ifHasProperty 'tbop_freepanty' properties)}}
+                          <div class="onetimeTitleWrapper">
+                            <span class="onetimeTitle prod_line">Free Pair</span>
+                            <span class="onetimeTitle prod_style">Mystery Style</span>
+                            <span  class="onetimeTitle prod_color">Mystery Color</span>
+                          </div>
+                          {{else if (ifHasProperty 'FREEPANTY' properties)}}
+                          <p class="bfx-product-name notranslate">Free Panty Addon</p>
+                          {{else}}
+                          <div class="onetimeTitleWrapper">
+                            <span class="onetimeTitle prod_line">{{ productFabric }}</span>
+                            <span class="onetimeTitle prod_style"><a{{#unless productFreeGift}} href="{{url}}"{{/unless}}>{{ productStyle }}</a></span>
+                            <span  class="onetimeTitle prod_color">{{ productColor }}</span>
+                            <a{{#unless productFreeGift}} href="{{url}}"{{/unless}} class="bfx-product-name notranslate">{{ getProductName name }}</a>
+                          </div>
+                          {{/if}}
+                                      
+                          {{#unless productFreeGift}}
+                          {{#if variation}}
+                              <span class="variant-cart-sel {{#if (ifHasProperty 'Mystry_Collection' properties)}} change_style{{/if}}{{#if (ifHasProperty 'tbop_freepanty' properties)}} change_style{{/if}}{{#if (ifHasProperty 'FREEPANTY' properties)}} change_style{{/if}}{{#if (ifHasProperty 'bra_measurements' properties) }} inline{{/if}}">{{variation}}</span>
+                          {{/if}}
+                          {{/unless}}
+                          {{#properties}}
+                            {{#each this}}
+                              {{#if this}}
+                                <span class="ebyprop {{@key}} notranslate">{{@key}}: {{this}}</span>
+                              {{/if}}
+                            {{/each}}
+                          {{/properties}}
+                          {{#if (ifHasProperty 'bra_measurements' properties) }}
+                            <span class="ebyprop inline">({{bra_measurements}})</span>
+                          {{/if}}
+                          {% endraw %}
+                            {% if settings.cart_vendor_enable %}
+                          {% raw %}
+                          <span>{{ vendor }}</span>
+                          {% endraw %}
+                            {% endif %}
+                          {% raw %}
+                          <span class="hidden bfx-price bfx-list-price">{{discountedPrice}}</span>
+                          <span class="hidden bfx-sku notranslate">{{ prodSku }}</span>
+                          <span class="hidden prod-var-id-label bfx-product-customData-label">variant_id</span>
+                          <span class="hidden prod-var-id bfx-product-customData-value">{{id}}</span>
+                          <div class="drawerProductDelete">
+                            <div class="cartRemoveBox">
+                              {{#unless productFreeGift}}
+                              <a href="#" class="cartRemove btnClose" onclick="return false;" data-line="{{ line }}" data-prop="{{#if bundle}}{{bundleIDS}}{{/if}}{{#if subscription}}{{subscriptionIDs}}{{/if}}{{buildIDs}}" {{#if (ifHasProperty 'labor_sale_pack' properties)}} data-packIds="{{buildIDs}}"{{/if}} data-vid="{{id}}" {{#if (ifHasProperty 'build_a_pack' properties)}} data-prdtype="buildapack_child"{{/if}}>
+      							{% endraw %}<span>{{ 'cart.general.remove' | t }}</span>{% raw %}
+                              </a>
+                              {{/unless}}
+                            </div>
+                          </div>
+                        </div>
+                        <div class="drawerActionsFooter">
+                          <div class="drawerProductQty {{#if (ifHasProperty 'Mystry_Collection' properties)}} change_style{{/if}}{{#if (ifHasProperty 'tbop_freepanty' properties)}} change_style{{/if}}{{#if (ifHasProperty 'FREEPANTY' properties)}} change_style{{/if}}">
+                            <div class="velaQty">
+                              {{#unless productFreeGift}}
+                              <button type="button" class="{{#if (ifHasProperty 'bra_bundle_pack' properties)}} change_style{{/if}}{{#if (ifHasProperty 'bra_bundle_pack_sheer' properties)}} change_style{{/if}}{{#if (ifHasProperty 'bra_bundle_pack_sheer_two' properties)}} change_style{{/if}} {{#if (ifHasProperty 'bra002' properties)}} change_style{{/if}} {{#if (ifHasProperty 'bra003' properties)}} change_style{{/if}} {{#if (ifHasProperty 'pant000' properties)}} change_style{{/if}} {{#if (ifHasProperty 'pant001' properties)}} change_style{{/if}} {{#if (ifHasProperty 'pant002' properties)}} change_style{{/if}} {{#if (ifHasProperty 'pant003' properties)}} change_style{{/if}} qtyAdjust velaQtyButton velaQtyMinus" data-id="{{id}}" data-qty="{{itemMinus}}" data-line="{{line}}">
+                                <span class="txtFallback">&minus;</span>
+                              </button>
+                              <input type="text" name="updates[]"{{#if (ifHasProperty 'bra_bundle_pack' properties)}} disabled {{/if}}{{#if (ifHasProperty 'bra_bundle_pack_sheer' properties)}} disabled {{/if}}{{#if (ifHasProperty 'bra_bundle_pack_sheer_two' properties)}} disabled {{/if}} {{#if (ifHasProperty 'bra002' properties)}} disabled {{/if}} {{#if (ifHasProperty 'bra003' properties)}} disabled {{/if}} {{#if (ifHasProperty 'pant000' properties)}} disabled {{/if}} {{#if (ifHasProperty 'pant001' properties)}} disabled {{/if}} {{#if (ifHasProperty 'pant002' properties)}} disabled {{/if}} {{#if (ifHasProperty 'pant003' properties)}} disabled {{/if}} class="qtyNum velaQtyText bfx-product-qty" data-prop="{{#if bundle}}{{bundleIDS}}{{/if}}{{#if subscription}}{{subscriptionIDs}}{{/if}}" data-upsell="{{#if isProductUpsell}}true{{else}}false{{/if}}" value="{{itemQty}}" min="0" data-id="{{id}}" data-line="{{line}}"  pattern="[0-9]*" />
+                              <button type="button" class="{{#if (ifHasProperty 'bra_bundle_pack' properties)}} change_style{{/if}}{{#if (ifHasProperty 'bra_bundle_pack_sheer' properties)}} change_style{{/if}}{{#if (ifHasProperty 'bra_bundle_pack_sheer_two' properties)}} change_style{{/if}} {{#if (ifHasProperty 'bra002' properties)}} change_style{{/if}} {{#if (ifHasProperty 'bra003' properties)}} change_style{{/if}} {{#if (ifHasProperty 'pant000' properties)}} change_style{{/if}} {{#if (ifHasProperty 'pant001' properties)}} change_style{{/if}} {{#if (ifHasProperty 'pant002' properties)}} change_style{{/if}} {{#if (ifHasProperty 'pant003' properties)}} change_style{{/if}} qtyAdjust velaQtyButton velaQtyPlus" data-id="{{id}}" data-line="{{line}}" data-qty="{{itemAdd}}">
+                                <span class="txtFallback">+</span>
+                              </button>
+                              {{else}}
+                              <input type="hidden" name="updates[]" class="qtyNum velaQtyText bfx-product-qty" data-prop="{{#if bundle}}{{bundleIDS}}{{/if}}{{#if subscription}}{{subscriptionIDs}}{{/if}}" value="{{itemQty}}" data-id="{{id}}" data-line="{{line}}" />
+                              <span class="qtyNum velaQtyText" style="height:inherit;text-align:right;">{{itemQty}}</span>
+                              {{/unless}}
+                            </div>
+                          </div>
+                          <div class="drawerProductPrice">
+                            <div class="priceProduct">
+                              {{#unless productFreeGift}}
+                              {{#if hasDiscount}}
+                                <span class="strikethrough-price"><s class="bfx-old-price bfx-price">{{{originalTotal}}}</s></span>
+                              {{/if}}
+                              <span class="{{#if hasDiscount}}has-discount{{/if}} bfx-product-subtotal bfx-price">{{{itemTotal}}}</span>
+                              {{else}}
+                              <span class="bfx-product-subtotal bfx-price">Free</span>
+                              {{/unless}}
+                            </div>
+                          </div>
+        				</div>
+                      </div>
+                    </div>
+        		  </div>
+                  <div class="drawerProduct ajaxCartRow savingsRow bfx-remove-element" data-line="{{line}}">
+                      {{#if hasSavingsAmount }}
+                          <div class="ajaxUpsellIcon">
+                              <i class="ebyicon-promo"></i>
+                          </div>
+                          {{#if (ifHasProperty 'bra_bundle_pack' properties)}}
+                            <div class="prodItem-promoSummaryCopy">
+                                Part of Bralette Bundle <span>(-{{ savingsAmount }})</span>
+                            </div>
+                          {{else if (ifHasProperty 'bra_bundle_pack_sheer' properties)}}
+                            <div class="prodItem-promoSummaryCopy">
+                                Part of Sheer Bralette Bundle <span>(-{{ savingsAmount }})</span>
+                            </div>
+                          {{else if (ifHasProperty 'bra_bundle_pack_sheer_two' properties)}}
+                            <div class="prodItem-promoSummaryCopy">
+                                Part of Sheer Bralette Bundle <span>(-{{ savingsAmount }})</span>
+                            </div>
+                          {{else if (ifHasProperty 'bra002' properties)}}
+                            <div class="prodItem-promoSummaryCopy">
+                                Part of Sheer Set <span>(-{{ savingsAmount }})</span>
+                            </div>
+                          {{else if (ifHasProperty 'bra003' properties)}}
+                            <div class="prodItem-promoSummaryCopy">
+                                Part of Sheer Set <span>(-{{ savingsAmount }})</span>
+                            </div>
+                          {{else if (ifHasProperty 'pant000' properties)}}
+                            <div class="prodItem-promoSummaryCopy">
+                                Part of Sheer Set <span>(-{{ savingsAmount }})</span>
+                            </div>
+                          {{else if (ifHasProperty 'pant001' properties)}}
+                            <div class="prodItem-promoSummaryCopy">
+                                Part of Sheer Set <span>(-{{ savingsAmount }})</span>
+                            </div>
+                          {{else if (ifHasProperty 'pant002' properties)}}
+                            <div class="prodItem-promoSummaryCopy">
+                                Part of Sheer Set <span>(-{{ savingsAmount }})</span>
+                            </div>
+                          {{else if (ifHasProperty 'pant003' properties)}}
+                            <div class="prodItem-promoSummaryCopy">
+                                Part of Sheer Set <span>(-{{ savingsAmount }})</span>
+                            </div>
+                          {{else}}
+                            {{#if hasOtherSavingsOnly }}
+                              <div class="prodItem-promoSummaryCopy">
+                                  You're saving <span>{{ savingsAmount }}</span> on this item
+                              </div>
+                            {{ else }}
+                              <div class="prodItem-promoSummaryCopy">
+                                  You're saving <span>{{ savingsAmount }}</span> on this item as a subscriber
+                              </div>
+                            {{/if}}
+                          {{/if}}
+                      {{/if}}
+                    </div>
+                </div>
+                {{/if}}
+              {{/items}}
+          </div>
+        </div>
+          
+        
+        {% endraw %}
+
+        
+        <h3 id="e-rebuyUpsellTitle" class="primary-title rebuyUpsellTitle {% if template == 'index' %}hidden{% endif %}">You Might Also Like</h3>
+        
+        <section class="eby_sidecart_rec_wrapper">
+
+        {% comment %}
+        {% unless template == 'index' %}
+        <div id="mystry_product">
+        </div>
+        {% endunless %}
+        {% endcomment %}
+
+        {% raw %}
+			  <div class="cus_crt_cont ebyMinicartGuarantee">
+          {% endraw %}
+                
+            {% if (isSubscription) %}
+              <ul class="member">
+                <li>100% Fit Guarantee</li>
+                <li>Free shipping for members</li>
+                <li>Skip a box or cancel anytime</li>
+                <li>10% of membership goes to empower women</li>
+              </ul>          
+            {% else %}
+              <ul class="ecom ">
+                <li>100% Fit Guarantee</li>
+                <li>10% of this purchase goes to empower women</li>
+              </ul>
+            {% endif %}
+                
+          {% raw %}
+			  </div>
+			  {% endraw %}
+              {% unless template == 'index' %}
+              
+			  <div class="product-recommendations">
+				  {% comment %}<h2>Would you like to add?</h2>{% endcomment %}
+                		
+          {% if request.path contains '/memorial-day-sale' %}
+                        
+                        	<div data-rebuy-id="8942" class="rebuy-ebyModule carouselInit">
+                                <div class="rebuy-widget"
+                                     v-cloak
+                                     v-on:click="stopPropagation($event)"
+                                     v-bind:id="'rebuy-widget-' + id"
+                                     v-bind:class="['widget-type-' + config.type.replace('_','-'), 'widget-display-' + config.display_type, products.length > 0 ? 'is-visible' : 'is-hidden']">
+
+                                  <div
+                                       class="rebuy-widget-container"
+                                       v-cloak
+                                       v-bind:class="['widget-display-' + config.display_type, visible ? 'is-visible' : 'is-hidden' ]"
+                                       v-on:click.self="hide()">
+
+                                    <div class="rebuy-widget-content">
+                                      <div class="rebuy-modal-close" v-on:click="hide()">
+                                        <i class="fas fa-times"></i>
+                                      </div>
+
+                                      <h4 class="super-title" v-if="config.language.super_title != ''" v-html="config.language.super_title"></h4>
+
+                                      <h3 class="primary-title" v-if="config.language.title != ''" v-html="config.language.title"></h3>
+
+                                      <div class="description" v-if="config.language.description != ''" v-html="config.language.description"></div>
+
+                                      <div class="rebuy-product-grid" v-bind:class="layoutClasses">
+
+                                        <div class="rebuy-product-block" v-for="product in products" v-bind:class="[product.handle, 'product-id-' + product.id, cartHasProduct(product) ? 'cart-has-item' : '']">
+                                          <div class="rebuy-product-media">
+                                            <img v-bind:src="itemImage(product, product.selected_variant, '400x400')" v-bind:alt="product.title">
+                                          </div>
+                                          <div class="rebuy-product-info">
+                                            <span class="r---product-fabric---22"></span>
+                                            <span class="r---product-title---22"></span>
+                                            <span class="r---product-color---22"></span>
+                                            <a class="rebuy-product-title" v-bind:href="learnMoreURL(product)" v-on:click="learnMore(product);" v-html="product.price" v-bind:class="[hasLearnMore() ? 'clickable' : '']"></a>
+                                            <div class="rebuy-variant-title" v-html="product.selected_variant.title"></div>
+                                            <div class="rebuy-product-review" v-if="hasProductReviews(product)">
+                                              <span class="rebuy-star-rating">
+                                                <span class="rebuy-star-rating-background"></span>
+                                                <span class="rebuy-star-rating-foreground" v-bind:style="{ width: productReviewRatingPercentage(product) }"></span>
+                                              </span>
+                                              <span class="rebuy-review-count" v-html="productReviewCount(product)"></span>
+                                            </div>
+                                            <div class="rebuy-actionsButtonWrapper">
+                                            	<div class="rebuy-product-price">
+                                                  <div v-if="(variantCompareAtPrice(product, product.selected_variant) !== null)">
+                                                    <span class="rebuy-money sale bfx-sale-price bfx-price" v-html="formatMoney(variantPrice(product, product.selected_variant))"></span>
+                                                    <span class="rebuy-money compare-at bfx-old-price bfx-price" v-html="formatMoney(variantCompareAtPrice(product, product.selected_variant))"></span>
+                                                  </div>
+                                                  <div v-if="!(variantOnSale(product, product.selected_variant))">
+                                                    <span class="rebuy-money bfx-price" v-html="formatMoney(variantPrice(product, product.selected_variant))"></span>
+                                                  </div>
+                                                </div>
+                                            	<div class="rebuy-product-options" v-if="showVariantSelect(product)">
+                                                  <select
+                                                          class="rebuy-select"
+                                                          v-model="product.selected_variant_id"
+                                                          v-on:change="selectVariant(product)">
+                                                    <option v-for="variant in product.variants" v-bind:value="variant.id" v-html="variant.title.replace(' / One Size Fits All', '')"></option>
+                                                  </select>
+                                                </div>
+                                                <div class="rebuy-product-actions">
+                                                  <div class="subscription-checkbox" v-if="showSubscriptionOptions(product)">
+                                                    <label class="rebuy-checkbox">
+                                                      <input
+                                                             class="checkbox-input"
+                                                             v-model="product.subscription"
+                                                             v-on:change="toggleSubscription(product)"
+                                                             type="checkbox" />
+                                                      <span class="checkbox-label" v-html="upgradeToSubscriptionLabel(product)"></span>
+                                                    </label>
+                                                  </div>
+
+                                                  <div class="subscription-frequency" v-if="showSubscriptionFrequency(product)">
+                                                    <select
+                                                            class="rebuy-select"
+                                                            v-model="product.subscription_frequency">
+                                                      <option v-for="frequency in product.subscription_frequencies" v-bind:value="frequency">{{ frequencyLabel(frequency, product.subscription_interval) }}</option>
+                                                    </select>
+                                                  </div>
+
+                                                  <button
+                                                          class="rebuy-button"
+                                                          v-bind:class="{ working: (product.status != 'ready' && product.status != 'selecting') }"
+                                                          v-bind:disabled="!(variantAvailable(product.selected_variant)) || (product.status != 'ready' && product.status != 'selecting')"
+                                                          v-on:click="addToCart(product)"
+                                                          type="button">
+                                                    <span v-html="buttonLabel(product)"></span>
+                                                  </button>
+
+                                                  <button
+                                                          class="rebuy-button decline"
+                                                          v-on:click="declineOffer(product)"
+                                                          type="button">
+                                                    <span v-html="declineLabel(product)"></span>
+                                                  </button>
+
+                                                </div>
+  											</div>
+                                          </div>
+                                        </div>
+
+                                      </div>
+
+                                    </div>
+
+                                  </div>
+                                </div>
+                              </div>
+                    
+                    {% else %}
+                        
+                        	<div data-rebuy-id="3906" class="rebuy-ebyModule defaultTemplate">
+                                <div class="rebuy-widget"
+                                     v-cloak
+                                     v-on:click="stopPropagation($event)"
+                                     v-bind:id="'rebuy-widget-' + id"
+                                     v-bind:class="['widget-type-' + config.type.replace('_','-'), 'widget-display-' + config.display_type, products.length > 0 ? 'is-visible' : 'is-hidden']">
+
+                                  <div
+                                       class="rebuy-widget-container"
+                                       v-cloak
+                                       v-bind:class="['widget-display-' + config.display_type, visible ? 'is-visible' : 'is-hidden' ]"
+                                       v-on:click.self="hide()">
+
+                                    <div class="rebuy-widget-content">
+                                      <div class="rebuy-modal-close" v-on:click="hide()">
+                                        <i class="fas fa-times"></i>
+                                      </div>
+
+                                      <h4 class="super-title" v-if="config.language.super_title != ''" v-html="config.language.super_title"></h4>
+
+                                      <h3 class="primary-title" v-if="config.language.title != ''" v-html="config.language.title"></h3>
+
+                                      <div class="description" v-if="config.language.description != ''" v-html="config.language.description"></div>
+
+                                      <div class="rebuy-product-grid" v-bind:class="layoutClasses">
+
+                                        <div class="rebuy-product-block" v-for="product in products" v-bind:class="[product.handle, 'product-id-' + product.id, cartHasProduct(product) ? 'cart-has-item' : '']">
+                                          <div class="rebuy-product-media">
+                                            <a class="rebuy-product-image" v-bind:style="imageStyles" v-bind:class="[hasLearnMore() ? 'clickable' : '']" v-bind:href="learnMoreURL(product)" v-on:click="learnMore(product);">
+                                            	<img v-bind:src="itemImage(product, product.selected_variant, '400x400')" v-bind:alt="product.title">
+                                            </a>
+                                          </div>
+                                          <div class="rebuy-product-info">
+                                          	<span class="r---product-fabric---22"></span>
+                                            <span class="r---product-title---22"></span>
+                                            <span class="r---product-color---22"></span>
+                                            <a class="rebuy-product-title" v-bind:href="learnMoreURL(product)" v-on:click="learnMore(product);" v-html="product.price" v-bind:class="[hasLearnMore() ? 'clickable' : '']"></a>
+                                            <div class="rebuy-variant-title" v-html="product.selected_variant.title"></div>
+                                            <div class="rebuy-product-review" v-if="hasProductReviews(product)">
+                                              <span class="rebuy-star-rating">
+                                                <span class="rebuy-star-rating-background"></span>
+                                                <span class="rebuy-star-rating-foreground" v-bind:style="{ width: productReviewRatingPercentage(product) }"></span>
+                                              </span>
+                                              <span class="rebuy-review-count" v-html="productReviewCount(product)"></span>
+                                            </div>
+                                            <div class="rebuy-actionsButtonWrapper">
+                                                  <!-- fc 110122 -->
+                                            	<div class="rebuy-product-price rebuy-list-fc22">
+                                                  <div v-if="(product.selected_variant.compare_at_price !== null)">
+                                                    <span class="rebuy-money sale bfx-sale-price bfx-price crossout" v-html="formatMoney(product.selected_variant.price).replace('.00', '')"></span>
+                                                    <span class="rebuy-money compare-at bfx-old-price bfx-price" v-html="formatMoney(product.selected_variant.compare_at_price).replace('.00', '')"></span>
+                                                  </div>
+                                                  <div v-if="!(product.selected_variant.compare_at_price !== null)">
+                                                    <span class="rebuy-money bfx-price" v-html="formatMoney(variantPrice(product, product.selected_variant)).replace('.00', '')"></span>
+                                                  </div>
+                                                </div>
+                                                <!-- fc 110122 -->
+                                            	<div class="rebuy-product-options rebuy-list-fc22" v-if="showVariantSelect(product)">
+                                                  <select
+                                                          class="rebuy-select"
+                                                          v-model="product.selected_variant_id"
+                                                          v-on:change="selectVariant(product)">
+                                                    <option v-for="variant in product.variants" v-bind:value="variant.id" v-html="variant.title.replace(' / One Size Fits All', '')"></option>
+                                                  </select>
+                                                </div>
+                                                <!-- fc 110122 -->
+                                                <div class="rebuy-product-actions rebuy-list-fc22">
+                                                  <div class="subscription-checkbox" v-if="showSubscriptionOptions(product)">
+                                                    <label class="rebuy-checkbox">
+                                                      <input
+                                                             class="checkbox-input"
+                                                             v-model="product.subscription"
+                                                             v-on:change="toggleSubscription(product)"
+                                                             type="checkbox" />
+                                                      <span class="checkbox-label" v-html="upgradeToSubscriptionLabel(product)"></span>
+                                                    </label>
+                                                  </div>
+
+                                                  <div class="subscription-frequency" v-if="showSubscriptionFrequency(product)">
+                                                    <select
+                                                            class="rebuy-select"
+                                                            v-model="product.subscription_frequency">
+                                                      <option v-for="frequency in product.subscription_frequencies" v-bind:value="frequency">{{ frequencyLabel(frequency, product.subscription_interval) }}</option>
+                                                    </select>
+                                                  </div>
+
+                                                  <button
+                                                          class="rebuy-button"
+                                                          v-bind:class="{ working: (product.status != 'ready' && product.status != 'selecting') }"
+                                                          v-bind:disabled="!(variantAvailable(product.selected_variant)) || (product.status != 'ready' && product.status != 'selecting')"
+                                                          v-on:click="addToCart(product)"
+                                                          type="button">
+                                                    <span v-html="buttonLabel(product)"></span>
+                                                  </button>
+
+                                                  <button
+                                                          class="rebuy-button decline"
+                                                          v-on:click="declineOffer(product)"
+                                                          type="button">
+                                                    <span v-html="declineLabel(product)"></span>
+                                                  </button>
+
+                                                </div>
+  											</div>
+                                          </div>
+                                        </div>
+
+                                      </div>
+
+                                    </div>
+
+                                  </div>
+                                </div>
+                              </div>
+                    
+                    {% endif %}
+			</div>
+            {% endunless %}
+			{% raw %}
+
+      </section>
+            <div class="ebyMinicartTotalsWrapper">
+            	<div class="cart_prc_tbl">
+                    <h3 class="primary-title">Order Summary</h3>
+                    <h4 class="secondary-title">Summary</h4>
+                    <div class="cus_crt_row ">
+                        <span>Items</span>
+                        {{#if hasSubscriptionInCart }}
+                        <span class="price_content">{{ trueSubTotal }}</span>
+                        {{ else }}
+                        <span class="price_content">{{ trueEcommTotalWithoutShipping }}</span>
+                        {{/if }}
+                    </div>
+                    <div class="cus_crt_row ">
+                        <span>Shipping</span>
+                        {{#if isFreeShipping}}
+                        <span class="price_content">FREE</span>
+                        {{ else }}
+                        <span class="price_content">$5</span>
+                        {{/if}}
+                    </div>
+                    <div class="cus_crt_row subtotalRow">
+                        <span>Subtotal</span>
+                        {{#if hasSubscriptionInCart }}
+                        <span class="price_content">{{ trueSubTotal }}</span>
+                        {{ else }}
+                        <span class="price_content">{{ trueEcommSubtotalWithShipping }}</span>
+                        {{/if }}
+                    </div>
+                    <h4 class="secondary-title">Savings</h4>
+                    <div class="cus_crt_row ">
+                        <span>Subscriber discount</span>
+                        {{#if hasSubscriptionInCart }}
+                        <span class="price_content">-{{ totalSubItemsAffectedSavings }}</span>
+                        {{ else }}
+                        <span class="price_content">$0</span>
+                        {{/if }}
+                    </div>
+					<div class="cus_crt_row{{#if hasSubscriptionInCart}} showShippingRow{{ else }} hideShippingRow{{/if}}" style="display:none;">
+						{{#if hasSubscriptionInCart}}
+                        <span>Free Shipping Avail.</span>
+                        {% endraw %}
+                        {% if (isSubscription) %}
+                        {% raw %}
+                          {{#if hasSubscriptionInCart}}
+                          <span class="price_content">-$5</span>
+                          {{else}}
+                          <span class="price_content">{{shippingValue}}</span>
+                          {{/if}}
+                          
+                        {% endraw %}
+                        {% else %}
+                        {% raw %}
+                            {{#unless isFreeShipping}}
+                        		<span class="price_content bfx-price">{{shippingValue}}{% endraw %}{% comment %}Calculated at checkout{% endcomment %}{% raw %}</span>
+                            {% endraw %}
+                            {%- comment -%}
+                            {%- if cart.items_subtotal_price >= 5000 -%}
+                            <span class="price_content bfx-remove-element">Free</span>
+                            {%- else -%}
+                            	<span class="price_content bfx-remove-element">Free</span>
+                            {%- endif -%}
+                            {%- endcomment -%}
+                            {% raw %}
+                            {{else}}
+                            	<span class="price_content bfx-remove-element">-$5</span>
+                            {{/unless}}
+                        {% endraw %}
+                        {% endif %}
+                        {% raw %}
+
+                        {{else}}
+                            {{#unless isFreeShipping}}
+
+                            {{else}}
+                                <span>Free Shipping</span>
+                            	<span class="price_content bfx-remove-element">-$5</span>
+                            {{/unless}}
+                        {{/if}}
+                    </div>
+                    {{#if showDiscountsOff }}
+                    <div class="cus_crt_row discount_cart_row bfx-remove-element">
+                        <span>Discount items</span>
+                        <span>-<p class="bfx-price" style="display:inline;">{{ totalOtherSavingsFinal }}</p></span>
+                    </div>
+                    {{/if}}
+                    <div class="cus_crt_row discount_cart_row_tally">
+                        <span>Total savings</span>
+                        {{#if hasSubscriptionInCart }}
+                        <span>-<p class="bfx-price" style="display:inline;">{{ totalEbySavings }}</p></span>
+                        {{ else }}
+                        <span>-<p class="bfx-price" style="display:inline;">{{ totalEbyEcommSavings }}</p></span>
+                        {{/if }}
+                    </div>
+                    {{#if hasSubscriptionInCart}}
+                        <div class="cus_crt_row final_total_row">
+                            <span>Est. total</span>
+                            <span class="bfx-product-subtotal bfx-price">{{ totalPrice }}</span>
+                        </div>
+                    {{ else }}
+                        <div class="cus_crt_row final_total_row">
+                            <span>Est. Total</span>
+                            <span class="bfx-total-subtotal bfx-price">{{ trueEcommTotalWithShipping }}</span>
+                        </div>
+                    {{/if}}
+                    <small class="cart_finalprice_notice">Final tax &amp; shipping calculated at checkout</small>
+                    {% endraw %}
+                    
+                    {%- raw -%}
+				</div>
+  			</div>
+            </div>
+                <div class="drawerCartFooter">
+                    <div class="drawerAjaxFooter">
+                        <div class="drawerButton">
+                            <div class="drawerButtonBox">
+                                {{#if hasSubscriptionInCart }}
+                                  	<button class="btn btnVelaCart btnCheckout r-btn">Checkout</button>
+                                  	<a href="{{ shop.url }}/checkout" class="btn btnVelaCart btnCheckout shopCheckoutBtn hidden">Checkout</a>
+                                {{ else }}
+                                	<a href="{{ shop.url }}/checkout" class="btn btnVelaCart btnCheckout">Checkout</a>
+                                    <a href="{{ shop.url }}/checkout" class="btn bfx-checkout international">Checkout</a>
+                                	<a href="{{ shop.url }}/checkout" class="btn btnVelaCart loopBtnFinish">Checkout</a>
+                                {{/if }}
+                            </div>
+    {% endraw %}
+    {% raw %}
+                        </div>
+                    </div>
+                </div>
+        </form>
+    {% endraw %}
+</script>
+<script id="headerCartTemplate" type="text/template">
+    <form action="/cart" method="post" novalidate class="cart ajaxcart">
+    <div class="headerCartInner">
+        <div class="headerCartScroll">
+{% raw %}
+        {{#items}}
+            <div class="ajaxCartProduct">
+                <div class="ajaxCartRow rowFlex" data-line="{{line}}">
+                    <div class="headerCartImage">
+                        <a href="{{url}}"><img class="img-responsive" src="{{img}}" alt="" /></a>
+                    </div>
+                    <div class="headerCartContent">
+                        <div class="headerCartInfo">
+                            <a href="{{url}}" class="headerCartProductName">{{name}}</a>
+                            {{#if variation}}
+                                <div class="headerCartProductMeta">{{variation}}</div>
+                            {{/if}}
+                            {{#properties}}
+                                {{#each this}}
+                                    {{#if this}}
+                                        <div class="headerCartProductMeta">{{@key}}: {{this}}</div>
+                                    {{/if}}
+                                {{/each}}
+                            {{/properties}}
+        {% endraw %}
+                            {% if settings.cart_vendor_enable %}
+        {% raw %}
+                                <div class="headerCartProductMeta">{{ vendor }}</div>
+        {% endraw %}
+                            {% endif %}
+        {% raw %}
+                            <div class="headerCartPrice">
+                                <span class="bfx-list-price bfx-price">{{{price}}}</span> <span class="d-block">x <span class="bfx-product-qty">{{itemQty}}</span></span>
+                            </div>
+                        </div>
+                        <div class="headerCartRemoveBox">
+                            <a href="#" class="cartRemove" onclick="return false;" data-line="{{ line }}">
+                                <i class="btnClose"></i> {% endraw %}<span>{{ 'cart.general.remove' | t }}</span>{% raw %}
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {{/items}}
+        </div>
+        <div class="headerCartTotal">
+            <span class="headerCartTotalTitle">{% endraw %}{{ 'cart.general.subtotal' | t }}{% raw %}</span>
+            <span class="headerCartTotalNum bfx-product-subtotal bfx-price">{{{totalPrice}}}</span>
+        </div>
+        <div class="headerCartButton d-flex">
+            <div class="headerCartButtonBox mr10">
+                <a class="btn btnVelaCart btnViewCart" href="/cart">
+        {% endraw %}
+                    {{ 'cart.general.viewcart' | t }}
+        {% raw %}
+                </a>
+            </div>
+            <div class="headerCartButtonBox">
+            	<button type="button" class="btn r-btn btnCheckout hide" >{{ 'cart.general.checkout' | t }}</button>
+            
+                <button type="submit" class="btn btnVelaCart btnCheckout" name="checkout">
+        {% endraw %}
+                    {{ 'cart.general.checkout' | t }}
+        {% raw %}
+                </button>
+            </div>
+        </div>
+{% endraw %}
+
+    </div>
+    </form>
+</script>
+<script id="velaAjaxQty" type="text/template">
+    {% raw %}
+        <div class="velaQty">
+            <button type="button" class="qtyAdjust velaQtyButton velaQtyMinus" data-id="{{id}}" data-qty="{{itemMinus}}">
+                <span class="txtFallback">&minus;</span>
+            </button>
+            <input type="text" class="qtyNum velaQtyText bfx-product-qty" value="{{itemQty}}" min="0" data-id="{{id}}" aria-label="quantity" pattern="[0-9]*">
+            <button type="button" class="qtyAdjust velaQtyButton velaQtyPlus" data-id="{{id}}" data-qty="{{itemAdd}}">
+                <span class="txtFallback">+</span>
+            </button>
+        </div>
+    {% endraw %}
+</script>
+<script id="velaJsQty" type="text/template">
+    {% raw %}
+        <div class="velaQty">
+            <button type="button" class="velaQtyAdjust velaQtyButton velaQtyMinus" data-id="{{id}}" data-qty="{{itemMinus}}">
+                <span class="txtFallback">&minus;</span>
+            </button>
+            <input type="text" class="velaQtyNum velaQtyText bfx-product-qty" value="{{itemQty}}" min="1" data-id="{{id}}" aria-label="quantity" pattern="[0-9]*" name="{{inputName}}" id="{{inputId}}" />
+            <button type="button" class="velaQtyAdjust velaQtyButton velaQtyPlus" data-id="{{id}}" data-qty="{{itemAdd}}">
+                <span class="txtFallback">+</span>
+            </button>
+        </div>
+    {% endraw %}
+</script>

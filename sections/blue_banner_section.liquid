@@ -1,0 +1,150 @@
+{% if section.settings.desk_img != blank %}
+<section class="premium_about_section">
+  <div class="section-wrap">
+    <div class="flexbox">
+      <div class="col left-col">
+        <div class="col-wrap">
+          <div class="col-image">
+            {% if section.settings.desk_img != blank %}
+            <img data-src="{{ section.settings.desk_img | img_url: 'master' }}" class="desktop_image lazyload" alt="{{ section.settings.desk_img.alt }}">
+            {% endif %}
+            {% if section.settings.ipad_img != blank %}
+            <img data-src="{{ section.settings.ipad_img | img_url: 'master' }}" class="ipad_image lazyload" alt="{{ section.settings.ipad_img.alt }}">
+            {% elsif section.settings.desk_img != blank %}
+            <img data-src="{{ section.settings.desk_img | img_url: 'master' }}" class="ipad_image lazyload" alt="{{ section.settings.desk_img.alt }}">
+            {% else %}
+            {% endif %}
+            {% if section.settings.mob_img != blank %}
+            <img data-src="{{ section.settings.mob_img | img_url: 'master' }}" class="mobile_image lazyload" alt="{{ section.settings.mob_img.alt }}">
+            {% elsif section.settings.desk_img != blank %}
+            <img data-src="{{ section.settings.desk_img | img_url: 'master' }}" class="mobile_image lazyload" alt="{{ section.settings.desk_img.alt }}">
+            {% else %}
+            {% endif %}
+          </div>
+          <div class="col-text">
+            <div class="col-text-wrap">
+              {% if section.settings.title != blank %}
+              <h2>{{ section.settings.title }}</h2>
+              {% endif %}
+              {% if section.settings.sub_title != blank %}
+              <p>{{ section.settings.sub_title }}</p>
+              {% endif %}
+            </div>
+            {% if section.settings.button_link != blank %}
+            <div class="page_button desktop_hides">
+              <a href="{{ section.settings.button_link }}" class="tab_btn">{{ section.settings.button_text }}</a>
+            </div>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+      {% if section.settings.title != blank %}
+      <div class="col right-col same_left">
+        <div class="col-wrap">
+          <div class="col-image">
+            {% if section.settings.right_desk_img != blank %}
+            <img data-src="{{ section.settings.right_desk_img | img_url: 'master' }}" class="desktop_image lazyload" alt="{{ section.settings.right_desk_img.alt }}">
+            {% endif %}
+            {% if section.settings.right_ipad_img != blank %}
+            <img data-src="{{ section.settings.right_ipad_img | img_url: 'master' }}" class="ipad_image lazyload" alt="{{ section.settings.right_ipad_img.alt }}">
+            {% elsif section.settings.right_desk_img != blank %}
+            <img data-src="{{ section.settings.right_desk_img | img_url: 'master' }}" class="ipad_image lazyload" alt="{{ section.settings.right_desk_img.alt }}">
+            {% else %}
+            {% endif %}
+            {% if section.settings.right_mob_img != blank %}
+            <img data-src="{{ section.settings.right_mob_img | img_url: 'master' }}" class="mobile_image lazyload" alt="{{ section.settings.right_mob_img.alt }}">
+            {% elsif section.settings.right_desk_img != blank %}
+            <img data-src="{{ section.settings.right_desk_img | img_url: 'master' }}" class="mobile_image lazyload" alt="{{ section.settings.right_desk_img.alt }}">
+            {% else %}
+            {% endif %}
+          </div>
+          <div class="col-text">
+            <div class="col-text-wrap">
+              {% if section.settings.right_sub_title != blank %}
+              <p>{{ section.settings.right_sub_title }}</p>
+              {% endif %}
+              {% if section.settings.right_title != blank %}
+              <h2>{{ section.settings.right_title }}</h2>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+      </div>
+      {% endif %}
+    </div>
+    {% if section.settings.button_link != blank %}
+    <div class="page_button mobile_hides">
+      <a href="{{ section.settings.button_link }}" class="tab_btn">{{ section.settings.button_text }}</a>
+    </div>
+    {% endif %}
+  </div>
+</section>
+{% endif %}
+
+{% schema %}
+  {
+    "name": "Image with Text",
+    "settings": [
+	  {
+		"type": "image_picker",
+		"id": "desk_img",
+		"label": "Left Desktop Image"
+	  },
+	  {
+		"type": "image_picker",
+		"id": "ipad_img",
+		"label": "Left Ipad Image"
+	  },
+	  {
+		"type": "image_picker",
+		"id": "mob_img",
+		"label": "Left Mobile Image"
+	  },
+	  {
+		"type": "text",
+		"id": "sub_title",
+		"label": "Sub Title"
+	  },
+	  {
+		"type": "text",
+		"id": "title",
+		"label": "Title"
+	  },
+	  {
+		"type": "image_picker",
+		"id": "right_desk_img",
+		"label": "Right Desktop Image"
+	  },
+	  {
+		"type": "image_picker",
+		"id": "right_ipad_img",
+		"label": "Right Ipad Image"
+	  },
+	  {
+		"type": "image_picker",
+		"id": "right_mob_img",
+		"label": "Right Mobile Image"
+	  },
+	  {
+		"type": "text",
+		"id": "right_sub_title",
+		"label": "Sub Title"
+	  },	
+	  {
+		"type": "text",
+		"id": "right_title",
+		"label": "Right Title"
+	  },
+	  {
+        "type": "url",
+        "id": "button_link",
+        "label": "Button URL"
+      },
+      {
+        "type": "text",
+        "id": "button_text",
+        "label": "Button Text"
+      }	
+	]
+  }
+{% endschema %}

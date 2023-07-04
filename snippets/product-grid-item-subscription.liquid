@@ -1,0 +1,112 @@
+{% assign prodColorTitle = " in Mixed" %}
+{% assign prodDataCg = "mixed" %}
+{% assign prodNameType = product.title | replace: "EBY Subscription - ", "" | replace: prodColorTitle, "" %}
+{% assign prodColorFinal = " in Mixed Colors" %}
+{% for prodTag in product.tags %}
+  {% if prodTag contains "Custom" %}
+    {% assign prodNameType = "Custom Membership" %}
+  {% endif %}
+  {% if prodTag contains "Quarterly" %}
+	{% assign prodDataPg = "quarterly" %}
+    {% assign prodPlanTitle = " (Quarterly)" %}
+	{% assign prodPlanFinal = " Every 3 Months" %}
+	{% assign prodPrice = "$39" %}
+	{% assign prodNameType = prodNameType | replace: prodPlanTitle, "" %}
+  {% endif %}
+  {% if prodTag contains "Semi Annual"  %}
+	{% assign prodDataPg = "semi-annual" %}
+	{% assign prodPlanTitle = " (Semi Annual)" %}
+	{% assign prodPlanFinal = " Every 6 Months" %}
+	{% assign prodPrice = "$65" %}
+	{% assign prodNameType = prodNameType | replace: prodPlanTitle, "" %}
+  {% endif %}
+  {% if prodTag contains "NU Box" %}
+	{% assign prodDataCg = "neutrals" %}
+    {% assign prodColorTitle = " in Neutrals" %}
+	{% assign prodColorFinal = " in Neutral Colors" %}
+	{% assign prodNameType = prodNameType | replace: prodColorTitle, "" %}
+  {% endif %}
+{% endfor %}
+
+{% assign productTestSubscriptionB = "" %}
+{% if prodNameType == "Custom Membership" %}
+	{% assign prodDataSg = "custom_box" %}
+	{% assign prodFinalName = prodNameType %}
+{% else %}
+	{% assign prodFinalName = prodNameType | append : " Membership" | append : prodColorFinal %}
+	{% if prodNameType contains "All Briefs" %}
+		{% assign prodDataSg = "all_briefs" %}
+		{% assign productTestSubscriptionB = "https://cdn.shopify.com/s/files/1/0313/4062/5964/files/IMG---subscription---layflats---briefs-2x.jpg" %}
+    {% endif %}
+	{% if prodNameType contains "All Highwaisted" %}
+		{% assign prodDataSg = "all_highwaisted" %}
+	    {% assign productTestSubscriptionB = "https://cdn.shopify.com/s/files/1/0313/4062/5964/files/IMG---subscription---layflats---high_waisted-2x.jpg" %}
+    {% endif %}
+    {% if prodNameType contains "All Thongs" %}
+		{% assign prodDataSg = "all_thongs" %}
+	    {% assign productTestSubscriptionB = "https://cdn.shopify.com/s/files/1/0313/4062/5964/files/IMG---subscription---layflats---thong-2x.jpg" %}
+    {% endif %}
+    {% if prodNameType contains "Full Coverage" %}
+		{% assign prodDataSg = "full_coverage" %}
+	    {% assign productTestSubscriptionB = "https://cdn.shopify.com/s/files/1/0313/4062/5964/files/IMG---subscription---layflats---full_coverage-pile-2x.jpg" %}
+    {% endif %}
+    {% if prodNameType contains "Mixed Styles" %}
+		{% assign prodDataSg = "mixed_styles" %}
+	    {% assign productTestSubscriptionB = "https://cdn.shopify.com/s/files/1/0313/4062/5964/files/IMG---subscription---layflats---mixed_styles-pile-2x.jpg" %}
+    {% endif %}
+{% endif %}
+
+<div class="velaProBlock grid subscriptionGrid {{ product-grid-item }}{% if  lastItemPro == 0 or forloop.last %} lastItem{% endif %} {% if product.metafields.ebyacf.product_is_new_release %} newRelease{% endif %}" >
+  
+  {% if forloop.index == 1 %}
+  	{% assign currentIndexLetter = "https://cdn.shopify.com/s/files/1/0313/4062/5964/files/IMG---subscription---packaging---quarterly-A-2x.jpg" %}
+  {% else if forloop.index == 2 or forloop.index == 4 %}
+  	{% assign currentIndexLetter = "https://cdn.shopify.com/s/files/1/0313/4062/5964/files/IMG---subscription---packaging---quarterly-B-2x.jpg" %}
+  {% else %}
+  	{% assign currentIndexLetter = "https://cdn.shopify.com/s/files/1/0313/4062/5964/files/IMG---subscription---packaging---quarterly-C-2x.jpg" %}
+  {%endif %}
+  
+  
+  {% if product.metafields.ebyacf.product_is_new_release %}<div class="newReleaseFlagWrapper"><div class="newReleaseFlag"><p>New</p></div></div>{% endif %}
+  {% if product.metafields.ebyacf.new_sale_release %}<div class="newSaleReleaseFlagWrapper"><div class="newReleaseFlag"><p>Save</p></div></div>{% endif %}
+  
+  	<div class="velaProBlockInner">
+        <div class="proHImage d-flex flexJustifyCenter">
+            <div class="proFeaturedImage{% if productTestSubscriptionB != "" %} hasAltImage{% endif %}">
+              {% if prodPlanTitle == " (Quarterly)"%}
+              	<img class="t1 img-responsive lazyload imgStyle-{{ prodDataSg }}" alt="{{ product.featured_image.alt | escape }}" data-src="{{ currentIndexLetter }}" width="157" height="231" />
+              {% else %}
+              	<img class="t1 img-responsive lazyload imgStyle-{{ prodDataSg }}" alt="{{ product.featured_image.alt | escape }}" data-src="https://cdn.shopify.com/s/files/1/0313/4062/5964/files/IMG---subscription---packaging---semi_annual-2x.jpg" width="157" height="231" />
+              {% endif %}
+              {% if productTestSubscriptionB != "" %}
+                <div class="altImageDrawer" style="display:none;">
+                  <img class="t1 img-responsive lazyload imgStyle-{{ prodDataSg }}" alt="{{ product.featured_image.alt | escape }}" data-src="{{ productTestSubscriptionB }}" width="157" height="231" />
+                </div>
+              {% endif %}
+          	</div>
+            <div class="proButton clearfix">
+              {% if prodDataSg == "custom_box" %}
+              		<a class="quickAddMembershipBtn" href="/collections/build-your-custom-box" >Choose Panties</a>
+              {% else %}
+              		<button class="quickAddMembershipBtn" data-subscribe="true" data-sg="{{ prodDataSg }}" data-cg="{{ prodDataCg }}" data-pg="{{ prodDataPg }}">Quick Add +</button>
+              {% endif %}
+          	</div>
+        </div>
+        <div class="proContent">
+            <div class="prodTileSpotlightNoticeeWrapper">
+              <div class="limitedEditionTileCopy subscriptionTileFlag"></div>
+            </div>
+            <h3 class="proName">
+              <div>{{ prodFinalName | replace: " Membership", "" }}</div>
+            </h3>
+            <div class="proPrice">
+              <div class="vipPdpPriceWrapper">
+                <div class="priceProduct bfx-price">{{ prodPrice }}</div>
+                <div class="ebyProdTile-vipPriceWrapper">
+                  <p class="subPlanType ebyicon-cycle"> {{ prodPlanFinal }}</p>
+                </div>
+              </div>
+            </div>
+        </div>
+    </div>
+</div>

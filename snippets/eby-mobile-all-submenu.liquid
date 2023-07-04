@@ -1,0 +1,28 @@
+{% for nav in eby_navigation %}
+    {% if nav.links != blank %}
+    <div class="mega-nav-column  nv-impact-22">
+      <span class="eby-mobile-submenu-title-2">{{nav.title}}</span>
+      <!-- 2nd for loop for sub sub menu ? -->
+      <div class="grid-wrppr-sbmnsbmn">
+        <div class="style-left-sbmnbr">
+          
+        </div>
+        <ul class="nv-grp-22">
+          {% for sub_nav in nav.links %}
+          <li class="nv-lst-22">
+            <a href="{{sub_nav.url}}" class="nav-column-header m_s_link">
+              <span >{{sub_nav.title}}</span>
+            </a>
+          </li>
+          {% endfor %}
+        </ul>
+      </div>
+    </div>
+    {% else %}
+    <div class="mega-nav-column nv-nosmnue">
+      <a href="{{nav.url}}" class="nav-column-header m_s_link">
+        <span class="eby-mobile-submenu-title-3">{{nav.title}}</span>
+      </a>
+    </div>
+    {% endif %}
+{% endfor %}

@@ -1,0 +1,307 @@
+<!doctype html>
+<!--[if IE 9]> <html class="ie9 no-js" lang="{{ shop.locale }}"> <![endif]-->
+<!--[if (gt IE 9)|!(IE)]><!--> <html class="no-js" lang="{{ shop.locale }}"> <!--<![endif]-->
+<head>  
+  <meta charset="utf-8"/>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <meta name="theme-color" content="{{ settings.vela_color_primary }}"/>
+  <meta name="p:domain_verify" content="76d37e972c49ccf70309e4224eae0c2c"/>
+  <link rel="canonical" href="{{ canonical_url }}">
+  
+  {% if handle contains 'last-call-seamless-underwear' %}
+  <meta name="robots" content="noindex">
+  {% endif %}
+  
+  {% if settings.favicon != blank %}
+  	<link rel="shortcut icon" href="{{ settings.favicon | img_url: '32x32' }}" type="image/png">
+  {% endif %}
+  
+  {% capture seo_title %}
+  {{ page_title }}
+  {% if current_tags %}{%- assign meta_tags = current_tags | join: ', ' %} &ndash; {{ 'general.meta.tags' | t: tags: meta_tags -}}{% endif %}
+  {% if current_page != 1 %}&ndash; {{ 'general.meta.page' | t: page: current_page }}{% endif %}
+  {% unless page_title contains shop.name %}&ndash; {{ shop.name }}{% endunless %}
+  {% endcapture %}
+  
+  <title>{{ seo_title }}</title>
+  
+  {% if page_description %}
+  <meta name="description" content="{{ page_description | escape }}">
+  {% endif %}
+  
+  {% render 'preload-snippet' %}
+  {% render 'social-meta-tags' %}
+  {% render 'vela-header-styles' %}
+  {% render 'vela-header-javascript' %}
+  
+  <!-- starapps_scripts_start -->
+  <!-- This code is automatically managed by StarApps Studio -->
+  <!-- Please contact support@starapps.studio for any help -->
+  {% render "starapps-language-meta" %}
+  <script type="text/javascript" src="https://bcdn.starapps.studio/apps/vsk/eby-by-sofia-vergara/script-1618232939.js?shop={{shop.permanent_domain}}" async></script>
+  {% include "starapps-language-meta" %}
+<!-- starapps_scripts_end -->
+
+  {{ content_for_header }}
+  
+  {% render 'dataLayer-allPages' %}
+
+
+  {% render 'shogun-head' %}
+</head>
+{%- if template contains 'customer' -%}
+  {%- assign velaBodyClass = 'template-account' -%}
+{%- endif -%}
+
+{%- if settings.loading_enable -%}
+  {%- assign bodyPreLoading = 'bodyPreLoading' -%}
+{%- endif -%}
+
+<body id="{{ page_title | handle }}" class="template-{{ template | split: '.' | first }} {{ velaBodyClass }}{% if settings.header_float_enable %} velaFloatHeader{% endif %} {{ bodyPreLoading }} {% if customer %}loggedIn{% endif %} template-holidayLanding">
+  {% include 'vela-template' %}
+  <div id="pageContainer" class="isMoved">
+      <main class="mainContent" role="main">
+        {{ content_for_layout }}
+      </main>
+    {% unless page.handle == 'build-your-box' %}
+    <section class="newslsec newslsec-{{ template }}">
+      {% section 'new-letter-section' %}
+    </section>
+    {% section 'vela-footer' %}
+    {% include 'vela-notification' %}
+    {% endunless %}
+  </div>
+  
+  <script src="//cdn.shopify.com/s/files/1/0313/4062/5964/t/64/assets/jquery.2.2.3.js?v=17173025035932501319" type="text/javascript"></script>
+  <script type="text/javascript" src="{{ 'materialize.min.js' | asset_url }}"></script>
+  {% include 'vela-ajaxcart' %}
+  {% include 'vela-modal' %}
+  {% include 'vela-footer-javascript' %}
+  <!-- Begin ReCharge code -->
+  {% include 'subscription-theme-footer' %}
+  <!-- End ReCharge code -->
+  {% include 'smile-initializer' %}
+
+  
+  {% comment %}
+    {% include 'mw_PO_objects' %}
+  {% endcomment %}
+  
+  <script type="text/javascript" src="{{ 'lazysizes.min.js' | asset_url }}" async ></script>
+  
+  <script type="text/javascript">
+    $(document).ready(function() {
+      $("img").addClass("lazyload");
+    });
+  </script>
+  
+
+  <script async type="text/javascript" id="stamped-script-widget" data-api-key="pubkey-59Q15JGLCyT3fe9h3pkjg0O5Jb7D5P" src="https://cdn2.stamped.io/files/widget.min.js"></script>
+
+  {% if page.handle == 'faq' or canonical_url contains 'account' %}
+  <!--Gorgias Chat Widget Start-->
+  <div id="gorgias-chat">{% if customer %}<script>window.gorgiasChatParameters = {"smooch": {"givenName": "{{ customer.name }}","email": "{{ customer.email }}","properties": {"shopify__cart__total_price": "{{ cart.total_price | money | strip_html | default: null }}","shopify__cart__nb_of_items": {{ cart.items | size | default: 0 }},{% for item in cart.items %}"shopify__cart__items-{{ forloop.index }}-[]":"{\"line_price\":\"{{item.line_price|money|strip_html|default:null}}\",\"price\":\"{{item.price|money|strip_html|default:null}}\",\"product_id\":\"{{item.product_id|default:null}}\",\"quantity\":{{item.quantity|default:null}},\"sku\":\"{{item.sku|default:null}}\",\"title\":\"{{item.title}}\",\"variant_id\":{{item.variant_id|default:null}},\"vendor\":\"{{item.vendor|default:null}}\",\"id\":{{item.id|default:null}}}"{% if forloop.last != true %},{% endif %}{% endfor %}}}}</script>{% else %}<script>window.gorgiasChatParameters = {"smooch": {"properties": {"shopify__cart__total_price": "{{ cart.total_price | money | strip_html | default: null }}","shopify__cart__nb_of_items": {{ cart.items | size | default: 0 }},{% for item in cart.items %}"shopify__cart__items-{{ forloop.index }}-[]":"{\"line_price\":\"{{item.line_price|money|strip_html|default:null}}\",\"price\":\"{{item.price|money|strip_html|default:null}}\",\"product_id\":\"{{item.product_id|default:null}}\",\"quantity\":{{item.quantity|default:null}},\"sku\":\"{{item.sku|default:null}}\",\"title\":\"{{item.title}}\",\"variant_id\":{{item.variant_id|default:null}},\"vendor\":\"{{item.vendor|default:null}}\",\"id\":{{item.id|default:null}}}"{% if forloop.last != true %},{% endif %}{% endfor %}}}}</script>{% endif %}<script src="https://config.gorgias.io/production/3dBwk7WnXr2NZ9mO/chat/GyBLV6kZbejxNbQk.js" defer></script></div>
+  <!--Gorgias Chat Widget End-->
+  <script type="text/javascript">(function(n,t,i,r){var u,f;n[i]=n[i]||{},n[i].initial={accountCode:"CMPNY19542",host:"CMPNY19542.pcapredict.com"},n[i].on=n[i].on||function(){(n[i].onq=n[i].onq||[]).push(arguments)},u=t.createElement("script"),u.async=!0,u.src=r,f=t.getElementsByTagName("script")[0],f.parentNode.insertBefore(u,f)})(window,document,"pca","//CMPNY19542.pcapredict.com/js/sensor.js")</script>
+  {% endif %}
+  
+  
+  {% if page.handle == 'microfinance' or page.handle == 'our-factory' or page.handle == 'reviews' %}
+  <script type="text/javascript" src="{{ 'popup.js' | asset_url }}"></script>
+  
+  <script type="text/javascript">
+    $(document).ready(function(){
+      $('.show1').click(function(){
+        $('#pop1').Popup();
+      });
+      $('.show2').click(function(){
+        $('#pop2').Popup();
+      });
+      $('.show3').click(function(){
+        $('#pop3').Popup();
+      });
+      $('.show4').click(function(){
+        $('#pop4').Popup();
+      });
+      $('.show5').click(function(){
+        $('#pop5').Popup();
+      });
+      $('.factory_show6').click(function(){
+        $('#factory_pop6').Popup();
+      });
+    });
+  </script>
+  {% endif %} 
+  
+  {% if page.handle == 'faq' or product.handle == 'eby-mask' %}
+  <script type="text/javascript" src="{{ 'accordion.js' | asset_url }}"></script>
+  {% endif %} 
+  
+  {% if page.handle == 'build-your-box' %}
+  <script type="text/javascript" src="{{ 'accordion.js' | asset_url }}"></script>
+  {% endif %}
+
+
+  <script type="text/javascript">
+    $(document).ready(function(){
+      $('.reserve-spot').click(function () {
+        $('.form-activated').css("display", "block");
+      })
+
+      $('.close').click(function () {
+        $('.form-activated').css("display", "none");
+      })
+    });
+
+    $(window).resize(function () {
+      if($(window).width() > 768){
+        $('.reserve-spot').click(function () {
+          $('.form-activated').css("display", "block");
+        })
+
+        $('.close').click(function () {
+          $('.form-activated').css("display", "none");
+        })
+      }
+    })
+  </script>
+
+  <script type="text/javascript">
+    $(window).resize(function () {
+      if($(window).width() < 768){
+        $('.reserve-spot').click(function () {
+          $('.email-box').css("display", "none");
+        })
+
+        $('.close').click(function () {
+          $('.email-box').css("display", "block");
+        })
+      }
+    })
+  </script>
+
+  <script>
+    $(document).ready(function(){
+      $('#reservationEmail').on("change paste keyup focusout", function(event){
+        const testEmail = /^[A-Z0-9._%+-]+@([A-Z0-9-]+\.)+[A-Z]{2,4}$/i;
+        if (testEmail.test(event.target.value)){
+          $('#email-block').removeClass('error');
+        } else {
+          $('#email-block').addClass('error');
+        }
+      });
+    });
+
+  </script>
+
+  <style>
+    [data-widget-type="full-page-nps"] .stamped-reviews-message,  #stamped-reviews-widget[data-widget-type="full-page-nps"] .stamped-reviews-author {font-size:14px !IMportant;}
+#stamped-reviews-widget[data-widget-type="full-page-nps"] .stamped-widget-text, #stamped-reviews-widget[data-widget-type="full-page"] .stamped-widget-text {font-size:16px !Important;}
+    
+    .stamped-full-page-tabs ul li,.stamped-full-page-tabs ul li a {background: #000C48 !important;
+    color:#fff !important;}
+    div#stamped-reviews-widget[data-widget-type="full-page"] .fa-star, .fa-star-o, .fa-star-half-o, .stamped-fa-star, .stamped-fa-star-o, .stamped-fa-star-half-o {color: #BEBEBE !important;}
+    div#stamped-reviews-widget[data-widget-type="full-page"]{ background: #fff !Important;}
+    #stamped-reviews-widget[data-widget-type="full-page"] .stamped-fa-star, #stamped-reviews-widget[data-widget-type="full-page"] .stamped-fa-star-o, #stamped-reviews-widget[data-widget-type="full-page"].stamped-fa-star-half-o {
+    color: #00435f !important;
+}
+    #stamped-reviews-widget[data-widget-type="full-page"] {
+    padding: 1.5rem;
+}
+    .stamped-proxy-write {
+    background: #fff !important;     
+}
+    h2.stamped-proxy-write-title {
+    padding-top: 32px;
+}
+    i.stamped-fa.stamped-fa-star,.stamped-fa .stamped-fa-star-o, a.stamped-fa.stamped-fa-star-o.fa-star-checked {
+    color: #00435f !important;
+}
+    div#stamped-reviews-widget[data-widget-type="full-page"] .fa-star, .fa-star-o, .fa-star-half-o, .stamped-fa-star, .stamped-fa-star-o, .stamped-fa-star-half-o {
+    color: #00435f !important;
+}
+    .summary-rating-bar-content {
+    background: #00435f !important;
+}
+    i.stamped-fa.stamped-fa-star, .stamped-summary-ratings {
+    border-left: 0px solid #00435f !important;
+    color: #00435f !important;
+    border-right: 0px solid #00435f !important;
+ 
+}
+    div[data-widget-style] .summary-rating:nth-child(1) .summary-rating-title:before, div[data-widget-style] .summary-rating:nth-child(2) .summary-rating-title:before, div[data-widget-style] .summary-rating:nth-child(3) .summary-rating-title:before, div[data-widget-style] .summary-rating:nth-child(4) .summary-rating-title:before, div[data-widget-style] .summary-rating:nth-child(5) .summary-rating-title:before {
+    color: #00435f !important;
+}
+    .stamped-header .stamped-review-option-scale, .stamped-review-option-scale-wrapper,.stamped-header .stamped-review-option-scale span, .stamped-review-option-scale-wrapper span {
+       color: #00435f !important;
+      background:  color: #00435f !important;
+    }
+    .stamped-header .stamped-review-option-scale, .stamped-review-option-scale-wrapper {
+      background:  color: #00435f !important;
+    }
+  </style>
+  <script type="text/javascript">(function(w,d,t,r,u){var f,n,i;w[u]=w[u]||[],f=function(){var o={ti:"26336647"};o.q=w[u],w[u]=new UET(o),w[u].push("pageLoad")},n=d.createElement(t),n.src=r,n.async=1,n.onload=n.onreadystatechange=function(){var s=this.readyState;s&&s!=="loaded"&&s!=="complete"||(f(),n.onload=n.onreadystatechange=null)},i=d.getElementsByTagName(t)[0],i.parentNode.insertBefore(n,i)})(window,document,"script","//bat.bing.com/bat.js","uetq");</script>
+  <script type="text/javascript" src="//www.klaviyo.com/media/js/public/klaviyo_subscribe.js"></script>
+  <script type="text/javascript">
+    KlaviyoSubscribe.attachToForms('#reservation-form', {
+      hide_form_on_success: true,
+      success: function success() {
+        document.getElementById("reservation-success").style.display = "block"
+        document.getElementById("reservation-form").style.display = "none"
+      },
+      extra_properties: {
+        $source: '$embed',
+        $method_type: "Klaviyo Form",
+        $method_id: 'embed',
+        $consent_version: 'Embed default text'
+      }
+    });
+    
+    document.getElementById('reservation-form').addEventListener('submit', function (event) {
+      
+      console.log('::postscripts init::', {
+        "phone": document.getElementById('phone').value,
+        "keyword": "COTTON",
+        "metadata": {
+          "email" : document.getElementById('k_id_email').value,
+          "firstnme" : document.getElementById('name').value
+        }
+      });
+      
+      jQuery.ajax({
+        type: "POST",
+        crossDomain : true,
+        url: window.APIDomain+window.otherAPI+"eby_postscript.php",
+        data: { data: {
+          "keyword": "COTTON",
+          "phone": document.getElementById('phone').value,
+          "metadata": {
+            "email" : document.getElementById('k_id_email').value,
+            "firstnme" : document.getElementById('name').value
+          }
+        }},
+        dataType: 'json',
+        success: function(data){
+          console.log("::postscript success::", data);
+          
+          if(!!data){
+           	console.log('check data');
+          }
+        },
+        error: function(xhr, text) {
+          
+          console.log("::postscript failure::", {
+            text : text,
+            xhr : xhr
+          });
+          
+        }
+      });
+      
+    });
+    
+    
+  </script>
+</body>
+</html>

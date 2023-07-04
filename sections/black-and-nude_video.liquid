@@ -1,0 +1,30 @@
+{% if section.settings.video_url != blank %}
+<section class="video_section">
+  <div class="video_container">
+    <div class="collection-image">
+      <div class="playerFilm">&nbsp;</div>
+      <img id="feelsLikeThisPlaceholderImage" width="350" height="350" style="height:400px;" class="playerPlaceholderImg lazyload" data-src="https://cdn.shopify.com/s/files/1/0313/4062/5964/files/Feels-Like-Placeholder.jpg" alt="Feels Like This" title="Feels Like This" />
+      <div id="playerDesktop" class="playerWrapper desktop"></div>
+    </div>
+  </div>
+</section>
+{% endif %}
+
+{% schema %}
+  {
+    "name": "Video Section",
+    "settings": [
+	 {
+		"type": "image_picker",
+		"id": "poster_img",
+		"label": "Poster Image"
+	  },
+	  {
+		"type": "text",
+		"id": "video_url",
+		"label": "Video URL",
+		"info": "You need to add link MP4 video"
+	  }
+	]
+  }
+{% endschema %}

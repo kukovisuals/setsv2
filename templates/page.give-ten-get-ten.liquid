@@ -1,0 +1,1050 @@
+<style>
+  
+.btnWrapper p {
+    text-align: center;
+    margin: 2rem auto 0;
+}
+.forgetPassword {
+  width: 100%;
+}
+.forgetPassword a {
+	color: #000C48;
+    text-decoration: underline;  
+}
+.buttonWrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+.ebytabsWrapper {
+  max-width: 600px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #000C48;
+}
+#loyaltylion .lion-reward-item__icon,
+#loyaltylion .lion-rule-item__icon {
+  background-color: #000C48;  
+}
+.ebytabsWrapper .col.s12 {
+  width: 100%;
+  padding-bottom: 1rem;
+}
+.tabs {
+  position: relative;
+  overflow-x: auto;
+  overflow-y: hidden;
+  height: 48px;
+  width: 100%;
+  background-color: #fff;
+  margin: 0 auto 1.5rem;
+  /*   white-space: nowrap; */
+  padding: 0;
+  display: flex;
+  justify-content: space-between;
+}
+
+.tabs.tabs-transparent {
+  background-color: transparent;
+}
+
+.tabs.tabs-transparent .tab a,
+.tabs.tabs-transparent .tab.disabled a,
+.tabs.tabs-transparent .tab.disabled a:hover {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.tabs.tabs-transparent .tab a:hover,
+.tabs.tabs-transparent .tab a.active {
+  color: #fff;
+}
+
+.tabs.tabs-transparent .indicator {
+  background-color: #fff;
+}
+
+.tabs.tabs-fixed-width {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.tabs.tabs-fixed-width .tab {
+  -webkit-box-flex: 1;
+  -webkit-flex-grow: 1;
+      -ms-flex-positive: 1;
+          flex-grow: 1;
+}
+
+.tabs .tab {
+  display: inline-block;
+  text-align: center;
+  line-height: 48px;
+  height: 48px;
+  padding: 0;
+  margin: 0;
+  text-transform: uppercase;
+  width: 50%;
+}
+
+.tabs .tab a {
+  color: #000c48;
+  width: 100%;
+  height: 100%;
+  padding: 0 24px;
+  font-size: 14px;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  -webkit-transition: color .28s ease, background-color .28s ease;
+  transition: color .28s ease, background-color .28s ease;
+  text-transform: capitalize;
+  font-size: 2rem;
+  font-weight: 500;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  line-height:normal;
+}
+
+.tabs .tab a:focus, .tabs .tab a:focus.active {
+  background-color: rgba(0, 12, 72, 0.1);
+  outline: none;
+}
+
+.tabs .tab a:hover, .tabs .tab a.active {
+  background-color: rgba(0, 12, 72, 0.1);
+  color: #000c48;
+}
+
+.tabs .tab.disabled a,
+.tabs .tab.disabled a:hover {
+  color: rgba(238, 110, 115, 0.4);
+  cursor: default;
+}
+
+.tabs .indicator {
+  position: absolute;
+  bottom: 0;
+  height: 2px;
+  background-color: #000C48;
+  will-change: left, right;
+}
+.tabs-content.carousel.carousel-slider {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+@media only screen and (max-width: 992px) {
+  .tabs {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+  }
+  .tabs .tab {
+    -webkit-box-flex: 1;
+    -webkit-flex-grow: 1;
+        -ms-flex-positive: 1;
+            flex-grow: 1;
+  }
+  .tabs .tab a {
+    padding: 0 12px;
+  }
+}
+  
+  .referralFormHeader {
+      margin-bottom: 2.5rem;
+  }
+  p.header {
+    font-weight: 500;
+    text-transform: capitalize;
+    font-size: 2rem;
+    margin-bottom:0.75rem;
+  }
+  .ebyPopInnerWrapper {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 100%;
+      flex-direction: column;
+  }
+  .fullCol,
+  .referralFieldWrapper.fullCol{
+  	width: 100%;
+    margin-bottom:1rem;
+  }
+  .halfCol {
+    width: 30%;
+  }
+  .ebyBtn.sign_in_btn {
+      border: 1px solid #000C48;
+      background: #000C48;
+      color: #fff;
+      border-radius: 4px;
+      padding: 1rem 2rem;
+      display: block;
+  }
+  .colDivider {
+      margin: auto 1.5rem;
+      width: 1px;
+      background: #000C48;
+      height: 65px;
+  }
+  .halfCol.ebyFormWrapper {
+      width: 70%;
+      text-align: center;
+  }
+  .referralFormHeader {
+      margin-bottom: 2.5rem;
+  }
+  .referralFormHeader p {
+      margin: 0;
+      text-align: center;
+      line-height: initial;
+      font-size:1.6rem;
+  }
+  p.header {
+      font-weight: 400;
+      text-transform: capitalize;
+      font-size: 2rem;
+      margin-bottom:0.75rem;
+  }
+  .erp-fieldsWrapper {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-direction: row;
+      flex-wrap: wrap;
+      max-width: 300px;
+      margin: 0 auto;
+  }
+  .referralFieldWrapper.email {
+      width: 100%;
+      margin-bottom: 1rem;
+  }
+  .referralFieldWrapper {
+      width: 50%;
+  }
+  .referralFieldWrapper input {
+      width: 100%;
+      padding: 0.25rem 0.75rem;
+      font-size: 1.5rem;
+      border: 1px solid #000C48;
+      border-radius: 0;
+      height: 43px;
+      line-height: 1.45;
+   	  color: #000C48;
+  }
+  .referralFieldWrapper input[type="submit"] {
+  	height: auto;
+  }
+  .referralFieldWrapper.first-name {
+      width: 48%;
+  }
+  .referralFieldWrapper.submitWrapper.submit {
+      margin: 2.5rem auto 1rem;
+      max-width: 200px;
+      width: 100%;
+  }
+  input.referralCreateAccountBtn,
+  input.referralSignInBtn {
+      border: 1px solid #000C48;
+      background: #000C48;
+      color: #fff;
+      border-radius: 4px;
+      padding: 1rem 2rem;
+      text-align: center;
+  }
+  p.context {
+      font-size: 1.25rem;
+      margin: 0 auto;
+      line-height: normal;
+      max-width: 170px;
+  }
+  p.referralTermsContext {
+      font-size: 1.25rem;
+      margin: 0;
+  }
+  p a {
+      color: #0064ff;
+      text-decoration: none;
+  }
+  
+  
+  .smile-lp .hero {
+    margin-top: 0;
+  }
+  .smile-lp .hero-give {
+    background: #f6f1ef;
+    position: relative;
+  }
+  .smile-lp .hero-give .hero-image-content h1 {
+    padding: 0;
+    text-transform: none;
+  }
+  @media (min-width: 992px) {
+    .smile-lp .hero-give .hero-image-content {
+      float: left;
+    }
+    .smile-lp .hero-give .hero-text-content {
+      float: right;
+    }
+  }
+  .smile-lp .hero-power .hero-image-content h2 {
+    text-align: center;
+    color: #000c48;
+    font-family: "Domaine Regular",serif;
+    font-size: 70px;
+    text-transform: uppercase;
+    margin: 0;
+    font-weight: 400;
+  }
+  @media (min-width: 768px) {
+    .smile-lp .hero-power .hero-image-content h2 {
+      font-size: 80px;
+    }
+  }
+  @media (min-width: 1024px) {
+    .smile-lp .hero-power .hero-image-content h2 {
+      font-size: 106.7px;
+    }
+  }
+  @media (min-width: 1440px) {
+    .smile-lp .hero-power .hero-image-content h2 {
+      font-size: 150px;
+    }
+  }
+  @media (min-width: 1920px) {
+    .smile-lp .hero-power .hero-image-content h2 {
+      font-size: 200px;
+    }
+  }
+  .smile-lp .hero-power .hero-image-content .top-heading {
+    padding-top: 12px;
+  }
+  @media (min-width: 768px) {
+    .smile-lp .hero-power .hero-image-content .top-heading {
+      padding-top: 15px;
+    }
+  }
+  @media (min-width: 1024px) {
+    .smile-lp .hero-power .hero-image-content .top-heading {
+      padding-top: 18px;
+    }
+  }
+  @media (min-width: 1440px) {
+    .smile-lp .hero-power .hero-image-content .top-heading {
+      padding-top: 25px;
+    }
+    .smile-lp .hero .row {
+        max-width: 1200px !important;
+    }
+  }
+  @media (min-width: 1920px) {
+    .smile-lp .hero-power .hero-image-content .top-heading {
+      padding-top: 30px;
+    }
+  }
+  /*
+  .smile-lp .hero-bg {
+    background: #e77499;
+    position: relative;
+  }
+  @media (min-width: 992px) {
+    .smile-lp .hero-bg .hero-img-block {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+    }
+  }
+  .smile-lp .hero-bg .hero-img-block div {
+    width: 100%;
+    height: 100%;
+  }
+  .smile-lp .hero-bg .hero-img-block img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    overflow: hidden;
+  }
+  .smile-lp .hero-bg .hero-img {
+    display: none;
+  }
+  @media (min-width: 1024px) {
+    .smile-lp .hero-bg .hero-img-mobile {
+      display: none;
+    }
+    .smile-lp .hero-bg .hero-img {
+      display: inline;
+    }
+  }
+  .smile-lp .hero-bg .hero-image-content {
+    height: 0;
+    padding: 0;
+  }
+  .smile-lp .hero-bg .hero-text-content {
+    padding: 30px 19px 50px;
+  }
+  .smile-lp .hero-bg h2 {
+    font-size: 36px;
+    line-height: 1.1;
+    color: #ffffff;
+    margin: 0 0 20px;
+  }
+  .smile-lp .hero-bg h2 i {
+    display: block;
+    color: #2031BA;
+  }
+  .smile-lp .hero-bg h2 i:before {
+    margin: 0;
+  }
+  .smile-lp .hero-bg .intro {
+    font-size: 16px;
+    line-height: 2;
+    color: #ffffff;
+    max-width: 400px;
+    margin-bottom: 30px;
+  }
+  .smile-lp .hero-bg .btn {
+    background: #2031BA;
+    border-color: #2031BA;
+    font-size: 16px;
+    font-weight: normal;
+    line-height: 1;
+    width: 180px;
+    padding: 15px 36px;
+    border-radius: 80px;
+    margin: 0;
+    text-transform: uppercase;
+  }
+  @media (min-width: 540px) {
+    .smile-lp .hero-bg .hero-text-content {
+      padding: 60px 19px 50px;
+    }
+    .smile-lp .hero-bg h2 {
+      font-size: 50px;
+      line-height: 1.43;
+      margin: 0;
+    }
+    .smile-lp .hero-bg h2 i {
+      display: inline;
+    }
+    .smile-lp .hero-bg .intro {
+      font-size: 18px;
+      max-width: 400px;
+      margin-bottom: 30px;
+    }
+    .smile-lp .hero-bg .btn {
+      font-size: 18px;
+      width: 220px;
+      padding: 20px 36px;
+    }
+  }
+  @media (min-width: 992px) {
+    .smile-lp .hero-bg .hero-text-content {
+      padding: 122px 19px 120px;
+    }
+  }
+  @media (min-width: 1200px) {
+    .smile-lp .hero-bg .hero-text-content {
+      padding: 122px 19px 196px;
+    }
+    .smile-lp .hero-bg h2 {
+      font-size: 56px;
+    }
+    .smile-lp .hero-bg .intro {
+      font-size: 20px;
+      max-width: 500px;
+      margin-bottom: 30px;
+    }
+    .smile-lp .hero-bg .btn {
+      font-size: 18px;
+      width: 240px;
+      padding: 26px 36px;
+    }
+  }
+  @media (min-width: 1400px) {
+    .smile-lp .hero-bg .btn {
+      text-transform: capitalize;
+    }
+  }*/
+  .smile-lp .referral-section-refer {
+    background: #F8F5F5;
+  }
+  .smile-lp .referral-section-refer .sectionInnerWrapper,
+  .smile-lp .referral-section-earning .sectionInnerWrapper {
+    padding: 70px 5rem 90px;
+  }
+  .smile-lp .referral-section-refer h3,
+  .smile-lp .referral-section-easy h3,
+  .smile-lp .referral-section-earning h3 {
+    font-size: 34px;
+    line-height: 1.1;
+  }
+  .smile-lp .referral-section-refer .referralProgramOfferings,
+  .smile-lp .referral-section-earning .referralProgramOfferings {
+    width: 100%;
+  }
+  .smile-lp .referral-section-refer .referralProgramOfferings {
+    margin: 70px auto 56px;
+  }
+  .smile-lp .referral-section-earning .referralProgramOfferings {
+    margin: 60px auto 56px;
+  }
+  .smile-lp .referral-section-refer .sectionInnerWrapper .referralProgramOfferings ul,
+  .smile-lp .referral-section-easy .sectionInnerWrapper .referralProgramOfferings ul,
+  .smile-lp .referral-section-earning .sectionInnerWrapper .referralProgramOfferings ul {
+    margin: 0;
+  }
+  .smile-lp .referral-section-refer .sectionInnerWrapper .referralProgramOfferings ul,
+  .smile-lp .referral-section-earning .sectionInnerWrapper .referralProgramOfferings ul {
+    align-items: flex-start;
+  }
+  .smile-lp .referral-section-refer .referralProgramOfferings ul .offeringWrapper,
+  .smile-lp .referral-section-earning .referralProgramOfferings ul .offeringWrapper {
+    padding: 0;
+    max-width: 100%;
+    flex-direction: column;
+    text-align: center;
+    flex-basis: 0;
+    flex-grow: 1;
+  }
+  .smile-lp .referral-section-refer .referralProgramOfferings ul .offeringWrapper .offeringContent,
+  .smile-lp .referral-section-earning .referralProgramOfferings ul .offeringWrapper .offeringContent {
+    width: 100%;
+  }
+  .smile-lp .referral-section-refer .referralProgramOfferings ul .offeringWrapper .number,
+  .smile-lp .referral-section-earning .referralProgramOfferings ul .offeringWrapper .number {
+    margin-bottom: 30px;
+  }
+  .smile-lp .referral-section-refer .referralProgramOfferings ul .offeringWrapper .offeringContent p,
+  .smile-lp .referral-section-earning .referralProgramOfferings ul .offeringWrapper .offeringContent p {
+    font-size: 16px;
+    line-height: 1.75;
+  }
+  .smile-lp .referral-section-refer .referralProgramOfferings ul .offeringWrapper .offeringContent p.headlineCopy,
+  .smile-lp .referral-section-earning .referralProgramOfferings ul .offeringWrapper .offeringContent p.headlineCopy {
+    font-size: 20px;
+    font-weight: bold;
+    line-height: 1.6;
+    margin-bottom: 11px;
+  }
+  @media (min-width: 540px) {
+    .smile-lp .referral-section-refer h3,
+    .smile-lp .referral-section-easy h3,
+    .smile-lp .referral-section-easy h3,
+    .smile-lp .referral-section-earning h3 {
+      font-size: 40px;
+      line-height: 2;
+    }
+    .smile-lp .referral-section-refer .referralProgramOfferings ul .offeringWrapper .offeringContent,
+    .smile-lp .referral-section-earning .referralProgramOfferings ul .offeringWrapper .offeringContent {
+      width: 70%;
+    }
+  }
+  @media (max-width: 769px) {
+    .smile-lp .hero .row {
+    	flex-direction:column;
+    }
+    .smile-lp .referral-section-refer .referralProgramOfferings ul .offeringWrapper:not(:last-of-type),
+    .smile-lp .referral-section-earning .referralProgramOfferings ul .offeringWrapper:not(:last-of-type) {
+      padding-bottom: 50px;
+    }
+  }
+  .smile-lp .referral-section-easy .sectionInnerWrapper {
+    padding: 100px 2rem 150px;
+  }
+  .smile-lp .referral-section-easy .referralProgramOfferings {
+    margin: 60px auto 0;
+  }
+  .smile-lp .referral-section-easy .sectionInnerWrapper .referralProgramOfferings ul .offeringWrapper {
+    align-items: flex-start;
+    max-width: 300px;
+  }
+  .smile-lp .referral-section-easy .sectionInnerWrapper .referralProgramOfferings ul .offeringWrapper .offeringIcon {
+    width: 64px;
+    margin-right: 30px;
+  }
+  .smile-lp .referral-section-easy .sectionInnerWrapper .referralProgramOfferings ul .offeringWrapper .offeringContent p {
+    font-size: 16px;
+    font-weight: normal;
+    line-height: normal;
+  }
+  .smile-lp .referral-section-easy .sectionInnerWrapper .referralProgramOfferings ul .offeringWrapper .offeringContent p.headlineCopy {
+    font-size: 24px;
+    font-weight: bold;
+    line-height: normal;
+    margin-bottom: 0.75rem;
+  }
+  @media (min-width: 540px) {
+    .smile-lp .referral-section-easy .sectionInnerWrapper .referralProgramOfferings ul .offeringWrapper .offeringContent p {
+      font-size: 20px;
+    }
+    .smile-lp .referral-section-easy .sectionInnerWrapper .referralProgramOfferings ul .offeringWrapper .offeringContent p.headlineCopy {
+      font-size: 28px;
+    }
+  }
+  @media (max-width: 769px) {
+    .smile-lp .referral-section-easy .sectionInnerWrapper {
+      padding: 80px 2rem 100px;
+    }
+    .tabs .tab a,
+    p.header {
+    	font-size:1.6rem;
+    }
+  }
+</style>
+<div class="smile-lp">
+  <section class="hero hero-give">
+    <div class="row">
+      <div class="col-12 col-md-6 order-md-2 hero-image-content">
+        <h1 class="top-heading">Give $10</h1>
+        <div class="hero-img-block">
+          <div class="icon icon-left"><i class='eby ebyicon-ebybolt' aria-hidden='true'></i></div>
+          <div class="hero-img-mobile">
+            <img class="lazyload" width="202" height="202" data-src="https://cdn.shopify.com/s/files/1/0313/4062/5964/files/smile-banner-mobile.jpg?v=1620676062" alt="Give $10, Get $10" >
+          </div>
+          <div class="hero-img">
+            <img class="lazyload" width="307" height="307" data-src="https://cdn.shopify.com/s/files/1/0313/4062/5964/files/smile-banner.jpg?v=1620676063" alt="Give $10, Get $10" >
+          </div>
+          <div class="icon icon-right"><i class='eby ebyicon-ebybolt' aria-hidden='true'></i></div>
+        </div>        
+        <h1 class="bottom-heading">Get $10</h1>
+      </div>
+      <div class="col-12 col-md-6 order-md-1 hero-text-content">
+        <p class="cta-text">SPREAD THE WORD</p>
+        <h2>Give $10, Get $10</h2>
+        <p class="intro">Refer your friends and get rewards! Start sending to start earning!</p>
+          {% unless customer %}
+<!-- 		  <a class="btn hero-btn btn-rev options-btn ebyFancyBtn" data-src="#erpWrapper" href="javascript:;">Get Started</a> -->
+        	  <a class="btn hero-btn btn-rev" href="#get-started-referring">GET STARTED</a>
+<!--         	  <a class="btn hero-btn btn-rev options-btn ebyFancyBtn" data-src="#erpWrapper" >Get Started</a> -->
+			<div class="arrow-sep"></div>
+        {% else %}
+            <div class="buttonWrapper" style="justify-content:center;">
+              <a class="btn hero-btn btn-rev" href="#" data-lion-refer>Share My Link</a>
+            </div>
+        {% endunless %}
+          
+      </div>
+    </div>
+  </section>
+  <section class="referral-section referral-section-easy">
+    <div id="get-started-referring" class="sectionInnerWrapper">
+      <h3>It’s As Easy As</h3>
+      <div class="referralProgramOfferings">
+        <ul>
+          <li class="offeringWrapper">
+            <div class="offeringIcon">
+              <img width="54" height="54" class="lazyload" data-src="//cdn.shopify.com/s/files/1/0313/4062/5964/files/ICON_-_Referral.png" alt="Referral Program Savings" title="Referral Program Savings" />
+            </div>
+            <div class="offeringContent">
+              <p class="headlineCopy">Give $10</p>
+<!--               <p>To friends &amp; family in the form of your exclusive link</p> -->
+            </div>
+          </li>
+          <li class="offeringBreakline"></li>
+          <li class="offeringWrapper">
+            <div class="offeringIcon">
+              <img width="54" height="54" class="lazyload" data-src="//cdn.shopify.com/s/files/1/0313/4062/5964/files/ICON_-_Referral.png" alt="Referral Program Savings" title="Referral Program Savings" />
+            </div>
+            <div class="offeringContent">
+              <p class="headlineCopy">Get $10</p>
+<!--               <p>When anyone uses your link's coupon at checkout</p> -->
+            </div>
+          </li>
+        </ul>
+        <div class="btnWrapper">
+        	<p>Tell your friends about EBY. You’ll get $10 and they’ll get $10 off!</p>
+        </div>
+      </div>
+      {% unless customer %}
+      	<div class="ebyEmbFormWrapper">
+          <div class="row">
+            <div class="ebytabsWrapper">
+              <div class="col s12">
+                <ul class="tabs">
+                  <li class="tab col s3"><a href="#sign_in">Sign In To My Account</a></li>
+                  <li class="tab col s3"><a class="active" href="#sign_up">Start A New Account</a></li>
+                </ul>
+              </div>
+              <div id="sign_in" class="col s12">
+                <section class="ebyPopInnerWrapper">
+<!--                   <header class="referralFormHeader">
+                    <p class="header">Have an EBY account already?</p>
+                    <p>Please sign in to see your earnings and referral link shares so far.</p>
+                  </header> -->
+                  <div class="halfCol ebyFormWrapper">
+                  	<div class="loginBlock">
+                      <div id="frmAccountTabLogin" class="tab-pane{% if isLogin %} active{% endif %}">
+                            <div id="ResetPassword" class="resetPassword alert alert-success hidden">
+                                {{ 'customer.recover_password.success' | t }}
+                            </div>
+                            <div id="CustomerLoginForm" class="formAccount formAccountLogin">
+                            	{% form 'customer_login' %}
+                                    <div class="formContent">
+                                        <div class="ebyFormWrapper" style="max-width:300px;margin: 0 auto;">
+                                            {%- if form.errors -%}
+                                            <div class="alert alert-danger">
+                                                {{ form.errors | default_errors }}
+                                            </div>
+                                            {%- endif -%}
+                                            <div class="referralFieldWrapper fullCol form-group{% if form.errors contains 'email' %} has-error{% endif %}">
+                                                <label for="CustomerEmail" class="hidden">{{ 'customer.login.email' | t }}</label>
+                                                <input autocomplete="off" type="email" name="customer[email]" id="CustomerEmail" class="referralFieldInput form-control" placeholder="{{ 'customer.login.email' | t }}" required {% if isLogin %}autofocus{% endif %}>
+                                            </div>
+                                            {%- if form.password_needed -%}
+                                                <div class="referralFieldWrapper fullCol form-group form-group--pasword{% if form.errors contains 'password' %} has-error{% endif %}">
+                                                    <label for="CustomerPassword" class="hidden">{{ 'customer.login.password' | t }}</label>
+                                                    <input autocomplete="off" type="password" value="" name="customer[password]" id="CustomerPassword" class="referralFieldInput form-control" placeholder="{{ 'customer.login.password' | t }}" required>
+                                                    {% comment %}
+                                                    <a href="javascript:void(0)" class="velaShowPassword">{{ 'customer.account.show_password' | t }}</a>
+                                                    {% endcomment %}
+                                                </div>
+                                            {%- endif -%}
+                                            <div class="referralFieldWrapper submitWrapper submit form-button">
+                                                <input type="submit" class="btn btnVelaOne" value="{{ 'customer.login.sign_in' | t }}">
+                                            </div>
+                                            {%- if form.password_needed -%}
+                                                <div class="forgetPassword">
+                                                  <a href="/account/login#recover" class="velaRecoverPassword">Forgot Password?</a>
+                                                </div>
+                                            {%- endif -%}
+                                        </div>
+                                    </div>
+                                {% endform %}
+                            </div>
+                        </div>
+                    </div>
+                  </div>
+                </section>
+              </div>
+              <div id="sign_up" class="col s12">
+                <section class="ebyPopInnerWrapper referralFormWrapper">
+<!--                   <header class="referralFormHeader">
+                    <p class="header">New or don't have an EBY account yet?</p>
+                    <p>Please provide your information below to get a referral link. We will email you to confirm your email for the EBY account.</p>
+                  </header> -->
+                  <div class="halfCol ebyFormWrapper">
+                    <form class="esu-form" id="esu-form">
+                        <input type="hidden" name="form_type" value="create_customer">
+                        <div class="erp-fieldsWrapper">
+                          <div class="referralFieldWrapper email">
+                            <label class="hidden" for="email">Email</label>
+                            <input class="referralFieldInput email-input" type="email" name="customer[email]" placeholder="Email">
+                          </div>
+
+                          <div class="referralFieldWrapper first-name">
+                            <label class="hidden" for="first-name">First name</label>
+                            <input class="referralFieldInput name-input" type="text" name="customer[first_name]" placeholder="First Name" />
+                          </div>
+
+                          <div class="referralFieldWrapper password">
+                            <label class="hidden" for="password">Password</label>
+                            <input class="referralFieldInput pass-input" type="password" name="customer[password]" placeholder="Password" />
+                          </div>
+                        </div>
+
+                        <div class="hidden">
+                          <label class="hidden" for="note">Note</label>
+                          <input type="text" name="customer[note]" value="referral_program_customer">
+                        </div>
+
+                        <div class="referralFieldWrapper submitWrapper submit">
+                          <input type="submit" value="Sign Up!" class="btn referralCreateAccountBtn" />
+                        </div>
+
+                        <p class="context">** You can update your account later at any time.</p>
+                    </form>
+                  </div>
+                </section>
+              </div>
+            </div>
+          </div>
+        </div>	
+      {% else %}
+      	<div class="buttonWrapper" style="justify-content:center;">
+      		<a class="btn hero-btn btn-rev" href="#" data-lion-refer>Share My Link</a>
+      	</div>
+      {% endunless %}
+    </div>
+  </section>
+  <section class="referral-section referral-section-refer">
+    <div class="sectionInnerWrapper">
+      <h3>How to refer your friends</h3>
+      <div class="referralProgramOfferings">
+        <ul>
+          <li class="offeringWrapper">
+            <div class="number">
+              <img width="90" height="85" class="lazyload" data-src="https://cdn.shopify.com/s/files/1/0313/4062/5964/files/GRAPHIC_-_Number_1.svg?v=1620675470" alt="1">
+            </div>
+            <div class="offeringContent">
+              <p class="headlineCopy">Get Your Link</p>
+              <p>Sign up for Power Points and get your referral link. Copy that link and send it out via social, text, email, morse code — however you communicate with your BFFs.</p>
+            </div>
+          </li>
+          <li class="offeringWrapper">
+            <div class="number">
+              <img width="90" height="85" class="lazyload" data-src="https://cdn.shopify.com/s/files/1/0313/4062/5964/files/GRAPHIC_-_Number_2.svg?v=1620675470" alt="2">
+            </div>
+            <div class="offeringContent">
+              <p class="headlineCopy">Your Friends Purchase</p>
+              <p>This is critical, y’all. Make sure your friends treat their booty to better panties. When they use the discount through your link that’s when you get rewarded.</p>
+            </div>
+          </li>
+          <li class="offeringWrapper">
+            <div class="number">
+              <img width="90" height="85" class="lazyload" data-src="https://cdn.shopify.com/s/files/1/0313/4062/5964/files/GRAPHIC_-_Number_3.svg?v=1620675470" alt="3">
+            </div>
+            <div class="offeringContent">
+              <p class="headlineCopy">You Collect $10</p>
+              <p>Once their purchase has gone through, you’ll see a reward for $10 on your Power Points dashboard. Use it on panties, bralettes, packs and more.</p>
+            </div>
+          </li>
+        </ul>
+      </div>
+      <div class="buttonWrapper" style="justify-content:center;">
+        {% unless customer %}
+        	<a class="btn btn-rev options-btn ebyFancyBtn" data-src="#erpWrapper" href="javascript:;">Let’s Do It</a>
+      	{% else %}
+            <div class="buttonWrapper">
+              <a class="btn hero-btn btn-rev" href="#" data-lion-refer>Share My Link</a>
+            </div>
+        {% endunless %}
+      </div>
+    </div>
+  </section>
+  <section class="referral-section referral-section-refer">
+    <div class="sectionInnerWrapper">
+      <h3>Ways To Get Points</h3>
+      <div data-lion-rules-list></div>
+    </div>
+    
+    <div class="sectionInnerWrapper">
+      <h3>Ways To Redeem Points</h3>
+      <div data-lion-rewards-list></div>
+    </div>
+  </section>
+</div>
+
+<script type="text/javascript" defer>
+  var ready = (callback) => {
+    if (document.readyState != "loading") callback();
+    else document.addEventListener("DOMContentLoaded", callback);
+  }
+
+  ready(() => { 
+    /* Do things after DOM has fully loaded */ 
+    document.querySelectorAll(".smile-lp .btn").forEach(cta => {
+      cta.addEventListener("click", (e) => {
+        console.log('trigger custom-launcher-button');
+        //e.preventDefault();
+        jQuery('.custom-launcher-button.open').trigger('click');
+      });
+    })
+  });
+</script>
+<div style="display:none;" class="erpWrapper referralFormWrapper" data-width="640" data-height="auto" id="erpWrapper">
+  <header class="referralFormHeader">
+    <p class="header">Refer friends &amp; earn rewards</p>
+    <p>Please sign in or make an account to use our referral program.</p>
+  </header>
+  <section class="ebyPopInnerWrapper">
+    <div class="halfCol ebyCtaWrapper">
+      	<a href="/account/login" class="ebyBtn btn sign_in_btn">Sign In</a>
+    </div>
+    <div class="colDivider">&nbsp;</div>
+  	<div class="halfCol ebyFormWrapper">
+      
+      <form class="eca-form" id="eca-form-referral" method="post">
+        <div class="erp-fieldsWrapper">
+          <div class="referralFieldWrapper email">
+            <label class="hidden" for="email">Email</label>
+            <input class="referralFieldInput email" type="email" name="customer[email]" placeholder="Email">
+          </div>
+
+          <div class="referralFieldWrapper first-name">
+            <label class="hidden" for="first-name">First name</label>
+            <input class="referralFieldInput name" type="text" name="customer[first_name]" placeholder="First Name" />
+          </div>
+
+          <div class="referralFieldWrapper password">
+            <label class="hidden" for="password">Password</label>
+            <input class="referralFieldInput pass" type="password" name="customer[password]" placeholder="Password" />
+          </div>
+        </div>
+
+        <div class="hidden">
+          <label class="hidden" for="note">Note</label>
+          <input type="text" name="customer[note]" value="referral_program_customer">
+        </div>
+
+        <div class="referralFieldWrapper submitWrapper submit">
+          <input type="submit" value="Sign Up!" class="referralCreateAccountBtn" />
+        </div>
+
+        <p class="context">** You can update your account later at any time.</p>
+      </form>
+    </div>
+  </section>
+</div>
+<script type="text/javascript" defer>
+  
+  document.addEventListener("DOMContentLoaded", function () {
+    
+//     $('.tabs').tabs({
+//       swipeable: true
+//     });
+    
+    $('body').on('click', '.tabs a', function (e) {
+      	console.log('log', e);
+    	e.preventDefault();
+      	e.stopPropagation();
+     	return false;
+    });
+    var instance = M.Tabs.init(document.querySelector('.tabs'));
+    
+    $('#esu-form').submit(function (ev) {
+      ev.preventDefault();
+      console.log(":: form submit attempt ::", ev.target);
+      
+      var scope = this;
+      var form = ev.target;
+
+      
+      let payloadReady = true;
+      
+      var formData = {
+        "first_name": jQuery('#esu-form .name-input').val(),
+        "email" : jQuery('#esu-form .email-input').val(),
+        "password" : jQuery('#esu-form .pass-input').val(),
+        "password_confirmation" : jQuery('#esu-form .pass-input').val(),
+        "verified_email" : true,
+        "send_email_welcome" : false
+      };
+      
+      if (!!payloadReady) {
+        jQuery.ajax({
+          type: "POST",
+          crossDomain : true,
+          url: window.APIDomain+window.otherAPI+"eby_customer_helper.php",
+          data: {data: formData},
+          dataType: 'json',
+          success: function(data){
+            console.log("::eby customer save success::", data);
+
+            if(!!data){
+              console.log('check data', data);
+            }
+            
+            
+            var customer = {
+              "email" : jQuery('#esu-form .email-input').val(),
+              "password" : jQuery('#esu-form .pass-input').val()
+            };
+            
+            // clear data
+            jQuery('#esu-form .name-input').val('');
+            jQuery('#esu-form .email-input').val('');
+            jQuery('#esu-form .pass-input').val('');
+            jQuery('#esu-form .pass-input').val('');
+            
+            jQuery.ajax({
+              type: "POST",
+              crossDomain : true,
+              url: "/account/login",
+              data: {              
+                "utf8": "✓",
+              	"form_type": "customer_login",
+              	"recaptcha-v3-token": Shopify.recaptchaV3.siteKey,
+                "customer": customer
+              },
+              dataType: 'json',
+              success: function(data){
+                console.log("::eby customer login success::", data);
+
+                window.location.replace('/account');
+              },
+              error: function(xhr, text) {
+                
+                window.location.replace('/account');
+
+//                 console.log("::eby customer login failure::", {
+//                   text : text,
+//                   xhr : xhr
+//                 });
+
+              }
+            });
+            
+            M.toast({html: '<span class="atcNoteAvatar"><header><p class="bold">ACCOUNT CREATED</p><p>Sign in anytime to check your referrals.</p></header></span>', classes: 'ebyAtcAlert ebyReferralMsg success'});
+          },
+          error: function(xhr, text) {
+
+            console.log("::eby customer save failure::", {
+              text : text,
+              xhr : xhr
+            });
+            
+            //jQuery('#esu-form .name-input').val(''),
+            //jQuery('#esu-form .email-input').val(''),
+            jQuery('#esu-form .pass-input').val('');
+            jQuery('#esu-form .pass-input').val('');
+            
+            if (xhr.responseText.indexOf('has already been taken') > 0) {
+            	// this is a person that needs to sign in
+              M.toast({html: '<span class="atcNoteAvatar"><header><p class="bold">OOPS!</p><p>Looks like you already have an account; try signing in with that email.</p></header></span>', classes: 'ebyAtcAlert ebyReferralMsg error'});
+            }
+
+          }
+        });
+        
+      }
+      
+    });
+    
+    
+  	$('body').on('click', '.ebyFancyBtn', function (ev) {
+          console.log('::ebyfancyBtn init - referral::');
+          ev.preventDefault();
+
+          // show popup
+          var popupId = !!ev.target.getAttribute('src') ? ev.target.getAttribute('src') : ev.target.getAttribute('data-src');
+          $.fancybox.open(jQuery(popupId));
+
+          // if its select-styleGroup, then show s&d options
+          var btnType = ev.target.getAttribute('data-type');
+          var btnVal = ev.target.getAttribute('data-value');
+          console.log('::button data::', {btnVal:btnVal,btnType:btnType });
+    });
+    $('body').on('submit', '.referralFormWrapper form', function () {
+      
+      window.localStorage.setItem('err',true);
+      //yahooTracking
+      console.log(':: referral tracking init ::');
+      window.dotq = window.dotq || [];
+      window.dotq.push({
+        'projectId' : "10000",
+        'properties' : {
+          'pixelId' : "10172108",
+          'qstrings' : {
+            "et" : "custom",
+            "ec" : "shopping",
+            "ea" : "yn-new_referral_account",
+            "el" : "sign up",
+            "ev" : "",
+            "gv" : "",
+          }
+        }
+      });
+    });
+  });
+</script>

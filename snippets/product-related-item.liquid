@@ -1,0 +1,532 @@
+{%- unless settings.free_gift_enabled == true and product.id == all_products[settings.free_gift_product].id -%}
+{% assign on_sale = false %}
+{% assign isOnDealSale = false %}
+
+{% for prodTag in product.tags %}
+{% if prodTag contains "lightningDeal-" or prodTag contains "apparelSale-apr2023" %}
+{% assign on_sale = true %}
+{% assign isOnDealSale = true %}
+{% endif %}
+{% endfor %}
+<div class="item ebyProdTile epcWrapper {% if on_sale or isOnDealSale %}this_sale{% endif %} {% if product.metafields.ebyacf.product_is_new_release %} newRelease{% endif %}{% if prodIsLe == "limited_edition" %} limitedReleaseTile{% endif %}" 
+     data-prodTitle="{{ product.title }}"
+     data-prodSku="{{ product.id }}"
+     data-reviewsCount="{{ product.metafields.stamped.reviews_average }}"
+     >
+  {% if on_sale and shop.metafields.ebyacf.enable_holiday_mode__global %}<div class="labelSale holidaySaleFlag">Sale</div>{% endif %}
+  {% if isOnDealSale %}<div class="labelSale holidaySaleFlag">Sale</div>{% endif %}
+  
+  {% assign isOnHolidaySale = false %}
+  {% if shop.metafields.ebyacf.enable_holiday_mode__global%}
+      {% assign isOnHolidaySale = false %}
+      {% for prodTag in product.tags %}
+      {% if prodTag contains "lds2022-" or prodTag contains "apparelSale-apr2023" %}
+      {% assign isOnHolidaySale = true %}
+      {% endif %}
+      {% endfor %}
+      
+      {% if isOnHolidaySale %}
+          {% assign premSkuCodes = ""%}
+          {% assign holidayDiscounts = "50%,50%,72%,72%,30%,72%,30%,30%,42%,25%,25%,50%,50%,50%,50%,50%" | split: ',' %}
+          {% assign holidayCodes = "PB,KL,SL,DP,BO,FB,SP,BI,P3,BK,NU,EB,PO,LG,P4,GR" | split: "," %}
+          {% assign currSkuCode = product.selected_or_first_available_variant.sku | slice: 7, 2 %}
+          {% assign holidayCottonDiscounts = "50%,60%,50%,60%" | split: ',' %}
+          {% assign holidayCottonCodes = "BO,LG,BK,FR" | split: "," %}
+
+          {% assign currSaleDiscount = "40%" %}
+
+          {% comment %}
+          {% if product.type contains "Silk" %}
+              {% assign currSaleDiscount = "50%" %}
+          {% elsif product.type contains "Mesh" %}
+            {% assign currSaleDiscount = "25%" %}
+          {% elsif product.type == "Tank" or product.type == "Bodysuit" %}
+              {% for prodTag in product.tags %}
+              {% if prodTag contains "eoy2022-sale" %}
+              {% assign currSaleDiscount = prodTag | replace: "eoy2022-sale_", "" %}
+              {% endif %}
+              {% endfor %}
+          {% elsif product.type == "Cotton Bralette" or product.type == "Cotton Underwear" %}
+              {% if holidayCottonCodes contains currSkuCode %}
+                {% for skuCode in holidayCottonCodes %}
+                  {% if currSkuCode == skuCode %}
+                    {% assign skuCodeIndex = forloop.index0 %}
+                    {% break %}
+                  {% endif %}
+                {% endfor %}
+              {% endif %}
+            
+              {% assign currSaleDiscount = holidayCottonDiscounts[skuCodeIndex] %}
+          {% else %}
+              {% if holidayCodes contains currSkuCode %}
+                {% for skuCode in holidayCodes %}
+                  {% if currSkuCode == skuCode %}
+                    {% assign skuCodeIndex = forloop.index0 %}
+                    {% break %}
+                  {% endif %}
+                {% endfor %}
+              {% endif %}
+            
+              {% assign currSaleDiscount = holidayDiscounts[skuCodeIndex] %}
+          {% endif %}
+          {% endcomment %}
+      
+      {% else %}
+          {% assign currSaleDiscount = "n_a" %}
+      {% endif %}
+  {% else %}
+      {% for prodTag in product.tags %}
+      {% if prodTag contains "lightningDeal-" %}
+          {% assign isOnDealSale = true %}	
+          {% assign dealSalePrice = prodTag | replace: "lightningDeal-", "" %}
+      {% endif %}
+      {% if prodTag contains "capsuleDeal-" %}
+          {% assign isOnDealSale = true %}	
+          {% assign dealSalePrice = prodTag | replace: "capsuleDeal-", "" %}
+      {% endif %}
+      {% endfor %}
+
+  {% endif %}
+
+  {%- unless proImageSize -%}
+      {%- assign proImageSize = '800x' -%}
+  {%- endunless -%}
+  {%- assign on_sale = false -%}
+  {%- if product.compare_at_price > product.price -%}
+      {%- assign on_sale = true -%}
+  {%- endif -%}
+  {%- assign sold_out = true -%}
+  {%- if product.available -%}
+      {%- assign sold_out = false -%}
+  {%- endif -%}
+  {%- if product.description contains '[SHORTDESCRIPTION]' -%}
+      {%- assign shortDescription = product.description | split:'[SHORTDESCRIPTION]' | first -%}
+  {%- else -%}
+      {%- assign shortDescription = product.description | strip_html | truncatewords: 20 -%}
+  {%- endif -%}
+  {%- assign showQuickAdd = false -%}
+  {% if product.type contains "Cotton" %}
+      {%- assign showQuickAdd = true -%}
+  {% else %}
+      {% if product.handle contains 'pack' or product.handle contains 'sets' %}
+      {% else %}
+          {%- assign showQuickAdd = true -%}
+      {% endif %}
+  {% endif %}
+
+
+  {%- assign productUrl = product.url -%}
+  {%- unless productUrl contains '?' -%}
+      {%- assign productUrl = productUrl -%}
+  {%- endunless -%}
+  {%- assign productUrl = productUrl -%}
+
+
+{%- assign hasFlag = "false" -%}
+                    {% for prodTag in product.tags %}
+                        {% if prodTag contains "prodFlag-" %}
+                            {% assign hasFlag = "true" %}
+                            {% assign prodFlag = prodTag | replace: "prodFlag-", "" | replace: "_", " " | capitalize %}
+                        {% endif %}
+                    {% endfor %}
+                    {% if product.type contains "Underwear" %}
+                        {% for prodTag in product.tags %}
+                            {% if prodTag contains "pantyType-" %}
+                                {%- assign prodNameTitle = prodTag | replace: "pantyType-", "" | replace: "_", " " -%}
+                            {% endif %}
+                            {% if prodTag contains "pantyColor-" %}
+                                {%- assign prodColorTitle = prodTag | replace: "pantyColor-", "" | replace: "_", " " -%}
+                            {% endif %}
+                            {% if prodTag contains "pantyFabric-" %}
+                                {% if prodTag == "pantyFabric-signature" %}
+                                    {%- assign prodFabricTitle = "Seamless" -%}
+                                {% elsif prodTag == "pantyFabric-cotton" %}
+                                	{%- assign prodFabricTitle = "Seamless Cotton" -%}
+                                {% else %}
+									{% if product.type contains "Mesh" %}
+                                        {%- assign prodFabricTitle = "Seamless Sheer" -%}
+                                    {% else %}
+                                        {%- assign prodFabricTitle = "Seamless" -%}
+                                    {% endif %}
+                                {% endif %}
+                            {% endif %}
+                        {% endfor %}
+                    {% elsif product.type contains "Bralette" %}
+                        {%- assign prodNameTitle = "bralette" -%}
+                        {% for prodTag in product.tags %}
+                            {% if prodTag contains "braletteColor-" %}
+                                {%- assign prodColorTitle = prodTag | replace: "braletteColor-", "" | replace: "_", " " -%}
+                            {% endif %}
+                            {% if prodTag contains "braletteFabric-" %}
+                                {% if prodTag == "braletteFabric-signature" %}
+                                    {%- assign prodFabricTitle = "Seamless" -%}
+                                {% elsif prodTag == "braletteFabric-cotton" %}
+                                    {%- assign prodFabricTitle = "Seamless Cotton" -%}
+                				{% else %}
+									{% if product.type contains "Mesh" %}
+                                        {%- assign prodFabricTitle = "Seamless Sheer" -%}
+                                    {% else %}
+                                        {%- assign prodFabricTitle = "Seamless" -%}
+                                    {% endif %}
+                                {% endif %}
+                            {% endif %}
+                        {% endfor %}
+                    {% elsif product.type == "Wrap Top" %}
+                        {%- assign prodNameTitle = "Wrap Top" -%}
+                        {% for prodTag in product.tags %}
+                            {% if prodTag contains "wrapColor-" %}
+                                {%- assign prodColorTitle = prodTag | replace: "wrapColor-", "" | replace: "_", " " -%}
+                            {% endif %}
+                            {% if prodTag contains "wrapFabric-" %}
+                                {% if prodTag == "wrapFabric-signature" %}
+                                    {%- assign prodFabricTitle = "Seamless" -%}
+                                {% else %}
+                                    {%- assign prodFabricTitle = prodTag | replace: "wrapFabric-", "" | replace: "_", " " -%}
+                                {% endif %}
+                            {% endif %}
+                        {% endfor %}
+                    {% elsif product.type == "Bodysuit" %}
+                        {%- assign prodNameTitle = "Bodysuit" -%}
+                        {% for prodTag in product.tags %}
+                            {% if prodTag contains "bodysuitColor-" %}
+                                {%- assign prodColorTitle = prodTag | replace: "bodysuitColor-", "" | replace: "_", " " -%}
+                            {% endif %}
+                            {% if prodTag contains "bodysuitFabric-" %}
+                                {% if prodTag == "bodysuitFabric-signature" %}
+                                    {%- assign prodFabricTitle = "Seamless" -%}
+                                {% else %}
+                                    {%- assign prodFabricTitle = prodTag | replace: "bodysuitFabric-", "" | replace: "_", " " -%}
+                                {% endif %}
+                            {% endif %}
+                        {% endfor %}
+                    {% elsif product.type contains "Pack" %}
+                        {%- assign prodNameTitle = "Pack" -%}
+                        {% for prodTag in product.tags %}
+                            {% if prodTag contains "packColor-" %}
+                                {%- assign prodColorTitle = prodTag | replace: "packColor-", "" | replace: "_", " " -%}
+                            {% endif %}
+                        {% endfor %}
+                    {% elsif product.type == "Tank" %}
+                        {%- assign prodNameTitle = "Tank" -%}
+                        {% for prodTag in product.tags %}
+                            {% if prodTag contains "tankColor-" %}
+                                {%- assign prodColorTitle = prodTag | replace: "tankColor-", "" | replace: "_", " " -%}
+                            {% endif %}
+                            {% if prodTag contains "tankFabric-" %}
+                                {% if prodTag == "tankFabric-signature" %}
+                                    {%- assign prodFabricTitle = "Seamless" -%}
+                                {% else %}
+                                    {%- assign prodFabricTitle = prodTag | replace: "tankFabric-", "" | replace: "_", " " -%}
+                                {% endif %}
+                            {% endif %}
+                        {% endfor %}
+                    {% endif %}
+
+                    {% if prodNameTitle == "highwaisted_thong" %}
+                        {% assign prdImgFileName = "hwthong" %}
+                    {% else %}
+                        {% assign prdImgFileName = prodNameTitle %}
+                    {% endif %}
+
+                      {% assign premImgFileName = prodColorTitle | replace: " ", "" | append: "---" | append: prdImgFileName | append: "---missy---tile_fr.jpg" %}
+
+  <div class="col velaProBlock quickadd carousel-item ept" data-size-guid="{% render 'collection-selectors-charts', product_target: product %}">
+    <div class="col-wrap velaProBlockInner">
+      {% if hasFlag == "true" %}
+      <div class="prodTileFlag">
+        <div class="prodTileFlagInnerWrapper">
+          <span>{{ prodFlag }}</span>
+        </div>
+      </div>
+      {% endif %}
+      <div class="product-image proHImage d-flex flexJustifyCenter">
+        <a class="proFeaturedImage" href="{{ product.url }}" draggable="false">
+          {% for image in product.images %}
+          {%- assign itemNumber = forloop.index -%}
+          {%- if itemNumber == 1 -%}
+          <img class="lazyload" width="240" height="300" draggable="false" alt="{{ image.alt }}" title="{{ image.alt }}" data-src="{{ image | img_url: '295x' }}">
+          {%- endif -%}
+          {% endfor %}
+          <div class="col-pro-details">
+            {% if product.type contains "Underwear" %}
+            <h3 href="{{ product.url }}" draggable="false">
+              <span>{{ prodFabricTitle| capitalize  }}</span>
+              <span>{{ prodNameTitle | capitalize  }}</span>
+              <span class="color">{{ prodColorTitle | capitalize  }}</span>
+            </h3>
+            {% else %}
+            <h3 href="{{ product.url }}" draggable="false">
+              <span>{{ prodFabricTitle| capitalize  }}</span>
+              <span>{{ prodNameTitle | capitalize  }}</span>
+              <span class="color">{{ prodColorTitle | capitalize  }}</span>
+            </h3>
+            {% endif %}
+            <div class="prodTileReviewWrapper">
+              {% if product.metafields.stamped.reviews_average %}
+              <span class="colReviewAggrWrapper" draggable="false"><span>{{ product.metafields.stamped.reviews_average | round:2 }}</span><i class="reviewStar"></i></span>
+              {% endif %}
+            </div>
+          </div>
+        </a>
+      </div>
+      <div class="product-details proButton clearfix">
+        {%- assign variantCount = product.variants | size -%}
+        <form action="/cart/add" method="post" enctype="multipart/form-data" class="formAddToCart filterModeAddToCart quick_btn">
+          <input class="filterItemOptVal" type="hidden" name="id" value="{{ product.variants.first.id }}" />
+          <input class="filterItemOptValDefault" type="hidden" name="properties[Shipping Option]" value="pickup Ecommerce WH" />
+          <button class="btn btnProduct quickAddBySizeBtn" type="submit" value="Submit">
+            <div class="quickAddBtnInnerWrapper">
+                <span class="text">Add To Bag</span>
+                <div class="prodTilePriceWrapper{% if customer.tags contains 'Active Subscriber' and product.metafields.ebyacf.vip_product_price %} vipHighlight{%endif%}">
+                  <p class="price bfx-price">{{ product.price | money_without_trailing_zeros  }}</p>
+                  {% if customer.tags contains 'Active Subscriber' %}
+                  {% if product.type == "Mask"%}
+                  {% if shop.metafields.ebyacf.enable_holiday_mode-vip_pg or shop.metafields.ebyacf.enable_holiday_mode-coll_pg %}
+                  <div class="priceProduct {% if customer.tags contains 'Active Subscriber' %}vipHighlight {%endif%}{% if on_sale %}priceSale bfx-sale-price{% endif %}bfx-price">{{ product.metafields.ebyacf.vip_product_price | replace: '/ ', '' | replace: ' members', ''  }}</div>
+                  {% else %}
+                  <div class="priceProduct {% if customer.tags contains 'Active Subscriber' %}vipHighlight {%endif%}{% if on_sale %}priceSale bfx-sale-price{% endif %}bfx-price">{{ product.price | money_without_trailing_zeros  }}</div>
+                  {% endif %}
+                  <div class="ebyProdTile-vipPriceWrapper bfx-remove-element">
+                    {% if shop.metafields.ebyacf.enable_holiday_mode-vip_pg or shop.metafields.ebyacf.enable_holiday_mode-coll_pg %}
+                    {%- assign discount = product.price | times: 44 | divided_by: 100 -%}
+                    {%- assign holidayPrice = product.price | minus: discount | money_without_currency -%}
+                    {% comment %}
+                    <p>/ <span class="ebyHolidayPrice bfx-sale-price bfx-price">${{holidayPrice}}</span> <span class="ebyHolidayDiscount bfx-price">{{ shop.metafields.ebyacf.sitewide_discount_price }}% Off</span></p>
+                    {% endcomment %}
+                    <p>/ <span class="ebyHolidayPrice bfx-sale-price bfx-price">$6</span> <span class="ebyHolidayDiscount bfx-price">{{ shop.metafields.ebyacf.sitewide_discount_price }} Off</span></p>
+                    {% else %}
+                    <p class="bfx-price">{{product.metafields.ebyacf.vip_product_price | replace: "( " | replace: " members )"}}</p>
+                    {% endif %}
+                  </div>
+                  {% elsif product.type == "Core Bralette" or product.type == "Cotton Bralette" or product.type == "Mesh Bralette" %}
+                  {% if shop.metafields.ebyacf.enable_holiday_mode-vip_pg or shop.metafields.ebyacf.enable_holiday_mode-coll_pg %}
+                  <div class="priceProduct {% if customer.tags contains 'Active Subscriber' %}vipHighlight {%endif%}{% if on_sale %}priceSale bfx-sale-price{% endif %}bfx-price">{{ product.metafields.ebyacf.vip_product_price | replace: '/ ', '' | replace: ' members', ''  }}</div>
+                  {% else %}
+                  <div class="priceProduct {% if customer.tags contains 'Active Subscriber' %}vipHighlight {%endif%}{% if on_sale %}priceSale bfx-sale-price{% endif %}bfx-price">{{ product.price | money_without_trailing_zeros  }}</div>
+                  {% endif %}
+                  <div class="ebyProdTile-vipPriceWrapper bfx-remove-element">
+                    {% if shop.metafields.ebyacf.enable_holiday_mode-vip_pg or shop.metafields.ebyacf.enable_holiday_mode-coll_pg %} 
+                    {%- assign discount = product.price | times: 42.27 | divided_by: 100 -%}
+                    {%- assign holidayPrice = product.price | minus: discount | money_without_currency -%}
+                    {% comment %}
+                    <p>/ <span class="ebyHolidayPrice bfx-sale-price bfx-price">${{holidayPrice}}</span> <span class="ebyHolidayDiscount bfx-price">{{ shop.metafields.ebyacf.sitewide_discount_price }}% Off</span></p>
+                    {% endcomment %}
+                    <p>/ <span class="ebyHolidayPrice bfx-sale-price bfx-price">$20</span> <span class="ebyHolidayDiscount bfx-price">{{ shop.metafields.ebyacf.sitewide_discount_price }} Off</span></p>
+                    {% else %}
+                    <p class="bfx-price">{{product.metafields.ebyacf.vip_product_price | replace: "( " | replace: " members )"}}</p>
+                    {% endif %}
+                  </div>
+                  {% elsif product.type == "Wrap Top" %}
+                  {% if shop.metafields.ebyacf.enable_holiday_mode-vip_pg or shop.metafields.ebyacf.enable_holiday_mode-coll_pg %}
+                  <div class="priceProduct {% if customer.tags contains 'Active Subscriber' %}vipHighlight {%endif%}{% if on_sale %}priceSale bfx-sale-price{% endif %}bfx-price">{{ product.metafields.ebyacf.vip_product_price | replace: '/ ', '' | replace: ' members', ''  }}</div>
+                  {% else %}
+                  <div class="priceProduct {% if customer.tags contains 'Active Subscriber' %}vipHighlight {%endif%}{% if on_sale %}priceSale bfx-sale-price{% endif %}bfx-price">{{ product.price | money_without_trailing_zeros  }}</div>
+                  {% endif %}
+                  <div class="ebyProdTile-vipPriceWrapper bfx-remove-element">
+                    {% if shop.metafields.ebyacf.enable_holiday_mode-vip_pg or shop.metafields.ebyacf.enable_holiday_mode-coll_pg %} 
+                    {%- assign discount = product.price | times: 42.27 | divided_by: 100 -%}
+                    {%- assign holidayPrice = product.price | minus: discount | money_without_currency -%}
+                    {% comment %}
+                    <p>/ <span class="ebyHolidayPrice bfx-sale-price bfx-price">${{holidayPrice}}</span> <span class="ebyHolidayDiscount bfx-price">{{ shop.metafields.ebyacf.sitewide_discount_price }}% Off</span></p>
+                    {% endcomment %}
+                    <p>/ <span class="ebyHolidayPrice bfx-sale-price bfx-price">$20</span> <span class="ebyHolidayDiscount bfx-price">{{ shop.metafields.ebyacf.sitewide_discount_price }} Off</span></p>
+                    {% else %}
+                    <p class="bfx-price">{{product.metafields.ebyacf.vip_product_price | replace: "( " | replace: " members )"}}</p>
+                    {% endif %}
+                  </div>
+                  {% elsif product.type == "Core Underwear" and product.tags contains "Featured Style" or product.type == "Mesh Underwear" %}
+                  {% if shop.metafields.ebyacf.enable_holiday_mode-vip_pg or shop.metafields.ebyacf.enable_holiday_mode-coll_pg %}
+                  <div class="priceProduct {% if customer.tags contains 'Active Subscriber' %}vipHighlight {%endif%}{% if on_sale %}priceSale bfx-sale-price{% endif %}bfx-price">{{ product.metafields.ebyacf.vip_product_price | replace: '/ ', '' | replace: ' members', ''  }}</div>
+                  {% else %}
+                  <div class="priceProduct {% if customer.tags contains 'Active Subscriber' %}vipHighlight {%endif%}{% if on_sale %}priceSale bfx-sale-price{% endif %}bfx-price">{{ product.price | money_without_trailing_zeros  }}</div>
+                  {% endif %}
+                  <div class="ebyProdTile-vipPriceWrapper bfx-remove-element">
+                    {% if shop.metafields.ebyacf.enable_holiday_mode-vip_pg or shop.metafields.ebyacf.enable_holiday_mode-coll_pg %} 
+                    {%- assign discount = product.price | times: 44 | divided_by: 100 -%}
+                    {%- assign holidayPrice = product.price | minus: discount | money_without_currency -%}
+                    {% comment %}
+                    <p>/ <span class="ebyHolidayPrice bfx-sale-price bfx-price">${{holidayPrice}}</span> <span class="ebyHolidayDiscount bfx-price">{{ shop.metafields.ebyacf.sitewide_discount_price }}% Off</span></p>
+                    {% endcomment %}
+                    <p>/ <span class="ebyHolidayPrice bfx-sale-price bfx-price">$9</span> <span class="ebyHolidayDiscount bfx-price">{{ shop.metafields.ebyacf.sitewide_discount_price }} Off</span></p>
+                    {% else %}
+                    <p class="bfx-price">{{product.metafields.ebyacf.vip_product_price | replace: "( " | replace: " members )"}}</p>
+                    {% endif %}
+                  </div>
+                  {% elsif product.type == "Core Underwear" or product.type == "Cotton Underwear" or product.type == "Tank" or product.type == "Bodysuit" or product.type == "Mesh Underwear" %}
+                  {% if shop.metafields.ebyacf.enable_holiday_mode-vip_pg or shop.metafields.ebyacf.enable_holiday_mode-coll_pg %}
+                  <div class="priceProduct {% if customer.tags contains 'Active Subscriber' %}vipHighlight {%endif%}{% if on_sale %}priceSale bfx-sale-price{% endif %}bfx-price">{{ product.metafields.ebyacf.vip_product_price | replace: '/ ', '' | replace: ' members', '' }}</div>
+                  {% else %}
+                  <div class="priceProduct {% if customer.tags contains 'Active Subscriber' %}vipHighlight {%endif%}{% if on_sale %}priceSale bfx-sale-price{% endif %}bfx-price">{{ product.price | money_without_trailing_zeros  }}</div>
+                  {% endif %}
+                  <div class="ebyProdTile-vipPriceWrapper bfx-remove-element">
+                    {% if shop.metafields.ebyacf.enable_holiday_mode-vip_pg or shop.metafields.ebyacf.enable_holiday_mode-coll_pg %} 
+                    {%- assign discount = product.price | times: 43.24 | divided_by: 100 -%}
+                    {%- assign holidayPrice = product.price | minus: discount | money_without_trailing_zeros  -%}
+                    {% comment %}
+                    <p>/ <span class="ebyHolidayPrice bfx-sale-price bfx-price">${{holidayPrice}}</span> <span class="ebyHolidayDiscount bfx-price">{{ shop.metafields.ebyacf.sitewide_discount_price }}% Off</span></p>
+                    {% endcomment %}
+                    <p>/ <span class="ebyHolidayPrice bfx-sale-price bfx-price">$7.50</span> <span class="ebyHolidayDiscount bfx-price">{{ shop.metafields.ebyacf.sitewide_discount_price }} Off</span></p>
+                    {% else %}
+                    <p class="bfx-price">{{product.metafields.ebyacf.vip_product_price | replace: "( " | replace: " members )" }}</p>
+                    {% endif %}
+                  </div>
+                  {% elsif product.type contains "Premium" %}
+
+                  <div class="priceProduct {% if on_sale %}priceSale bfx-sale-price{% endif %}{% if product.metafields.ebyacf.evergreen_price_test %} st-tangentPrice{%endif%} bfx-price">{{ product.price | money_without_trailing_zeros  }}</div>
+
+                  {% elsif product.type contains "Surprise Panty Pack" %}
+
+                  <div class="priceProduct {% if on_sale %}priceSale bfx-sale-price{% endif %}{% if product.metafields.ebyacf.evergreen_price_test %} st-tangentPrice{%endif%} bfx-price">{{ product.price | money_without_trailing_zeros  }}</div>
+
+                  {% endif %}
+
+                  {% else %}
+                  <div class="ebyProdTile-vipPriceWrapper bfx-remove-element">
+                    {% if shop.metafields.ebyacf.enable_holiday_mode-vip_pg or shop.metafields.ebyacf.enable_holiday_mode-coll_pg %}
+                    {%- assign discount = product.price | times: shop.metafields.ebyacf.sitewide_discount_price | divided_by: 100 -%}
+                    {%- assign holidayPrice = product.price | minus: discount | money_without_trailing_zeros  -%}
+                    <p>/ <span class="ebyHolidayPrice bfx-sale-price bfx-price">${{holidayPrice}}</span> <span class="ebyHolidayDiscount bfx-price">{{ shop.metafields.ebyacf.sitewide_discount_price }} Off</span></p>
+                    {% else %}
+                    <p class="bfx-price">{{product.metafields.ebyacf.vip_product_price | replace: "( " | replace: " members )" }}</p>
+                    {% endif %}
+                  </div>
+                  {% endif %}                                
+                </div>
+              </div>
+          </button>
+        </form>
+        <div class="quick_btn noFiltermodeAddToCart">
+          <div class="productQuickAdd">
+            <button class="btn btnProduct btnProductQuickAdd" data-href="#velaQuickAdd-{{ product.id }}-0" data-handle="{{ product.handle }}" title="Quick Add +">
+              <div class="quickAddBtnInnerWrapper">
+                <span class="text">Add To Bag</span>
+                <div class="prodTilePriceWrapper{% if customer.tags contains 'Active Subscriber' and product.metafields.ebyacf.vip_product_price %} vipHighlight{%endif%}">
+                  <p class="price bfx-price">{{ product.price | money_without_trailing_zeros  }}</p>
+                  {% if customer.tags contains 'Active Subscriber' %}
+                  {% if product.type == "Mask"%}
+                  {% if shop.metafields.ebyacf.enable_holiday_mode-vip_pg or shop.metafields.ebyacf.enable_holiday_mode-coll_pg %}
+                  <div class="priceProduct {% if customer.tags contains 'Active Subscriber' %}vipHighlight {%endif%}{% if on_sale %}priceSale bfx-sale-price{% endif %}bfx-price">{{ product.metafields.ebyacf.vip_product_price | replace: '/ ', '' | replace: ' members', ''  }}</div>
+                  {% else %}
+                  <div class="priceProduct {% if customer.tags contains 'Active Subscriber' %}vipHighlight {%endif%}{% if on_sale %}priceSale bfx-sale-price{% endif %}bfx-price">{{ product.price | money_without_trailing_zeros  }}</div>
+                  {% endif %}
+                  <div class="ebyProdTile-vipPriceWrapper bfx-remove-element">
+                    {% if shop.metafields.ebyacf.enable_holiday_mode-vip_pg or shop.metafields.ebyacf.enable_holiday_mode-coll_pg %}
+                    {%- assign discount = product.price | times: 44 | divided_by: 100 -%}
+                    {%- assign holidayPrice = product.price | minus: discount | money_without_currency -%}
+                    {% comment %}
+                    <p>/ <span class="ebyHolidayPrice bfx-sale-price bfx-price">${{holidayPrice}}</span> <span class="ebyHolidayDiscount bfx-price">{{ shop.metafields.ebyacf.sitewide_discount_price }}% Off</span></p>
+                    {% endcomment %}
+                    <p>/ <span class="ebyHolidayPrice bfx-sale-price bfx-price">$6</span> <span class="ebyHolidayDiscount bfx-price">{{ shop.metafields.ebyacf.sitewide_discount_price }} Off</span></p>
+                    {% else %}
+                    <p class="bfx-price">{{product.metafields.ebyacf.vip_product_price | replace: "( " | replace: " members )"}}</p>
+                    {% endif %}
+                  </div>
+                  {% elsif product.type == "Core Bralette" or product.type == "Cotton Bralette" or product.type == "Mesh Bralette" %}
+                  {% if shop.metafields.ebyacf.enable_holiday_mode-vip_pg or shop.metafields.ebyacf.enable_holiday_mode-coll_pg %}
+                  <div class="priceProduct {% if customer.tags contains 'Active Subscriber' %}vipHighlight {%endif%}{% if on_sale %}priceSale bfx-sale-price{% endif %}bfx-price">{{ product.metafields.ebyacf.vip_product_price | replace: '/ ', '' | replace: ' members', ''  }}</div>
+                  {% else %}
+                  <div class="priceProduct {% if customer.tags contains 'Active Subscriber' %}vipHighlight {%endif%}{% if on_sale %}priceSale bfx-sale-price{% endif %}bfx-price">{{ product.price | money_without_trailing_zeros  }}</div>
+                  {% endif %}
+                  <div class="ebyProdTile-vipPriceWrapper bfx-remove-element">
+                    {% if shop.metafields.ebyacf.enable_holiday_mode-vip_pg or shop.metafields.ebyacf.enable_holiday_mode-coll_pg %} 
+                    {%- assign discount = product.price | times: 42.27 | divided_by: 100 -%}
+                    {%- assign holidayPrice = product.price | minus: discount | money_without_currency -%}
+                    {% comment %}
+                    <p>/ <span class="ebyHolidayPrice bfx-sale-price bfx-price">${{holidayPrice}}</span> <span class="ebyHolidayDiscount bfx-price">{{ shop.metafields.ebyacf.sitewide_discount_price }}% Off</span></p>
+                    {% endcomment %}
+                    <p>/ <span class="ebyHolidayPrice bfx-sale-price bfx-price">$20</span> <span class="ebyHolidayDiscount bfx-price">{{ shop.metafields.ebyacf.sitewide_discount_price }} Off</span></p>
+                    {% else %}
+                    <p class="bfx-price">{{product.metafields.ebyacf.vip_product_price | replace: "( " | replace: " members )"}}</p>
+                    {% endif %}
+                  </div>
+                  {% elsif product.type == "Wrap Top" %}
+                  {% if shop.metafields.ebyacf.enable_holiday_mode-vip_pg or shop.metafields.ebyacf.enable_holiday_mode-coll_pg %}
+                  <div class="priceProduct {% if customer.tags contains 'Active Subscriber' %}vipHighlight {%endif%}{% if on_sale %}priceSale bfx-sale-price{% endif %}bfx-price">{{ product.metafields.ebyacf.vip_product_price | replace: '/ ', '' | replace: ' members', ''  }}</div>
+                  {% else %}
+                  <div class="priceProduct {% if customer.tags contains 'Active Subscriber' %}vipHighlight {%endif%}{% if on_sale %}priceSale bfx-sale-price{% endif %}bfx-price">{{ product.price | money_without_trailing_zeros  }}</div>
+                  {% endif %}
+                  <div class="ebyProdTile-vipPriceWrapper bfx-remove-element">
+                    {% if shop.metafields.ebyacf.enable_holiday_mode-vip_pg or shop.metafields.ebyacf.enable_holiday_mode-coll_pg %} 
+                    {%- assign discount = product.price | times: 42.27 | divided_by: 100 -%}
+                    {%- assign holidayPrice = product.price | minus: discount | money_without_currency -%}
+                    {% comment %}
+                    <p>/ <span class="ebyHolidayPrice bfx-sale-price bfx-price">${{holidayPrice}}</span> <span class="ebyHolidayDiscount bfx-price">{{ shop.metafields.ebyacf.sitewide_discount_price }}% Off</span></p>
+                    {% endcomment %}
+                    <p>/ <span class="ebyHolidayPrice bfx-sale-price bfx-price">$20</span> <span class="ebyHolidayDiscount bfx-price">{{ shop.metafields.ebyacf.sitewide_discount_price }} Off</span></p>
+                    {% else %}
+                    <p class="bfx-price">{{product.metafields.ebyacf.vip_product_price | replace: "( " | replace: " members )"}}</p>
+                    {% endif %}
+                  </div>
+                  {% elsif product.type == "Core Underwear" and product.tags contains "Featured Style" or product.type == "Mesh Underwear" %}
+                  {% if shop.metafields.ebyacf.enable_holiday_mode-vip_pg or shop.metafields.ebyacf.enable_holiday_mode-coll_pg %}
+                  <div class="priceProduct {% if customer.tags contains 'Active Subscriber' %}vipHighlight {%endif%}{% if on_sale %}priceSale bfx-sale-price{% endif %}bfx-price">{{ product.metafields.ebyacf.vip_product_price | replace: '/ ', '' | replace: ' members', ''  }}</div>
+                  {% else %}
+                  <div class="priceProduct {% if customer.tags contains 'Active Subscriber' %}vipHighlight {%endif%}{% if on_sale %}priceSale bfx-sale-price{% endif %}bfx-price">{{ product.price | money_without_trailing_zeros  }}</div>
+                  {% endif %}
+                  <div class="ebyProdTile-vipPriceWrapper bfx-remove-element">
+                    {% if shop.metafields.ebyacf.enable_holiday_mode-vip_pg or shop.metafields.ebyacf.enable_holiday_mode-coll_pg %} 
+                    {%- assign discount = product.price | times: 44 | divided_by: 100 -%}
+                    {%- assign holidayPrice = product.price | minus: discount | money_without_currency -%}
+                    {% comment %}
+                    <p>/ <span class="ebyHolidayPrice bfx-sale-price bfx-price">${{holidayPrice}}</span> <span class="ebyHolidayDiscount bfx-price">{{ shop.metafields.ebyacf.sitewide_discount_price }}% Off</span></p>
+                    {% endcomment %}
+                    <p>/ <span class="ebyHolidayPrice bfx-sale-price bfx-price">$9</span> <span class="ebyHolidayDiscount bfx-price">{{ shop.metafields.ebyacf.sitewide_discount_price }} Off</span></p>
+                    {% else %}
+                    <p class="bfx-price">{{product.metafields.ebyacf.vip_product_price | replace: "( " | replace: " members )"}}</p>
+                    {% endif %}
+                  </div>
+                  {% elsif product.type == "Core Underwear" or product.type == "Cotton Underwear" or product.type == "Tank" or product.type == "Bodysuit" or product.type == "Mesh Underwear" %}
+                  {% if shop.metafields.ebyacf.enable_holiday_mode-vip_pg or shop.metafields.ebyacf.enable_holiday_mode-coll_pg %}
+                  <div class="priceProduct {% if customer.tags contains 'Active Subscriber' %}vipHighlight {%endif%}{% if on_sale %}priceSale bfx-sale-price{% endif %}bfx-price">{{ product.metafields.ebyacf.vip_product_price | replace: '/ ', '' | replace: ' members', '' }}</div>
+                  {% else %}
+                  <div class="priceProduct {% if customer.tags contains 'Active Subscriber' %}vipHighlight {%endif%}{% if on_sale %}priceSale bfx-sale-price{% endif %}bfx-price">{{ product.price | money_without_trailing_zeros  }}</div>
+                  {% endif %}
+                  <div class="ebyProdTile-vipPriceWrapper bfx-remove-element">
+                    {% if shop.metafields.ebyacf.enable_holiday_mode-vip_pg or shop.metafields.ebyacf.enable_holiday_mode-coll_pg %} 
+                    {%- assign discount = product.price | times: 43.24 | divided_by: 100 -%}
+                    {%- assign holidayPrice = product.price | minus: discount | money_without_trailing_zeros  -%}
+                    {% comment %}
+                    <p>/ <span class="ebyHolidayPrice bfx-sale-price bfx-price">${{holidayPrice}}</span> <span class="ebyHolidayDiscount bfx-price">{{ shop.metafields.ebyacf.sitewide_discount_price }}% Off</span></p>
+                    {% endcomment %}
+                    <p>/ <span class="ebyHolidayPrice bfx-sale-price bfx-price">$7.50</span> <span class="ebyHolidayDiscount bfx-price">{{ shop.metafields.ebyacf.sitewide_discount_price }} Off</span></p>
+                    {% else %}
+                    <p class="bfx-price">{{product.metafields.ebyacf.vip_product_price | replace: "( " | replace: " members )" }}</p>
+                    {% endif %}
+                  </div>
+                  {% elsif product.type contains "Premium" %}
+
+                  <div class="priceProduct {% if on_sale %}priceSale bfx-sale-price{% endif %}{% if product.metafields.ebyacf.evergreen_price_test %} st-tangentPrice{%endif%} bfx-price">{{ product.price | money_without_trailing_zeros  }}</div>
+
+                  {% elsif product.type contains "Surprise Panty Pack" %}
+
+                  <div class="priceProduct {% if on_sale %}priceSale bfx-sale-price{% endif %}{% if product.metafields.ebyacf.evergreen_price_test %} st-tangentPrice{%endif%} bfx-price">{{ product.price | money_without_trailing_zeros  }}</div>
+
+                  {% endif %}
+
+                  {% else %}
+                  <div class="ebyProdTile-vipPriceWrapper bfx-remove-element">
+                    {% if shop.metafields.ebyacf.enable_holiday_mode-vip_pg or shop.metafields.ebyacf.enable_holiday_mode-coll_pg %}
+                    {%- assign discount = product.price | times: shop.metafields.ebyacf.sitewide_discount_price | divided_by: 100 -%}
+                    {%- assign holidayPrice = product.price | minus: discount | money_without_trailing_zeros  -%}
+                    <p>/ <span class="ebyHolidayPrice bfx-sale-price bfx-price">${{holidayPrice}}</span> <span class="ebyHolidayDiscount bfx-price">{{ shop.metafields.ebyacf.sitewide_discount_price }} Off</span></p>
+                    {% else %}
+                    <p class="bfx-price">{{product.metafields.ebyacf.vip_product_price | replace: "( " | replace: " members )" }}</p>
+                    {% endif %}
+                  </div>
+                  {% endif %}                                
+                </div>
+              </div>
+            </button>
+            <div class="selection-wrapper" id="velaQuickAdd-{{ product.id }}-0">
+            </div>
+          </div>
+          {% if product.metafields.ebyacf.vip_product_price %}
+          <span class="quickAddPriceNote{% if customer.tags contains 'Active Subscriber' and product.metafields.ebyacf.vip_product_price != "" %} vipHighlight{%endif%}">subscriber price</span>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+  
+</div>
+{% endunless %}

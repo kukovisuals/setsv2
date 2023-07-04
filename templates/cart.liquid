@@ -1,0 +1,112 @@
+<section id="pageContent">
+    <div id="cartStandardContainer" class="container-full">
+        {% section 'vela-template-cart' %}
+    </div>
+  	<div id="cartInternationalContainer" class="container-full" style="display:none;margin:30px 0 60px;">
+    </div>
+</section>
+<div class="relatedMain">
+	{% include 'vela-product-related' %}
+</div>
+
+<style>
+  .includedInMP,
+  .spanty_pack .cartRemove {
+  	display: none;
+  }
+  .cartContent .btn.ebyMacroBtn {
+      background: #0064ff;
+      border-color: #0064ff;
+      margin: 0;
+  }
+.ebyButtonWrapper {
+    margin: 2rem 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  	max-width: 330px;
+  	width:100%;
+}
+  .cartContent .btn.ebyMacroBtn.continueShopping{
+    padding: 1rem;
+    display: inline-block;
+    background: transparent;
+    border: 0;
+    color: #0064ff;
+    padding: 0;
+    cursor:pointer;
+  }
+  .cartContent .btn.ebyMacroBtn {
+    margin: 0;
+  }
+  .ebyButtonWrapper .btn.ebyMacroBtn {
+      max-width: 150px;
+      width: 100%;
+  }
+</style>
+<script type="lazyload2">  
+  (function () {
+    var intCheckUrl = window.location.href;
+    /* if this User is coming from interntational redirect */
+    if (intCheckUrl.indexOf('ppStatus=') >= 0) {
+      	console.log(":: International Update Check Init ::");
+      
+    	let standardContainer = document.getElementById('cartStandardContainer');
+      	if (!!standardContainer) {
+      		standardContainer.style.display = "none";
+      	}
+      
+      	let internationalContainer = document.getElementById('cartInternationalContainer');
+      	if (!!internationalContainer) {
+      		internationalContainer.style.display = "block";
+          	let params = new URLSearchParams(window.location.search);
+          	let intToken = params.get('token');
+          	let ppStatus = params.get('ppStatus');
+          
+            console.log(":: International Iframe Init ::", {
+              token: intToken,
+              ppStatus: ppStatus
+            });
+          internationalContainer.innerHTML = '<iframe name="envoy" id="envoyId" src="https://checkout.prd.borderfree.com/v5/htmlcheckout/views/preloadBack_pp.xhtml?ppStatus='+ ppStatus +'&token='+ intToken +'" frameborder="0" border="0" scrolling="no" style="width: 100%;min-height:1100px;height:auto;"></iframe><iframe src="" id="__frame" width="0" height="0" frameborder="0"></iframe>';
+            var head = document.getElementsByTagName('head')[0];
+            var bbScript = document.createElement('script');
+            bbScript.type = 'text/javascript';
+          	bbScript.src = 'https://global.prd.borderfree.com/cdn/checkout/v5/dist/merchant.js';
+            head.appendChild(bbScript);
+      	}
+    }
+
+    {% assign hasSubInCart = false %}
+    {% assign subInCart = "n_a" %}
+    var gtItems = [
+      {% for item in cart.items %}
+        {% assign itemDiscount = item.original_line_price | minus: item.final_line_price %}
+        {% if item.product.type == "Subscription Box" %}
+            {% assign subInCart = item.sku %}
+            {% assign hasSubInCart = true %}
+        {% endif %}
+      {
+          item_id: "{{ item.product_id }}",
+          item_name: "{{ item.product.title }}",
+          index: "{{ forloop.index }}",
+          currency: "{{shop.currency}}",
+          item_category: "{{ item.product.type }}",
+          discount: parseInt("{{ itemDiscount | money_without_currency }}"),
+          price: parseInt("{{ item.final_line_price | money_without_currency }}"),
+          quantity: "{{ item.quantity }}",
+          item_variant: "{{ item.variant.title }}"
+      },
+      {% endfor %}
+    ];
+  
+    gtag("event", "view_cart", {
+        currency: "USD",
+      	value: parseInt("{{ cart.total_price | money_without_currency }}"),
+        event_label: "cartview_type-cartpage",
+        has_sub_in_cart : "{{ hasSubInCart }}",
+        sub_in_cart: "{{ subInCart }}",
+        items: gtItems
+    });
+  
+  })();
+</script>

@@ -1,0 +1,30 @@
+<section class="alala_newlatter" id="scroll_to_signup">
+    {% if section.settings.title != blank %}
+    <div class="text-center">
+      <h2>{{ section.settings.title }}</h2>
+    </div>
+    {% endif %}
+    <div class="home-content">
+      <div class="arrow-sep"></div>
+      {{ section.settings.content }}
+    </div>
+  </section>
+
+
+{% schema %}
+  {
+    "name": "Newlatter Section",
+    "settings": [
+	  {
+		"type": "text",
+		"id": "title",
+		"label": "Title"
+	  },
+	  {
+		"type": "textarea",
+		"id": "content",
+		"label": "Content"
+	  }
+	]
+  }
+{% endschema %}

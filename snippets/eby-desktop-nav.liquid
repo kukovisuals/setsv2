@@ -1,0 +1,27 @@
+{%- for link in navLinks -%}
+  {% if linklists[link.handle] == empty %}
+    {%- if link.title == 'Subscription' and customer == false -%}
+      <div class="animate hasmega mega-nav-container">
+        <a href="{{ link.url }}" class="nv-laptop-a-link d_link">
+          <span class="eby-nv-laptop-title {%if template == 'index'%} eby-dark-theme-22 {% else %}eby-light-theme-22 {%endif%} ">
+            {{ link.title }}</span>
+        </a>
+        <!-- All sub menus -->
+        {% render 'eby-desktop-submenu' subnav_type: link.title %}
+      </div>
+    {% elsif link.title == 'Subscription' and customer %}
+      {% continue %}
+    {% else %}
+      <div class="animate hasmega mega-nav-container">
+        <a href="{{ link.url }}" class="nv-laptop-a-link d_link">
+          <span class="eby-nv-laptop-title {%if template == 'index'%} eby-dark-theme-22 {% else %}eby-light-theme-22 {%endif%}">
+            {{ link.title }}</span>
+        </a>
+        <!-- All sub menus -->
+        {% render 'eby-desktop-submenu' subnav_type: link.title %}
+      </div>
+    {% endif %}
+
+
+  {% endif %}
+{%- endfor -%}

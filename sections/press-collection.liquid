@@ -1,0 +1,248 @@
+<style>
+  .eby-coll-txt-top-padd p{
+    display:none;
+  }
+  .eby-coll-pdding {
+    padding: 72px 20px
+  }
+  .eby-collection-text p {
+    line-height: 2;
+    font-size: 12px
+  }
+  .eby-collection-title {
+    padding-top: 11px;
+    font-weight: 500;
+    line-height: 1.5;
+    font-size: 16px;
+    display: block
+  }
+  .eby-collection {
+    display: flex;
+    flex-wrap: wrap;
+    row-gap: 24px;
+    margin-bottom: 24px
+  }
+  .eby-collection-wrapper {
+    position: relative;
+    flex: 0 0 calc(100%);
+    display: flex;
+    justify-content: space-between
+  }
+  .eby-collection-img-container {
+    width: 115px
+  }
+  .eby-collection-text-wrapper {
+    width: 60%
+  }
+  .eby-collection-img-link {
+    display: block;
+    height: 150px
+  }
+  .eby-collection-img-link img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover
+  }
+  .eby-collection-wrapper .image-text {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 8px;
+    background-color: rgba(0, 0, 0, 0.6);
+    color: #fff;
+    font-size: 14px
+  }
+  @media screen and (min-width: 768px) {
+    .eby-coll-pdding {
+      padding: 96px 48px
+    }
+    .eby-collection {
+      justify-content: space-between;
+      row-gap: 72px
+    }
+    .eby-collection-wrapper {
+      display: block;
+      flex: 0 0 calc(50% - 16px)
+    }
+    .eby-collection-img-link {
+      height: 408px
+    }
+    .eby-collection-img-container {
+      width: auto
+    }
+    .eby-collection-title {
+      font-size: 20px;
+      line-height: 1.4
+    }
+    .eby-collection-text-wrapper {
+      width: 100%
+    }
+    .eby-collection-text p {
+      line-height: 1.25;
+      font-size: 16px
+    }
+  }
+  @media screen and (min-width: 1024px) {
+    .eby-collection-title{
+      padding-top:15px;
+    }
+    .eby-coll-txt-top-padd-img {
+      padding-top: 16px; 
+    } 
+    .eby-collection {
+      display: grid;
+      grid-template-columns: repeat(4, calc(25% - 16px));
+      grid-gap: 16px
+    }
+    .eby-collection-img-link {
+      height: 304px
+    }
+    .eby-coll-pdding {
+      padding: 96px 0
+    }
+  }
+</style>
+<div class="eby-coll-pdding eby-md-grid23">
+  <div class="eby-collection">
+    {% if section.blocks.size > 0 %}
+      {% for block in section.blocks %}
+        <div class="eby-collection-wrapper">
+          <div class="eby-collection-img-container">
+            <div class="eby-collection-img">
+              {% if block.settings.block_image != blank %}
+                <a
+                  href="{{ block.settings.block_image_link }}"
+                  target="_blank"
+                  class="eby-collection-img-link">
+                  <img
+                    src="{{ block.settings.block_image | img_url: '300x' }}"
+                    data-src="{{ block.settings.block_image | img_url: '300x' }}"
+                    alt="{{ section.settings.custom_title }}"
+                    class="lazyload" />
+                </a>
+              {% endif %}
+            </div>
+          </div>
+          {% if block.settings.custom_title != blank or block.settings.custom_text != blank %}
+            <div class="eby-collection-text-wrapper eby-coll-top-padd">
+              {% if block.settings.block_logo != blank %}
+                <div class="eby-collection-text eby-coll-txt-top-padd-img">
+                  <img
+                    src="{{ block.settings.block_logo | img_url: '300x' }}"
+                    data-src="{{ block.settings.block_logo | img_url: '300x' }}"
+                    alt="{{ section.settings.custom_title }}"
+                    class="lazyload" 
+                  />
+                </div>
+              {% endif %}
+              {% if block.settings.custom_text != blank %}
+                <div class="eby-collection-text eby-coll-txt-top-padd">
+                  <p
+                    class="search-txt-item"
+                    data-cypress="press-src"
+                    data-blogsrc="{{ block.settings.custom_text }}">{{ block.settings.custom_text }}</p>
+                </div>
+              {% endif %}
+              {% if block.settings.custom_title != blank %}
+                <span class="eby-collection-title" data-cypress="press-title">{{ block.settings.custom_title }}</span>
+              {% endif %}
+            </div>
+          {% endif %}
+
+        </div>
+      {% endfor %}
+    {% endif %}
+  </div>
+</div>
+
+{% schema %}
+  {
+    "name": "Custom Images",
+    "blocks": [
+      {
+        "type": "image_block",
+        "name": "Image Block",
+        "settings": [
+          {
+            "type": "image_picker",
+            "id": "block_image",
+            "label": "Image"
+          }, {
+            "type": "url",
+            "id": "block_image_link",
+            "label": "Image Link"
+          }, {
+            "type": "image_picker",
+            "id": "block_logo",
+            "label": "Image Logo"
+          }, {
+            "type": "text",
+            "id": "custom_title",
+            "label": "Title",
+            "default": "Custom Title"
+          }, {
+            "type": "text",
+            "id": "custom_text",
+            "label": "Text",
+            "default": "Custom text content goes here"
+          }
+        ]
+      }
+    ]
+  }
+{% endschema %}
+
+<script type="text/javascript">
+  // fc 040723
+  const onInputSearch = (inputField, searchItems, allTiles, allDesc) => {
+    const userInput = inputField.value.toLowerCase();
+
+    searchItems.forEach((item, index) => {
+      const itemText = item.textContent.toLowerCase();
+      const itemDescr = allDesc[index].textContent.toLowerCase();
+
+      if (itemText.includes(userInput) || itemDescr.includes(userInput)) {
+        setDisplayStyle(allTiles[index], 'show');
+      } else {
+        setDisplayStyle(allTiles[index], 'hide');
+      }
+    });
+  };
+
+  const onWindowResize = (allTiles, inputField) => {
+    allTiles.forEach((item, index) => {
+      setDisplayStyle(item, 'reset');
+    });
+    inputField.value = '';
+  };
+
+  // Helper functions
+  const setDisplayStyle = (el, type) => {
+    const screenWidth = window.innerWidth;
+    if (type === 'show') {
+      el.style.display = screenWidth < 768 ? 'flex' : 'block';
+    } else if (type === 'hide') {
+      el.style.display = 'none';
+    } else if (type === 'reset') {
+      el.style.display = screenWidth < 768 ? 'flex' : 'block';
+    }
+  };
+
+  // Main function to initialize event listeners
+  const initSearch = () => {
+    const inputField = document.querySelector('#eby-search-react');
+    const searchItems = document.querySelectorAll('.search-txt-item');
+    const allTiles = document.querySelectorAll('.eby-collection-wrapper');
+    const allDesc = document.querySelectorAll('.eby-collection-title');
+
+    inputField.addEventListener('input', () => onInputSearch(inputField, searchItems, allTiles, allDesc));
+    window.addEventListener('resize', () => onWindowResize(allTiles, inputField));
+
+    setDisplayStyle();
+  };
+
+  initSearch();
+
+</script>

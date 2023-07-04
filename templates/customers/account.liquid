@@ -1,0 +1,1184 @@
+{% assign membershipOptList = collections['all-subscriptions'].products | json %}
+
+<div class="accountMain">
+  <div class="acc_block">
+    <div class="accLeft">
+      <div class="accTitle">
+        <div class="accTitleLeft">
+          <h5 class="customerName">{{ customer.name }}</h5>
+          <a class="change-password-btn ebyFancyBtn" data-src="#updatePassword" href="javascript:;">Change Password</a>
+        </div>
+        <div class="accTitleRight">
+          <a href="/account/logout" id="customer_logout_link">Logout</a>
+        </div>
+      </div>
+      <div class="accountSetting">
+        {% if customer.tags contains 'Active Subscriber' or customer.tags contains 'Inactive Subscriber' or customer.tags contains 'Subscription card declined'  %}
+        <h2 class="ebyaccordionHeader active"><span class="ebyicon-close-thin"></span>Account Details</h2>
+        <div class="settingBlock ebyaccordionContent active">
+          {% comment %}
+          <div class="boxAccount rewardsDashboardSummary">
+            <div class="ebySidebarHeader">
+              	<h4 class="accountHeading">Rewards Program</h4>
+            </div>
+            
+            <div class="accountContent ebyRewardsContent">
+                <div class="ebyThankYouReferralWrapper">
+                  <article>
+<!--                     <div class="summaryWrapperCol">
+                      <header>Give $10, Get $10:</header>
+                      <footer>
+                        <a href="#" data-lion-refer style="color:#0064ff;">Share your link</a>
+                      </footer>
+                    </div> -->
+                    <div class="summaryWrapperCol">
+                      <header>My Power Points:</header>
+                      <footer><span data-lion-points="approved"></span></footer>
+                    </div>
+                  </article>
+                </div>
+            </div>
+          </div>
+          {% endcomment %}
+          <div class="boxAccount accountInfo">
+            <a class="btn btn-rev ebyFancyBtn" data-src="#accountPopup" href="javascript:;">Edit</a>
+            <div class="accInfoLeft">
+              <h4 class="accountHeading">Profile Info</h4>
+            </div>
+            <!--<p id="rc_link_container">
+              <a href="/tools/recurring/login">Manage Subscriptions</a>
+            </p>-->
+            <div class="accountContent">
+              {% comment %}
+                <!-- Start ReCharge code -->
+                <p id="rc_link_container">
+                  <a href="/tools/recurring/login">Manage Subscriptions</a>
+                </p>
+                <!-- End ReCharge code -->
+
+                <div class="customerEmail">{{ customer.email }}</div>
+                <div id="rechargeAccountDetail" class="recharge-detail">
+
+                </div>
+
+                <div class="formAccountRecover">
+                  {% form 'recover_customer_password' %}
+                  <div class="formContent">
+                    {%- if form.errors -%}
+                    <div class="alert alert-danger">
+                      {{ form.errors | default_errors }}
+                    </div>
+                    {%- endif -%}
+                    <input type="hidden" name="email" value="{{ customer.email }}">
+                    <input type="submit" class="btnRecoverPassword" value="{{ 'customer.recover_password.title' | t }}">
+                  </div>
+                  {% endform %}
+                </div>
+              {% endcomment %}
+            </div>
+          </div>
+          <div class="boxAccount accountPayment">
+            <a class="btn btn-rev ebyFancyBtn" data-src="#paymentPopup" href="javascript:;">Edit</a>
+            <div class="ebySidebarHeader">
+            	<h4 class="accountHeading">Credit Card</h4>
+            </div>
+            <div class="accountContent ebyDashPaymentContent"></div>
+          </div>
+          <div class="boxAccount accountBillingAddress">
+            <a class="btn btn-rev ebyFancyBtn" data-src="#billingAddressPopup" href="javascript:;">Edit</a>
+            <div class="ebySidebarHeader">
+              	<h4 class="accountHeading">Billing Address</h4>
+            </div>
+            <div class="accountContent ebyDashBillingContent"></div>
+          </div>
+          <div class="boxAccount accountShippingAddress">
+            <a class="btn btn-rev ebyFancyBtn" data-src="#shippingAddressPopup" href="javascript:;">Edit</a>
+            <div class="ebySidebarHeader">
+              	<h4 class="accountHeading">Shipping Address</h4>
+            </div>
+            <div class="accountContent ebyDashShippingContent"></div>
+          </div>
+        </div>
+        {% else %}
+          <div class="settingBlock">
+            <div class="boxAccount rewardsDashboardSummary">
+              <div class="ebySidebarHeader">
+                  <h4 class="accountHeading">Rewards Program</h4>
+              </div>
+              <div class="accountContent ebyRewardsContent">
+                <div class="ebyThankYouReferralWrapper">
+                  <article>
+<!--                     <div class="summaryWrapperCol">
+                      <header>Give $10, Get $10:</header>
+                      <footer>
+                        <span class="ebyThankYouReferralLink" data-lion-referral-url></span>
+                      </footer>
+                    </div> -->
+                    <div class="summaryWrapperCol">
+                      <header>My Power Points:</header>
+                      <footer><span data-lion-points="approved"></span></footer>
+                    </div>
+                  </article>
+                </div>
+              </div>
+            </div>
+            <div class="boxAccount accountInfo">
+              <a class="btn btn-rev ebyFancyBtn" data-src="#accountPopup" href="javascript:;">Edit</a>
+              <h4 class="accountHeading">{{ 'customer.account.details' | t }}</h4>
+              <div class="accountContent">
+                {% comment %}
+                  <p id="rc_link_container">
+                    <a href="/tools/recurring/login">Manage Subscriptions</a>
+                  </p>
+                  <!-- End ReCharge code -->
+                {% endcomment %}
+                
+                <div class="customerEmail">{{ customer.email }}</div>
+                <div class="customerPhone">{{ customer.phone }}</div>
+                
+              </div>
+              <a class="change-password-btn ebyFancyBtn" data-src="#updatePassword" href="javascript:;">Change Password</a>
+            </div>
+            {% if customer.orders.size > 0 %}
+            <div class="boxAccount accountAddress">
+              <a class="btn btn-rev" href="/account/addresses">Edit</a>
+              <h4 class="accountHeading">{{ 'customer.addresses.title' | t }}</h4>
+              <div class="accountContent">
+                {%- if customer.default_address != nil -%}
+                  <ul class="addressInfo list-unstyled">
+                    {%- if customer.default_address.phone != blank -%}
+                    <li>
+                      <label>{{ 'customer.addresses.phone' | t }}:</label> {{ customer.default_address.phone }}
+                    </li>
+                    {%- endif -%}
+                    <li>
+                      <label>{{ 'customer.addresses.address1' | t }}:</label>
+                      {{ customer.default_address.address1 }}
+                      {% if customer.default_address.city != blank %}
+                      , {{ customer.default_address.city }}
+                      {% endif %}
+                      {% if customer.default_address.province_code != blank %}
+                      , {{ customer.default_address.province_code }}
+                      {% endif %}
+                      {% if customer.default_address.zip != blank %}
+                      &nbsp;{{ customer.default_address.zip | upcase }}
+                      {% endif %}
+                    </li>
+                    {%- if customer.default_address.address2 != blank -%}
+                    <li><label>{{ 'customer.addresses.address2' | t }}:</label> {{ customer.default_address.address2 }}</li>
+                    {%- endif -%}
+                    <li>
+                      <label>{{ 'customer.addresses.country' | t }}:</label> {{ customer.default_address.country }}
+                    </li>
+                  </ul>
+                  {% comment %}
+                    <div class="accountButton">
+                      <a href="/account/addresses">{{ 'customer.account.view_addresses' | t }} ({{ customer.addresses_count }})</a>
+                    </div>
+                  {% endcomment %}
+                {%- else -%}
+                <div class="noAccountInfo">
+                  <p>{{ 'customer.addresses.noaddress' | t }}</p>
+                  <div class="accountButton">
+                    <a href="/account/addresses">{{ 'customer.account.add_addresses' | t }}</a>
+                  </div>
+                </div>
+                {%- endif -%}
+              </div>
+            </div>
+            {% endif %}
+          </div>
+        {% endif %}
+      </div>
+      <div class="usePower">
+        {%- if shop.metafields.getaccesstitle.get_access_title != blank -%}
+         <span>{{ shop.metafields.getaccesstitle.get_access_title }}</span>
+        {%- endif -%}
+        <div class="powerBoxes">
+          {%- if shop.metafields.useyourpowertitle.use_your_power_title != blank -%}
+          <span>{{ shop.metafields.useyourpowertitle.use_your_power_title }}</span>
+          {%- endif -%}
+          {%- if shop.metafields.confidencetitle.the_confidence_project_title != blank -%}
+          <h3>{{ shop.metafields.confidencetitle.the_confidence_project_title }}</h3>
+          {%- endif -%}
+          {%- if shop.metafields.confidencecontent.confidence_project_content != blank -%}
+          {{ shop.metafields.confidencecontent.confidence_project_content }}
+          {%- endif -%}
+          <div class="access_btn">
+            {% if shop.metafields.accesslink.access_link != blank %}
+            <a class="btn" href="{{ shop.metafields.accesslink.access_link }}">{{ shop.metafields.accessfeild.access_feild }}</a>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="accRight">
+      
+      {% if customer.tags contains 'Active Subscriber' or customer.tags contains 'Inactive Subscriber' or customer.tags contains 'Subscription card declined'  %}
+<!--       <div class="ebyCollectionHolidayWrapper shopNow">
+        <img height="217" width="795" data-src="https://cdn.shopify.com/s/files/1/0313/4062/5964/files/tank_fallenrock_-_dash_-_blank_-_1440_2x_38d9b473-6266-488f-ba12-8e6928637b83.jpg" class="lazyload" alt="Seamless Tank Top" title="Seamless Tank Top" />
+        <div class="bannerCopyOuterWrapper">
+          <div class="bannerCopyWrapper">
+            <p>THE ESSENTIAL</p>
+            <h6>Seamless Tank Top</h6>
+            <p class="alertCopy">Available Now!</p>
+            <a href="/collections/seamless-underwear" class="btn linkCtaBtn">Shop Now</a>
+          </div>
+        </div>
+      </div> -->
+<!--       <div class="ebyCollectionHolidayWrapper shopNow" style="background: #000c48; margin-bottom: 3rem;">
+        <img style="visibility:hidden;" data-src="https://cdn.shopify.com/s/files/1/0313/4062/5964/files/Launch_Banner_-_Background_5ce914b8-3f33-4fcb-8c82-533ceeb1d0aa.jpg?v=1620996945" class="lazyload" alt="Seamless Tank Top" title="Seamless Tank Top" />
+        <div class="bannerCopyOuterWrapper" style="max-width: 100%;">
+          <div class="bannerCopyWrapper" style="max-width: 100%;">
+            <p style="display:none;">THE ESSENTIAL</p>
+            <h6 style="color: #fff;">Labor Day Sale</h6>
+            <p style="color: #fff;font-size:1.86rem;" class="alertCopy">One time only seamless panty packs for up to 40% off</p>
+            <a href="/collections/labor-day-sale-packs" class="btn linkCtaBtn">Shop Deals Now</a>
+          </div>
+        </div>
+      </div> -->
+      {% if customer.tags contains 'Active Subscriber' %}
+<!--       <div class="exclusive_box">
+          <div class="excluse_title">
+            {%- if shop.metafields.exclusivetext.exclusive_text != blank -%}
+            {{ shop.metafields.exclusivetext.exclusive_text }}
+            {%- endif -%}
+          </div>
+          <div class="excluse_btn">
+            {% if shop.metafields.exclusivelink.exclusive_link != blank %}
+            <a class="btn" href="{{ shop.metafields.exclusivelink.exclusive_link }}">{{ shop.metafields.exclusivefeild.exclusive_feild }}</a>
+            {% endif %}
+          </div>
+      </div> -->
+      {% endif %}
+      {% else %}
+      <div class="ebyCollectionHolidayWrapper">
+        <img height="217" width="795" data-src="https://cdn.shopify.com/s/files/1/0313/4062/5964/files/tank_fallenrock_-_dash_-_blank_-_1440_2x_38d9b473-6266-488f-ba12-8e6928637b83.jpg" class="lazyload" alt="Seamless Tank Top" title="Seamless Tank Top" />
+        <div class="bannerCopyOuterWrapper">
+          <div class="bannerCopyWrapper">
+            <p>THE ESSENTIAL</p>
+            <h6>Seamless Tank Top</h6>
+<!--             <p>Get notified when it drops</p> -->
+            <a href="/collections/shop-bras-and-tanks" class="btn linkCtaBtn">Shop Now</a>
+          </div>
+        </div>
+      </div>
+<!--       <div class="exclusive_box bfx-remove-element">
+          <div class="excluse_title">
+            Exclusive products, discounted prices, cool prints — just for you!
+          </div>
+          <div class="excluse_btn">
+            <a class="btn" href="/pages/membership">Become A Member</a>
+          </div>
+      </div> -->
+      {% endif %}
+      
+      {% comment %}
+      {%- if shop.metafields.ebyacf.enable_holiday_mode-acc -%}
+      	<div class="ebyAccountHolidayWrapper">
+          {{ shop.metafields.ebyacf.acc_holiday_banner_block.en }}
+          <div class="ebyAccountHolidayCtaWrapper">
+            <a class="btn" href="{{ shop.metafields.ebyacf.acc_holiday_banner_cta_link}}">Shop Lightning Deal</a>
+          </div>
+        </div>
+      {%- endif -%}
+
+      {% if shop.metafields.ebyacf.enable_newprod_mode-acc %}
+      <div  class="ebyAccountHolidayWrapper">
+       	{{ shop.metafields.ebyacf.acc_newprod_banner_block.en }}
+        <div class="ebyAccountHolidayCtaWrapper">
+          <a class="btn" href="{{ shop.metafields.ebyacf.acc_holiday_banner_cta_link}}">Shop Lightning Deal</a>
+        </div>
+      </div>
+      {% else %}
+        <div class="exclusive_box">
+          <div class="excluse_title">
+            {%- if shop.metafields.exclusivetext.exclusive_text != blank -%}
+            {{ shop.metafields.exclusivetext.exclusive_text }}
+            {%- endif -%}
+          </div>
+          <div class="excluse_btn">
+            {% if shop.metafields.exclusivelink.exclusive_link != blank %}
+            <a class="btn" href="{{ shop.metafields.exclusivelink.exclusive_link }}">{{ shop.metafields.exclusivefeild.exclusive_feild }}</a>
+            {% endif %}
+          </div>
+        </div>
+      {% endif %}
+      {% endcomment %}
+      
+      {% comment %}
+      <div class="impactBox">
+        <div class="col yourImpact">
+          {%- if shop.metafields.impacttitle.impact_title != blank -%}
+           <span class="impact_title">{{ shop.metafields.impacttitle.impact_title }}</span>
+          {%- endif -%}
+          {%- if shop.metafields.impactnumber.impact_number != blank -%}
+           <div class="impcatNo">{{ shop.metafields.impactnumber.impact_number }}</div>
+          {%- endif -%}
+          {%- if shop.metafields.womenempoweretitle.women_empowered_title != blank -%}
+           <div class="bottom_text">{{ shop.metafields.womenempoweretitle.women_empowered_title }}</div>
+          {%- endif -%}
+        </div>
+        <div class="col loanedSec">
+          <div class="loandLink">
+            {% if shop.metafields.globallink.global_link != blank %}
+            <a class="active" href="{{ shop.metafields.globallink.global_link }}">{{ shop.metafields.globalfeild.global_feild }}</a>
+            {% endif %}
+            {% if shop.metafields.yourdollarlink.your_dollar_link != blank %}
+            <a href="{{ shop.metafields.yourdollarlink.your_dollar_link }}">{{ shop.metafields.yourdollarfeild.your_dollar_feild }}</a>
+            {% endif %}
+          </div>
+          {%- if shop.metafields.loanammount.loan_ammount != blank -%}
+           <div class="impcatNo">{{ shop.metafields.loanammount.loan_ammount }}</div>
+          {%- endif -%}
+          {%- if shop.metafields.loantext.loan_text != blank -%}
+           <div class="bottom_text">{{ shop.metafields.loantext.loan_text }}</div>
+          {%- endif -%}
+        </div>
+        <div class="col donateLoan">
+          {%- if shop.metafields.donateloantitle.donate_loan_title != blank -%}
+           <strong class="impact_title">{{ shop.metafields.donateloantitle.donate_loan_title }}</strong>
+          {%- endif -%}
+          {%- if shop.metafields.donateloancontent.donate_loan_content != blank -%}
+           {{ shop.metafields.donateloancontent.donate_loan_content }}
+          {%- endif -%}
+        </div>
+        <div class="col donatePrice">
+          <div class="enterDonate">
+            <span>$</span> <input type="text" name="" value="" placeholder="90">
+            <div class="avg_loan">avg. loan $90</div>
+          </div>
+          <div class="donate_now">
+            {% if shop.metafields.donatenowlink.donate_now_link != blank %}
+            <a class="btn" href="{{ shop.metafields.donatenowlink.donate_now_link }}">{{ shop.metafields.donatenowfeild.donate_now_feild }}</a>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+      {% endcomment %}
+      <div id="velaAccount" class="velaAccountContainer">
+        <div class="velaPageAccount">
+          {% if customer.tags contains 'Active Subscriber' or customer.tags contains 'Inactive Subscriber' or customer.tags contains 'Subscription card declined' %}
+            <div class="pageAccountContent pageSubscriptionContent">
+              <div class="accInfo">
+                <div class="accInfoLeft">
+                  <h4 class="accountHeading">Your Subscription</h4>
+                </div>
+              </div>
+              <p class="account-status"></p>
+              <div class="subscriptionUpdate"></div>
+              <div class="accountSubscriptionBox">
+                <div class="subscriptionBoxContent">
+
+                </div>
+              </div>
+            </div>
+            {% comment %}
+            <div class="pageAccountContent">
+                <div class="accInfo">
+                  <div class="accInfoLeft">
+                    <h4 class="accountHeading">Share The Comfort</h4>
+                  </div>
+                </div>
+                <article class="referralArtWrapper">
+                  <div class="summaryWrapperCol">
+                    <header>
+                      <p class="title">Give $10, Get $10!</p>
+                      <p><a href="#" data-lion-refer>How it works</a></p>
+                    </header>
+                    <footer>
+                      <span id="myReferralLink" data-lion-referral-url></span>
+                      <a class="ebyThankYouReferralLink" href="#" style="color:#0064ff;margin-left:1.5rem;">Copy<span class="hidden hdata" data-lion-referral-url></span></a>
+                      <a class="ebyShareLink sms ebyicon-sms" href="sms:?body=Just%20wanted%20to%20share%20the%20most%20amazing,%20seamless,%20mission-focused%20bralettes%20and%20undies%20brand%20EBY.%20Use%20my%20link%20:referral_link:%20to%20get%20$10%20off%20your%20first%20order.%20" style="color:#0064ff;"></a>
+                      <a class="ebyShareLink email ebyicon-email" href="mailto:?subject=A%20Little%20Something%20From%20{{customer.first_name}}&body=Just%20wanted%20to%20share%20the%20most%20amazing,%20seamless,%20mission-focused%20bralettes%20and%20undies%20brand%20EBY.%20Use%20my%20link%20:referral_link:%20to%20get%20$10%20off%20your%20first%20order.%20" style="color:#0064ff;"></a>
+                    </footer>
+                  </div>
+                </article>
+            </div>
+            {% endcomment %}
+            <div class="pageAccountContent">
+              <div class="accInfo">
+                <div class="accInfoLeft">
+                  <h4 class="accountHeading">Orders</h4>
+                </div>
+              </div>
+              <div class="accountOrderBox">
+                <div class="orderBoxContent">
+                  {% paginate customer.orders by 20 %}
+                  {%- if customer.orders.size > 0 -%}
+                  <div class="table-responsive">
+                    <a class="ebyToolTip tooltipped" data-position="top" data-tooltip="Latest Charge">?</a>
+                    <table class="table tableOrder">
+                      <thead>
+                        <tr>
+                          <th>{{ 'customer.orders.order_number' | t }}</th>
+                          <th>{{ 'customer.orders.date' | t }}</th>
+                          <th>Tracking</th>
+                          <th>{{ 'customer.orders.total' | t }}</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {% for order in customer.orders %}
+                        <tr>
+                          <td>{{ order.name }}</td>
+                          <td>{{ order.created_at | date: '%b %d, %Y' }}</td>
+                          <td>{{ order.fulfillment_status_label }}</td>
+                          {% if order.total_price == 0 %}
+                          <td>Free</td>
+                          {% else %}
+                          <td class="bfx-price">{{ order.total_price | money_without_trailing_zeros }}</td>
+                          {% endif %}
+                        </tr>
+                        {% endfor %}
+                      </tbody>
+                    </table>
+                  </div>
+                  {%- else -%}
+                  <div class="noAccountInfo">
+                    <p>{{ 'customer.orders.none' | t }}</p>
+                  </div>
+                  {%- endif -%}
+                  {%- if paginate.pages > 1 -%}
+                  <div class="pagination">
+                    {{ paginate | default_pagination | replace: '&laquo; Previous', '&larr;' | replace: 'Next &raquo;', '&rarr;' }}
+                  </div>
+                  {%- endif -%}
+                  {% endpaginate %}
+                </div>
+              </div>
+            </div>
+          {% else %}
+            <div class="pageAccountContent">
+              <div class="accInfo">
+                <div class="accInfoLeft">
+                  <h4 class="accountHeading">Profile Info</h4>
+                </div>
+              </div>
+              <div class="accountOrderBox">
+                <div class="orderBoxContent">
+                  {% paginate customer.orders by 20 %}
+                  {%- if customer.orders.size > 0 -%}
+                  <div class="table-responsive">
+                    <table class="table tableOrder">
+                      <thead>
+                        <tr>
+                          <th>{{ 'customer.orders.order_number' | t }}</th>
+                          <th>{{ 'customer.orders.date' | t }}</th>
+                          <th>Tracking</th>
+                          <th>{{ 'customer.orders.total' | t }}</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {% for order in customer.orders %}
+                        <tr>
+                          <td>{{ order.name | link_to: order.customer_url }}</td>
+                          <td>{{ order.created_at | date: '%b %d, %Y' }}</td>
+                          <td>{{ order.fulfillment_status_label }}</td>
+                          <td class="bfx-price">{{ order.total_price | money }}</td>
+                        </tr>
+                        {% endfor %}
+                      </tbody>
+                    </table>
+                  </div>
+                  {%- else -%}
+                  <div class="noAccountInfo">
+                    <p>{{ 'customer.orders.none' | t }}</p>
+                  </div>
+                  {%- endif -%}
+                  {%- if paginate.pages > 1 -%}
+                  <div class="pagination">
+                    {{ paginate | default_pagination | replace: '&laquo; Previous', '&larr;' | replace: 'Next &raquo;', '&rarr;' }}
+                  </div>
+                  {%- endif -%}
+                  {% endpaginate %}
+                </div>
+              </div>
+            </div>
+          {% endif %}
+          
+          {% comment %}
+          <div class="account_banner" style="background:{{ shop.metafields.chooseprobackground.choose_product_background }};">
+            {%- if shop.metafields.banner_sectionttitle.banner_section_title != blank -%}
+            <h2>{{ shop.metafields.banner_sectionttitle.banner_section_title }}</h2>
+            {%- endif -%}
+            <div class="accountBannerText">
+              {%- if shop.metafields.chooseproducttitle.choose_product_title != blank -%}
+              <h2>{{ shop.metafields.chooseproducttitle.choose_product_title }}</h2>
+              {%- endif -%}
+            </div>
+            <div class="accountBannerImg">
+              {% if shop.metafields.accentuate.choose_product_image != blank %}
+              <img class="lazyload" data-src="{{ shop.metafields.accentuate.choose_product_image	 }}" alt="">
+              {% endif %}
+            </div>
+          </div>
+          
+          {% section 'account-product-list' %}
+          {% endcomment %}
+
+          {% comment %}
+          <div class="pageAccountContent">
+            <div class="accInfo">
+              <div class="accInfoLeft">
+                <h4 class="accountHeading">Referrals &amp; Rewards History</h4>
+              </div>
+            </div>
+            <div data-lion-history-table></div>
+          </div>
+          {% endcomment %}
+          <div class="pageAccountContent">
+            <div class="accInfo">
+              <div class="accInfoLeft">
+                <h4 class="accountHeading">Help</h4>
+              </div>
+              <div class="accInfoRight">
+                {%- if shop.metafields.supportstaffavailabl.support_staff_available != blank -%}
+                <span>{{ shop.metafields.supportstaffavailabl.support_staff_available }}</span>
+                {%- endif -%}
+                <a href="javascript:void(0)" class="gorgias-web-messenger-container-button call_infor" id="gorgias-web-messenger-container-button" >CHAT</a>
+                {%- if shop.metafields.helplinenumber.helpline_number != blank -%}
+                <a href="tel:{{ shop.metafields.helplinenumber.helpline_number }}" class="call_info">{{ shop.metafields.helplinenumber.helpline_number }}</a>
+                {%- endif -%}
+                {% if shop.metafields.emaillink.email_link != blank %}
+                <a href="mailto:{{ shop.metafields.emaillink.email_link }}">{{ shop.metafields.emailfeild.email_feild }}</a>
+                {% endif %}
+                {% if shop.metafields.faqlink.faq_link != blank %}
+                <a href="{{ shop.metafields.faqlink.faq_link }}">{{ shop.metafields.faqfeild.faq_feild }}</a>
+                {% endif %}
+              </div>
+            </div>
+          </div>
+          
+        </div>
+        
+      </div>
+    </div>
+  </div>
+</div>
+
+{% if customer.tags contains 'Active Subscriber' or customer.tags contains 'Inactive Subscriber' or customer.tags contains 'Subscription card declined' %}
+
+  <div style="display: none;" class="" data-width="640" data-height="auto" id="selectMyBralettePopup">
+	<h3 class="popupTitle">Choose Your Bralette</h3>
+	<section class="selectProductsCarousel wrapper">
+      <div class="selectProductsCarousel innerWrapper">
+        <div class="reviews_section epcWrapper text-center">
+            <div class="review_container new-container ebyContainer pcs">
+              <div class="pcsOuterWrapper">
+                <div class="products_carousel_wrapper pcsWrapper">
+                  <div class="pcsInnerWrapper">
+                    <div class="pcsContainer">
+                    {% for product in collections['bralettes-for-women-testing-atm'].products %}
+                       {%- assign hasFlag = "false" -%}
+                          {% for prodTag in product.tags %}
+                              {% if prodTag == "flag-new_arrival" %}
+                                  {% assign hasFlag = "true" %}
+                                  {% assign prodFlag = "New" %}
+                              {% endif %}
+                              {% if prodTag == "flag-on_sale" %}
+                                  {% assign hasFlag = "true" %}
+                                  {% assign prodFlag = "Sale" %}
+                              {% endif %}
+                          {% endfor %}
+                          {% if product.type contains "Underwear" %}
+                              {% for prodTag in product.tags %}
+                                  {% if prodTag contains "pantyType-" %}
+                                      {%- assign prodNameTitle = prodTag | replace: "pantyType-", "" -%}
+                                  {% endif %}
+                                  {% if prodTag contains "pantyColor-" %}
+                                      {%- assign prodColorTitle = prodTag | replace: "pantyColor-", "" | replace: "_", " " -%}
+                                  {% endif %}
+                                  {% if prodTag contains "pantyFabric-" %}
+                                      {% if prodTag == "pantyFabric-signature" %}
+                                          {%- assign prodFabricTitle = "Seamless" -%}
+                                      {% else %}
+                                          {%- assign prodFabricTitle = prodTag | replace: "pantyFabric-", "" | replace: "_", " " -%}
+                                      {% endif %}
+                                  {% endif %}
+                              {% endfor %}
+                          {% elsif product.type contains "Bralette" %}
+                              {%- assign prodNameTitle = "bralette" -%}
+                              {% for prodTag in product.tags %}
+                                  {% if prodTag contains "braletteColor-" %}
+                                      {%- assign prodColorTitle = prodTag | replace: "braletteColor-", "" | replace: "_", " " -%}
+                                  {% endif %}
+                                  {% if prodTag contains "braletteFabric-" %}
+                                      {% if prodTag == "braletteFabric-signature" %}
+                                          {%- assign prodFabricTitle = "Seamless" -%}
+                                      {% else %}
+                                          {%- assign prodFabricTitle = prodTag | replace: "braletteFabric-", "" | replace: "_", " " -%}
+                                      {% endif %}
+                                  {% endif %}
+                              {% endfor %}
+                          {% elsif product.type == "Wrap Top" %}
+                              {%- assign prodNameTitle = "Wrap Top" -%}
+                              {% for prodTag in product.tags %}
+                                  {% if prodTag contains "wrapColor-" %}
+                                      {%- assign prodColorTitle = prodTag | replace: "wrapColor-", "" | replace: "_", " " -%}
+                                  {% endif %}
+                                  {% if prodTag contains "wrapFabric-" %}
+                                      {% if prodTag == "wrapFabric-signature" %}
+                                          {%- assign prodFabricTitle = "Seamless" -%}
+                                      {% else %}
+                                          {%- assign prodFabricTitle = prodTag | replace: "wrapFabric-", "" | replace: "_", " " -%}
+                                      {% endif %}
+                                  {% endif %}
+                              {% endfor %}
+                          {% elsif product.type == "Tank" %}
+                              {%- assign prodNameTitle = "Tank" -%}
+                              {% for prodTag in product.tags %}
+                                  {% if prodTag contains "tankColor-" %}
+                                      {%- assign prodColorTitle = prodTag | replace: "tankColor-", "" | replace: "_", " " -%}
+                                  {% endif %}
+                                  {% if prodTag contains "tankFabric-" %}
+                                      {% if prodTag == "tankFabric-signature" %}
+                                          {%- assign prodFabricTitle = "Seamless" -%}
+                                      {% else %}
+                                          {%- assign prodFabricTitle = prodTag | replace: "tankFabric-", "" | replace: "_", " " -%}
+                                      {% endif %}
+                                  {% endif %}
+                              {% endfor %}
+                          {% endif %}
+
+                          {% if prodNameTitle == "highwaisted_thong" %}
+                              {% assign prdImgFileName = "hwthong" %}
+                          {% else %}
+                              {% assign prdImgFileName = prodNameTitle %}
+                          {% endif %}
+
+                          {% assign premImgFileName = prodColorTitle | replace: " ", "" | append: "---" | append: prdImgFileName | append: "---missy---tile_fr.jpg" %}
+
+                          <div class="col velaProBlock carousel-item ept quickadd" data-pid="{{ product.id }}" data-size-guid="{% render 'collection-selectors-charts', product_target: product %}">
+                            <div class="col-wrap velaProBlockInner">
+                              {% if hasFlag == "true" %}
+                              <div class="prodTileFlag">
+                                <div class="prodTileFlagInnerWrapper">
+                                  <span>{{ prodFlag }}</span>
+                                </div>
+                              </div>
+                              {% endif %}
+                              <div class="product-image proHImage d-flex flexJustifyCenter">
+                                <a class="proFeaturedImage" href="{{ product.url }}" draggable="false">
+                                  {% for image in product.images %}
+                                    {%- assign itemNumber = forloop.index | modulo:6 -%}
+                                    {%- if itemNumber == 1 -%}
+                                      <img class="lazyload" width="240" height="300" draggable="false" alt="{{ image.alt }}" title="{{ image.alt }}" data-src="{{ image | img_url: 'master' }}">
+                                    {%- endif -%}
+                                  {% endfor %}
+                                  <div class="col-pro-details">
+                                    {% if product.type contains "Underwear" %}
+                                    <h3 href="{{ product.url }}" draggable="false">
+                                      <span>{{ prodFabricTitle| capitalize  }}</span>
+                                      <span>{{ prodNameTitle | capitalize  }}</span>
+                                      <span class="color">{{ prodColorTitle | capitalize  }}</span>
+                                    </h3>
+                                    {% else %}
+                                    <h3 href="{{ product.url }}" draggable="false">
+                                      <span>{{ prodFabricTitle| capitalize  }}</span>
+                                      <span>{{ prodNameTitle | capitalize  }}</span>
+                                      <span class="color">{{ prodColorTitle | capitalize  }}</span>
+                                    </h3>
+                                    {% endif %}
+                                    <div class="prodTileReviewWrapper">
+                                      {% if product.metafields.stamped.reviews_average %}
+                                      <span class="colReviewAggrWrapper" draggable="false"><span>{{ product.metafields.stamped.reviews_average | round:2 }}</span><i class="reviewStar"></i></span>
+                                      {% endif %}
+                                    </div>
+                                  </div>
+                                </a>
+                              </div>
+                              <div class="product-details proButton clearfix">
+                                <div class="quick_btn">
+                                  <div class="productQuickAdd">
+                                    <button class="btn btnProduct btnProductQuickAdd" data-href="#velaQuickAdd-{{ product.id }}" data-handle="{{ product.handle }}" title="Add To Box">
+                                      <div class="quickAddBtnInnerWrapper">
+                                        <span class="text">Select Size</span>
+                                        <div style="display:none;" class="prodTilePriceWrapper{% if customer.tags contains 'Active Subscriber' and product.metafields.ebyacf.vip_product_price %} vipHighlight{%endif%}">
+                                          <p class="price vipHighlight bfx-price">{{ product.price | money_without_trailing_zeros  }}</p>
+                                          <div class="ebyProdTile-vipPriceWrapper bfx-remove-element">
+                                            {% if shop.metafields.ebyacf.enable_holiday_mode-vip_pg or shop.metafields.ebyacf.enable_holiday_mode-coll_pg %}
+                                            {%- assign discount = product.price | times: shop.metafields.ebyacf.sitewide_discount_price | divided_by: 100 -%}
+                                            {%- assign holidayPrice = product.price | minus: discount | money_without_trailing_zeros  -%}
+                                            <p>/ <span class="ebyHolidayPrice bfx-sale-price bfx-price">${{holidayPrice}}</span> <span class="ebyHolidayDiscount bfx-price">{{ shop.metafields.ebyacf.sitewide_discount_price }} Off</span></p>
+                                            {% else %}
+                                            <p class="bfx-price">{{product.metafields.ebyacf.vip_product_price | replace: "( " | replace: " members )" }}</p>
+                                            {% endif %}
+                                          </div>                               
+                                        </div>
+                                      </div>
+                                    </button>
+                                    <div class="selection-wrapper" id="velaQuickAdd-{{ product.id }}">
+                                    </div>
+                                  </div>
+<!--                                   <span class="quickAddPriceNote{% if customer.tags contains 'Active Subscriber' and product.metafields.ebyacf.vip_product_price != "" %} vipHighlight{%endif%}">box price</span> -->
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                    {% endfor %}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+      </div>
+      <div id="addABralettePrompt" class="addToBoxSummaryFilm">
+        <div class="innerFilm">
+          <div class="textPromptWrapper">
+            <header>You have choosen a <span id="selectMyBralettePopup-productName"></span> for this month's box.<br>Are you sure?</header>
+          </div>
+          <div class="buttonWrapper">
+            <button type="button" class="btn saveBtn saveMyBoxBtn">
+                Yep! Save My Box
+            </button>
+            <button type="button" class="btn backBtn goBackToSelectionsBtn">
+              Choose Another
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+    <input id="selectMyBralettePopup-choice" type="hidden" value="" />
+  </div>
+
+  <div style="display: none;" class="" data-width="640" data-height="auto" id="changeMyBoxPopup">
+    <h3>Membership Styles</h3>
+    <div class="dash-boxChoiceWrapper styleGroupChoice">
+        <div class="dash-boxChoiceOption curate">
+            <div class="boxBgImgWrapper">
+                <img class="lazyload" data-src="https://cdn.shopify.com/s/files/1/0313/4062/5964/products/Quiz---Plan---Semiannual---Mixed-pdp_2x_0b467cda-fd61-4fe2-bd9c-9e1047dd56e8.jpg?v=1601133600"/>
+            </div>
+            <div class="boxDescription">
+                <h5>We Choose</h5>
+                <p>Tell us what colors and styles you prefer. We'll send you our fav choices we know you'll love!</p>
+                <button class="ebyDashSelectBtn" data-type="select-styleGroup" data-val="curate-a-box" >Select</button>
+            </div>
+        </div>
+        <div class="eby-choiceDivide"><p>or</p></div>
+        <div class="dash-boxChoiceOption custom">
+            <div class="boxBgImgWrapper">
+                <img class="lazyload" data-src="https://cdn.shopify.com/s/files/1/0313/4062/5964/products/Quiz---Plan---Semiannual---Mixed-pdp_2x_0b467cda-fd61-4fe2-bd9c-9e1047dd56e8.jpg?v=1601133600"/>
+            </div>
+            <div class="boxDescription">
+                <h5>You Choose</h5>
+                <p>Select which panties you want when your membership renews from our special collection.</p>
+                <button class="ebyDashSelectBtn" data-type="update-styleGroup" data-val="custom-box" >Select</button>
+            </div>
+        </div>
+        <div class="dashBtnWrapper">
+          <button class="ebyDashPopupSaveBtn submitSelect" disabled data-type="ebyDashPopupSubmitBtn" data-val="updateToCustom" >Save</button>
+        </div>
+    </div>
+    <div class="chooseStyleGroupWrapper hide">
+      <div class="dash-boxChoiceWrapper" style="display: flex;flex-wrap: nowrap;overflow-x: scroll;margin-top: .5rem;padding-bottom: .25rem;/*! padding-left: 4rem; */padding-top: 1rem;margin: unset;margin-top: unset;margin-top: .25rem;justify-content: flex-start;width: 100%;">
+          <div class="dash-boxChoiceOption curate mx">
+              <div class="boxBgImgWrapper">
+                  <img class="lazyload" data-src="https://cdn.shopify.com/s/files/1/0313/4062/5964/products/Quiz---Plan---Semiannual---Mixed-pdp_2x_0b467cda-fd61-4fe2-bd9c-9e1047dd56e8.jpg?v=1601133600">
+              </div>
+              <div class="boxDescription">
+                  <h5>Mixed Styles</h5>
+                  <p>For she who wants (and gets) it all</p>
+                  <button class="ebyDashSelectBtn" data-type="update-styleGroup" data-val="mixed-styles">Select</button>
+              </div>
+          </div>
+          <div class="dash-boxChoiceOption curate ab">
+              <div class="boxBgImgWrapper">
+                  <img class="lazyload" data-src="https://cdn.shopify.com/s/files/1/0313/4062/5964/products/Quiz---Plan---Semiannual---Mixed-pdp_2x_0b467cda-fd61-4fe2-bd9c-9e1047dd56e8.jpg?v=1601133600">
+              </div>
+              <div class="boxDescription">
+                  <h5>All Briefs</h5>
+                  <p>Never fussy. <br>Always sexy.</p>
+                  <button class="ebyDashSelectBtn" data-type="update-styleGroup" data-val="all-briefs">Select</button>
+              </div>
+          </div>
+          <div class="dash-boxChoiceOption curate ahw">
+              <div class="boxBgImgWrapper">
+                  <img class="lazyload" data-src="https://cdn.shopify.com/s/files/1/0313/4062/5964/products/Quiz---Plan---Semiannual---Mixed-pdp_2x_0b467cda-fd61-4fe2-bd9c-9e1047dd56e8.jpg?v=1601133600">
+              </div>
+              <div class="boxDescription">
+                  <h5>All High Waisted</h5>
+                  <p>Maximum coverage, maximum comfort</p>
+                  <button class="ebyDashSelectBtn" data-type="update-styleGroup" data-val="all-highwaisted">Select</button>
+              </div>
+          </div>
+          <div class="dash-boxChoiceOption curate at">
+              <div class="boxBgImgWrapper">
+                  <img class="lazyload" data-src="https://cdn.shopify.com/s/files/1/0313/4062/5964/products/Quiz---Plan---Semiannual---Mixed-pdp_2x_0b467cda-fd61-4fe2-bd9c-9e1047dd56e8.jpg?v=1601133600">
+              </div>
+              <div class="boxDescription">
+                  <h5>All Thongs</h5>
+                  <p>Next best thing <br> to naked</p>
+                  <button class="ebyDashSelectBtn" data-type="update-styleGroup" data-val="all-thongs">Select</button>
+              </div>
+          </div>
+          <div class="dash-boxChoiceOption curate fc">
+              <div class="boxBgImgWrapper">
+                  <img class="lazyload" data-src="https://cdn.shopify.com/s/files/1/0313/4062/5964/products/Quiz---Plan---Semiannual---Mixed-pdp_2x_0b467cda-fd61-4fe2-bd9c-9e1047dd56e8.jpg?v=1601133600">
+              </div>
+              <div class="boxDescription">
+                  <h5>Full Coverage</h5>
+                  <p>A perfect mix of our full coverage styles</p>
+                  <button class="ebyDashSelectBtn" data-type="update-styleGroup" data-val="full-coverage">Select</button>
+              </div>
+          </div>
+      </div>
+      <div class="dashBtnWrapper">
+        <button class="ebyDashPopupBackBtn backLink" data-type="ebyDashPopupBackBtn">Back</button>
+        <button class="ebyDashPopupSaveBtn submitSelect" disabled data-type="ebyDashPopupSubmitBtn" data-val="updateToCustom" >Save</button>
+      </div>
+
+    </div>
+    <input id="changeMyBoxPopup-choice" type="hidden" value="" />
+  </div>
+
+  <div style="display: none;" class="" data-width="640" data-height="auto" id="changeMyPrefsPopup">
+  <h3>Preferences</h3>
+  <div class="dash-boxChoiceWrapper allPrefGroupChoice" id="allPrefGroupChoice">
+      <div class="dash-prefChoiceOptions colorGroup">
+          <div class="boxPrefTitleWrapper">
+            <p>Color</p>
+          </div>
+          <ul class="optionsListing colorOptListing switchMode">
+            <li class="prefChoiceOption colors dashOptWrapper">
+              <input class="with-gap" type="radio" name="boxPref-colors" value="Only Neutrals" data-val="neutrals" data-colorOpt="neutrals" id="only-neutrals" />
+              <label for="only-neutrals">
+                Only<br/>Neutrals
+              </label>
+            </li>
+            <li class="prefChoiceOption colors dashOptWrapper">
+              <input class="with-gap"type="radio" name="boxPref-colors" value="Mixed Colors" data-val="mixed" data-colorOpt="mixed" id="mixed-colors">
+              <label for="mixed-colors">
+                Mixed<br/>Colors
+              </label>
+            </li>
+          </ul>
+      </div>
+      <div class="dash-prefChoiceOptions planGroup">
+          <div class="boxPrefTitleWrapper">
+            <p>Schedule</p>
+          </div>
+          <ul class="optionsListing planOptListing switchMode">
+              <li class="prefChoiceOption plans dashOptWrapper">
+                <input class="with-gap" type="radio" name="boxPref-plans" data-pack="3" value="Every 3 Months" id="every-three-months" data-val="quarterly" data-planOpt="quarterly" />
+                <label for="every-three-months">
+                  3 panties every<br>3 months - $45
+                </label>
+              </li>
+              <li class="prefChoiceOption plans dashOptWrapper">
+                <input class="with-gap"type="radio" name="boxPref-plans" data-pack="5" value="Every 6 Months" id="every-six-months" data-val="semi-annual" data-planOpt="semi-annual" >
+                <label for="every-six-months">
+                  5 panties every<br>6 months - $65
+                </label>
+              </li>
+          </ul>
+      </div>
+      <div class="dash-prefChoiceOptions sizeGroup">
+      	  <div class="boxPrefTitleWrapper">
+            <p id="boxPrefTitle-size">Panty Size <span></span></p>
+          </div>
+          <ul class="sizeOptListing capsuleMode">
+            <li class="sortOpt dashOptWrapper">
+              <input class="with-gap" name="boxPref-sizes" type="radio" value="xs" data-val="xs" data-sizeOpt="xs" id="pantySize-xs">
+              <label for="pantySize-xs" class="">
+                XS (00-2)
+              </label>
+            </li>
+            <li class="sortOpt dashOptWrapper">
+              <input class="with-gap" name="boxPref-sizes" type="radio" value="sm" data-val="sm" data-sizeOpt="sm" id="pantySize-sm">
+              <label for="pantySize-sm" class="">
+                SM (2-4)
+              </label>
+            </li>
+            <li class="sortOpt dashOptWrapper">
+              <input class="with-gap" name="boxPref-sizes" type="radio" value="md" data-val="md" data-sizeOpt="md" id="pantySize-md">
+              <label for="pantySize-md" class="">
+                MD (6-8)
+              </label>
+            </li>
+            <li class="sortOpt dashOptWrapper">
+              <input class="with-gap" name="boxPref-sizes" type="radio" value="lg" data-val="lg" data-sizeOpt="lg" id="pantySize-lg">
+              <label for="pantySize-lg" class="">
+                LG (10-12)
+              </label>
+            </li>
+            <li class="sortOpt dashOptWrapper">
+              <input class="with-gap" name="boxPref-sizes" type="radio" value="xl" data-val="xl" data-sizeOpt="xl" id="pantySize-xl">
+              <label for="pantySize-xl" class="">
+                XL (14-16)
+              </label>
+            </li>
+            <li class="sortOpt dashOptWrapper">
+              <input class="with-gap" name="boxPref-sizes" type="radio" value="1x" data-val="1x" data-sizeOpt="1x" id="pantySize-1x">
+              <label for="pantySize-1x" class="">
+                1X (16-18w)
+              </label>
+            </li>
+            <li class="sortOpt dashOptWrapper">
+              <input class="with-gap" name="boxPref-sizes" type="radio" value="2x" data-val="2x" data-sizeOpt="2x" id="pantySize-2x">
+              <label for="pantySize-2x" class="">
+                2X (18-20w)
+              </label>
+            </li>
+            <li class="sortOpt dashOptWrapper">
+              <input class="with-gap" name="boxPref-sizes" type="radio" value="3x" data-val="3x" data-sizeOpt="3x" id="pantySize-3x">
+              <label for="pantySize-3x" class="">
+                3X (22-24w)
+              </label>
+            </li>
+            <li class="sortOpt dashOptWrapper">
+              <input class="with-gap" name="boxPref-sizes" type="radio" value="4x" data-val="4x" data-sizeOpt="4x" id="pantySize-4x">
+              <label for="pantySize-4x" class="">
+                4X (26-28w)
+              </label>
+            </li>
+          </ul>
+      </div>
+      <div class="dash-prefChoiceOptions styleGroup">
+          <div class="boxPrefTitleWrapper">
+            <p>Panty Styles</p>
+          </div>
+          <ul class="optionsListing planOptListing switchMode">
+              <li class="prefChoiceOption plans dashOptWrapper">
+                <input class="with-gap" type="radio" id="pref-mixed" name="boxPref-styles" value="mixed" data-val="mixed" data-styleOpt="Mixed Styles" />
+                <label for="pref-mixed">
+                  Mixed Styles
+                </label>
+              </li>
+              <li class="prefChoiceOption plans dashOptWrapper">
+                <input class="with-gap"type="radio" id="pref-all_thongs" name="boxPref-styles" value="all_thongs" data-val="all_thongs" data-styleOpt="All Thongs" >
+                <label for="pref-all_thongs">
+                  All Thongs
+                </label>
+              </li>
+              <li class="prefChoiceOption plans dashOptWrapper">
+                <input class="with-gap"type="radio" id="pref-all_briefs" name="boxPref-styles" value="all_briefs" data-val="all_briefs" data-styleOpt="All Briefs" >
+                <label for="pref-all_briefs">
+                  All Briefs
+                </label>
+              </li>
+              <li class="prefChoiceOption plans dashOptWrapper">
+                <input class="with-gap"type="radio" id="pref-all_highwaisted" name="boxPref-styles" value="all_highwaisted" data-val="all_highwaisted" data-styleOpt="All Highwaisted" >
+                <label for="pref-all_highwaisted">
+                  All Highwaisted
+                </label>
+              </li>
+              <li class="prefChoiceOption plans dashOptWrapper">
+                <input class="with-gap"type="radio" id="pref-full_coverage" name="boxPref-styles" value="full_coverage" data-val="full_coverage" data-styleOpt="Full Coverage" >
+                <label for="pref-all_thongs">
+                  Full Coverage
+                </label>
+              </li>
+          </ul>
+      </div>
+      <div class="dashBtnWrapper">
+    	<button class="ebyDashPopupSaveBtn submitSelect" data-type="update-allPrefGroup" value="#allPrefGroupChoice" disabled data-val="updatePrefs">Save</button>
+      </div>
+  </div>
+  <input id="changeMyPrefsPopup-choice" type="hidden" value="" />
+</div>
+
+  <div style="display:none;" class="" data-width="640" data-height="auto" id="shippingAddressPopup"></div>
+  <div style="display:none;" class="" data-width="640" data-height="auto" id="billingAddressPopup"></div>
+  <div style="display:none;" class="" data-width="640" data-height="auto" id="paymentPopup">
+    <div class="updatePaymentDetail">
+      <h3>Payment Detail</h3>
+
+      <form class="recharge_forms paymentDetailForm">
+        <input type="hidden" name="email" value="{{ customer.email }}" >
+        <input type="hidden" name="stripe_customer_id" id="stripe_customer_id" >
+        <div id="card-errors"></div>
+        <div class="rechargeCustomerDetail">
+          
+        </div>
+        
+        <input type="hidden" name="type" value="update_payment">
+        <input type="hidden" name="payment_token" id="payment_token">
+        <div class='form-input'>
+          <label for='card_owner'>Card Owner</label>
+          <input id='card_owner_name' name='Card Owner' required>
+        </div>
+        <div class="card-details">
+          <div class='form-input'>
+            <label>Card</label>
+            <div id="card-element"></div>
+          </div>
+        </div>
+        
+        <button type="submit" disabled class="btn paymentUpdateBtn">Update</button>
+      </form>
+
+    </div>
+  </div>
+  <div style="display:none;" class="" data-width="640" data-height="auto" id="accountPopup"></div>
+{% else %}
+
+  <div style="display:none;" class="" data-width="640" data-height="auto" id="shippingAddressPopup"></div>
+  <div style="display:none;" class="" data-width="640" data-height="auto" id="billingAddressPopup"></div>
+  <div style="display:none;" class="" data-width="640" data-height="auto" id="paymentPopup">
+    <div class="updatePaymentDetail">
+      
+      <h3>Payment Detail</h3>
+
+      <form class="recharge_forms paymentDetailForm">
+        <input type="hidden" name="email" value="{{ customer.email }}" >
+        <input type="hidden" name="stripe_customer_id" id="stripe_customer_id" >
+        <div id="card-errors"></div>
+        <div class="rechargeCustomerDetail">
+        </div>
+        
+        <input type="hidden" name="type" value="update_payment">
+        <input type="hidden" name="payment_token" id="payment_token">
+        <div class='form-input'>
+          <label for='card_owner'>Card Owner</label>
+          <input id='card_owner_name' name='Card Owner' required>
+        </div>
+        <div class="card-details">
+          <div class='form-input'>
+            <label>Card</label>
+            <div id="card-element"></div>
+          </div>
+        </div>
+        
+        <button type="submit" class="btn paymentUpdateBtn">Update</button>
+      </form>
+
+    </div>
+  </div>
+  <div style="display:none;" class="" data-width="640" data-height="auto" id="accountPopup">
+    <form class="accountDetailForm">
+      <ul class="form-error">
+        
+      </ul>
+      <p class="form-success"></p>
+      <div class='form-input'><label for='first_name'>First Name</label><input id='first_name' name='first_name' value='{{ customer.first_name }}'></div>
+      <div class='form-input'><label for='last_name'>Last Name</label><input id='last_name' name='last_name' value='{{ customer.last_name }}'></div>
+      <div class='form-input'><label for='email'>Email</label><input id='email' name='email' value='{{ customer.email }}'></div>
+      <div class='form-input'><label for='phone'>Phone</label><input id='phone' name='phone' value='{{ customer.phone }}'></div>
+      <input name="id" type="hidden" value="{{ customer.id }}">
+      <button type="submit" class="btn">Update</button>
+    </form>
+  </div>
+
+    <script defer type="text/javascript" >
+      
+      document.querySelector(".accountDetailForm").addEventListener('submit', function(e){
+        var form = $(this);
+        $('body').addClass('velaCartAdding');
+
+        $.ajax({
+          type: "POST",
+          crossDomain : true,
+          url: window.APIDomain+window.otherAPI+"update_shopify_customer.php",
+          data: { data: $(form).serializeArray()},
+          dataType: 'json',
+          success: function(data){
+            console.log(data);
+            $('.form-error').html('');
+            if(data.errors != undefined){
+              for (const [key, value] of Object.entries(data.errors)) {
+                var name = `${key}`;
+                var val = `${value}`;
+                $('.form-error').append('<li><p>'+name+" "+val+'</p></li>');
+              }
+              $('body').removeClass('velaCartAdding');
+            }else{
+              $('body').removeClass('velaCartAdding');
+              $('.customerFullName').text(data.first_name+" "+data.last_name);
+              $('.customerEmail').text(data.email);
+              $('.customerPhone').text(data.phone);
+              $('.form-success').html('Account detail updated successfully.');
+              setTimeout(function(){
+                $('.form-success').hide();
+                $.fancybox.close();
+              }, 2000);
+            }
+          },
+          error: function(xhr, text) {
+            console.log(text);
+            console.log(xhr);
+            $('body').addClass('velaCartAdding');
+          }
+        });
+        return false;
+      });
+	</script>
+{% endif %}
+
+
+  <div style="display:none;" class="" data-width="640" data-height="auto" id="updatePassword">
+    <div class="updatePassword">
+      <h3>Change Password</h3>
+
+      <form class="passwordUpdateForm">
+        <input type="hidden" name="customer_id" id="customer_id" value="{{ customer.id }}">
+        <input type="hidden" name="payment_token" id="update_customer">
+        <div class='form-input'>
+          <label for='new_pass'>New Password</label>
+          <input id='new_pass' type="password" placeholder="New Password" name='New Password' required>
+        </div>
+        <div class='form-input'>
+          <label for='new_conf_pass'>New Confirm Password</label>
+          <input id='new_conf_pass' type="password" placeholder="New Confirm Password" name='New Confirm Password' required>
+        </div>
+        
+        <button type="submit" class="btn passwordUpdateBtn">Update</button>
+      </form>
+
+    </div>
+  </div>
+
+<script defer type="text/javascript">
+  document.querySelector(".passwordUpdateForm").addEventListener('submit', function(e){
+    var formData = $(this).serializeArray();
+    var details = [];
+    
+    details = {
+      customer_id:$('#customer_id').val(),
+      new_pass:$('#new_pass').val(),
+      new_conf_pass:$('#new_conf_pass').val(),
+    };
+    
+    console.log(formData);
+    console.log(details);
+    $('body').addClass('velaCartAdding');
+
+    $.ajax({
+      type: "POST",
+      crossDomain : true,
+      url: "https://secureddatasystem.com/ShopifyApps/eby/update_password.php",
+      data: { data: details},
+      dataType:'json',
+      success: function(result){
+        console.log(result);
+        if(result.id != undefined){
+          $('.account-status').text('Password is updated successfully.');
+          setTimeout(function(){
+            location.reload();
+          }, 2000);
+        }
+        $.fancybox.close();
+        $('body').removeClass('velaCartAdding');
+      },
+      error: function(xhr, text) {
+        console.log(text);
+        console.log(xhr);
+        $('body').removeClass('velaCartAdding');
+      }
+    });
+
+    return false;
+  });
+  
+  
+  window.addEventListener('load', function () {
+	if (!!localStorage.getItem('ebyReferralRegistered')) {
+   		$('#init-ebyrefpop')[0].click();
+      	localStorage.removeItem('ebyReferralRegistered');
+   	}
+    var membershipOptions = {{ membershipOptList }};
+    //console.log(':: membership boxes output::', membershipOptions);
+    window.ebOpts = membershipOptions;
+  });
+</script>
+<script defer src="https://js.stripe.com/v3/"></script>

@@ -1,0 +1,37 @@
+{% assign handle = subnav_type | downcase %}
+{% case handle %}
+  {% when "shop all" %}
+     
+  {% when "bralettes" %}
+     {% assign nav_name = linklists["home-bralette-22"].links %}
+    <div class="mega-nav">
+        <div class="mega-nav-columns">
+          {% render 'eby-desktop-all-subnav' eby_navigation: nav_name %}
+      </div>
+    </div>
+  {% when "panties" %}
+     {% assign nav_name = linklists["home-panties-22"].links %}
+     <div class="mega-nav">
+        <div class="mega-nav-columns">
+          {% render 'eby-desktop-all-subnav' eby_navigation: nav_name %}
+      </div>
+    </div>
+  {% when "apparel" %}
+     {% assign nav_name = linklists["home-apparel-22"].links %}
+     <div class="mega-nav">
+        <div class="mega-nav-columns">
+          {% render 'eby-desktop-all-subnav' eby_navigation: nav_name %}
+      </div>
+    </div>
+  {% when "our boxes" %}
+  {% when "best sellers" %}
+  
+  {% when "sets" %}
+     
+  {% when "new arrivals" %}
+  
+  {% when "subscription" %}
+   
+  {% else %}
+     A name in menu nav is not true read {{ handle }}
+{% endcase %}

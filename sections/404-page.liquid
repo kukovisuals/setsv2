@@ -1,0 +1,379 @@
+<section class="two_cols">
+  <div class="same_cols padd-all">
+    <div class="text-center">
+      <div class="top_parts">
+        <h1>{{ section.settings.title }}</h1>
+        <h2>{{ section.settings.sub_title }}</h2>
+      </div>
+      <div class="shop-btn">
+        <a href="{{ section.settings.url1 }}" class="btn btnAddToCart">{{ section.settings.text1 }}</a>
+        <a href="{{ section.settings.url2 }}" class="btn btnAddToCart">{{ section.settings.text2 }}</a>
+        <a href="{{ section.settings.url3 }}" class="btn btnAddToCart">{{ section.settings.text3 }}</a>
+      </div>
+      {% comment %}
+      <div class="productBox pdp" style="display: none;">
+        <div class="ebyPdpRelatedProductsWrapper"> 
+          <h2>Have you seen this?</h2>
+          <div data-rebuy-id="5675" id="rebuy-id-5675">
+            <div class="rebuy-widget"
+                 v-cloak
+                 v-on:click="stopPropagation($event)"
+                 v-bind:id="'rebuy-widget-' + id"
+                 v-bind:class="['widget-type-' + config.type.replace('_','-'), 'widget-display-' + config.display_type, products.length > 0 ? 'is-visible' : 'is-hidden']">
+
+              <div
+                   class="rebuy-widget-container"
+                   v-cloak
+                   v-bind:class="['widget-display-' + config.display_type, visible ? 'is-visible' : 'is-hidden' ]"
+                   v-on:click.self="hide()">
+
+                <div class="rebuy-widget-content">
+                  <div class="rebuy-modal-close" v-on:click="hide()">
+                    <i class="fas fa-times"></i>
+                  </div>
+
+                  <h4 class="super-title" v-if="config.language.super_title != ''" v-html="config.language.super_title"></h4>
+
+                  <h3 class="primary-title" v-if="config.language.title != ''" v-html="config.language.title"></h3>
+
+                  <div class="description" v-if="config.language.description != ''" v-html="config.language.description"></div>
+
+                  <div class="rebuy-product-grid" v-bind:class="layoutClasses">
+
+                    <div class="rebuy-product-block" v-bind:data-prdId="product.id" v-for="product in products" v-bind:class="[product.handle, 'product-id-' + product.id, cartHasProduct(product) ? 'cart-has-item' : '']">
+                      <div class="rebuy-product-media">
+                        <a class="rebuy-product-image" v-bind:style="imageStyles" v-bind:class="[hasLearnMore() ? 'clickable' : '']">
+                          <img v-bind:src="itemImage(product, product.selected_variant, '400x400')" v-bind:alt="product.title">
+                        </a>
+                        <div class="rebuy-product-options" v-if="showVariantSelect(product)">
+                          <div class="rebuy-select-block">
+                            <div class="rebuy-title-container">
+                              <a class="rebuy-variant-title rebuy-select-size" v-html="product.selected_variant.title"></a>
+                              <img src="{{ 'arrow-point-to-down.svg' | asset_url }}" alt="Arrow" class="rebuy-arrow"/>
+                            </div>
+                            <div class="rebuy-select-options">
+                              <div class="current-size" v-html="product.selected_variant.title"></div>
+                              <div class="siz-guid-container" v-if="product.product_type == 'Core Bralette' || product.product_type == 'Core Underwear' || product.product_type == 'Surprise Panty Pack'">
+                                <a class="siz_guid rebuy" v-bind:data-product-type="product.product_type" href="#">Size Guide</a>
+                              </div>
+                              <div class="options">
+                                <div class="single-select" v-for="variant in product.variants" 
+                                     v-bind:data-value="variant.id">{% raw %}{{ variant.title }}{% endraw %}</div>
+                                <select
+                                        class="rebuy-select"
+                                        v-model="product.selected_variant_id"
+                                        v-on:change="selectVariant(product);">
+                                  <option v-for="variant in product.variants" v-bind:value="variant.id">{% raw %}{{ variant.title }}{% endraw %}</option>
+                                </select>                                                
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="rebuy-product-actions">
+                          <button
+                                  class="rebuy-button"
+                                  v-bind:class="{ working: (product.status != 'ready' && product.status != 'selecting') }"
+                                  v-bind:disabled="!(variantAvailable(product.selected_variant)) || (product.status != 'ready' && product.status != 'selecting')"
+                                  v-on:click="addUpsellToCart(product)"
+                                  type="button">
+                            <span v-html="!(variantAvailable(product.selected_variant)) || (product.status != 'ready' && product.status != 'selecting') ? '...' : 'Add'"></span>
+                          </button>
+                        </div>
+                      </div>
+                      <div class="rebuy-product-info">
+                        <!-- <div class="description" v-if="config.language.description != ''" v-html="config.language.description"></div> -->
+                        <a class="rebuy-product-title" v-html="product.title" v-bind:class="[hasLearnMore() ? 'clickable' : '']"></a>
+                        <div class="rebuy-product-review" v-if="hasProductReviews(product)">
+                          <span class="rebuy-star-rating">
+                            <span class="rebuy-star-rating-background"></span>
+                            <span class="rebuy-star-rating-foreground" v-bind:style="{ width: productReviewRatingPercentage(product) }"></span>
+                          </span>
+                          <span class="rebuy-review-count" v-html="productReviewCount(product)"></span>
+                        </div>
+                        <div class="rebuy-product-price bfx-price-container">
+                          <div v-if="variantOnSale(product, product.selected_variant)">
+                            <span class="rebuy-money sale bfx-sale-price bfx-price" v-html="formatMoney(variantPrice(product, product.selected_variant)).replace('.00', '')"></span>
+                            <span class="rebuy-money compare-at bfx-old-price bfx-price" v-html="formatMoney(variantCompareAtPrice(product, product.selected_variant)).replace('.00', '')"></span>
+                          </div>
+                          <div v-if="!(variantOnSale(product, product.selected_variant))">
+                            <span class="rebuy-money bfx-price" v-html="formatMoney(variantPrice(product, product.selected_variant)).replace('.00', '')"></span>
+                          </div>
+                        </div>
+                        <div class="rebuy-select-color">
+                          <a class="rebuy-select-colors" v-bind:href="learnMoreURL(product)" v-on:click="learnMore(product);">More colors</a>
+                        </div>
+                      </div>                                                       
+                    </div>
+
+                  </div>
+
+                </div>
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      {% endcomment %}
+    </div>
+  </div>
+  <div class="same_cols with_img">
+    <img width="624" height="648" data-src="{{ section.settings.desktop_image | img_url: 'master' }}" alt="{{ page_title }}" title="{{ page_title }}" class="desktop_img lazyload" />
+    <img width="375" height="188" data-src="{{ section.settings.mobile_image | img_url: 'master' }}" alt="{{ page_title }}" title="{{ page_title }}" class="mobile_img lazyload" />
+  </div>
+</section>
+
+<style>
+  .velaProBlock .proHImage {
+      position: relative;
+      overflow: hidden;
+  }
+  .velaProBlock .proFeaturedImage span {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: transparent;
+      z-index: 1;
+      visibility: hidden;
+      opacity: 0;
+      -webkit-transition: all .35s ease;
+      -o-transition: all .35s ease;
+      transition: all .35s ease;
+  }
+  .col .product-image .col-pro-details {
+    position: relative !important;
+    padding: 0;
+    text-align: left;
+    margin-bottom: 1rem;
+    margin-top: 1rem;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 10;
+    text-align: center;
+  }
+  .col .product-image .col-pro-details h3 {
+    margin: 0 0 8px;
+    line-height: 20px;
+    text-transform: uppercase;
+    font-size: 16px;
+    font-weight: 400;
+    font-family: aktiv-grotesk,Arial,Helvetica,sans-serif;
+    color: #000c48;
+  }
+  .col .product-image .col-pro-details .price {
+    margin: 0;
+    font-size: 16px;
+    font-weight: 400;
+    font-family: aktiv-grotesk,Arial,Helvetica,sans-serif;
+    color: #000c48;
+    line-height: 20px;
+  }
+  .col .product-details {
+    position: relative;
+    z-index: 2;
+  }
+  .col .quick_btn {
+    position: relative;
+  }
+  .col .quick_btn .btnProduct {
+    display: block!important;
+    border-radius: 0;
+    width: 100%;
+    border: 1px solid #000c48;
+    color: #000c48;
+    font-size: 16px;
+    background: 0 0;
+    font-family: aktiv-grotesk,Arial,Helvetica,sans-serif;
+    font-weight: 500;
+    text-transform: uppercase;
+    text-align: center;
+    line-height: 1.65;
+    padding: 15px;
+    transition: all .3s ease-in-out;
+  }
+  .col .quick_btn .btnProduct .icon-eye {
+    display: none;
+  }
+  .col .quick_btn .selection-wrapper {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+  }
+  .col .quick_btn .productQuickAdd .selection-wrapper {
+     transition: all .3s ease-in-out;
+     display: none!important;
+   }
+  .productQuickAdd .selection-wrapper {
+    background: #fff;
+    text-align: center;
+  }
+  
+  .carousel {
+    overflow: hidden;
+    position: relative;
+    width: 100%;
+    height: 600px;
+    -webkit-perspective: 500px;
+    perspective: 500px;
+    -webkit-transform-style: preserve-3d;
+    transform-style: preserve-3d;
+    -webkit-transform-origin: 0% 50%;
+    transform-origin: 0% 50%;
+    margin-top: 5rem;
+  }
+
+  .carousel.carousel-slider {
+    top: 0;
+    left: 0;
+  }
+
+  .carousel.carousel-slider .carousel-fixed-item {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 20px;
+    z-index: 1;
+  }
+
+  .carousel.carousel-slider .carousel-fixed-item.with-indicators {
+    bottom: 68px;
+  }
+
+  .carousel.carousel-slider .carousel-item {
+    width: 100%;
+    height: 100%;
+    min-height: 400px;
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
+
+  .carousel.carousel-slider .carousel-item h2 {
+    font-size: 24px;
+    font-weight: 500;
+    line-height: 32px;
+  }
+
+  .carousel.carousel-slider .carousel-item p {
+    font-size: 15px;
+  }
+
+  .carousel .carousel-item {
+    visibility: hidden;
+    width: 200px;
+    height: 200px;
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
+
+  .carousel .carousel-item > img {
+    width: 100%;
+  }
+
+  .carousel .indicators {
+    position: absolute;
+    text-align: center;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin: 0;
+  }
+
+  .carousel .indicators .indicator-item {
+    display: inline-block;
+    position: relative;
+    cursor: pointer;
+    height: 8px;
+    width: 8px;
+    margin: 24px 4px;
+    background-color: rgba(255, 255, 255, 0.5);
+    -webkit-transition: background-color .3s;
+    transition: background-color .3s;
+    border-radius: 50%;
+  }
+
+  .carousel .indicators .indicator-item.active {
+    background-color: #fff;
+  }
+
+  .carousel.scrolling .carousel-item .materialboxed,
+  .carousel .carousel-item:not(.active) .materialboxed {
+    pointer-events: none;
+  }
+/**/
+  
+.ebyAtcWidget .carousel-item {
+    margin: 0 auto;
+    width: 100%;
+  	height: auto;
+/*     position: relative;
+    padding: 0 0 4rem; */
+    max-width: 300px;
+}
+  
+  
+</style>
+
+
+{% schema %}
+  {
+    "name": "404 page",
+    "settings": [
+   		{
+          "type":"text",
+          "id":"title",
+          "label":"Title"
+        },
+		{
+          "type":"text",
+          "id":"sub_title",
+          "label":"Sub Title"
+        },
+		{
+          "type":"text",
+          "id":"text1",
+          "label":"Button text 1"
+        },
+		{
+          "type":"url",
+          "id":"url1",
+          "label":"Button Link 1"
+        },
+		{
+          "type":"text",
+          "id":"text2",
+          "label":"Button text 2"
+        },
+		{
+          "type":"url",
+          "id":"url2",
+          "label":"Button Link 2"
+        },
+		{
+          "type":"text",
+          "id":"text3",
+          "label":"Button text 3"
+        },
+		{
+          "type":"url",
+          "id":"url3",
+          "label":"Button Link 3"
+        },
+		{
+          "type": "image_picker",
+          "id": "desktop_image",
+          "label": "Desktop Image"
+       },
+		{
+          "type": "image_picker",
+          "id": "mobile_image",
+          "label": "Mobile Image"
+       }
+	]
+  }
+{% endschema %}

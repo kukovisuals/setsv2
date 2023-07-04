@@ -1,0 +1,304 @@
+<style>
+  span.ebySalePrice {
+    font-size: 1.4rem;
+    margin: 0;
+    display: block;
+  }
+  #shopify-section-vela-template-collection-list-colors .velaBoxCollectionTop {
+    clear: both;
+    padding: 2rem 0 0;
+  }
+  #shopify-section-vela-template-collection-list-colors .headerCollection {
+    border: none;
+    font-size: 2rem;
+    line-height: 40px;
+    font-weight: 400;
+    color: #000c48;
+    padding: 0;
+  }
+  #shopify-section-vela-template-collection-list-colors .velaCollections {
+    margin-bottom: 50px;
+  }
+  #shopify-section-vela-template-collection-list-colors .velaCollections .swatches .swatch-view-item {
+    padding-right: 0;
+    margin-top: 0;
+  }
+  @media (min-width: 1170px) {
+    body.template-collection .velaCollections {
+      padding: 0 60px;
+    }
+  }
+  @media (max-width: 767px) {
+    #shopify-section-vela-template-collection-list-colors .velaCollections .swatches .swatch-view-item .star-set-image {
+      width: 16px !important;
+      height: 16px !important;
+    }
+    .template-collection .proList .velaOwlRow.owlCarouselPlay > .item .swatch-selected.star-image-border-3-head {
+      border: 4px solid rgba(0, 0, 0, 0.5) !important;
+    }
+    .template-collection .proList .velaOwlRow.owlCarouselPlay > .item .star-image-border-3-head {
+      border: 4px solid rgba(0, 0, 0, 0) !important;
+    }
+  }
+  @media (max-width: 640px) {
+    #shopify-section-vela-template-collection-list-colors .headerCollection {
+      font-size: 2.4rem;
+      margin-bottom: 0;
+      line-height: inherit;
+    }
+    .template-collection .mainContent #pageContent .velaCollections {
+      padding-top: 3rem;
+    }
+    .ebySalePriceWrapper p{
+      line-height: normal;
+    }
+    span.ebySalePrice {
+      font-size: 1.2rem;
+      margin: 6px 0 0 0;
+    }
+  }
+</style>
+
+{% unless customer.tags contains 'Active Subscriber'%}
+<!-- <div class="ebyCollectionHolidayWrapper">
+  <img data-src="https://cdn.shopify.com/s/files/1/0313/4062/5964/files/Waitlist_Banner_-_Background.jpg?v=1620065480" class="lazyload" alt="Seamless Tank Top" title="Seamless Tank Top" />
+  <div class="bannerCopyOuterWrapper">
+    <div class="bannerCopyWrapper">
+      <p>THE ESSENTIAL</p>
+      <h6>Seamless Tank Top</h6>
+      <p>Get notified when it drops</p>
+      <a href="/pages/waitlist-tank" class="btn linkCtaBtn">Notify Me</a>
+    </div>
+  </div>
+</div> -->
+<!-- <div class="ebyCollectionHolidayWrapper shopNow">
+  <img data-src="https://cdn.shopify.com/s/files/1/0313/4062/5964/files/Launch_Banner_-_Background_5ce914b8-3f33-4fcb-8c82-533ceeb1d0aa.jpg?v=1620996945" class="lazyload" alt="Seamless Tank Top" title="Seamless Tank Top" />
+  <div class="bannerCopyOuterWrapper">
+    <div class="bannerCopyWrapper">
+      <p>THE ESSENTIAL</p>
+      <h6>Seamless Tank Top</h6>
+      <p class="alertCopy">Available Now!</p>
+      <a href="/collections/seamless-tank-top" class="btn linkCtaBtn">Shop Now</a>
+    </div>
+  </div>
+</div> -->
+{% else %}
+<!-- <div class="ebyCollectionHolidayWrapper shopNow">
+  <img data-src="https://cdn.shopify.com/s/files/1/0313/4062/5964/files/Launch_Banner_-_Background_5ce914b8-3f33-4fcb-8c82-533ceeb1d0aa.jpg?v=1620996945" class="lazyload" alt="Seamless Tank Top" title="Seamless Tank Top" />
+  <div class="bannerCopyOuterWrapper">
+    <div class="bannerCopyWrapper">
+      <p>THE ESSENTIAL</p>
+      <h6>Seamless Tank Top</h6>
+      <p class="alertCopy">Available Now!</p>
+      <a href="/collections/seamless-tank-top" class="btn linkCtaBtn">Shop Now</a>
+    </div>
+  </div>
+</div> -->
+{% endunless %}
+
+{%- assign pageItems = section.settings.items_propage | plus: 0 -%}
+{% paginate collection.products by 1000 %}
+        
+  {% capture collection_title %}{{ collection.title | escape }}{% endcapture %}
+  {% capture collection_title_handle %}{{ collection_title | handleize | camelcase }}{% endcapture %}
+  {% assign words = collection_title_handle | split: '' %}
+  {% capture collection_title_handle -%}
+    {%- for word in words -%}
+      {%- if forloop.first -%}
+        {{- word | downcase -}}
+      {%- else -%}
+        {{- word -}}
+      {%- endif -%}
+    {%- endfor -%}
+  {%- endcapture %}
+  <div class="velaCollections {{ collection_title_handle }}Collection">
+    {% if collection_title == 'Sets' %}
+      <div class="bralette_slide">
+        <div class="left_area">
+          {% if section.settings.block3_title1 != blank %}<h2 class="pnk">{{ section.settings.block3_title1 }}</h2>{% endif %}
+          {% if section.settings.block3_title2 != blank %}<h2>{{ section.settings.block3_title2 }}</h2>{% endif %}
+          
+          {% if section.settings.block3_info != blank %}{{ section.settings.block3_info }}{% endif %}
+          
+          <div class="btn_area">
+            <a class="btn btn-pink" href="{{ section.settings.block3_link1 }}">{{ section.settings.block3_btn1 }}</a>
+            <a class="btn btn-trans" href="{{ section.settings.block3_link2 }}">{{ section.settings.block3_btn2 }}</a>
+          </div>
+        </div>
+        <div class="right_area">
+          {{ section.settings.block3_right_img | img_url: 'master' | img_tag }}
+          {% comment %}
+          <img src="https://cdn.shopify.com/s/files/1/0340/6525/2411/files/undi@2x.png?v=1593699999"/>
+          {% endcomment %}
+        </div>
+      </div>
+    {% endif %}
+      
+    <div class="velaBoxCollectionTop {{ collection_title_handle }}Header" id="{{ collection_title_handle | downcase }}-anchor">
+      <h1 class="headerCollection clearfix">
+        {{ collection_title }}
+      </h1>
+      <p class="headerCollectionSubHeader">{{ collection.metafields.ebyacf.collection_subheader_copy }}</p>
+    </div>
+
+    <div class="proList eby{{ collection_title | handleize | camelcase }}List">
+      <div class="velaOwlRow owlCarouselPlay ebyProdTileListWrapper">
+        {% for product in collection.products %}
+          {%- unless settings.free_gift_enabled == true and product.id == all_products[settings.free_gift_product].id -%}
+            <div class="item ebyProdTile {% if product.metafields.ebyacf.product_is_new_release %}newRelease{% endif %}">
+              {% include 'product-grid-item-color' %}
+            </div>
+          {%- endunless -%}
+        {% endfor %}
+      </div>
+    </div>
+      
+  </div>
+  {%- if paginate.pages > 1 -%}
+    {% include 'vela-pagination' %}
+  {%- endif -%}
+{% endpaginate %}
+
+
+<!--  -->
+{% if collection.metafields.ebyacf.related_products_listing %}
+{%- assign pageRelatedItems = collections[collection.metafields.ebyacf.related_products_listing].products  -%}
+        
+  <div class="velaCollections relatedCollection generalListing">
+      
+    <div class="velaBoxCollectionTop relatedHeader" id="relatedProducts-anchor">
+      <h2 class="headerCollection ebySecondaryHeader clearfix">You Would Also Love</h2>
+<!--       <p class="headerCollectionSubHeader">{{ collection.metafields.ebyacf.collection_subheader_copy }}</p> -->
+    </div>
+
+    <div class="proList ebyList">
+      <div class="velaOwlRow owlCarouselPlay ebyProdTileListWrapper">
+        {% for product in pageRelatedItems %}
+          {%- unless settings.free_gift_enabled == true and product.id == all_products[settings.free_gift_product].id -%}
+            <div class="item ebyProdTile {% if product.metafields.ebyacf.product_is_new_release %}newRelease{% endif %}">
+              {% include 'product-grid-item-color' %}
+            </div>
+          {%- endunless -%}
+        {% endfor %}
+      </div>
+    </div>
+      
+  </div>
+{% endif %}
+
+
+{% if collection.metafields.ebyacf.membership_products_listing %}
+{% unless customer.tags contains 'Active Subscriber' %}
+{%- assign pageRelatedItems = collections[collection.metafields.ebyacf.membership_products_listing].products  -%}
+
+  <div class="velaCollections relatedCollection membershipListing">
+      
+    <div class="velaBoxCollectionTop relatedHeader" id="relatedMemberships-anchor">
+      <h2 class="headerCollection ebySecondaryHeader clearfix">Our Most Popular Memberships</h2>
+      <p class="headerCollectionSubHeader">Save up to 47% on panties every 3 or 6 months at a time.</p>
+    </div>
+
+    <div class="proList ebyList">
+      <div class="velaOwlRow owlCarouselPlay ebyProdTileListWrapper">
+        {% for product in pageRelatedItems %}
+          {%- unless settings.free_gift_enabled == true and product.id == all_products[settings.free_gift_product].id -%}
+            <div class="item ebyProdTile subProdTile {% if product.metafields.ebyacf.product_is_new_release %}newRelease{% endif %}">
+              {% include 'product-grid-item-subscription' %}
+            </div>
+          {%- endunless -%}
+        {% endfor %}
+      </div>
+    </div>
+      
+  </div>
+
+{% endunless %}
+{% endif %}
+
+
+
+{% if collection.metafields.ebyacf.collection_faq_header %}
+<div class="footer_faq">
+  <ul class="collapsible expandable">
+    <li class="filterNavItem sizeTypeOptionsTile primaryFilterToolbar" data-attribute-id-int="0">
+      <div class="collapsible-header"><span class="ebyFilterIcon animate ebyicon-close-thin">&nbsp;</span>{{ collection.metafields.ebyacf.collection_faq_header }}</div>
+      <div class="collapsible-body">
+        <div class="faq_grid">
+          {{ collection.metafields.ebyacf.collection_faq_body }}
+        </div>
+      </div>
+    </li>
+    <li class="filterNavItem sizeTypeOptionsTile primaryFilterToolbar" data-attribute-id-int="1">
+      <div class="collapsible-header"><span class="ebyFilterIcon animate ebyicon-close-thin">&nbsp;</span>{{ shop.metafields.ebyacf.global_coll_faq_header_tech }}</div>
+      <div class="collapsible-body">
+        <div class="faq_grid">
+          {{ shop.metafields.ebyacf.global_coll_faq_body_tech.en }}
+        </div>
+      </div>
+    </li>
+    <li class="filterNavItem sizeTypeOptionsTile primaryFilterToolbar" data-attribute-id-int="2">
+      <div class="collapsible-header"><span class="ebyFilterIcon animate ebyicon-close-thin">&nbsp;</span>{{ shop.metafields.ebyacf.global_coll_faq_header_one }}</div>
+      <div class="collapsible-body">
+        <div class="faq_grid">
+          {{ shop.metafields.ebyacf.global_coll_faq_body_one.en }}
+        </div>
+      </div>
+    </li>
+    {% comment %}
+    {% for block in section.blocks %}
+    {% if block.type == 'col_faq' %}
+    {% if block.settings.collection == collection.handle %}
+    <li class="filterNavItem sizeTypeOptionsTile primaryFilterToolbar" data-attribute-id-int="{{ forloop.index | plus: 1 }}">
+      {% if block.settings.title != blank %}
+      <div class="collapsible-header"><span class="ebyFilterIcon animate ebyicon-close-thin">&nbsp;</span> {{ block.settings.title }}</div>
+      {% endif %}
+      <div class="collapsible-body">
+        {% for i in (1..5) %}
+        {% capture que %}que_{{i}}{% endcapture %}
+        {% capture ans %}ans_{{i}}{% endcapture %}
+        {% if block.settings[que] != blank and block.settings[ans] != blank %}
+        <div class="faq_grid">
+          <h5>{{ block.settings[que] }}</h5>
+          <p>{{ block.settings[ans] }}</p>
+        </div>
+        {% endif %}
+        {% endfor %}
+      </div>
+    </li>
+    {% endif %}
+    {% endif %}
+    {% endfor %}
+    {% endcomment %}
+  </ul>
+</div>
+
+{% endif %}
+
+
+
+{% schema %}
+  {
+    "name": "Vela List Collections",
+    "settings": [
+      {
+        "type": "header",
+        "content": "List Products with Collection"
+      },
+      {
+        "type": "checkbox",
+        "id": "collection_image",
+        "label": "Show collection image",
+        "default": true
+      },
+      {
+        "type": "range",
+        "id": "items_propage",
+        "min": 3,
+        "max": 50,
+        "step": 1,
+        "label": "Number items on a page",
+        "default": 3
+      }
+    ]
+  }
+{% endschema %}

@@ -1,0 +1,303 @@
+{%- assign pageItems = section.settings.items_propage | plus: 0 -%}
+
+<div class="container-full">
+    <div class="pageCollectionInner mb20 pb-md-30 collectionsGlobalWrapper">
+      {% unless customer.tags contains 'Active Subscriber'%}
+<!--       	<div class="ebyCollectionHolidayWrapper">
+          <img data-src="https://cdn.shopify.com/s/files/1/0313/4062/5964/files/Waitlist_Banner_-_Background.jpg?v=1620065480" class="lazyload" alt="Seamless Tank Top" title="Seamless Tank Top" />
+          <div class="bannerCopyOuterWrapper">
+            <div class="bannerCopyWrapper">
+              <p>THE ESSENTIAL</p>
+              <h6>Seamless Tank Top</h6>
+              <p>Get notified when it drops</p>
+              <a href="/pages/waitlist-tank" class="btn linkCtaBtn">Notify Me</a>
+            </div>
+          </div>
+        </div> -->
+<!--         <div class="ebyCollectionHolidayWrapper shopNow">
+          <img data-src="https://cdn.shopify.com/s/files/1/0313/4062/5964/files/Launch_Banner_-_Background_5ce914b8-3f33-4fcb-8c82-533ceeb1d0aa.jpg?v=1620996945" class="lazyload" alt="Seamless Tank Top" title="Seamless Tank Top" />
+          <div class="bannerCopyOuterWrapper">
+            <div class="bannerCopyWrapper">
+              <p>THE ESSENTIAL</p>
+              <h6>Seamless Tank Top</h6>
+              <p class="alertCopy">Available Now!</p>
+            <a href="/collections/vip" class="btn linkCtaBtn">Shop Now</a>
+            </div>
+          </div>
+        </div> -->
+      {% else %}
+<!--         <div class="ebyCollectionHolidayWrapper shopNow">
+          <img data-src="https://cdn.shopify.com/s/files/1/0313/4062/5964/files/Launch_Banner_-_Background_5ce914b8-3f33-4fcb-8c82-533ceeb1d0aa.jpg?v=1620996945" class="lazyload" alt="Seamless Tank Top" title="Seamless Tank Top" />
+          <div class="bannerCopyOuterWrapper">
+            <div class="bannerCopyWrapper">
+              <p>THE ESSENTIAL</p>
+              <h6>Seamless Tank Top</h6>
+              <p class="alertCopy">Available Now!</p>
+				<a href="/collections/vip" class="btn linkCtaBtn">Shop Now</a>
+            </div>
+          </div>
+        </div> -->
+      {% endunless %}
+    </div>
+  </div>
+
+{% for block in section.blocks %}
+  	{% if block.settings.collection != blank %}
+	{% assign collection = collections[block.settings.collection] %}
+	  
+	{% capture collection_title %}{{ collection.title | escape }}{% endcapture %}
+    <div class="velaCollections">
+          
+<!--           <div class="velaBoxCollectionTop">
+            <h3 class="headerCollection clearfix">{{ collection_title }}</h3>
+          </div> -->
+        
+          <div class="proList collectionsTemplate">
+            <div class="velaOwlRow owlCarouselPlay ebyProdTileListWrapper">
+              <div class="item ebyProdTile upsellTile firstUpsellTile tileFilterable">
+                <article class="ebyProdTileArticle">
+                  <img class="lazyload" width="157" height="231" data-src="{{ collection.image | image_url }}" alt="{{ collection.image.alt }}" title="{{ collection.image.alt }}" />
+                  <header class="articleHeader">
+                    <h5>{{ collection.metafields.ebyacf.collection_subheader_copy }}</h5>
+                  </header>
+                </article>
+              </div>
+              
+              {% for product in collection.products %}
+                  <div class="item ebyProdTile {% if product.metafields.ebyacf.product_is_new_release %}newRelease{% endif %}">
+                    {% include 'product-grid-item-color' %}
+                  </div>
+              {% endfor %}
+              
+            </div>
+          </div>
+        
+	 </div>
+	{% endif %}
+{% endfor %}
+  
+{% schema %}
+    {
+        "name": "Vela List Collections",
+        "settings": [
+            {
+                "type": "header",
+                "content": "Settings"
+            },
+            {
+                "type": "select",
+                "id": "listcoll_type",
+                "label": "Page template",
+                "default": "typeone",
+                "options": [
+                    {
+                        "label": "List Collections",
+                        "value": "typeone"
+                    },
+                    {
+                        "label": "List Products with Collection",
+                        "value": "typetwo"
+                    }
+                ]
+            },
+            {
+                "type": "header",
+                "content": "List Collections"
+            },
+            {
+                "type": "checkbox",
+                "id": "collection_image",
+                "label": "Show collection image",
+                "default": true
+            },
+            {
+                "type": "image_picker",
+                "id": "image_default",
+                "label": "Collection image default"
+            },
+            {
+                "type": "select",
+                "id": "items_page",
+                "label": "Number items on a page",
+                "default": "12",
+                "options": [
+                    {
+                        "label": "3",
+                        "value": "3"
+                    },
+                    {
+                        "label": "6",
+                        "value": "6"
+                    },
+                    {
+                        "label": "9",
+                        "value": "9"
+                    },
+                    {
+                        "label": "12",
+                        "value": "12"
+                    },
+                    {
+                        "label": "15",
+                        "value": "15"
+                    },
+                    {
+                        "label": "18",
+                        "value": "18"
+                    }
+                ]
+            },
+            {
+                "type": "checkbox",
+                "id": "product_count",
+                "label": "Show product count",
+                "default": true
+            },
+            {
+                "type": "checkbox",
+                "id": "collection_desc",
+                "label": "Show short description",
+                "default": true
+            },
+            {
+                "type": "text",
+                "id": "collection_btntext",
+                "label": "Collection button"
+            },
+            {
+                "type": "header",
+                "content": "List Products with Collection"
+            },
+            {
+                "type": "select",
+                "id": "items_propage",
+                "label": "Number items on a page",
+                "default": "3",
+                "options": [
+                    {
+                        "label": "2",
+                        "value": "2"
+                    },
+                    {
+                        "label": "3",
+                        "value": "3"
+                    },
+                    {
+                        "label": "4",
+                        "value": "4"
+                    },
+                    {
+                        "label": "5",
+                        "value": "5"
+                    },
+                    {
+                        "label": "6",
+                        "value": "6"
+                    }
+                ]
+            },
+			{
+   			    "type":"header",
+				"content":"Undies Custom Block"
+			},
+		    {
+				"type":"text",
+				"id":"block1_title",
+				"label":"Title",
+				"default":"Fit Guaranteed"
+			},
+		    {
+				"type":"richtext",
+				"id":"block1_info",
+				"label":"Info",
+				"default":"<p>Our aim is to provide the best fit with consistency across all sizes. If you are unhappy in any way with your EBYs, we will help you find your absolute best fit -- or your money back.</p>"
+			},
+			{
+   			    "type":"header",
+				"content":"Bralette Custom Block"
+			},
+		    {
+				"type":"text",
+				"id":"block2_title",
+				"label":"Title"
+			},
+		    {
+				"type":"richtext",
+				"id":"block2_info",
+				"label":"Info",
+				"default":"<p>Massaging About Bralette</p>"
+			},
+			{
+   			    "type":"header",
+				"content":"Sets Custom Block"
+			},
+		    {
+				"type":"text",
+				"id":"block3_title1",
+				"label":"Title1",
+				"default":"Mix it up!"
+			},
+			{
+				"type":"text",
+				"id":"block3_title2",
+				"label":"Title2",
+				"default":"3 Pack or Quarterly Membership"
+			},
+		    {
+				"type":"richtext",
+				"id":"block3_info",
+				"label":"Info"
+			},
+		    {
+				"type":"text",
+				"id":"block3_btn1",
+				"label":"Button Label 1",
+				"default":"Join Now"
+			},
+		    {
+				"type":"url",
+				"id":"block3_link1",
+				"label":"Button Link 1"
+			},
+		    {
+				"type":"text",
+				"id":"block3_btn2",
+				"label":"Button Label 2",
+				"default":"Shop All"
+			},
+		    {
+				"type":"url",
+				"id":"block3_link2",
+				"label":"Button Link 2"
+			},
+			{
+				"type":"image_picker",
+				"id":"block3_right_img",
+				"label":"Right Image"
+			}
+        ],
+	    "blocks":[
+		    {
+				"type":"collection-block",
+				"name":"Collection Block",
+				"settings":[
+					{
+						"type":"text",
+						"id":"title",
+						"label":"Title"
+					},
+					{
+						"type":"collection",
+						"id":"collection",
+						"label":"Collection"
+					},
+					{
+						"type":"text",
+						"id":"parent_title",
+						"label":"Main Title"
+					}
+				]
+			}
+		]
+    }
+{% endschema %}

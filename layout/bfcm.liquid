@@ -1,0 +1,70 @@
+<!doctype html>
+<!--[if IE 9]> <html class="ie9 no-js" lang="{{ shop.locale }}"> <![endif]-->
+<!--[if (gt IE 9)|!(IE)]><!--> <html class="no-js" lang="{{ shop.locale }}"> <!--<![endif]-->
+<head>  
+  <meta charset="utf-8"/>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <meta name="theme-color" content="{{ settings.vela_color_primary }}"/>
+  <meta name="p:domain_verify" content="76d37e972c49ccf70309e4224eae0c2c"/>
+  <link rel="canonical" href="{{ canonical_url }}">
+  
+  {% if handle contains 'last-call-seamless-underwear' %}
+  <meta name="robots" content="noindex">
+  {% endif %}
+  
+  {% if settings.favicon != blank %}
+  	<link rel="shortcut icon" href="{{ settings.favicon | img_url: '32x32' }}" type="image/png">
+  {% endif %}
+  
+  {% capture seo_title %}
+  {{ page_title }}
+  {% if current_tags %}{%- assign meta_tags = current_tags | join: ', ' %} &ndash; {{ 'general.meta.tags' | t: tags: meta_tags -}}{% endif %}
+  {% if current_page != 1 %}&ndash; {{ 'general.meta.page' | t: page: current_page }}{% endif %}
+  {% unless page_title contains shop.name %}&ndash; {{ shop.name }}{% endunless %}
+  {% endcapture %}
+  
+  <title>{{ seo_title }}</title>
+  
+  {% if page_description %}
+  <meta name="description" content="{{ page_description | escape }}">
+  {% endif %}
+  
+  {% render 'preload-snippet' %}
+  {% render 'social-meta-tags' %}
+  {% render 'vela-header-styles' %}
+  {% render 'vela-header-javascript' %}
+  
+  {{ content_for_header }}
+  
+  {% render 'dataLayer-allPages' %}
+
+
+  {% render 'shogun-head' %}
+</head>
+
+{%- if settings.loading_enable -%}
+  {%- assign bodyPreLoading = 'bodyPreLoading' -%}
+{%- endif -%}
+
+<body id="{{ page_title | handle }}" class="template-{{ template | split: '.' | first }} {{ velaBodyClass }}{% if settings.header_float_enable %} velaFloatHeader{% endif %} {{ bodyPreLoading }} {% if customer %}loggedIn{% endif %} template-holidayLanding">
+  {% include 'vela-template' %}
+  <div id="pageContainer" class="isMoved">
+      <main class="mainContent" role="main">
+        {{ content_for_layout }}
+      </main>
+    {% unless page.handle == 'build-your-box' %}
+    <section class="newslsec newslsec-{{ template }}">
+      {% section 'new-letter-section' %}
+    </section>
+    {% section 'vela-footer' %}
+    {% include 'vela-notification' %}
+    {% endunless %}
+  </div>
+  
+  {% include 'vela-ajaxcart' %}
+  {% include 'vela-modal' %}
+  {% include 'vela-footer-javascript' %}
+
+</body>
+</html>

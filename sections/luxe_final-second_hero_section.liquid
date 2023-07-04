@@ -1,0 +1,133 @@
+<section class="eby-premium_content_block">
+  <div class="premium_content_block_innerwrapper">
+  	<ul class="premium_content_wrapper">
+      <li class="premium_content_item">
+        <div class="premium_content_item_wrapper">
+        	<img class="lazyload" title="" alt="" data-src="https://cdn.shopify.com/s/files/1/0313/4062/5964/files/LP---universal---luxe7---usp1.jpg" />
+          	<p><b>COMPLETELY SEAMLESS</b><br/>Panty lines disappear under your clothes</p>
+        </div>
+      </li>
+      <li class="premium_content_item">
+        <div class="premium_content_item_wrapper">
+        	<img class="lazyload" title="" alt="" data-src="https://cdn.shopify.com/s/files/1/0313/4062/5964/files/LP---universal---luxe7---usp2.jpg" />
+          	<p><b>NO SLIP + NO ROLLING TECHNOLOGY</b><br/>Your underwear will always stay in place</p>
+        </div>
+      </li>
+      <li class="premium_content_item">
+        <div class="premium_content_item_wrapper">
+        	<img class="lazyload" title="" alt="" data-src="https://cdn.shopify.com/s/files/1/0313/4062/5964/files/LP---universal---luxe7---usp3.jpg" />
+          	<p><b>ULTIMATE COMFORT</b><br/>Feels like you're wearing nothing at all</p>
+        </div>
+      </li>
+      <li class="premium_content_item">
+        <div class="premium_content_item_wrapper">
+        	<img class="lazyload" title="" alt="" data-src="https://cdn.shopify.com/s/files/1/0313/4062/5964/files/LP---universal---luxe7---usp4.jpg" />
+          	<p><b>WIRE FREE SUPPORT</b><br/>The most comfortable tops you will ever wear</p>
+        </div>
+      </li>
+    </ul>
+  </div>
+</section>
+{% if section.settings.desk_img != blank %}
+<section class="permium_hero_section small_con">
+  <div class="section-wrap">
+    <div class="section_image">
+      {% if section.settings.desk_img != blank %}
+      <img data-src="{{ section.settings.desk_img | img_url: 'master' }}" class="desktop_image" alt="{{ section.settings.desk_img.alt }}">
+      {% endif %}
+      {% if section.settings.ipad_img != blank %}
+      <img data-src="{{ section.settings.ipad_img | img_url: 'master' }}" class="ipad_image" alt="{{ section.settings.ipad_img.alt }}">
+      {% elsif section.settings.desk_img != blank %}
+      <img data-src="{{ section.settings.desk_img | img_url: 'master' }}" class="ipad_image" alt="{{ section.settings.desk_img.alt }}">
+      {% else %}
+      {% endif %}
+      {% if section.settings.mob_img != blank %}
+      <img data-src="{{ section.settings.mob_img | img_url: 'master' }}" class="mobile_image" alt="{{ section.settings.mob_img.alt }}">
+      {% elsif section.settings.desk_img != blank %}
+      <img data-src="{{ section.settings.desk_img | img_url: 'master' }}" class="mobile_image" alt="{{ section.settings.desk_img.alt }}">
+      {% else %}
+      {% endif %}
+    </div>
+    <div class="section_content {{ section.settings.text_align }}">
+      <div class="content_top">
+        {% if section.settings.title != blank %}
+<!--         <h1>{{ section.settings.title }}</h1> -->
+        {% endif %}
+        {% if section.settings.sub_title != blank %}
+<!--         <p>{{ section.settings.sub_title }}</p> -->
+        {% endif %}
+        <img class="lazyload desktop_only" width="400" height="130" alt="Silky Soft. Sexy. Seamless" title="Silky Soft. Sexy. Seamless" data-src="https://cdn.shopify.com/s/files/1/0313/4062/5964/files/LP---1440--luxe7---title.svg.svg?v=1649164878" />
+        <img class="lazyload mobile_only" width="400" height="130" alt="Silky Soft. Sexy. Seamless" title="Silky Soft. Sexy. Seamless" data-src="https://cdn.shopify.com/s/files/1/0313/4062/5964/files/LP---376--luxe7---title.svg.svg?v=1649164878" />
+      </div>
+      {% if section.settings.button_text != blank  and section.settings.button_link != blank %}
+      <div class="content_bottom">
+        <a href="{{ section.settings.button_link }}">{{ section.settings.button_text }}</a>
+      </div>
+      {% endif %}
+    </div>
+  </div>
+</section>
+{% endif %}
+
+{% schema %}
+  {
+    "name": "Hero Banner",
+    "settings": [
+	  {
+		"type": "image_picker",
+		"id": "desk_img",
+		"label": "Desktop Image"
+	  },
+	  {
+		"type": "image_picker",
+		"id": "ipad_img",
+		"label": "Ipad Image"
+	  },
+	  {
+		"type": "image_picker",
+		"id": "mob_img",
+		"label": "Mobile Image"
+	  },
+	  {
+		"type": "text",
+		"id": "title",
+		"label": "Title"
+	  },
+	  {
+		"type": "text",
+		"id": "sub_title",
+		"label": "Sub Title"
+	  },
+      {
+        "type": "select",
+        "id": "text_align",
+        "label": "Text alignment",
+        "options": [
+          {
+            "value": "text_left",
+            "label": "Left"
+          },
+          {
+            "value": "text_center",
+            "label": "Center"
+          },
+          {
+            "value": "text_right",
+            "label": "Right"
+          }
+        ],
+        "default": "text_center"
+      },
+	  {
+        "type": "url",
+        "id": "button_link",
+        "label": "Button URL"
+      },
+      {
+        "type": "text",
+        "id": "button_text",
+        "label": "Button Text"
+      }	
+	]
+  }
+{% endschema %}

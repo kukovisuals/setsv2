@@ -1,0 +1,121 @@
+<style>
+  .velaBoxCollectionTop {
+  	margin-bottom:3rem;
+  }
+  .proList .velaProBlock.grid .proButton {
+  	display: none;
+  }
+  /**/
+  span.ebySalePrice {
+    font-size: 1.4rem;
+    margin: 0;
+    display: block;
+  }
+  .velaBoxCollectionTop {
+    clear: both;
+    padding: 2rem 0 0;
+  }
+  .headerCollection {
+    border: none;
+    font-size: 2rem;
+    line-height: 40px;
+    font-weight: 400;
+    color: #000c48;
+    padding: 0;
+  }
+  .velaCollections {
+    margin-bottom: 50px;
+  }
+  .velaCollections .swatches .swatch-view-item {
+    padding-right: 0;
+    margin-top: 0;
+  }
+  @media (min-width: 1170px) {
+    body.template-collection .velaCollections {
+      padding: 0 60px;
+    }
+  }
+  @media (max-width: 767px) {
+    .velaCollections .swatches .swatch-view-item .star-set-image {
+      width: 16px !important;
+      height: 16px !important;
+    }
+    .template-collection .proList .velaOwlRow.owlCarouselPlay > .item .swatch-selected.star-image-border-3-head {
+      border: 4px solid rgba(0, 0, 0, 0.5) !important;
+    }
+    .template-collection .proList .velaOwlRow.owlCarouselPlay > .item .star-image-border-3-head {
+      border: 4px solid rgba(0, 0, 0, 0) !important;
+    }
+  }
+  @media (max-width: 640px) {
+    .headerCollection {
+      font-size: 2.4rem;
+      margin-bottom: 0;
+      line-height: inherit;
+    }
+    .template-collection .mainContent #pageContent .velaCollections {
+      padding-top: 3rem;
+    }
+    .ebySalePriceWrapper p{
+      line-height: normal;
+    }
+    span.ebySalePrice {
+      font-size: 1.2rem;
+      margin: 6px 0 0 0;
+    }
+  }
+</style>
+{%- assign respond_js_secret_key = shop.domain | md5 -%}
+{%- assign proImageSize = '600x' -%}
+{% unless search.terms == respond_js_secret_key %}
+    <section id="pageContent" class="pageSearchContent">
+        <div class="container-full">
+          	<div class="pageCollectionInner mb20 pb-md-30 collectionsGlobalWrapper">
+              <div class="velaCollections">
+
+                <div class="velaBoxCollectionTop">
+                  <h1 class="headerCollection clearfix">Search Results</h1>
+                  <p class="headerCollectionSubHeader">Find your favorite styles and colors</p>
+                  <form class="formSearchPage ebySearchForm" action="/search" method="get">
+                    <div class="input-group">
+                      <input type="hidden" name="type" value="product" />
+                      <input type="search" name="q" value="{{ search.terms | escape }}" placeholder="{{ 'general.search.placeholder' | t }}" class="formSearchPageInput form-control" />
+                      <div class="input-group-addon" style="display:none;">
+                        <button type="submit" class="btn formSearchPageButton">
+                          <i class="icons icon-magnifier"></i>
+                          <span class="searchPageButtonText">{{ 'general.search.submit' | t }}</span>
+                        </button>
+                      </div>
+                    </div>
+                  </form>
+                </div>
+
+                <div class="proList">
+                  <div class="velaOwlRow owlCarouselPlay ebyProdTileListWrapper">
+                    {%- if search.performed -%}
+                      {% paginate search.results by 40 %}
+                        <div id="search-prod-listing" class="velaOwlRow owlCarouselPlay ebyProdTileListWrapper" style="width:100%;padding:0;">
+                          {% for product in search.results %}
+                            <div class="item ebyProdTile">
+                              {% include 'product-grid-item-color' %}
+                            </div>
+                          {% endfor %}
+                        </div>
+                        <div id="eby-pagination">
+                          {% if paginate.next %}
+                          <a href="{{ paginate.next.url }}">&nbsp;</a>
+                          {% endif %}  
+                        </div>
+                      {% endpaginate %}
+                    {%- endif -%}
+                  </div>
+                </div>
+
+              </div>         
+            </div>
+        </div>
+    </section>
+{% else %}
+    {% include 'respond' %}
+    {% layout none %}
+{% endunless %}

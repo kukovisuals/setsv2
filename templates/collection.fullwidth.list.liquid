@@ -1,0 +1,57 @@
+<div class="ebyCollBreadcrumbsWrapper tierThree">
+	{% include 'eby-breadcrumbs' %}
+</div>
+
+{% comment %}
+{% section 'vela-collection-banner' %}
+<section id="pageContent">
+    <div class="container-full">
+        <div class="pageCollectionInner mb20 pb-md-30">
+            <div class="filterCollectionFullwidth">
+                <div class="filterTagFullwidth">
+                    <div class="filterTagFullwidthButton">
+                        <i class="fa fa-sliders"></i>
+                        <span>{{ 'collections.sidebar.filter' | t }}</span>
+                    </div>
+                    <div class="filterTagFullwidthContent">
+                        <div class="filterTagFullwidthClose"></div>
+                        {% section 'sidebartop' %}
+                        {% section 'sidebarfilter' %}
+                    </div>
+                </div>
+                <div class="collBoxSort">
+                    {% include 'collection-sorting' %}
+                </div>
+            </div>
+            <div class="row">
+                <div id="proListCollection" class="velaCenterColumn col-xs-12">
+                    {% section 'vela-template-collection' %}
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endcomment%}
+<section id="pageContent">
+  <div class="container-full">
+    <div class="pageCollectionInner mb20 pb-md-30 collectionsGlobalWrapper">
+      {% comment %}
+      {% section 'top-categories' %}
+      <div class="ebyCollectionHolidayWrapper hide">
+        {{ shop.metafields.ebyacf.coll_holiday_banner_bloc.en }}
+      </div>
+      {% endcomment%}
+      {% section 'vela-template-collection-list-colors' %}          
+    </div>
+  </div>
+</section>
+
+{% if collection.metafields.ebyacf.collection_description_blurb %}
+<section class="ebyCollectionGuaranteeWrapper">
+  <div class="ebyContentWrapper">
+  	<div class="ebyContentContainer">
+    	{{ collection.metafields.ebyacf.collection_description_blurb }}
+    </div>
+  </div>
+</section>
+{% endif %}

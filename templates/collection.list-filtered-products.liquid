@@ -1,0 +1,800 @@
+<div class="ebyCollBreadcrumbsWrapper filtersView tierTwo">
+  {% include 'eby-breadcrumbs' %}
+</div>
+
+<section id="pageContent" class="ebyCollTemplate twoColFilterGrid noFilterMode">
+
+  <div class="innerWrapper">
+    
+  	<div class="ebyHalfColWrapper container-full filtered-container" style="max-width:100%;">
+      <header class="ebyBannerSummaryHeader mobileVer" style="padding:0 1rem;">
+        <h1 class="headerCollection">{{ collection.title | escape }}</h1>
+        <div class="headerCollectionSubtext" style="display: block !important;font-size: 1.2rem;font-weight: 300;text-align: left;padding: 0;color: #000c48;line-height: 17px;width: 100%;">
+          {% if collection.metafields.ebyacf.collection_subheader_copy %}
+          {{ collection.metafields.ebyacf.collection_subheader_copy }}
+          {% else %}
+          {{ collection.description }}
+          {% endif %}
+          {% if collection.handle contains "bralette-set-deal" %}
+              <div class="collection-image" style="padding-top:1.4rem;">
+                <img class="ebyBannerImage lazyload bfx-remove" alt="{{ collection.featured_image.alt }}" title="{{ collection.featured_image.alt }}" data-src="https://cdn.shopify.com/s/files/1/0313/4062/5964/files/BANNER---910x300---castor-grey.jpg?v=1677876791" width="710" height="300" style="max-height:300px;object-fit: cover;" />
+                <img class="ebyBannerImage lazyload internationalBlock" alt="{{ collection.featured_image.alt }}" title="{{ collection.featured_image.alt }}" data-src="https://cdn.shopify.com/s/files/1/0313/4062/5964/files/BANNER---910x300---castor-grey.jpg?v=1677876791" width="710" height="300" style="max-height:300px;object-fit: cover;" />
+              </div>
+          {% endif %}
+        </div>
+      </header>
+      <header class="ebyBannerSummaryHeader desktopVer active">
+        <h2 class="headerCollection">{{ collection.title | escape }}</h2>
+        <div class="headerCollectionSubtext">
+          {% if collection.metafields.ebyacf.collection_subheader_copy %}
+          {{ collection.metafields.ebyacf.collection_subheader_copy }}
+          {% else %}
+          {{ collection.description }}
+          {% endif %}
+        </div>
+        <aside class="ebyBanner-innerWrapper" data-what="{{ shop.metafields.ebyacf.enable_holiday_mode__global == nil }}">
+          {% if collection.metafields.ebyacf.collection_banner_video_header %}
+              <div class="collection-image">
+                <div class="playerFilm">&nbsp;</div>
+                <img id="feelsLikeThisPlaceholderImage" width="710" height="300" class="playerPlaceholderImg lazyload" data-src="https://cdn.shopify.com/s/files/1/0313/4062/5964/files/Feels-Like-Placeholder.jpg" alt="Feels Like This" title="Feels Like This" />
+                <div id="playerDesktop" class="playerWrapper desktop"></div>
+              </div>
+          {% else %}
+          	{% if shop.metafields.ebyacf.enable_holiday_mode__global != "true" %}
+                {% if collection.metafields.ebyacf.collection_holiday_banner_img %}
+                    <div class="collection-image">
+                      <img class="ebyBannerImage lazyload" alt="{{ collection.featured_image.alt }}" title="{{ collection.featured_image.alt }}" data-src="https://cdn.shopify.com/s/files/1/0313/4062/5964/files/BANNER---910-x-300---summer-sale-1.jpg" width="710" height="300" />
+                    </div>
+                {% else %}
+          			{% if collection.handle contains "seamless-tank-top" %}
+          				<div class="collection-image">
+                          <a href="/collections/bralettes-for-women">
+                            <img class="ebyBannerImage lazyload bfx-remove" alt="{{ collection.featured_image.alt }}" title="{{ collection.featured_image.alt }}" data-src="https://cdn.shopify.com/s/files/1/0313/4062/5964/files/optC-BAN---tank_free_panty---920x432_2x_22cb9d87-5834-4d13-ba56-bfbd43b3b2b4.jpg" width="710" height="300" style="max-height:300px;object-fit: cover;" />
+                            <img class="ebyBannerImage lazyload internationalBlock" alt="{{ collection.featured_image.alt }}" title="{{ collection.featured_image.alt }}" data-src="https://cdn.shopify.com/s/files/1/0313/4062/5964/files/optC-BAN---tank_free_panty---920x432_2x_22cb9d87-5834-4d13-ba56-bfbd43b3b2b4.jpg" width="710" height="300" style="max-height:300px;object-fit: cover;" />
+                          </a>
+                        </div>
+                    {% elsif collection.handle contains "bralette-set-deal" %}
+                        <div class="collection-image">
+                          <img class="ebyBannerImage lazyload bfx-remove" alt="{{ collection.featured_image.alt }}" title="{{ collection.featured_image.alt }}" data-src="{{ collection.featured_image  | img_url: 'master' }}" width="710" height="300" style="max-height:300px;object-fit: cover;" />
+                          <img class="ebyBannerImage lazyload internationalBlock" alt="{{ collection.featured_image.alt }}" title="{{ collection.featured_image.alt }}" data-src="{{ collection.featured_image  | img_url: 'master' }}" width="710" height="300" style="max-height:300px;object-fit: cover;" />
+                        </div>
+          			{% else %}
+                        <div class="collection-image">
+                          <a href="/collections/seamless-underwear">
+                            <img class="ebyBannerImage lazyload bfx-remove" alt="{{ collection.featured_image.alt }}" title="{{ collection.featured_image.alt }}" data-src="https://cdn.shopify.com/s/files/1/0313/4062/5964/files/BANNER---910-x-300---summer-sale-1.jpg" width="710" height="300" style="max-height:300px;object-fit: cover;" />
+                            <img class="ebyBannerImage lazyload internationalBlock" alt="{{ collection.featured_image.alt }}" title="{{ collection.featured_image.alt }}" data-src="https://cdn.shopify.com/s/files/1/0313/4062/5964/files/BANNER---910-x-300---summer-sale-1.jpg" width="710" height="300" style="max-height:300px;object-fit: cover;" />
+                          </a>
+                        </div>
+          			{% endif %}
+                {% endif %}
+            {% else %}
+                <div class="collection-image">
+                  {% if collection.image %}
+                      <div>
+                        <img class="ebyBannerImage lazyload bfx-remove" alt="{{ collection.featured_image.alt }}" title="{{ collection.featured_image.alt }}" data-src="{{ collection.featured_image  | img_url: 'master' }}" width="710" height="300" style="max-height:300px;object-fit: cover;" />
+                        <img class="ebyBannerImage lazyload internationalBlock" alt="{{ collection.featured_image.alt }}" title="{{ collection.featured_image.alt }}" data-src="{{ collection.featured_image  | img_url: 'master' }}" width="710" height="300" style="max-height:300px;object-fit: cover;" />
+                      </div>
+                  {% else %}
+                      <a href="/collections/seamless-underwear">
+                        <img class="ebyBannerImage lazyload bfx-remove" alt="{{ collection.featured_image.alt }}" title="{{ collection.featured_image.alt }}" data-src="https://cdn.shopify.com/s/files/1/0313/4062/5964/files/BANNER---910-x-300---summer-sale-1.jpg" width="710" height="300" style="max-height:300px;object-fit: cover;" />
+                        <img class="ebyBannerImage lazyload internationalBlock" alt="{{ collection.featured_image.alt }}" title="{{ collection.featured_image.alt }}" data-src="https://cdn.shopify.com/s/files/1/0313/4062/5964/files/BANNER---910-x-300---summer-sale-1.jpg" width="710" height="300" style="max-height:300px;object-fit: cover;" />
+                      </a>
+                  {% endif %}
+                  <!-- <img class="ebyBannerImage lazyload bfx-remove" alt="{{ collection.featured_image.alt }}" title="{{ collection.featured_image.alt }}" data-src="https://cdn.shopify.com/s/files/1/0313/4062/5964/files/Collections-Banner---Subscription-Promo---Free-Bralette_2x_56a4306f-cd6a-45c5-8c97-c48379b3bc60.jpg?v=1638177471" width="710px" height="300px" />
+                  <img class="ebyBannerImage lazyload internationalBlock" alt="{{ collection.featured_image.alt }}" title="{{ collection.featured_image.alt }}" data-src="{{ collection.featured_image | img_url: 'master' }}" width="710px" height="300px" /> -->
+                </div> 
+             {% endif %}
+          {% endif %}
+          <ul class="ebyBannerSummaryList">
+            <li class="ebyBannerSummaryPoint bfx-remove-element">
+              <figure class="summaryPointWrapper">
+                <img class="icon-svg lazyload" data-src="https://cdn.shopify.com/s/files/1/0313/4062/5964/files/Fit.svg?v=1626718616" width="40" height="34" alt="100% Fit Guarantee" title="100% Fit Guarantee" />
+                <figcaption>100% Fit Guarantee</figcaption>
+              </figure>
+            </li>
+            <li class="ebyBannerSummaryPoint">
+              <figure class="summaryPointWrapper">
+                <img class="icon-svg lazyload" data-src="https://cdn.shopify.com/s/files/1/0313/4062/5964/files/Flocking.svg?v=1626718616" width="40" height="34" alt="No Slip, No Silicone" title="No Slip, No Silicone"/>
+                <figcaption>No Slip, No Silicone</figcaption>
+              </figure>
+            </li>
+            <li class="ebyBannerSummaryPoint">
+              <figure class="summaryPointWrapper">
+                <img class="icon-svg lazyload" data-src="https://cdn.shopify.com/s/files/1/0313/4062/5964/files/Gusset.svg?v=1626718616"  width="40" height="34" alt="Cotton Lining" title="Cotton Lining"/>
+                {% unless collection.title contains "Bralette" or collection.title contains "Tops" %}
+                <figcaption>Cotton Lining</figcaption>
+                {% else %}
+                <figcaption>Moisture Wicking Material</figcaption>
+                {% endunless %}
+              </figure>
+            </li>
+            <li class="ebyBannerSummaryPoint">
+              <figure class="summaryPointWrapper">
+                <img class="icon-svg lazyload" data-src="https://cdn.shopify.com/s/files/1/0313/4062/5964/files/Body.svg?v=1626718616"  width="40" height="34" alt="Sizes made for all bodies" title="Sizes made for all bodies"/>
+                <figcaption>Made For Every Body</figcaption>
+              </figure>
+            </li>
+          </ul>
+        </aside>
+      </header>
+  
+      <div class="pageCollectionInner mb20 pb-md-30 collectionsGlobalWrapper">
+
+        {% if collection.handle contains "seamless-panties" or collection.handle contains "bralettes-for-women" %}
+        
+        <aside id="collFiltersModule" class="ecfWrapper global filtersModule">
+          <header class="mobViewHeader">
+            <p>Filter</p>
+            <button class="clearFiltersBtn" id="clearFiltersBtn" data-filter-listing="ecfAvailFiltersListing" >Clear</button>
+            <button class="closeMobViewBtn" id="closeMobViewBtn">Close</button>
+          </header>
+          <div class="collFiltersModuleInnerWrapper">
+            <p class="collFiltersModuleTitle"><span class="mobile_only">Filter</span><button class="openMobView ebyicon-filter" id="openMobViewFilters">Filter</button></p>
+            <div class="fixedScrollWrapper">
+              <section class="ecfAvailFiltersListWrapper" id="ecfAvailFiltersListing" style="max-width:460px;margin:0 auto;">
+                  <header class="ecfHeader">
+                  <div class="ecfFilterAttributes">
+                    <ul class="collapsible expandable">
+                      <li class="filterNavItem sizeTypeOptionsTile primaryFilterToolbar active" data-attribute-id-int="0">
+                        <div class="collapsible-header hidden">Size <span class="ebyFilterIcon animate ebyicon-close-thin">&nbsp;</span></div>
+                        <div class="collapsible-body">
+                          <div id="sizes-wrapMode" class="ebyFilterOptWrapper wrapMode">
+                            <p><span class="sizeModeTitle">Shop By Size</span><span class="sizeModeToggleWrapper pantySizeView"></span> <!--<button class="sizeModeToggle pantySize" value="pantySize">Panties</button><button class="sizeModeToggle braletteSize" value="braletteSize">Bralettes</button> <button class="sizeModeToggle tankSize" value="tankSize">Tops</button><button class="size_guide" data-product-type="Core Underwear" >Fit Guide</button>--></p>
+                            {% if collection.handle contains "seamless-panties" %}
+                                <div class="sorterWrapper primarySorterWrapper pantySizeType thirdWidth">
+                                  <div class="sortTitleHeader">
+                                    <p><span>Panties</span> <!--<button class="size_guide" data-product-type="Core Bralette" >Fit Guide</button>--></p>
+                                  </div>
+                                  <ul class="sorterListing optListing pantySizeOptListing">
+                                    <li class="sortOpt">
+                                      <label for="filterPantySize-xs">
+                                        <input class="with-gap" name="filterPantySize" type="radio" value="xs" id="filterPantySize-xs" />
+                                        <span>XS</span>
+                                      </label>
+                                    </li>
+                                    <li class="sortOpt">
+                                      <label for="filterPantySize-sm">
+                                        <input class="with-gap" name="filterPantySize" type="radio" value="sm" id="filterPantySize-sm" />
+                                        <span>SM</span>
+                                      </label>
+                                    </li>
+                                    <li class="sortOpt">
+                                      <label for="filterPantySize-md">
+                                        <input class="with-gap" name="filterPantySize" type="radio" value="md" id="filterPantySize-md" />
+                                        <span>MD</span>
+                                      </label>
+                                    </li>
+                                    <li class="sortOpt">
+                                      <label for="filterPantySize-lg">
+                                        <input class="with-gap" name="filterPantySize" type="radio" value="lg" id="filterPantySize-lg" />
+                                        <span>LG</span>
+                                      </label>
+                                    </li>
+                                    <li class="sortOpt">
+                                      <label for="filterPantySize-xl">
+                                        <input class="with-gap" name="filterPantySize" type="radio" value="xl" id="filterPantySize-xl" />
+                                        <span>XL</span>
+                                      </label>
+                                    </li>
+                                    <li class="sortOpt">
+                                      <label for="filterPantySize-1x">
+                                        <input class="with-gap" name="filterPantySize" type="radio" value="1x" id="filterPantySize-1x" />
+                                        <span>1X</span>
+                                      </label>
+                                    </li>
+                                    <li class="sortOpt">
+                                      <label for="filterPantySize-2x">
+                                        <input class="with-gap" name="filterPantySize" type="radio" value="2x" id="filterPantySize-2x" />
+                                        <span>2X</span>
+                                      </label>
+                                    </li>
+                                    <li class="sortOpt">
+                                      <label for="filterPantySize-3x">
+                                        <input class="with-gap" name="filterPantySize" type="radio" value="3x" id="filterPantySize-3x" />
+                                        <span>3X</span>
+                                      </label>
+                                    </li>
+                                    <li class="sortOpt">
+                                      <label for="filterPantySize-4x">
+                                        <input class="with-gap" name="filterPantySize" type="radio" value="4x" id="filterPantySize-4x" />
+                                        <span>4X</span>
+                                      </label>
+                                    </li>
+                                  </ul>
+                                </div>
+                            {% endif %}
+                            {% if collection.handle contains "bralettes-for-women" %}
+                                <div class="sorterWrapper primarySorterWrapper braletteSizeType thirdWidth">
+                                  <div class="sortTitleHeader">
+                                    <p><span>Bralettes</span> <!--<button class="size_guide" data-product-type="Core Bralette" >Fit Guide</button>--></p>
+                                  </div>
+                                  <ul class="sorterListing optListing braletteSizeOptListing">
+                                    <li class="sortOpt">
+                                      <label for="filterBraletteSize-xs">
+                                        <input class="with-gap" name="filterBraletteSize" type="radio" value="xs" id="filterBraletteSize-xs" />
+                                        <span>XS</span>
+                                      </label>
+                                    </li>
+                                    <li class="sortOpt">
+                                      <label for="filterBraletteSize-sm">
+                                        <input class="with-gap" name="filterBraletteSize" type="radio" value="sm" id="filterBraletteSize-sm" />
+                                        <span>SM</span>
+                                      </label>
+                                    </li>
+                                    <li class="sortOpt">
+                                      <label for="filterBraletteSize-md">
+                                        <input class="with-gap" name="filterBraletteSize" type="radio" value="md" id="filterBraletteSize-md" />
+                                        <span>MD</span>
+                                      </label>
+                                    </li>
+                                    <li class="sortOpt">
+                                      <label for="filterBraletteSize-lg">
+                                        <input class="with-gap" name="filterBraletteSize" type="radio" value="lg" id="filterBraletteSize-lg" />
+                                        <span>LG</span>
+                                      </label>
+                                    </li>
+                                    <li class="sortOpt">
+                                      <label for="filterBraletteSize-xl">
+                                        <input class="with-gap" name="filterBraletteSize" type="radio" value="xl" id="filterBraletteSize-xl" />
+                                        <span>XL</span>
+                                      </label>
+                                    </li>
+                                    <li class="sortOpt">
+                                      <label for="filterBraletteSize-xsdd">
+                                        <input class="with-gap" name="filterBraletteSize" type="radio" value="xsdd" id="filterBraletteSize-xsdd" />
+                                        <span>XSDD</span>
+                                      </label>
+                                    </li>
+                                    <li class="sortOpt">
+                                      <label for="filterBraletteSize-sdd">
+                                        <input class="with-gap" name="filterBraletteSize" type="radio" value="sdd" id="filterBraletteSize-sdd" />
+                                        <span>SDD</span>
+                                      </label>
+                                    </li>
+                                    <li class="sortOpt">
+                                      <label for="filterBraletteSize-mdd">
+                                        <input class="with-gap" name="filterBraletteSize" type="radio" value="mdd" id="filterBraletteSize-mdd" />
+                                        <span>MDD</span>
+                                      </label>
+                                    </li>
+                                    <li class="sortOpt">
+                                      <label for="filterBraletteSize-ldd">
+                                        <input class="with-gap" name="filterBraletteSize" type="radio" value="ldd" id="filterBraletteSize-ldd" />
+                                        <span>LDD</span>
+                                      </label>
+                                    </li>
+                                    <li class="sortOpt">
+                                      <label for="filterBraletteSize-xldd">
+                                        <input class="with-gap" name="filterBraletteSize" type="radio" value="xldd" id="filterBraletteSize-xldd" />
+                                        <span>XLDD</span>
+                                      </label>
+                                    </li>
+                                  </ul>
+                                </div>
+                            {% endif %}
+                            {% comment %}
+                            <div class="sorterWrapper primarySorterWrapper tankSizeType thirdWidth">
+                              <div class="sortTitleHeader">
+								<p><span>Tops</span> <!--<button class="size_guide" data-product-type="Tank">Fit Guide</button>--></p>
+                              </div>
+                              <ul class="sorterListing optListing tankSizeOptListing">
+                                <li class="sortOpt">
+                                  <label for="filterTankSize-xs">
+                                    <input class="with-gap" name="filterTankSize" type="radio" value="xs" id="filterTankSize-xs" />
+                                    <span>XS</span>
+                                  </label>
+                                </li>
+                                <li class="sortOpt">
+                                  <label for="filterTankSize-sm">
+                                    <input class="with-gap" name="filterTankSize" type="radio" value="sm" id="filterTankSize-sm" />
+                                    <span>SM</span>
+                                  </label>
+                                </li>
+                                <li class="sortOpt">
+                                  <label for="filterTankSize-md">
+                                    <input class="with-gap" name="filterTankSize" type="radio" value="md" id="filterTankSize-md" />
+                                    <span>MD</span>
+                                  </label>
+                                </li>
+                                <li class="sortOpt">
+                                  <label for="filterTankSize-lg">
+                                    <input class="with-gap" name="filterTankSize" type="radio" value="lg" id="filterTankSize-lg" />
+                                    <span>LG</span>
+                                  </label>
+                                </li>
+                                <li class="sortOpt">
+                                  <label for="filterTankSize-xl">
+                                    <input class="with-gap" name="filterTankSize" type="radio" value="xl" id="filterTankSize-xl" />
+                                    <span>XL</span>
+                                  </label>
+                                </li>
+                                <li class="sortOpt">
+                                  <label for="filterTankSize-1x">
+                                    <input class="with-gap" name="filterTankSize" type="radio" value="1x" id="filterTankSize-1x" />
+                                    <span>1X</span>
+                                  </label>
+                                </li>
+                                <li class="sortOpt">
+                                  <label for="filterTankSize-2x">
+                                    <input class="with-gap" name="filterTankSize" type="radio" value="2x" id="filterTankSize-2x" />
+                                    <span>2X</span>
+                                  </label>
+                                </li>
+                                <li class="sortOpt">
+                                  <label for="filterTankSize-3x">
+                                    <input class="with-gap" name="filterTankSize" type="radio" value="3x" id="filterTankSize-3x" />
+                                    <span>3X</span>
+                                  </label>
+                                </li>
+                                <li class="sortOpt">
+                                  <label for="filterTankSize-4x">
+                                    <input class="with-gap" name="filterTankSize" type="radio" value="4x" id="filterTankSize-4x" />
+                                    <span>4X</span>
+                                  </label>
+                                </li>
+                              </ul>
+                            </div>
+                            {% endcomment %}
+<!--                             <footer class="sortPreloadingContainer circleProgressWrapper primaryLoaderWrapper">
+                               <div class="preloader-wrapper small active">
+                                <div class="spinner-layer spinner-blue-only">
+                                  <div class="circle-clipper left">
+                                    <div class="circle"></div>
+                                  </div><div class="gap-patch">
+                                    <div class="circle"></div>
+                                  </div><div class="circle-clipper right">
+                                    <div class="circle"></div>
+                                  </div>
+                                </div>
+                              </div>
+                            </footer> -->
+                          </div>
+                        </div>
+                      </li>
+                    </ul>
+                  </div>
+                </header>
+              </section>
+            </div>
+          </div>
+        </aside>
+
+        {% endif %}
+          
+        <aside id="collSortbyModule" class="ecfWrapper global sortbyModule">
+          <section class="sortbyModuleInnerWrapper">
+            <header class="sortbyHeader">
+              <div class="ebyPaginateWrapper">
+                <!--                   <span class="filteredTitle">Product(s) - </span> -->
+                <!--                   <span id="ebyFilteredProductsCount" class="filtedProdCount"></span> product(s) -->
+              </div>
+            </header>
+            <footer class="sortbyFooter">
+              <div class="ebyInputFieldWrapper">
+                {% comment %}
+                <div id="sortbyToolbar" class="ebyInputField sortByField">
+                  <label>Sort by:</label>
+                  <select id="sortby-global_opt">
+                    <option value="sortby-bestSelling" selected>Best Selling</option>
+                    <option value="sortby-createdAt">Newest</option>
+                    <option value="sortby-reviewCount">Top Reviewed</option>
+                    <option value="sortby-price">Top Priced</option>
+                  </select>
+                </div>
+                {% endcomment %}
+              </div>
+            </footer>
+          </section>
+          <p id="currentFilteringPantySizeCopy" class="hidden">Showing: <span></span></p>
+        </aside>
+
+        <section class="ecfAppliedFilterListWrapper">
+          <div class="ecfAppliedFilterListTitleWrapper"></div>
+          <label class="ecfAppliedFilterListing chips chips-initial"></label>
+        </section>
+
+        {% if collection.handle contains "new-arrivals" or collection.handle contains "best-sellers" %}
+          <script async type="lazyload2" data-src="//asset.fwcdn3.com/js/fwn-async.js"></script>
+          <div class="needsclick">
+            <fw-storyblock
+              channel="joineby"
+              class="needsclick"
+              playlist="g4Z705"
+              mode="pinned"
+              branding="false"
+              autoplay="true"                       
+            ></fw-storyblock>
+          </div>
+        {% endif %}
+
+        {% unless collection.handle contains "last-call-seamless-underwear" or collection.handle contains "new-arrivals" %}
+        
+        	{% assign on_sale = false %}
+            {% for product in collection.products %}
+                {% for prodTag in product.tags %}
+                    {% if prodTag contains "memsale2023-" %}
+                        {% assign on_sale = true %}
+                    {% endif %}
+                {% endfor %}
+            {% endfor %}
+            {% if on_sale %}
+            <div class="main_switcher switch">
+              <span>All Items</span>
+              <label class="">
+                <input type="checkbox" id="togBtn">
+                <span class="lever"></span>
+              </label>
+              <span style="color:rgba(208,2,27,1);">On Sale</span>
+            </div>
+            {% endif %}
+        
+        {% endunless %}
+
+        {% section 'vela-template-collection-filtered-products' %}
+        
+        {% if collection.metafields.ebyacf.related_products_listing %}
+        {%- assign pageRelatedItems = collections[collection.metafields.ebyacf.related_products_listing].products  -%}
+
+        <div class="velaCollections relatedCollection generalListing" data-coll_handle="{{ collection.handle }}--related_products_listing" data-coll_title="{{ collection.title }} – Related Products Listing">
+
+          <div class="velaBoxCollectionTop relatedHeader" id="relatedProducts-anchor">
+            <h2 class="headerCollection ebySecondaryHeader clearfix">You Would Also Love These</h2>
+            <p class="headerCollectionSubHeader">&nbsp;</p>
+          </div>
+
+          <div class="proList ebyList">
+            <div class="velaOwlRow owlCarouselPlay ebyProdTileListWrapper">
+              {% for product in pageRelatedItems %}
+                  {% include 'product-related-item' %}
+              {% endfor %}
+            </div>
+          </div>
+
+        </div>
+        {% endif %}
+
+
+        {% if collection.metafields.ebyacf.membership_products_listing %}
+        {% unless customer.tags contains 'Active Subscriber' %}
+        {%- assign pageRelatedItems = collections[collection.metafields.ebyacf.membership_products_listing].products  -%}
+
+        <div class="velaCollections relatedCollection membershipListing"  data-coll_handle="{{ collection.handle }}--related_sub_box_listing" data-coll_title="{{ collection.title }} – Related Subscription Box Listing">
+
+          <div class="velaBoxCollectionTop relatedHeader" id="relatedMemberships-anchor">
+            <h2 class="headerCollection ebySecondaryHeader clearfix">Our Most Popular Memberships</h2>
+            <p class="headerCollectionSubHeader">Save up to 47% on panties every 3 or 6 months at a time.</p>
+          </div>
+
+          <div class="proList ebyList">
+            <div class="velaOwlRow owlCarouselPlay ebyProdTileListWrapper">
+              {% for product in pageRelatedItems %}
+              {%- unless settings.free_gift_enabled == true and product.id == all_products[settings.free_gift_product].id -%}
+              <div class="item ebyProdTile subProdTile {% if product.metafields.ebyacf.product_is_new_release %}newRelease{% endif %}">
+                {% include 'product-grid-item-subscription' %}
+              </div>
+              {%- endunless -%}
+              {% endfor %}
+            </div>
+          </div>
+
+        </div>
+
+        {% endunless %}
+        {% endif %}
+        
+        {% if collection.metafields.ebyacf.collection_faq_header %}
+        <div class="footer_faq" style="padding-top:5rem;">
+          <ul class="collapsible expandable">
+            <li class="filterNavItem sizeTypeOptionsTile primaryFilterToolbar active" data-attribute-id-int="0">
+              <div class="collapsible-header"><span class="ebyFilterIcon animate ebyicon-close-thin">&nbsp;</span>{{ collection.metafields.ebyacf.collection_faq_header }}</div>
+              <div class="collapsible-body">
+                <div class="faq_grid">
+                  {{ collection.metafields.ebyacf.collection_faq_body }}
+                </div>
+              </div>
+            </li>
+            <li class="filterNavItem sizeTypeOptionsTile primaryFilterToolbar active" data-attribute-id-int="1">
+              <div class="collapsible-header"><span class="ebyFilterIcon animate ebyicon-close-thin">&nbsp;</span>{{ shop.metafields.ebyacf.global_coll_faq_header_tech }}</div>
+              <div class="collapsible-body">
+                <div class="faq_grid">
+                  {{ shop.metafields.ebyacf.global_coll_faq_body_tech.en }}
+                </div>
+              </div>
+            </li>
+            {% comment %}
+            <li class="filterNavItem sizeTypeOptionsTile primaryFilterToolbar active" data-attribute-id-int="2">
+              <div class="collapsible-header"><span class="ebyFilterIcon animate ebyicon-close-thin">&nbsp;</span>{{ shop.metafields.ebyacf.global_coll_faq_header_one }}</div>
+              <div class="collapsible-body">
+                <div class="faq_grid">
+                  {{ shop.metafields.ebyacf.global_coll_faq_body_one.en }}
+                </div>
+              </div>
+            </li>
+            {% endcomment %}
+            {% comment %}
+            {% for block in section.blocks %}
+            {% if block.type == 'col_faq' %}
+            {% if block.settings.collection == collection.handle %}
+            <li class="filterNavItem sizeTypeOptionsTile primaryFilterToolbar" data-attribute-id-int="{{ forloop.index | plus: 1 }}">
+              {% if block.settings.title != blank %}
+              <div class="collapsible-header"><span class="ebyFilterIcon animate ebyicon-close-thin">&nbsp;</span> {{ block.settings.title }}</div>
+              {% endif %}
+              <div class="collapsible-body">
+                {% for i in (1..5) %}
+                {% capture que %}que_{{i}}{% endcapture %}
+                {% capture ans %}ans_{{i}}{% endcapture %}
+                {% if block.settings[que] != blank and block.settings[ans] != blank %}
+                <div class="faq_grid">
+                  <h5>{{ block.settings[que] }}</h5>
+                  <p>{{ block.settings[ans] }}</p>
+                </div>
+                {% endif %}
+                {% endfor %}
+              </div>
+            </li>
+            {% endif %}
+            {% endif %}
+            {% endfor %}
+            {% endcomment %}
+          </ul>
+        </div>
+
+        {% endif %}
+        
+        <footer class="sortCollLoadingWrapper">
+          <div class="progress">
+            <div class="indeterminate"></div>
+          </div>
+          <div class="collListingLoadingBg"></div>
+        </footer>
+
+      </div>
+    </div>
+
+  </div>
+  
+  <div class="bottom_content {% if section.settings.Enable_filter == blank %}bottom_full_content{% endif %}">
+    <div class="content_wrapper">
+      {{ collection.metafields.ebyacf.collection_description_blurb }}
+    </div>
+  </div>
+  
+</section>
+
+
+{% if collection.handle contains "shop-bralette-set-deal" %}
+
+<!-- <section id="two_get_one_free-coll_module" class=" upsellModule bogoPopupWrapper"> -->
+<div id="nudge-bogo_popup-tbop" class="ebyNudgePopup nudge-getMembershipPopup nudge-bogo_popup-tbop modal modal-fixed-footer ebyAnimate">
+  <div class="ebyNudgePopupInnerWrapper modal-content">
+    <h5 class="prompt complete_version hidden">Success! 2 Bras are in your cart!<br/>Select your FREE panty size.</h5>
+    <h5 class="prompt default_version">Success! 2 Bras are in your cart!<br/>Select your FREE panty size!</h5>
+
+    <div id="" class="" data-width="640" data-height="auto">
+
+      <section id="" class="dash-boxChoiceWrapper allPrefGroupChoice panelContent panelContentThree">
+<!--         <div class="sizeguideButtonWrapper">
+          <button id="sizeguide_open_btn-panty" data-sizeguidetoopen="panty" class="sizeGuideBtnToggle openBtn">Size Guide</button>
+        </div> -->
+        <div class="subSectionInnerWrapper">
+          <div class="dash-prefChoiceOptions sizeGroup">
+              <ul class="sizeOptListing">
+                <li class="sortOpt alt">
+                  <label for="tbopSize-xs" class="sadOptLabel">
+                    <input class="with-gap" data-freepanty-id="" name="boxPref-sizes" type="radio" value="xs" data-val="xs" data-sizecopy="Size: XS" data-sizeOpt="xs" id="tbopSize-xs">
+                    <span>XS<small class="colorgroup_subtext">00-2</small></span>
+                  </label>
+                </li>
+                <li class="sortOpt alt">
+                  <label for="tbopSize-sm" class="sadOptLabel">
+                    <input class="with-gap" data-freepanty-id="" name="boxPref-sizes" type="radio" value="sm" data-val="sm" data-sizecopy="Size: S" data-sizeOpt="sm" id="tbopSize-sm">
+                    <span>S<small class="colorgroup_subtext">2-4</small></span>
+                  </label>
+                </li>
+                <li class="sortOpt alt">
+                  <label for="tbopSize-md" class="sadOptLabel">
+                    <input class="with-gap" data-freepanty-id="" name="boxPref-sizes" type="radio" value="md" data-val="md" data-sizecopy="Size: M" data-sizeOpt="md" id="tbopSize-md">
+                    <span>M<small class="colorgroup_subtext">6-8</small></span>
+                  </label>
+                </li>
+                <li class="sortOpt alt">
+                  <label for="tbopSize-lg" class="sadOptLabel">
+                    <input class="with-gap" data-freepanty-id="" name="boxPref-sizes" type="radio" value="lg" data-val="lg" data-sizecopy="Size: L" data-sizeOpt="lg" id="tbopSize-lg">
+                    <span>L<small class="colorgroup_subtext">10-12</small></span>
+                  </label>
+                </li>
+                <li class="sortOpt alt">
+                  <label for="tbopSize-xl" class="sadOptLabel">
+                    <input class="with-gap" data-freepanty-id="" name="boxPref-sizes" type="radio" value="xl" data-val="xl" data-sizecopy="Size: XL" data-sizeOpt="xl" id="tbopSize-xl">
+                    <span>XL<small class="colorgroup_subtext">14-16</small></span>
+                  </label>
+                </li>
+<!--                           <li class="sortOpt alt">
+                  <label for="pantySize-1x" class="sadOptLabel">
+                    <input class="with-gap" name="boxPref-sizes" type="radio" value="1x" data-val="1x" data-sizecopy="Size: 1X" data-sizeOpt="1x" id="pantySize-1x">
+                    <span>1X<small class="colorgroup_subtext">16-18w</small></span>
+                  </label>
+                </li> -->
+                <li class="sortOpt alt">
+                  <label for="tbopSize-2x" class="sadOptLabel">
+                    <input class="with-gap" data-freepanty-id="" name="boxPref-sizes" type="radio" value="2x" data-val="2x" data-sizecopy="Size: 2X" data-sizeOpt="2x" id="tbopSize-2x">
+                    <span>2X<small class="colorgroup_subtext">18-20w</small></span>
+                  </label>
+                </li>
+                <li class="sortOpt alt">
+                  <label for="tbopSize-3x" class="sadOptLabel">
+                    <input class="with-gap" data-freepanty-id="" name="boxPref-sizes" type="radio" value="3x" data-val="3x" data-sizecopy="Size: 3X" data-sizeOpt="3x" id="tbopSize-3x">
+                    <span>3X<small class="colorgroup_subtext">22-24w</small></span>
+                  </label>
+                </li>
+                <li class="sortOpt alt">
+                  <label for="tbopSize-4x" class="sadOptLabel">
+                    <input class="with-gap" data-freepanty-id="" name="boxPref-sizes" type="radio" value="4x" data-val="4x" data-sizecopy="Size: 4X" data-sizeOpt="4x" id="tbopSize-4x">
+                    <span>4X<small class="colorgroup_subtext">26-28w</small></span>
+                  </label>
+                </li>
+              </ul>
+          </div>
+        </div>
+        <article id="sizeguide_panel_wrapper-panty" class="sizeguidePanelWrapper">
+          <img class="lazyload" width="350" height="350" alt="EBY Panty Sizing Guide" title="EBY Panty Sizing Guide" data-src="https://cdn.shopify.com/s/files/1/0313/4062/5964/files/sizeguide---panty---color-coded.jpg?v=1652914370" />
+          <button id="sizeguide_close_btn-panty" data-sizeguidetoclose="panty" class="sizeGuideBtnToggle closeBtn">Hide Guide</button>
+        </article>
+      </section>
+
+<!--       <input id="changeMySizePanel-selections" type="hidden" value="" /> -->
+  </div>
+
+  </div>
+  <div class="modal-footer">
+    <button id="ebyCloseTbop" class="subPanelBtn ebyAddonBtn" >No Thanks</button>
+  </div>
+  <div class="bogoPopupPreloadingContainer hidden">
+    <div class="preloadingCenterWrapper">
+      <div class="preloader-wrapper small active">
+        <div class="spinner-layer spinner-blue-only">
+          <div class="circle-clipper left">
+            <div class="circle"></div>
+          </div><div class="gap-patch">
+          <div class="circle"></div>
+          </div><div class="circle-clipper right">
+          <div class="circle"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% comment %}
+<div id="tbop-feat_callout" class="tap-target cbpHowToGuideTwo tbop-feat_callout" data-target="tbop-menu">
+  <div class="tap-target-content">
+    <h5>Add Any 2 Bras, Get 1 Free Panty</h5>
+    <p>* Free panty is a $22 value</p>
+    <p>* Only applicable once per purchase</p>
+  </div>
+</div>
+<!-- </section> -->
+
+<article id="tbop-menu" class="floatingWidgetPrompt">
+  <p>!<i class="ebyicon-ebybolt"></i></p>
+</article>
+{% endcomment %}
+<style>
+.col .quick_btn .productQuickAdd:hover .selection-wrapper {display: block!important;}#nudge-bogo_popup-tbop{height:50%;width:100%;max-width:320px;border-radius:4px;top:0!important}#nudge-bogo_popup-tbop h5{margin:0 auto 1rem;text-align:center;line-height:initial}#nudge-bogo_popup-tbop .modal.modal-fixed-footer .modal-content{padding:2rem 1rem}#nudge-bogo_popup-tbop.ebyNudgePopup .modal-content ul{display:flex;flex-direction:row;justify-content:center;padding:0;list-style:none;height:100%;margin-bottom:2rem}#nudge-bogo_popup-tbop.ebyNudgePopup .modal-content ul li{max-width:120px;display:inline-block;min-height:auto}#nudge-bogo_popup-tbop.ebyNudgePopup small.colorgroup_subtext{display:block;line-height:normal}#nudge-bogo_popup-tbop.ebyNudgePopup .dash-prefChoiceOptions .sizeOptListing .prefChoiceOption,#nudge-bogo_popup-tbop.ebyNudgePopup .dash-prefChoiceOptions .sizeOptListing .sortOpt{background:0 0;height:initial;min-height:initial}#nudge-bogo_popup-tbop.ebyNudgePopup .sortOpt label span{background:0 0;color:#090c48;border:1px solid #090c48;border-radius:4px}#nudge-bogo_popup-tbop.ebyNudgePopup .sortOpt label span small,#nudge-bogo_popup-tbop.ebyNudgePopup span small{display:block;line-height:normal;font-size:1.2rem;margin-bottom:.5rem}#nudge-bogo_popup-tbop .modal.modal-fixed-footer .modal-footer{height:60px!important}.complete_already .default_version,.ebyCollBreadcrumbsWrapper.filtersView,.template-collection .ebyCollTemplate.twoColFilterGrid .ebyBannerSummaryHeader .ebyBannerSummaryList{display:none}#nudge-bogo_popup-tbop.modal.modal-fixed-footer .modal-content{border:0}.template-collection .ebyCollTemplate.twoColFilterGrid .innerWrapper{border-top:none!important}.template-collection .ebyCollTemplate.twoColFilterGrid .ebyBannerSummaryHeader{max-width:1050px;margin:0 auto}.template-collection .ebyCollTemplate.twoColFilterGrid .ebyBannerSummaryHeader .headerCollection{padding-top:2.4rem;border-top:1px solid #04081c;font-size:2.4rem;font-weight:500;line-height:32px;padding-bottom:.4rem}.template-collection .ebyCollTemplate.twoColFilterGrid .ebyBannerSummaryHeader.active .headerCollectionSubtext{padding-bottom:2.4rem;margin:0;font-size:1.6rem;font-weight:300;line-height:24px}.collection-image{max-width:1050px;width:100%;flex:100%}#ebyCloseTbop{max-width:150px;margin:0 auto}#nudge-bogo_popup-tbop .sortOpt label:hover span{background:#000c48;color:#fff;border:1px solid #4a90e2}#nudge-bogo_popup-tbop .sortOpt label:hover span small{color:#fff}.bogoPopupPreloadingContainer{width:100%;height:100%;display:flex;justify-content:center;align-items:center;background:rgba(255,255,255,.5);z-index:100;position:relative}.complete_already .complete_version.hidden{display:block!important}.template-collection .proList .velaOwlRow.owlCarouselPlay>.item .proHImage .proFeaturedImage,.template-list-collections .proList .velaOwlRow.owlCarouselPlay>.item .proHImage .proFeaturedImage{pointer-events:none}@media (max-width:1024px){.template-collection .ebyCollTemplate.twoColFilterGrid .innerWrapper .ebyBannerSummaryHeader.mobileVer .headerCollection{border-top:none}}
+</style>
+<script defer>
+  document.addEventListener('DOMContentLoaded', function() {
+    console.log(':tbop alert:');
+    // var elems = document.querySelectorAll('#tbop-feat_callout');
+    // var instances = M.TapTarget.init(elems);
+    // //var instance = M.TapTarget.getInstance(elems);
+    // instances[0].open();
+    // //instance.tapTarget();
+    // setTimeout(function () {
+    //    instances[0].close();
+    // },3000);
+     
+     jQuery('body').on('click touchstart', '#ebyCloseTbop', function (ev) {
+       //close the promo
+         console.log('close tbop', ev);
+        let braPantyBogoElem = document.querySelector("#nudge-bogo_popup-tbop");
+        M.Modal.getInstance(braPantyBogoElem).close().destroy();
+     });
+
+     jQuery('body').on('click touchstart', '#nudge-bogo_popup-tbop input', function (ev) {
+        console.log(': add free panty to cart:', ev.target);
+        let freePantyData = ev.target.getAttribute("data-freepanty-id");
+        
+        if (!freePantyData) {
+          return;
+        }
+        jQuery('.bogoPopupPreloadingContainer').removeClass('hidden');
+        // addtocart func
+        jQuery.ajax({
+              type: 'POST',
+              url: '/cart/add.js',
+              async: false,
+              data: {
+                items: [{
+                  quantity: 1,
+                  id: freePantyData,
+                  properties: {
+                    "tbop_freepanty" : true,
+                    "FREEPANTY" : true,
+                    "Shipping Option": "pickup Ecommerce WH"
+                  }
+                }]
+              },
+              dataType: 'json',
+              success:function(data) {
+                console.log(':: free panty added ::',{data: data});
+                jQuery('.bogoPopupPreloadingContainer').addClass('hidden');
+                M.toast({
+                    html: '<span class="atcNoteAvatar" style="pointer-events: none;"><header><p class="bold">ADDED TO CART</p><p>' +
+                        "1 Free Panty!" +
+                        '</p></header></span>',
+                    classes: "ebyAtcAlert success",
+                });
+
+                gtag("event", "add_to_cart__tbop", { 
+                  event_category: "initial_launch-lpo",
+                  event_label: "free_panty_var_id-" + freePantyData, 
+                  event_value: "",
+                  page_location: window.location.pathname, 
+                  page_title: document.title
+                });
+  
+                // close popup
+                let braPantyBogoElem = document.querySelector("#nudge-bogo_popup-tbop");
+                M.Modal.getInstance(braPantyBogoElem).close().destroy();
+              }
+          });
+          jQuery.ajax({
+              type: 'POST',
+              url: '/cart/update.js',
+              async: false,
+              data: "attributes[has_tbop]=true",
+              dataType: 'json',
+              success:function(data) {
+                console.log(':: free panty cart attribute updated ::',{data: data});
+                // close popup
+                
+              }
+          });
+      })
+  });
+  window.addEventListener('load', function () {
+      jQuery.getJSON('/cart.js', function(cart) {
+         // now have access to Shopify cart object
+        if (!!cart) {
+            console.log(':: pulled current cart object ::', {
+              cart : cart
+            });
+  
+            // tbop feat
+            // check that the note on the cart object is not set yet
+            console.log(":: check for bogo deal ::", cart);
+            let numberOfBralettesInCart = cart.items.reduce((acc, lineItem) => {return lineItem.product_type.indexOf("Bralette") >= 0 ? lineItem.quantity == 1 ? acc += 1 : acc += lineItem.quantity : acc;}, 0);
+            if (numberOfBralettesInCart >= 2 && !cart.attributes.has_tbop) {
+                let braPantyBogoElem = document.querySelector("#nudge-bogo_popup-tbop");
+                M.Modal.init(braPantyBogoElem, {
+                  preventScrolling : true,
+                  dismissible : false
+                }).open();
+                jQuery('#nudge-bogo_popup-tbop').addClass('complete_already');
+                // call stock check module for tbop
+                vela.initTbopProductQty('#nudge-bogo_popup-tbop');
+            } else {
+                console.log(':: we require more minerals ::');
+            }
+  
+        } else {
+            console.log('::ERROR:: cart not found');
+        }
+    });
+  });
+  
+</script>
+
+{% endif %}

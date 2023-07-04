@@ -1,0 +1,37 @@
+{% case pdp_type %}
+  {% when 'NORMAL' %}
+  {% if all_shop.metafields.ebyacf.enable_holiday_mode-vip_pg or all_shop.metafields.ebyacf.enable_holiday_mode-coll_pg %}
+    <div class="priceProduct {% if all_customer.tags contains 'Active Subscriber' %} vipHighlight{%endif%}{% if on_sale_var %}priceSale bfx-sale-price{% endif %} {{class_num1}} holidaySale">
+      <p class="ebyMemberPriceWrapper">(
+        <span id="{% if all_customer.tags contains 'Active Subscriber' %}subs-mn-price-23{% else %} subs-sencmn-priz{% endif %}"  class="{% if on_sale_var %}bfx-sale-price {% endif %}bfx-price">{{ all_products.metafields.ebyacf.vip_member_price }}</span>
+        <span class="fontMinor">subscribers</span>
+        )</p>
+    </div>
+  {% else %}
+    <div id="eby-price-observer-desk" class='priceProduct {% if all_customer.tags contains 'Active Subscriber' %}vipHighlight {% endif %}{% if on_sale_var %}priceSale bfx-sale-price{% endif %} bfx-price'>
+      {{ all_products.price | money_without_trailing_zeros }}
+    </div>
+  {% endif %}
+  {% when 'PREMIUM_UNDIES' %}
+  {% if shop.metafields.ebyacf.enable_holiday_mode-vip_pg or shop.metafields.ebyacf.enable_holiday_mode-coll_pg %}
+    {% else %}
+      <div id="eby-price-observer-desk" class="priceProduct {% if all_customer.tags contains 'Active Subscriber' %} vipHighlight{%endif%} bfx-price {% if on_sale_var %}priceSale{% endif %} {% if all_products.type == "Premium Underwear"%} prem{% endif %}">
+        {{ all_products.price | money_without_trailing_zeros }}
+      </div>
+  {% endif %}
+
+  {% when 'REST' %}
+  {% if all_shop.metafields.ebyacf.enable_holiday_mode-vip_pg or all_shop.metafields.ebyacf.enable_holiday_mode-coll_pg %}
+    <div class="priceProduct {% if on_sale_var %}priceSale {% endif %} holidaySale"></div>
+  {% else %}
+    <span class="isBundleBraExtra23">{{ bundle_value }}</span>
+    <div id="eby-price-observer-desk" class='priceProduct {% if all_customer.tags contains 'Active Subscriber' %}vipHighlight {% endif %} {{class_num1}} {% if on_sale_var %}priceSale bfx-sale-price{% endif %} bfx-price'>
+      <span class="nrml-price23">{{ product.price | money_without_trailing_zeros }}</span>
+    </div>
+  {% endif %}
+  
+{% else %}
+  <span>
+    price-metafields-liquidation.liquid not found -> {{ pdp_type }}
+  </span>
+{% endcase %}

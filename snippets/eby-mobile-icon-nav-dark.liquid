@@ -1,0 +1,56 @@
+<nav class="eby-mobile-nav bkgrn-white-color-dark">
+  <div class="burger-menu" id="btnMenuMobile">
+    <div class="menuBtnMobile d-flex flexAlignCenter">
+      <div class="btnMenuMobile ebyicon-hamburger eby-light-theme-22">
+        <span class="iconMenu"></span>
+        <span class="iconMenu"></span>
+        <span class="iconMenu"></span>
+        <span class="iconMenu"></span>
+      </div>
+    </div>
+    <div class="btnMenuMobile burger-close">
+      <svg width="24" height="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+         <g stroke="#04081C" fill="none" fill-rule="evenodd">
+         <path d="m6 6 12 12M18 6 6 18"/>
+         </g>
+      </svg>
+    </div>
+  </div>
+  <div class="nav-logo-mobile-container">
+    <a class="nav-logo-mobile" href="/">
+    {% if page.handle == 'premium' %}
+    <i class="ebyicon-eby premium" ></i>
+    {% else %}
+       <div class="">
+           <img width="60" height="60" alt="logo" title="EBY" src="https://cdn.shopify.com/s/files/1/0313/4062/5964/files/logo-dark-22.svg?v=1666920606"/>
+       </div>
+      
+    {% endif %}
+    </a>
+    <button class="right_text ebyMicroBtn joinNow{% if trueCartCount <= 0 %} join{%  else %} buy{% endif %}" data-subscribe="default" title="Subscribe">
+    <span>Get Started</span>
+    </button>
+  </div>
+        <div id="hcw" class="ebyHeaderCtaWrapper" data-ct="{{ cart.total_price | money_without_currency }}">
+          <button id="global-search-btn" class="d-flex ebyMiniSearch">
+          <span class="animate searchIconWrapper">
+          <i class="ebyicon-search"></i>
+          </span>
+          </button>
+          {%- if customer -%}
+          <a class="cart-link jsDrawerOpenRight d-flex ebyMinicart eby-light-theme-22 eby-border-dark-22 {%if trueCartCount == 0 %}isEmpty{% endif %}" href="/cart">
+          <span class="animate cartIconWrapper">
+          <i class="ebyicon-minicart-empty-alt"></i>
+          <span class="item-count  eby-dark-theme-bkgr-22"><span id="CartCountMobile" class="eby-dark-theme-22">{{trueCartCount}}</span></span>
+          </span>
+          </a>
+          {%- else -%}
+          <a class="cart-link jsDrawerOpenRight d-flex ebyMinicart eby-light-theme-22 eby-border-dark-22 {%if trueCartCount == 0 %}isEmpty{% endif %}" href="/cart">
+          <span class="animate cartIconWrapper">
+          <i class="ebyicon-minicart-empty-alt"></i> 
+          <span class="item-count  eby-dark-theme-bkgr-22"><span id="CartCountMobile" class="eby-dark-theme-22">{{trueCartCount}}</span></span>
+          </span>
+          </a>
+          {%- endif -%}
+        </div>
+</nav>

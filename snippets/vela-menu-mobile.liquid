@@ -1,0 +1,77 @@
+<div id="velaMenuMobile" class="menuMobileContainer hidden-md hidden-lg">
+    <div class="menuMobileWrapper">
+        <div class="memoHeader">
+            <span>
+{% if shop.customer_accounts_enabled %}
+  {% if customer  %}
+    <a href="/account">My Account</a>
+  {% else %}
+    {{ 'Sign in' | customer_login_link }}
+  {% endif %}
+{% endif %}
+          </span>
+            <div class="btnMenuClose">&nbsp;</div>
+        </div>
+        <ul class="nav memoNav collapsible">
+            {%- for velaLink in linklists[section.settings.vela_megamenu_mobile].links -%}
+                {%- if velaLink.links != blank -%}
+                    <li class="hasMemoDropdown{% if velaLink.active or forloop.index == 1 %} active{% endif %}">
+                        
+                      <a href="{{ velaLink.url }}" class="collapsible-header" title="">{{ velaLink.title }}</a>
+                        
+                        <ul id="memoDropdown1{{ forloop.index }}" class="memoDropdown collapsible collapsible-body">
+                            {%- assign ifor = forloop.index -%}
+                            {%- for velaLink1 in velaLink.links -%}
+                                {%- if velaLink1.links != blank -%}
+                                    <li class="hasMemoDropdown {% if velaLink1.active or forloop.index == 1 %} active{% endif %}">
+                                        <a href="{{ velaLink1.url }}" class="collapsible-header" title="">{{ velaLink1.title }}</a>
+                                        
+                                        <ul id="memoDropdown2{{ ifor }}{{ forloop.index }}" class="memoDropdown collapsible-body collapsible">
+                                            {%- assign ifor1 = forloop.index -%}
+                                            {%- for velaLink2 in velaLink1.links -%}
+                                                {%- if velaLink2.links != blank -%}
+                                                    <li class="hasMemoDropdown {% if velaLink2.active %} active{% endif %}">
+                                                        <a href="{{ velaLink2.url }}" class="collapsible-header" title="">{{ velaLink2.title }}</a>
+                                                        
+                                                        <ul id="memoDropdown3{{ ifor }}{{ ifor1 }}{{ forloop.index }}" class="memoDropdown collapsible-body collapsible">
+                                                            {%- for velaLink3 in velaLink2.links -%}
+                                                                <li class="{% if velaLink3.active %}active{% endif %}">
+                                                                    <a href="{{ velaLink3.url }}" title="">{{ velaLink3.title }}</a>
+                                                                </li>
+                                                            {%- endfor -%}
+                                                        </ul>
+                                                    </li>
+                                                {%- else -%}
+                                                    <li class="{% if velaLink2.active %}active{% endif %}">
+                                                        <a href="{{ velaLink2.url }}" title="">{{ velaLink2.title }}</a>
+                                                    </li>
+                                                {%- endif -%}
+                                            {%- endfor -%}
+                                        </ul>
+                                    </li>
+                                {%- else -%}
+                                    <li class="{% if velaLink1.active %}active{% endif %}">
+                                        <a href="{{ velaLink1.url }}" title="">{{ velaLink1.title }}</a>
+                                    </li>
+                                {%- endif -%}
+                            {%- endfor -%}
+                        </ul>
+                    </li>
+                {%- else -%}
+                    <li class="{% if velaLink.active %}active{% endif %}">
+                        <a href="{{ velaLink.url }}" title="">{{ velaLink.title }}</a>
+                    </li>
+                {%- endif -%}
+            {%- endfor -%}
+        </ul>
+    </div>
+</div>
+<div class="menuMobileOverlay hidden-md hidden-lg"></div>
+<style>
+    .menuMobileContainer .memoNav .memoDropdown>li .memoDropdown {
+        padding-bottom: 15px !important;
+    }
+    .menuMobileContainer .memoNav .memoDropdown>li .memoDropdown>li {
+        padding-right: 15px !important;
+    }
+</style>

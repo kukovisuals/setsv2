@@ -1,0 +1,611 @@
+<div class="cotton-two product-grid premium_product_section ">
+  <div class="container mobilePaddTop">
+    <div class="collection_group_head mobileOnly">
+      <h2 class="text-center"><b>CADET</b><br>SHOP INDIVIDUAL PIECES</h2>
+    </div>
+    <div class="cotton-twos">
+      <div class="cotton-left left_img_cols">
+        {% if section.settings.fisrt_image_1 != blank %}
+        <a href="{% if section.settings.first_img_url_1 != blank %}{{ section.settings.first_img_url_1 }}{% else %}#{% endif %}">
+          <img width="490" height="651" data-src="{{ section.settings.fisrt_image_1 | img_url: 'original' }}" class="lazyload" alt="{{ section.settings.fisrt_image_1.alt }}" title="{{ section.settings.fisrt_image_1.alt }}">
+          {% if section.settings.first_text != blank %}
+          <div class="cotton_overlay_text">
+            {{ section.settings.first_text }}
+          </div>
+          {% endif %}
+        </a>
+        {% endif %}
+        {% if section.settings.fisrt_image_2 != blank %}
+        <a href="{% if section.settings.first_img_url_2 != blank %}{{ section.settings.first_img_url_2 }}{% else %}#{% endif %}">
+          <img width="490" height="651" data-src="{{ section.settings.fisrt_image_2 | img_url: 'original' }}" class="lazyload" alt="{{ section.settings.fisrt_image_2.alt }}" title="{{ section.settings.fisrt_image_2.alt }}">
+        </a>
+        {% endif %}
+      </div>
+      <div class="cotton-left product-grd collection_group">
+        <div class="products_cols collection_group_list">
+          {% for i in (1..4) %}
+          {% capture products %}product_{{i}}{% endcapture %}
+          {% assign product = all_products[section.settings[products]] %}
+          {% if section.settings[products] != blank %}
+          {% if product.type == "Premium Underwear" %}
+          {% for prodTag in product.tags %}
+          {% if prodTag contains "pantyType-" %}
+          {%- assign prodNameTitle = prodTag | replace: "pantyType-", "" -%}
+          {% endif %}
+          {% if prodTag contains "pantyColor-" %}
+          {%- assign prodColorTitle = prodTag | replace: "pantyColor-", "" | replace: "_", " " -%}
+          {% endif %}
+          {% if prodTag contains "newCustomBoxPrice-" %}
+          {%- assign prodDealPrice = prodTag | replace: "newCustomBoxPrice-", "" | replace: "_", " " -%}
+          {% endif %}
+          {% endfor %}
+          {% elsif product.type == "Premium Bralette" %}
+          {%- assign prodNameTitle = "bralette" -%}
+          {% for prodTag in product.tags %}
+          {% if prodTag contains "braletteColor-" %}
+          {%- assign prodColorTitle = prodTag | replace: "braletteColor-", "" | replace: "_", " " -%}
+          {% endif %}
+          {% if prodTag contains "newCustomBoxPrice-" %}
+          {%- assign prodDealPrice = prodTag | replace: "newCustomBoxPrice-", "" | replace: "_", " " -%}
+          {% endif %}
+          {% endfor %}
+          {% endif %}
+
+          {% if prodNameTitle == "highwaisted_thong" %}
+          {% assign prdImgFileName = "hwthong" %}
+          {% else %}
+          {% assign prdImgFileName = prodNameTitle %}
+          {% endif %}
+
+          {% assign premImgFileName = prodColorTitle | replace: " ", "" | append: "---" | append: prdImgFileName | append: "---missy---tile_fr.jpg" %}
+          <div class="col products_col velaProBlock quickadd" data-size-guid="{% render 'collection-selectors-charts', product_target: product %}">
+            <div class="col-wrap velaProBlockInner">
+              <div class="product-image proHImage d-flex flexJustifyCenter">
+                <a class="proFeaturedImage" href="{{ product.url }}">
+                  {%- if product.metafields.ebyacf.collection_page_tile_img -%}
+                  {% for image in product.images %}
+                  {%- if image.src contains product.metafields.ebyacf.collection_page_tile_img -%}
+                  <img class="img-responsive lazyload" width="168" height="246" alt="{{ image.alt }}" title="{{ image.alt }}" data-src="{{ product.featured_image | img_url: 'master' }}">
+                  {% break %}
+                  {%- endif -%}
+                  {% endfor %}
+                  {%- else -%}
+                  <img class="t1 img-responsive lazyload" width="168" height="246" alt="{{ product.featured_image.alt | escape }}" title="{{ product.featured_image.alt | escape }}" data-src="{{ product.featured_image | img_url: 'master' }}" />
+                  {%- endif -%}
+                  {%- if product.images.size > 1 and settings.product_second_image -%}
+                  <span class="hidden-sm hidden-xs">
+                    {% for image in product.images %}
+                    {%- if forloop.first != true -%}
+                    <img class="img-responsive lazyload" width="168" height="246" alt="{{ image.alt }}" title="{{ image.alt }}" data-src="{{ image | img_url: 'master' }}">
+                    {% break %}
+                    {%- endif -%}
+                    {% endfor %}
+                  </span>
+                  {%- endif -%}
+                </a>
+              </div>
+              <div class="col-pro-details">
+                <h4><a href="{{ product.url }}">{{ product.title | replace: " Cotton", "" }}</a></h4>
+                <div class="priceWrapper">
+                  {% if customer.tags contains 'Active Subscriber' %}
+                  <p class="bfx-price">{{ product.price | money_without_trailing_zeros }}</p>
+                  <p class="priceProduct vipHighlight bfx-price">{{ product.metafields.ebyacf.vip_product_price | replace: '/ ', '' }}</p>
+                  {% else %}
+                  <p class="bfx-price">{{ product.price | money_without_trailing_zeros }}</p>
+                  <p class="priceProduct vipHighlight bfx-price">{{ product.metafields.ebyacf.vip_product_price | replace: '/ ', '' }}</p>
+                  {% endif %}
+                </div>
+              </div>
+              <div class="product-details proButton clearfix">
+                <div class="quick_btn pre-btn">
+                  {% include 'vela-product-quickadd' %}
+                </div>
+              </div>
+            </div>
+          </div>
+          {% endif %}
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="cotton-two image-grid">
+  <div class="container">
+    <div class="cotton-twos">
+      {% for i in (1..2) %}
+      {% capture img %}banner_image_{{i}}{% endcapture %}
+      {% capture url %}banner_url_{{i}}{% endcapture %}
+      {% capture title %}banner_title_{{i}}{% endcapture %}
+      {% if section.settings[img] != blank %}
+      <a href="{% if section.settings[url] != blank %}{{ section.settings[url] }}{% else %}#{% endif %}" class="cotton-left">
+        <img width="680" height="680" data-src="{{ section.settings[img] | img_url: 'original' }}" class="lazyload" alt="{{ section.settings[img].alt }}" title="{{ section.settings[img].alt }}">
+        {% if section.settings[title] != blank %}
+        <div class="cotton_overlay_text">
+          {{ section.settings[title] }}
+        </div>
+        {% endif %}
+      </a>
+      {% endif %}
+      {% endfor %}
+    </div>
+  </div>
+</div>
+<div class="cotton-two product-grid premium_product_section">
+  <div class="container mobilePaddTop">
+    <div class="collection_group_head mobileOnly">
+      <h2 class="text-center"><b>FALLEN ROCK</b><br>SHOP INDIVIDUAL PIECES</h2>
+    </div>
+    <div class="cotton-twos">
+      <div class="cotton-left left_img_cols">
+        {% if section.settings.second_image_1 != blank %}
+        <a href="{% if section.settings.second_img_url_1 != blank %}{{ section.settings.second_img_url_1 }}{% else %}#{% endif %}">
+          <img width="490" height="651" data-src="{{ section.settings.second_image_1 | img_url: 'original' }}" class="lazyload" alt="{{ section.settings.second_image_1.alt }}" title="{{ section.settings.second_image_1.alt }}">
+          {% if section.settings.second_text != blank %}
+          <div class="cotton_overlay_text">
+            {{ section.settings.second_text }}
+          </div>
+          {% endif %}
+        </a>
+        {% endif %}
+        {% if section.settings.second_image_2 != blank %}
+        <a href="{% if section.settings.first_img_url_1 != blank %}{{ section.settings.second_img_url_2 }}{% else %}#{% endif %}">
+          <img width="490" height="332" data-src="{{ section.settings.second_image_2 | img_url: 'original' }}" class="lazyload" alt="{{ section.settings.second_image_2.alt }}" title="{{ section.settings.second_image_2.alt }}">
+        </a>
+        {% endif %}
+      </div>
+      <div class="cotton-left product-grd collection_group">
+        <div class="products_cols collection_group_list">
+          {% for i in (1..4) %}
+          {% capture products %}second_product_{{i}}{% endcapture %}
+          {% assign product = all_products[section.settings[products]] %}
+          {% if section.settings[products] != blank %}
+          {% if product.type == "Premium Underwear" %}
+          {% for prodTag in product.tags %}
+          {% if prodTag contains "pantyType-" %}
+          {%- assign prodNameTitle = prodTag | replace: "pantyType-", "" -%}
+          {% endif %}
+          {% if prodTag contains "pantyColor-" %}
+          {%- assign prodColorTitle = prodTag | replace: "pantyColor-", "" | replace: "_", " " -%}
+          {% endif %}
+          {% if prodTag contains "newCustomBoxPrice-" %}
+          {%- assign prodDealPrice = prodTag | replace: "newCustomBoxPrice-", "" | replace: "_", " " -%}
+          {% endif %}
+          {% endfor %}
+          {% elsif product.type == "Premium Bralette" %}
+          {%- assign prodNameTitle = "bralette" -%}
+          {% for prodTag in product.tags %}
+          {% if prodTag contains "braletteColor-" %}
+          {%- assign prodColorTitle = prodTag | replace: "braletteColor-", "" | replace: "_", " " -%}
+          {% endif %}
+          {% if prodTag contains "newCustomBoxPrice-" %}
+          {%- assign prodDealPrice = prodTag | replace: "newCustomBoxPrice-", "" | replace: "_", " " -%}
+          {% endif %}
+          {% endfor %}
+          {% endif %}
+
+          {% if prodNameTitle == "highwaisted_thong" %}
+          {% assign prdImgFileName = "hwthong" %}
+          {% else %}
+          {% assign prdImgFileName = prodNameTitle %}
+          {% endif %}
+
+          {% assign premImgFileName = prodColorTitle | replace: " ", "" | append: "---" | append: prdImgFileName | append: "---missy---tile_fr.jpg" %}
+          <div class="col products_col velaProBlock quickadd" data-size-guid="{% render 'collection-selectors-charts', product_target: product %}">
+            <div class="col-wrap velaProBlockInner">
+              <div class="product-image proHImage d-flex flexJustifyCenter">
+                <a class="proFeaturedImage" href="{{ product.url }}">
+                  {%- if product.metafields.ebyacf.collection_page_tile_img -%}
+                  {% for image in product.images %}
+                  {%- if image.src contains product.metafields.ebyacf.collection_page_tile_img -%}
+                  <img class="img-responsive lazyload" width="168" height="246" alt="{{ image.alt }}" title="{{ image.alt }}" data-src="{{ product.featured_image | img_url: 'master' }}">
+                  {% break %}
+                  {%- endif -%}
+                  {% endfor %}
+                  {%- else -%}
+                  <img class="t1 img-responsive lazyload" width="168" height="246" alt="{{ product.featured_image.alt | escape }}" title="{{ product.featured_image.alt | escape }}" data-src="{{ product.featured_image | img_url: 'master' }}" />
+                  {%- endif -%}
+                  {%- if product.images.size > 1 and settings.product_second_image -%}
+                  <span class="hidden-sm hidden-xs">
+                    {% for image in product.images %}
+                    {%- if forloop.first != true -%}
+                    <img class="img-responsive lazyload" width="168" height="246" alt="{{ image.alt }}" title="{{ image.alt }}" data-src="{{ image | img_url: 'master' }}">
+                    {% break %}
+                    {%- endif -%}
+                    {% endfor %}
+                  </span>
+                  {%- endif -%}
+                </a>
+              </div>
+              <div class="col-pro-details">
+                <h4><a href="{{ product.url }}">{{ product.title | replace: " Cotton", "" }}</a></h4>
+                <div class="priceWrapper">
+                  {% if customer.tags contains 'Active Subscriber' %}
+                  <p class="bfx-price">{{ product.price | money_without_trailing_zeros }}</p>
+                  <p class="priceProduct vipHighlight bfx-price">{{ product.metafields.ebyacf.vip_product_price | replace: '/ ', '' }}</p>
+                  {% else %}
+                  <p class="bfx-price">{{ product.price | money_without_trailing_zeros }}</p>
+                  <p class="priceProduct vipHighlight bfx-price">{{ product.metafields.ebyacf.vip_product_price | replace: '/ ', '' }}</p>
+                  {% endif %}
+                </div>
+              </div>
+              <div class="product-details proButton clearfix">
+                <div class="quick_btn pre-btn">
+                  {% include 'vela-product-quickadd' %}
+                </div>
+              </div>
+            </div>
+          </div>
+          {% endif %}
+          {% endfor %}
+        </div>
+      </div>
+      
+    </div>
+  </div>
+</div>
+<div class="cotton-two image-grid mobile_grid middle-grid">
+  <div class="container">
+    <div class="cotton-twos">
+      {% for i in (3..3) %}
+      {% capture img %}banner_image_{{i}}{% endcapture %}
+      {% capture url %}banner_url_{{i}}{% endcapture %}
+      {% capture title %}banner_title_{{i}}{% endcapture %}
+      {% if section.settings[img] != blank %}
+      <a href="{% if section.settings[url] != blank %}{{ section.settings[url] }}{% else %}#{% endif %}" class="cotton-left">
+        <img width="335" height="335" data-src="{{ section.settings[img] | img_url: 'original' }}" class="lazyload" alt="{{ section.settings[img].alt }}" title="{{ section.settings[img].alt }}">
+        {% if section.settings[title] != blank %}
+        <div class="cotton_overlay_text">
+          {{ section.settings[title] }}
+        </div>
+        {% endif %}
+      </a>
+      {% endif %}
+      {% endfor %}
+    </div>
+  </div>
+</div>
+<div class="cotton-two product-grid premium_product_section">
+  <div class="container mobilePaddTop">
+    <div class="collection_group_head mobileOnly">
+      <h2 class="text-center"><b>ROSE CLAY</b><br>SHOP INDIVIDUAL PIECES</h2>
+    </div>
+    <div class="cotton-twos">
+      <div class="cotton-left left_img_cols">
+        {% if section.settings.third_image_1 != blank %}
+        <a href="{% if section.settings.third_img_url_1 != blank %}{{ section.settings.third_img_url_1 }}{% else %}#{% endif %}">
+          <img width="490" height="651" data-src="{{ section.settings.third_image_1 | img_url: 'original' }}" class="lazyload" title="{{ section.settings.third_image_1.alt }}" alt="{{ section.settings.third_image_1.alt }}">
+          {% if section.settings.third_text != blank %}
+          <div class="cotton_overlay_text">
+            {{ section.settings.third_text }}
+          </div>
+          {% endif %}
+        </a>
+        {% endif %}
+        {% if section.settings.third_image_2 != blank %}
+        <a href="{% if section.settings.third_img_url_2 != blank %}{{ section.settings.third_img_url_2 }}{% else %}#{% endif %}">
+          <img width="490" height="332" data-src="{{ section.settings.third_image_2 | img_url: 'original' }}" class="lazyload" alt="{{ section.settings.third_image_2.alt }}" title="{{ section.settings.third_image_2.alt }}">
+        </a>
+        {% endif %}
+      </div>
+      <div class="cotton-left product-grd collection_group">
+        <div class="products_cols collection_group_list">
+          {% for i in (1..4) %}
+          {% capture products %}third_product_{{i}}{% endcapture %}
+          {% assign product = all_products[section.settings[products]] %}
+          {% if section.settings[products] != blank %}
+          {% if product.type == "Premium Underwear" %}
+          {% for prodTag in product.tags %}
+          {% if prodTag contains "pantyType-" %}
+          {%- assign prodNameTitle = prodTag | replace: "pantyType-", "" -%}
+          {% endif %}
+          {% if prodTag contains "pantyColor-" %}
+          {%- assign prodColorTitle = prodTag | replace: "pantyColor-", "" | replace: "_", " " -%}
+          {% endif %}
+          {% if prodTag contains "newCustomBoxPrice-" %}
+          {%- assign prodDealPrice = prodTag | replace: "newCustomBoxPrice-", "" | replace: "_", " " -%}
+          {% endif %}
+          {% endfor %}
+          {% elsif product.type == "Premium Bralette" %}
+          {%- assign prodNameTitle = "bralette" -%}
+          {% for prodTag in product.tags %}
+          {% if prodTag contains "braletteColor-" %}
+          {%- assign prodColorTitle = prodTag | replace: "braletteColor-", "" | replace: "_", " " -%}
+          {% endif %}
+          {% if prodTag contains "newCustomBoxPrice-" %}
+          {%- assign prodDealPrice = prodTag | replace: "newCustomBoxPrice-", "" | replace: "_", " " -%}
+          {% endif %}
+          {% endfor %}
+          {% endif %}
+
+          {% if prodNameTitle == "highwaisted_thong" %}
+          {% assign prdImgFileName = "hwthong" %}
+          {% else %}
+          {% assign prdImgFileName = prodNameTitle %}
+          {% endif %}
+
+          {% assign premImgFileName = prodColorTitle | replace: " ", "" | append: "---" | append: prdImgFileName | append: "---missy---tile_fr.jpg" %}
+          <div class="col products_col velaProBlock quickadd" data-size-guid="{% render 'collection-selectors-charts', product_target: product %}">
+            <div class="col-wrap velaProBlockInner">
+              <div class="product-image proHImage d-flex flexJustifyCenter">
+                <a class="proFeaturedImage" href="{{ product.url }}">
+                  {%- if product.metafields.ebyacf.collection_page_tile_img -%}
+                  {% for image in product.images %}
+                  {%- if image.src contains product.metafields.ebyacf.collection_page_tile_img -%}
+                  <img class="img-responsive lazyload" width="168" height="246" alt="{{ image.alt }}" title="{{ image.alt }}" data-src="{{ product.featured_image | img_url: 'master' }}">
+                  {% break %}
+                  {%- endif -%}
+                  {% endfor %}
+                  {%- else -%}
+                  <img class="t1 img-responsive lazyload" width="168" height="246" alt="{{ product.featured_image.alt | escape }}" title="{{ product.featured_image.alt | escape }}" data-src="{{ product.featured_image | img_url: 'master' }}" />
+                  {%- endif -%}
+                  {%- if product.images.size > 1 and settings.product_second_image -%}
+                  <span class="hidden-sm hidden-xs">
+                    {% for image in product.images %}
+                    {%- if forloop.first != true -%}
+                    <img class="img-responsive lazyload" width="168" height="246" alt="{{ image.alt }}" title="{{ image.alt }}" data-src="{{ image | img_url: 'master' }}">
+                    {% break %}
+                    {%- endif -%}
+                    {% endfor %}
+                  </span>
+                  {%- endif -%}
+                </a>
+              </div>
+              <div class="col-pro-details">
+                <h4><a href="{{ product.url }}">{{ product.title | replace: " Cotton", "" }}</a></h4>
+                <div class="priceWrapper">
+                  {% if customer.tags contains 'Active Subscriber' %}
+                  <p class="bfx-price">{{ product.price | money_without_trailing_zeros }}</p>
+                  <p class="priceProduct vipHighlight bfx-price">{{ product.metafields.ebyacf.vip_product_price | replace: '/ ', '' }}</p>
+                  {% else %}
+                  <p class="bfx-price">{{ product.price | money_without_trailing_zeros }}</p>
+                  <p class="priceProduct vipHighlight bfx-price">{{ product.metafields.ebyacf.vip_product_price | replace: '/ ', '' }}</p>
+                  {% endif %}
+                </div>
+              </div>
+              <div class="product-details proButton clearfix">
+                <div class="quick_btn pre-btn">
+                  {% include 'vela-product-quickadd' %}
+                </div>
+              </div>
+            </div>
+          </div>
+          {% endif %}
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="cotton-two image-grid mobile_grid">
+  <div class="container">
+    <div class="cotton-twos">
+      {% for i in (2..2) %}
+      {% capture img %}banner_image_{{i}}{% endcapture %}
+      {% capture url %}banner_url_{{i}}{% endcapture %}
+      {% capture title %}banner_title_{{i}}{% endcapture %}
+      {% if section.settings[img] != blank %}
+      <a href="{% if section.settings[url] != blank %}{{ section.settings[url] }}{% else %}#{% endif %}" class="cotton-left">
+        <img width="335" height="335" data-src="{{ section.settings[img] | img_url: 'original' }}" class="lazyload" alt="{{ section.settings[img].alt }}" title="{{ section.settings[img].alt }}">
+        {% if section.settings[title] != blank %}
+        <div class="cotton_overlay_text">
+          {{ section.settings[title] }}
+        </div>
+        {% endif %}
+      </a>
+      {% endif %}
+      {% endfor %}
+    </div>
+  </div>
+</div>
+
+
+{% schema %}
+  {
+    "name": "Content",
+    "settings": [
+	  {
+		"type": "header",
+		"content": "Product Section 1"
+	  },
+	  {
+		"type": "image_picker",
+		"id": "fisrt_image_1",
+		"label": "Image 1"
+	  },
+	  {
+		"type": "text",
+		"id": "first_text",
+		"label": "Text"
+	  },
+	  {
+		"type": "url",
+		"id": "first_img_url_1",
+		"label": "URL 1"
+	  },
+	  {
+		"type": "image_picker",
+		"id": "fisrt_image_2",
+		"label": "Image 2"
+	  },
+	  {
+		"type": "url",
+		"id": "first_img_url_2",
+		"label": "URL 2"
+	  },
+	  {
+		"type": "product",
+		"id": "product_1",
+		"label": "Product 1"
+	  },
+	  {
+		"type": "product",
+		"id": "product_2",
+		"label": "Product 2"
+	  },
+	  {
+		"type": "product",
+		"id": "product_3",
+		"label": "Product 3"
+	  },
+	  {
+		"type": "product",
+		"id": "product_4",
+		"label": "Product 4"
+	  },
+	  {
+		"type": "header",
+		"content": "Product Section 2"
+	  },
+	  {
+		"type": "image_picker",
+		"id": "second_image_1",
+		"label": "Image 1"
+	  },
+	  {
+		"type": "text",
+		"id": "second_text",
+		"label": "Text"
+	  },
+	  {
+		"type": "url",
+		"id": "second_img_url_1",
+		"label": "URL 1"
+	  },
+	  {
+		"type": "image_picker",
+		"id": "second_image_2",
+		"label": "Image 2"
+	  },
+	  {
+		"type": "url",
+		"id": "second_img_url_2",
+		"label": "URL 2"
+	  },
+	  {
+		"type": "product",
+		"id": "second_product_1",
+		"label": "Product 1"
+	  },
+	  {
+		"type": "product",
+		"id": "second_product_2",
+		"label": "Product 2"
+	  },
+	  {
+		"type": "product",
+		"id": "second_product_3",
+		"label": "Product 3"
+	  },
+	  {
+		"type": "product",
+		"id": "second_product_4",
+		"label": "Product 4"
+	  },
+	  {
+		"type": "header",
+		"content": "Product Section 3"
+	  },
+	  {
+		"type": "image_picker",
+		"id": "third_image_1",
+		"label": "Image 1"
+	  },
+	  {
+		"type": "text",
+		"id": "third_text",
+		"label": "Text"
+	  },
+	  {
+		"type": "url",
+		"id": "third_img_url_1",
+		"label": "URL 1"
+	  },
+	  {
+		"type": "image_picker",
+		"id": "third_image_2",
+		"label": "Image 2"
+	  },
+	  {
+		"type": "url",
+		"id": "third_img_url_2",
+		"label": "URL 2"
+	  },
+	  {
+		"type": "product",
+		"id": "third_product_1",
+		"label": "Product 1"
+	  },
+	  {
+		"type": "product",
+		"id": "third_product_2",
+		"label": "Product 2"
+	  },
+	  {
+		"type": "product",
+		"id": "third_product_3",
+		"label": "Product 3"
+	  },
+	  {
+		"type": "product",
+		"id": "third_product_4",
+		"label": "Product 4"
+	  },
+	  {
+		"type": "header",
+		"content": "Banner Section"
+	  },
+	  {
+		"type": "image_picker",
+		"id": "banner_image_1",
+		"label": "Image 1"
+	  },
+	  {
+		"type": "text",
+		"id": "banner_title_1",
+		"label": "Title 1"
+	  },
+	  {
+		"type": "url",
+		"id": "banner_url_1",
+		"label": "URL 1"
+	  },
+	  {
+		"type": "image_picker",
+		"id": "banner_image_2",
+		"label": "Image 2"
+	  },
+	  {
+		"type": "text",
+		"id": "banner_title_2",
+		"label": "Title 2"
+	  },
+	  {
+		"type": "url",
+		"id": "banner_url_2",
+		"label": "URL 2"
+	  },
+	  {
+		"type": "image_picker",
+		"id": "banner_image_3",
+		"label": "Image 3"
+	  },
+	  {
+		"type": "text",
+		"id": "banner_title_3",
+		"label": "Title 3"
+	  },
+	  {
+		"type": "url",
+		"id": "banner_url_3",
+		"label": "URL 3"
+	  }
+	]
+  }
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}

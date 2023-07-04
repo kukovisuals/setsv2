@@ -1,0 +1,217 @@
+<style>
+  .text-sectiontlt23 {
+    font-size: 16px;
+    line-height: 1.75;
+    font-weight: bold;
+    margin: 0;
+    text-align: center;
+  }
+  .text-sectiontxt23 {
+    font-size: 16px;
+    width: 72%;
+    margin: 0 auto;
+    text-align: center;
+    line-height: 1.75;
+  }
+  .permium_hero_section {
+    margin-top: 0;
+    margin-bottom: 88px;
+  }
+  .eby-meshpdp5234 {
+    margin-top: 100px;
+    margin-left: 20px;
+    margin-right: 20px;
+  }
+  .text-titlewrpper {
+    margin-top: 8px;
+  }
+  .text-titlewrpper span {
+    font-size: 16px;
+    font-weight: 300;
+    line-height: 1.75;
+    display: block;
+    text-align: center;
+  }
+
+  @media(min-width: 1024px) {
+    .text-sectiontlt23 {
+      font-size: 24px;
+      line-height: 2;
+    }
+    .eby-meshpdp5234 {
+      margin-top: 240px;
+      margin-bottom: 152px;
+    }
+    .text-sectiontxt23 {
+      font-size: 24px;
+      width: 100%;
+      line-height: 2;
+    }
+    .text-titlewrpper span {
+      font-size: 20px;
+      line-height: 1.4;
+    }
+    .text-titlewrpper {
+      margin-top: 19px;
+    }
+
+    .premium_content_item_wrapper p {
+      line-height: 1.4;
+    }
+    .col-pro-details {
+      height: 48px;
+    }
+  }
+</style>
+
+{%- unless proImageSize -%}
+  {%- assign proImageSize = '800x' -%}
+{%- endunless -%}
+<!-- fc 112822 -->
+<section class="premium_product_section same__cols">
+  <div class="section-wrap">
+    {% for block in section.blocks %}
+      {% assign collection = collections[block.settings.collection] %}
+        <div class="collection_group" id="{% if block.settings.collection contains "port" %}port-assortment{% else %}parisiansummer-assortment{% endif %}">
+        <div class="collection_group_head">
+          <h4 class="text-sectiontlt23">We're taking sheer to the next level</h4>
+          <p class="text-sectiontxt23">Astonishing comfort spiced with an extra "OMG, so sexy" bite</p>
+        </div>
+        <!--technology section -->
+        <section class="permium_hero_section">
+          <div class="section-wrap">
+            <div class="section_image">
+              <img src="https://cdn.shopify.com/s/files/1/0313/4062/5964/files/sheer4-echnology-mbl.jpg?v=1669224927" class="mobile_image lazyloadPload" width="375" height="478" alt="">
+              <img data-src="https://cdn.shopify.com/s/files/1/0313/4062/5964/files/sheer4-technology-dsk.jpg?v=1669224927" class="ipad_image" width="762" height="762" alt="">
+              <img src="https://cdn.shopify.com/s/files/1/0313/4062/5964/files/sheer4-technology-dsk.jpg?v=1669224927" class="desktop_image lazyloadPload" width="1680" height="993" alt="">
+            </div>
+          </div>
+        </section>
+
+
+        <div class="premium_product_section" id="product_listing_section">
+          <div class="product-grd collection_group fullwidth">
+            <div class="products_cols collection_group_list">
+              {% for product in collection.products limit: block.settings.pdp_range %}
+                {%- assign itemNumberBeforeImage = forloop.index -%}
+
+                  {% if itemNumberBeforeImage == 4 %}
+                  <!-- Static gallery   -->
+                  <section class="permium_hero_section eby-meshpdp5234">
+                    <div class="section-wrap">
+                      <div class="section_image">
+                        <img src="https://cdn.shopify.com/s/files/1/0313/4062/5964/files/sheer4-gallery-image-mbl.jpg?v=1669225559" class="mobile_image lazyloadPload" width="375" height="478" alt="">
+                        <img src="https://cdn.shopify.com/s/files/1/0313/4062/5964/files/sheer4-gallery-image-dsk.jpg?v=1669225559" class="ipad_image lazyloadPload" width="762" height="762" alt="">
+                        <img src="https://cdn.shopify.com/s/files/1/0313/4062/5964/files/sheer4-gallery-image-dsk.jpg?v=1669225559" class="desktop_image lazyloadPload" width="1680" height="993" alt="">
+                      </div>
+                    </div>
+                  </section>
+                {% else  %}
+                  {%- assign prodNameTitle = "" -%}
+                  {% if product.type contains "Bralette" %}
+                    {%- assign prodNameTitle = "bralette" -%}
+                    {% for prodTag in product.tags %}
+                      {% if prodTag contains "braletteColor-" %}
+                        {%- assign prodColorTitle = prodTag | replace: "braletteColor-", "" | replace: "_", " " -%}
+                      {% endif %}
+                    {% endfor %}
+                  {% endif %}
+
+                  {% assign premImgFileName = prodColorTitle | replace: " ", "" | append: "---" | append: prdImgFileName | append: "---missy---tile_fr.jpg" %}
+
+                  <div class="col products_col velaProBlock quickadd{% if prodNameTitle == "bralette"%} topProd{% endif %}" data-size-guid="{% render 'collection-selectors-charts', product_target: product %}">
+                    <div class="col-wrap velaProBlockInner">
+                      <div class="product-image proHImage d-flex flexJustifyCenter {% if prodNameTitle == "bralette" and prodColorTitle == "hyper pink" %}hyper_pink-highlighterGlow{% endif %}{%if prodNameTitle == "bralette" and prodColorTitle == "lime punch" %}lime_punch-highlighterGlow{% endif %}">
+                        <a class="proFeaturedImage" href="{{ product.url }}">
+                          {% for image in product.images %}
+                            {%- assign itemNumber = forloop.index | modulo:5 -%}
+                            {%- if itemNumber == 2 -%}
+                              {% if prodNameTitle == "bralette"%}
+                                <img class="img-responsive lazyload" alt="{{ image.alt }}" title="{{ image.alt }}" data-src="{{ image | img_url: "500x500", crop: "center"  }}">
+                              {% else %}
+                                <img class="img-responsive lazyload" alt="{{ image.alt }}" title="{{ image.alt }}" data-src="{{ image | img_url: 'master' }}">
+                              {% endif %}
+                            {%- endif -%}
+                          {% endfor %}
+                        </a>
+                      </div>
+                      <div class="col-pro-details">
+                        <h4>
+                          <a href="{{ product.url }}">{{ product.title | replace: "Highwaisted", "High Cut Highwaisted" | replace: "Mesh ", "" }}</a>
+                        </h4>
+                        <div class="priceWrapper">
+                          {% if customer.tags contains 'Active Subscriber' %}
+                            <p class="bfx-price">{{ product.price | money_without_trailing_zeros }}</p>
+                            <p class="priceProduct vipHighlight bfx-price">{{ product.metafields.ebyacf.vip_product_price | replace: '/ ', '' }}</p>
+                          {% else %}
+                            <p class="bfx-price">{{ product.price | money_without_trailing_zeros }}</p>
+                            <p class="priceProduct vipHighlight bfx-price">{{ product.metafields.ebyacf.vip_product_price | replace: '/ ', '' }}</p>
+                          {% endif %}
+                        </div>
+                      </div>
+                      <div class="product-details proButton clearfix">
+                        <div class="quick_btn pre-btn">
+                          <div class="productQuickAdd">
+                            <button class="btn btnProduct btnProductQuickAdd" data-href="#velaQuickAdd-{{ product.id }}-1" data-handle="{{ product.handle }}" title="Quick Add +">
+                              <i class="icons icon-eye"></i>
+                              <span class="text">Quick Add +</span>
+                            </button>
+                            <div class="selection-wrapper" id="velaQuickAdd-{{ product.id }}-1"></div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                {% endif %}
+
+              {% endfor %}
+            </div>
+          </div>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+</section>
+
+{% schema %}
+  {
+    "name": "Collection",
+    "settings": [],
+    "blocks": [
+      {
+        "type": "tab",
+        "name": "Collection",
+        "settings": [
+          {
+            "type": "collection",
+            "id": "collection",
+            "label": "Collection"
+          },
+          {
+            "type": "text",
+            "id": "sub_title",
+            "label": "Sub Title"
+          },
+          {
+            "type": "text",
+            "id": "title",
+            "label": "Title"
+          },
+          {
+            "type": "text",
+            "id": "caption",
+            "label": "Caption"
+          }, {
+            "type": "range",
+            "id": "pdp_range",
+            "min": 2,
+            "max": 50,
+            "step": 1,
+            "label": "Show Product",
+            "default": 8
+          }
+        ]
+      }
+    ]
+  }
+{% endschema %}

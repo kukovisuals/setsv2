@@ -1,0 +1,33 @@
+{%- for link in navLinks -%}
+  {% if linklists[link.handle] == empty %}
+ 
+     <li class="eby-coll-list">
+        {% if link.url == '/cart' %}
+          <div class="mobile-nav-container-22 collapsible-header">
+            <span class="eby-mobile-submenu-title">{{link.title}}</span>
+            <span class="mobileNavMenuDropdown w-urlink"></span>
+          </div>
+        {% else %}
+
+          {%- if link.title == 'Subscription' and customer == false-%}
+            <div class="mobile-nav-container-22 collapsible-header">
+              <span><a class="eby-mobile-submenu-title m_link" href="{{link.url}}">{{link.title}}</a></span>
+              <a class="mobileNavMenuDropdown w-mklink m_link"  href="{{link.url}}"></a>
+            </div>
+          {% elsif link.title == 'Subscription' and customer %}
+            {% continue %}    
+          {% else %}
+            <div class="mobile-nav-container-22 collapsible-header">
+              <span><a class="eby-mobile-submenu-title m_link" href="{{link.url}}">{{link.title}}</a></span>
+              <a class="mobileNavMenuDropdown w-mklink m_link" href="{{link.url}}"></a>
+            </div>
+          {% endif %}
+
+        {% endif %}
+          <!-- All sub menus -->
+          {% render 'eby-mobile-submenu' subnav_type: link.title %}
+     
+    </li>
+   
+  {% endif %}
+{%- endfor -%}

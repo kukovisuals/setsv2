@@ -1,0 +1,183 @@
+{% if customer %}
+  <span class="scid" data-id="{{ customer.id }}"></span>
+{% endif %}
+
+<!-- 3 Panel Header -->
+<header class="collImageHeader all-view">
+	<div class="collHeaderWrapper threePanelView">
+  		<ul id="flashsalePanels" class="headerBgPanels">
+          <li id="model-panel" class="HeaderBgPanel">
+          	<img class="lazyload" data-src="{{ 'bikini---missy---model_fr.jpg' | file_img_url: 'master' }}" alt="Seamless EBY up close" title="Seamless EBY up close" />
+          </li>
+          <li id="dress-panel" class="HeaderBgPanel">
+          	<img class="lazyload" data-src="{{ 'bikini---missy---model_dr.jpg' | file_img_url: 'master' }}" alt="Seamless EBY under clothes" title="Seamless EBY under clothes" />
+          </li>
+          <li id="fabric-panel" class="HeaderBgPanel">
+          	<img class="lazyload" data-src="{{ 'bikini---missy---prod_lf.jpg' | file_img_url: 'master' }}" alt="Seamless EBY flocking technology" title="Seamless EBY flocking technology" />
+          </li>
+      	</ul>
+	</div>
+  	<div class="collHeaderWrapper singlePanelView active">
+  		<img id="flashsale-all_styles_banner-desktop" width="1400" height="340" class="lazyloadPload" src="https://cdn.shopify.com/s/files/1/0313/4062/5964/files/Custom-Box-Page---Desktop-2x.jpg" alt="EBY Custom Box Collection" title="EBY Custom Box Collection" />
+      	<img id="flashsale-all_styles_banner-mobile" width="375" height="150" class="lazyloadPload" src="https://cdn.shopify.com/s/files/1/0313/4062/5964/files/Custom-Box-Page---Mobile-2x.jpg" alt="EBY Custom Box Collection" title="EBY Custom Box Collection" />
+  	</div>
+  	<div class="collHeaderTitle">
+<!--      	 <h1>{{ collection.title }}</h1> -->
+<!--       	 <h1>Shop our Friends &amp; Family Deals</h1>
+			 <div class="ebyHeaderAltTextWrapper">
+                 <p class="ebySubheaderCopy">Instead, choose a curiated<br/>panties box membership</p>
+                 <a href="/pages/build-your-box" class="ebyTextLinkBackBtn ebyicon-back-thin"></a>
+         	 </div> -->
+  	</div>
+</header>
+
+<div id="cbHowTo" class="ebyCustomBoxModalBtnWrapper quarterlyMode">
+	<button data-target="ebyCustomBoxModal" class="btn modal-trigger ebyCustomBoxModalBtn ebyAnimate">
+      	<span id="cb_minicart_slot-1" class="cbMinicartSlot"></span>
+        <span id="cb_minicart_slot-2" class="cbMinicartSlot"></span>
+        <span id="cb_minicart_slot-3" class="cbMinicartSlot"></span>
+        <span id="cb_minicart_slot-4" class="cbMinicartSlot semiannual_slot"></span>
+        <span id="cb_minicart_slot-5" class="cbMinicartSlot semiannual_slot"></span>
+  	</button>
+</div>
+
+<div class="tap-target cbHowToGuide" data-target="cbHowTo">
+  <div class="tap-target-content">
+    <h5>Your Custom Box Subscription</h5>
+    <p>Add any underwear below to your box!</p>
+  </div>
+</div>
+
+<!-- Sorting Filterbar -->
+{% render 'coll-custom_box-sorting' %}
+
+<!-- Sales Catalog -->
+{% section 'coll-custom_box-listing' %}
+
+
+{% if collection.metafields.ebyacf.collection_description_blurb %}
+<section class="ebyCollectionGuaranteeWrapper">
+  <div class="ebyContentWrapper">
+  	<div class="ebyContentContainer">
+    	{{ collection.metafields.ebyacf.collection_description_blurb }}
+    </div>
+  </div>
+</section>
+{% endif %}
+
+
+<div class="pop_size" style="display: none;" >
+  <div class="pop_inner">
+    <div class="pop_wrap">
+      <span class="colz_pop">×</span>
+      <div class="ebyGuideChartWrapper">
+        <div class="ebyDesktop-guideWrapper">
+          <p class="ebyPantyGuide"><img data-src="https://cdn.shopify.com/s/files/1/0313/4062/5964/files/sizeguide---panty---color-coded.jpg" class="fr-fic fr-dib lazyload"></p>
+          <p class="ebyBraletteGuide"><img data-src="https://cdn.shopify.com/s/files/1/0313/4062/5964/files/sizeguide---bralette---color-coded.jpg" class="fr-fic fr-dib ls-is-cached lazyload"></p>
+        </div>
+        <div class="ebyTablet-guideWrapper">
+          <p class="ebyPantyGuide"><img data-src="https://cdn.shopify.com/s/files/1/0313/4062/5964/files/sizeguide---panty---color-coded.jpg" class="fr-fic fr-dib lazyload"></p>
+          <p class="ebyBraletteGuide"><img data-src="https://cdn.shopify.com/s/files/1/0313/4062/5964/files/sizeguide---bralette---color-coded.jpg" class="fr-fic fr-dib ls-is-cached lazyload"></p>
+        </div>
+        <div class="ebyMobile-guideWrapper">
+          <p class="ebyPantyGuide"><img data-src="https://cdn.shopify.com/s/files/1/0313/4062/5964/files/sizeguide---panty---color-coded.jpg" class="fr-fic fr-dib lazyload"></p>
+          <p class="ebyBraletteGuide"><img data-src="https://cdn.shopify.com/s/files/1/0313/4062/5964/files/sizeguide---bralette---color-coded.jpg" class="fr-fic fr-dib ls-is-cached lazyload"></p>
+        </div>
+      </div>
+    </div>
+    <div class="pop_wrapper_backing">&nbsp;</div>
+  </div>
+</div>
+
+<div id="ebyCustomBoxModal" class="modal modal-fixed-footer ebyAnimate ebyCustomBoxModal quarterlyMode">
+  <div class="modal-content">
+    <header class="customBoxModalHeader">
+      	<span class="modal-close modalCloseTextLink">Close</span>
+      	<h4>Custom Box Subscription</h4>
+      	<h5 id="customBoxMembershipFinalCost" class="customBoxMembershipFinalCost">{% if customer %}$45{%else%}$39{%endif%}</h5>
+      	<button id="addCustomBoxToCart" class="btn customBoxAddToCart" disabled >{% if customer %}Confirm Selections{% else %}Add Box To Cart{% endif %}</button>
+      	<p id="currentCustomBoxProgress" class="customBoxHelperCopy">add <span>2</span> more product(s)</p>
+    </header>
+    <ul class="cbMinicartExpandedListing">
+      	<li id="cb_minicart_exp_slot-1" class="cbMinicartExpandedSlot">
+          	<div class="cbMinicartExpandedSlotPrdTile"><p>Select Product</p></div>
+      		<input type="hidden" id="cb_minicart_exp_slot_val-1" name="cb_minicart_exp_data" value="" />
+      	</li>
+      	<li id="cb_minicart_exp_slot-2" class="cbMinicartExpandedSlot">
+          <div class="cbMinicartExpandedSlotPrdTile"><p>Select Product</p></div>
+          	<input type="hidden" id="cb_minicart_exp_slot_val-2" name="cb_minicart_exp_data" value="" />
+      	</li>
+      	<li id="cb_minicart_exp_slot-3" class="cbMinicartExpandedSlot">
+      		<div class="cbMinicartExpandedSlotPrdTile"><p>Select Product</p></div>
+          	<input type="hidden" id="cb_minicart_exp_slot_val-3" name="cb_minicart_exp_data" value="" />
+      	</li>
+        <li id="cb_minicart_exp_slot-4" class="cbMinicartExpandedSlot semiannual_slot">
+      		<div class="cbMinicartExpandedSlotPrdTile"><p>Select Product</p></div>
+          	<input type="hidden" id="cb_minicart_exp_slot_val-4" name="cb_minicart_exp_data" value="" />
+      	</li>
+      	<li id="cb_minicart_exp_slot-5" class="cbMinicartExpandedSlot semiannual_slot">
+      		<div class="cbMinicartExpandedSlotPrdTile"><p>Select Product</p></div>
+          	<input type="hidden" id="cb_minicart_exp_slot_val-5" name="cb_minicart_exp_data" value="" />
+      	</li>
+    </ul>
+  </div>
+  <div class="modal-footer customBoxModalFooter">
+<!--     <p class="membershipPerksSummaryTitle">Your Subscription Includes</p> -->
+	<ul class="membershipPerksSummary">
+      	<li class="membershipPerk"><span class="perkPanties">3 panties</span> delivered every <span class="perkMonths">3 months</span></li>
+<!--         <li class="membershipPerk">New color options for each box</li> -->
+<!--         <li class="membershipPerk">Up to 15% off sitewide + Free shipping</li> -->
+    </ul>
+  </div>
+</div>
+
+<div id="ebyCustomBoxModalAlert" class="modal ebyCustomBoxModal ebyCustomBoxModalAlertModal ebyAnimate">
+  	<article class="ebyCustomBoxAddedWrapper">
+  		<div class="modal-content">
+          <header class="customBoxModalHeader">
+            <h4>Your subscription box is in your cart</h4>
+          </header>
+          <footer class="modalOptWrapper">
+            <a class="btn stayOnCustomBoxBtn" href="/collections/seamless-underwear" >Shop More Panties</a>
+            <a class="btn checkoutNowBtn" href="/checkout">Checkout</a>
+          </footer>
+      </div>
+  	</article>
+  	<article class="ebyCustomBoxAlreadyInCartWrapper hidden">
+  		<div class="modal-content">
+          <header class="customBoxModalHeader">
+            <h4>A subscription is already in your cart</h4>
+          </header>
+          <footer class="modalOptWrapper">
+            <button id="emptyCustomBoxFromCartBtn" class="btn modal-close stayOnCustomBoxBtn">Make a New One</button>
+            <a class="btn ebyLinkBtn" href="/collections/seamless-underwear">Shop More Panties</a>
+          </footer>
+      </div>
+  	</article>
+  	<article class="ebyCustomBoxBeingLeftWrapper hidden">
+  		<div class="modal-content">
+          <header class="customBoxModalHeader">
+            <h4>Your selections will not be saved</h4>
+          </header>
+          <footer class="modalOptWrapper">
+            <button class="btn modal-close stayOnCustomBoxBtn">Stay on Page</button>
+            <a class="btn leaveOnCustomBoxBtn">Leave Page</a>
+          </footer>
+      </div>
+  	</article>
+</div>
+
+<div id="warningPopup" class="modal ebyCustomBoxModal ebyCustomBoxModalAlertModal ebyAnimate">
+  	<article class="ebyCustomBoxAddedWrapper">
+  		<div class="modal-content">
+          <header class="customBoxModalHeader">
+            <h4>You already have a subscription</h4>
+          </header>
+          <p>Do you want to shop more or checkout?</p>
+          <footer class="modalOptWrapper">
+            <a class="btn stayOnCustomBoxBtn" href="/collections/seamless-underwear" >Shop More Panties</a>
+            <button class="btn checkoutNowBtn">Checkout</button>
+          </footer>
+      </div>
+  	</article>
+</div>

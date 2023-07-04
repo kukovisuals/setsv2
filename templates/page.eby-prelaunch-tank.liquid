@@ -1,0 +1,207 @@
+{% layout 'prelaunch.tank' %}
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<div class="prelaunch-landing">
+
+  <div class="prelaunch-landing-container" id="prelaunch-landing-container">
+
+    <div class="row">
+      <div class="col-sm-6 sm-order-1">
+        <div class="right-column">
+          <div class="intro">
+          
+            <div class="form-activated" id="form-activated">
+              <div class="formHeader">
+                  <h4>THE ESSENTIAL</h4>
+                  <h1>Seamless Tank Top</h1>
+                  <p>Get notified when it drops</p>
+              </div>
+              <div class="form">
+                <form id="reservation-form">
+                  <input type="hidden" name="g" value="Yand5m">
+                  <input type="hidden" name="$fields" value="$consent">
+                  <input type="hidden" name="$list_fields" value="$consent">
+                  <div id="email-block">
+                    <label id="reservationEmailLabel" for="k_id_email">Email <span>(required)</span></label>
+                    <input type="email" name="email" id="k_id_email" required>
+                  </div>
+
+                  <label for="name">First Name <span>(optional)</span></label>
+                  <input id="name" type="text" name="$first_name">
+
+                  <label for="phone">Phone <span>(optional)</span></label>
+                  <input id="phone" type="text" name="$phone_number">
+                  <button type="submit">Submit</button>
+                  <div class="checkbox">
+                    <input type="checkbox" name="$consent" id="consent-email" required checked/>
+                    <label for="consent-email">I agree to receive recurring marketing messages at the phone number and email provided. Consent is not a condition to purchase. Msg & data rates may apply. Msg frequency varies. Reply HELP for help and STOP to opt-out. View our <a href="https://shop.join-eby.com/pages/terms-of-use" target="_blank">Terms of Service</a> and <a href="https://shop.join-eby.com/pages/privacy-policy" target="_blank">Privacy Policy</a>.</label>
+                  </div>
+                </form>
+              </div>
+            </div>
+
+            <div class="form-success" id="reservation-success">
+              <h2>Success!</h2>
+              <div class="line"></div>
+              <p class="successLineCopy">Look for an email from EBY<span>our seamless tank is dropping soon</span></p>
+<!--               <a href="https://shop.join-eby.com/collections/seamless-underwear" target="_blank">Shop EBY</a> -->
+            </div>
+          </div>
+        </div>
+        <div class="mobileInitWrapper">
+            <h4>THE ESSENTIAL</h4>
+            <h2>Seamless Tank Top</h2>
+            <p>Get notified when it drops</p>
+            <button class="reserve-spot">Notify Me</button>
+        </div>
+      </div>
+
+      <div class="col-sm-6 sm-order-2">
+        <div class="left-column">
+
+          <div class="intro-images-block">
+            <div class="intro-block defaultBlock" id="reservation-default-banner" style="background-image:url({{ 'PRODUCT---seamless-tank---white_rosedust_2x_9a99f752-a3ee-4d79-8e6d-3462606d8a63.jpg' | file_img_url: 'master' }});">
+            </div>
+            <div class="intro-block successBlock" id="reservation-success-banner" style="background-image:url({{ 'PRODUCT---seamless-tank---white_rosedust---blurred_2x_15a1b1d8-d517-4788-a268-bff4e31bdc7a.jpg' | file_img_url: 'master' }});">
+            	<div class="success successBlockWrapper crosssellWrapper">
+                 	<h3>Pairs well with</h3>
+                    <div class="widgetWrapper">
+                      <div class="rebuy-widget">
+                        <div data-rebuy-id="8084" id="rebuy-id-8084">
+                          <div class="rebuy-widget"
+                               v-cloak
+                               v-on:click="stopPropagation($event)"
+                               v-bind:id="'rebuy-widget-' + id"
+                               v-bind:class="['widget-type-' + config.type.replace('_','-'), 'widget-display-' + config.display_type, products.length > 0 ? 'is-visible' : 'is-hidden']">
+
+                            <div
+                                 class="rebuy-widget-container"
+                                 v-cloak
+                                 v-bind:class="['widget-display-' + config.display_type, visible ? 'is-visible' : 'is-hidden' ]"
+                                 v-on:click.self="hide()">
+
+                              <div class="rebuy-widget-content">
+                                <div class="rebuy-modal-close" v-on:click="hide()">
+                                  <i class="fas fa-times"></i>
+                                </div>
+
+                                <h4 class="super-title" v-if="config.language.super_title != ''" v-html="config.language.super_title"></h4>
+
+                                <h3 class="primary-title" v-if="config.language.title != ''" v-html="config.language.title"></h3>
+
+                                <div class="description" v-if="config.language.description != ''" v-html="config.language.description"></div>
+
+                                <div class="rebuy-product-grid" v-bind:class="layoutClasses">
+
+                                      <div class="rebuy-product-block" v-bind:data-prdId="product.id" v-for="product in products" v-bind:class="[product.handle, 'product-id-' + product.id, cartHasProduct(product) ? 'cart-has-item' : '']">
+                              <div class="rebuy-product-media">
+                                  <a class="rebuy-product-image" v-bind:style="imageStyles" v-bind:class="[hasLearnMore() ? 'clickable' : '']">
+                                      <img v-bind:src="itemImage(product, product.selected_variant, '400x400')" v-bind:alt="product.title">
+                                  </a>
+                                  <p class="rebuyProductColorTag" v-html="product.tags.split(',').reduce(function(acc, tag){if(tag.indexOf('pantyColor-')>=0){acc = tag.replace('pantyColor-', '').replace('_', ' ');} return acc;}, '')" v-bind:class="[hasLearnMore() ? 'clickable' : '']" ></p>
+                              </div>
+                              <div class="rebuy-product-info">
+                                  <!-- <div class="description" v-if="config.language.description != ''" v-html="config.language.description"></div> -->
+                                  <div class="rebuy-product-summaryWrapper">
+                                    <a class="rebuy-product-title" v-html="product.tags.split(',').reduce(function(acc, tag){if(tag.indexOf('pantyType-')>=0){acc =tag.replace('pantyType-', '').replace('_', ' ');} return acc;}, '')" v-bind:class="[hasLearnMore() ? 'clickable' : '']"></a>
+                                    <div class="rebuy-product-review" v-if="hasProductReviews(product)">
+                                      <span class="rebuy-star-rating">
+                                        <span class="rebuy-star-rating-background"></span>
+                                        <span class="rebuy-star-rating-foreground" v-bind:style="{ width: productReviewRatingPercentage(product) }"></span>
+                                      </span>
+                                      <span class="rebuy-review-count" v-html="productReviewCount(product)"></span>
+                                    </div>
+                                    <div class="rebuy-product-price">
+                                      <div v-if="variantOnSale(product, product.selected_variant)">
+                                        <span class="rebuy-money sale" v-html="formatMoney(variantPrice(product, product.selected_variant)).replace('.00', '')"></span>
+                                        <span class="rebuy-money compare-at" v-html="formatMoney(variantCompareAtPrice(product, product.selected_variant)).replace('.00', '')"></span>
+                                      </div>
+                                      <div v-if="!(variantOnSale(product, product.selected_variant))">
+                                        <span class="rebuy-money" v-html="formatMoney(variantPrice(product, product.selected_variant)).replace('.00', '')"></span>
+                                      </div>
+                                    </div>
+                                    <div class="rebuy-product-options" v-if="showVariantSelect(product)">
+                                      <div class="rebuy-select-block">
+                                          <div class="rebuy-title-container">
+                                              <a class="rebuy-variant-title rebuy-select-size" v-html="product.selected_variant.title"></a>
+                                              <img src="{{ 'arrow-point-to-down.svg' | asset_url }}" alt="Arrow" class="rebuy-arrow"/>
+                                          </div>
+                                          <div class="rebuy-select-options">
+                                              <div class="current-size" v-html="product.selected_variant.title"></div>
+                                              <div class="siz-guid-container" v-if="product.product_type == 'Core Bralette' || product.product_type == 'Core Underwear' || product.product_type == 'Surprise Panty Pack'">
+                                                  <a class="siz_guid rebuy" v-bind:data-product-type="product.product_type" href="#">Size Guide</a>
+                                              </div>
+                                              <div class="options">
+                                                  <div class="single-select" v-for="variant in product.variants" 
+                                                  v-bind:data-value="variant.id">{% raw %}{{ variant.title }}{% endraw %}</div>
+                                                  <select
+                                                  class="rebuy-select"
+                                                  v-model="product.selected_variant_id"
+                                                  v-on:change="selectVariant(product);">
+                                                  <option v-for="variant in product.variants" v-bind:value="variant.id">{% raw %}{{ variant.title }}{% endraw %}</option>
+                                                  </select>                                                
+                                              </div>
+                                          </div>
+                                      </div>
+                                  	</div>
+                                  </div>
+                                 
+                                  <div class="rebuy-product-actions">
+                                      <button
+                                          class="rebuy-button"
+                                          v-bind:class="{ working: (product.status != 'ready' && product.status != 'selecting') }"
+                                          v-bind:disabled="!(variantAvailable(product.selected_variant)) || (product.status != 'ready' && product.status != 'selecting')"
+                                          v-on:click="addUpsellToCart(product)"
+                                          type="button">
+                                              <span v-html="!(variantAvailable(product.selected_variant)) || (product.status != 'ready' && product.status != 'selecting') ? '...' : 'Add'"></span>
+                                      </button>
+                                  </div>
+                              </div>                                                       
+                          </div>
+
+                                </div>
+
+                              </div>
+
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+<!--                       <a href="/collections/best-sellers" class="btn shopCtaBtn">Shop All</a> -->
+                  	</div>
+                    <div class="buttonWrapper">
+                      <a href="/collections/seamless-underwear" class="btn ctaButton">Shop All</a>
+                    </div>
+              	</div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="pop_size" style="display: none;" >
+  <div class="pop_inner">
+    <div class="pop_wrap pop_rebuy_id_{{ rebuy_ids[0] }}">
+      <span class="colz_pop">×</span>
+      <div class="ebyGuideChartWrapper">
+        <div class="ebyTablet-guideWrapper">
+          <p class="ebyPantyGuide"><img data-src="https://cdn.shopify.com/s/files/1/0313/4062/5964/files/EBY---SizeGuide---Panty.jpg?v=1608664423" class="fr-fic fr-dib lazyload"></p>
+          <p class="ebyBraletteGuide"><img data-src="https://cdn.shopify.com/s/files/1/0313/4062/5964/files/EBY---SizeGuide---Bralette.jpg?v=1608664424" class="fr-fic fr-dib ls-is-cached lazyload"></p>
+        </div>
+      </div>
+    </div>
+    <div class="pop_wrapper_backing">&nbsp;</div>
+  </div>
+</div>
+
+<script type="text/javascript">
+jQuery('input').focus( function() {
+    var $input = $(this);    
+    var scroll = $input.offset();
+});
+
+</script>

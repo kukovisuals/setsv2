@@ -1,0 +1,64 @@
+{% comment %}
+{% if product.type contains 'Premium' %}
+<script type="text/javascript">
+  var getPremCookie = document.cookie.split('; ').find(function(row) {return row.startsWith('epremAccess=')});
+  
+  if (window.location.href.indexOf("utm_campaign=premium_luxe_") <= 0) {
+    if (!getPremCookie) {
+    	window.location.href = '/collections/best-sellers';
+    } else {
+    	//document.cookie = "epremAccess=true";
+    }
+  } else {
+  	//document.cookie = "epremAccess=true";
+  }
+</script>
+{% endif %}
+{% endcomment %}
+
+{% assign current_variant = product.selected_or_first_available_variant %}
+{% comment %}{% include 'breadcrumb' %}
+{% endcomment %}
+{% if product.type == 'Core Underwear' or product.type == 'Cotton Underwear' or product.type == 'Premium Underwear' or product.type == 'Mesh Underwear' %}
+<section id="pageContent" class="ebyPantyPdp lite-v{% if product.type contains "Premium" %} premPdp{% endif %}">
+{% elsif product.type == 'Bralette Panty Set' %}
+<section id="pageContent" class="ebyBraPantySetPdp lite-v">
+{% elsif product.type contains 'Panty Pack' %}
+<section id="pageContent"  class="ebyPantyPackPdp lite-v">
+{% elsif product.type contains 'Gift Cards' %}
+<section id="pageContent"  class="ebyGifcardPdp lite-v">
+{% elsif product.type == 'Core Bralette' or product.type == 'Cotton Bralette' or product.type == 'Premium Bralette' or product.type == 'Mesh Bralette' %}
+<section id="pageContent" class="ebyBralettePdp lite-v{% if product.type contains "Premium" %} premPdp{% endif %}">
+{% elsif product.type == 'Core Bra' %}
+<section id="pageContent" class="ebyBraPdp lite-v">
+{% elsif product.type == 'Season Set' %}
+<section id="pageContent" class="ebySeasonSetPdp lite-v">
+{% elsif product.type == 'Bra Pack' %}
+<section id="pageContent" class="ebyBundlePdp lite-v">
+{% elsif product.type == 'Tank' %}
+<section id="pageContent" class="ebyTankPdp lite-v">
+{% elsif product.type == 'Bodysuit' %}
+<section id="pageContent" class="ebyBodysuitPdp lite-v">
+{% elsif product.type == 'Wrap Top' %}
+<section id="pageContent" class="ebyWrapPdp lite-v">
+{% elsif product.type == 'Silk Scarf' %}
+<section id="pageContent" class="ebySilkscarfPdp lite-v">
+{% elsif product.type == 'Silk Dress' %}
+<section id="pageContent" class="ebySilkdressPdp lite-v">
+{% elsif product.type == 'Silk Blouse' %}
+<section id="pageContent" class="ebySilkblousePdp lite-v">
+{% elsif product.type == 'Silk Tank' %}
+<section id="pageContent" class="ebySilktankPdp lite-v">
+{% elsif product.type == 'Silk Shorts' %}
+<section id="pageContent" class="ebySilkshortsPdp lite-v">
+{% elsif product.type == 'Silk Pants' %}
+<section id="pageContent" class="ebySilkpantsPdp lite-v">
+{% elsif product.type == 'Shapewear' %}
+<section id="pageContent" class="ebyShapewearPdp lite-v">
+{% endif %}
+  {% section 'vela-template-product-lite' %}
+</section>
+  
+{% comment %}
+<div data-rebuy-id="1079" data-rebuy-shopify-product-ids="{{ product.id }}"></div>
+{% endcomment %}

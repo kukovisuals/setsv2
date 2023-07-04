@@ -1,0 +1,2202 @@
+{%- comment -%}
+If bProgressBarBreakValue is true the breaks are for the total value of the cart
+If bProgressBarBreakValue is false the breaks are for the number of products in the cart
+{%- endcomment -%}
+{%- assign bProgressBarBreakValue = true -%}
+{%- assign bMaxProgressBar = 100 -%}
+{%- assign bProgressBarDontRun = 'body.isInternational' -%}
+
+{%- comment -%} One-Time purchase {%- endcomment -%}
+{% unless customer and customer.tags contains "Active Subscriber" -%}
+  {%- assign bProgressBarBreakZeroTextOneTime = "You are ## away from 10% for microfinance" -%}
+  {%- assign bProgressBarBreakOneOneTime = 1.0 -%}
+  {%- assign bProgressBarBreakOneFillOneTime = 28.0 -%}
+  {%- assign bProgressBarBreakOneTextTopOneTime = "10%" -%}
+  {%- assign bProgressBarBreakOneTextBottomOneTime = "Generating Impact" -%}
+  {%- assign bProgressBarBreakOneTextOneTime = "You are ## away from FREE SHIPPING" -%}
+  {%- assign bDiscountOneSavingOneTime = 0.0 -%}
+  {%- assign bCodeDiscountApplyOneOneTime = '' -%}
+  {%- assign bProgressBarBreakTwoOneTime = 10000.0 -%}
+  {%- assign bProgressBarBreakTwoFillOneTime = 50.0 -%}
+  {%- assign bProgressBarBreakTwoTextTopOneTime = "$100" -%}
+  {%- assign bProgressBarBreakTwoTextBottomOneTime = "Free Shipping" -%}
+  {%- assign bProgressBarBreakTwoTextOneTime = "You are ## away from FREE PRIORITY SHIPPING" -%}
+  {%- assign bDiscountTwoSavingOneTime = 0.0 -%}
+  {%- assign bCodeDiscountApplyTwoOneTime = '' -%}{%comment%}'10OffBonus'{%endcomment%}
+{%- else -%}
+  {%- assign bProgressBarBreakZeroTextOneTime = "You are ## away from FREE GIFT" -%}
+  {%- assign bProgressBarBreakOneOneTime = 10000.0 -%}
+  {%- assign bProgressBarBreakOneFillOneTime = 50.0 -%}
+  {%- assign bProgressBarBreakOneTextTopOneTime = "$100" -%}
+  {%- assign bProgressBarBreakOneTextBottomOneTime = "Free Gift" -%}
+  {%- assign bProgressBarBreakOneTextOneTime = "" -%}
+  {%- assign bDiscountOneSavingOneTime = 0.0 -%}
+  {%- assign bCodeDiscountApplyOneOneTime = '' -%}
+  {%- assign bProgressBarBreakTwoOneTime = false -%}
+  {%- assign bProgressBarBreakTwoFillOneTime = 0 -%}
+  {%- assign bProgressBarBreakTwoTextTopOneTime = "" -%}
+  {%- assign bProgressBarBreakTwoTextBottomOneTime = "" -%}
+  {%- assign bProgressBarBreakTwoTextOneTime = "" -%}
+  {%- assign bDiscountTwoSavingOneTime = 0.0 -%}
+  {%- assign bCodeDiscountApplyTwoOneTime = '' -%}
+{%- endunless -%}
+{%- assign bProgressBarBreakThreeOneTime = 12500.0 -%}
+{%- assign bProgressBarBreakThreeFillOneTime = 78.0 -%}
+{%- assign bProgressBarBreakThreeTextTopOneTime = "$125" -%}
+{%- assign bProgressBarBreakThreeTextBottomOneTime = "Free Priority Shipping" -%}
+{%- assign bProgressBarBreakThreeTextOneTime = "" -%}
+{%- assign bDiscountThreeSavingOneTime = 0 -%}
+{%- assign bCodeDiscountApplyThreeOneTime = '' -%}{%comment%}'15OffBonus'{%endcomment%}
+{%- assign bProgressBarBreakFourOneTime = false -%}
+{%- assign bProgressBarBreakFourFillOneTime = 0 -%}
+{%- assign bProgressBarBreakFourTextTopOneTime = "" -%}
+{%- assign bProgressBarBreakFourTextBottomOneTime = "" -%}
+{%- assign bProgressBarBreakFourTextOneTime = "" -%}
+{%- assign bDiscountFourSavingOneTime = 0 -%}
+{%- assign bCodeDiscountApplyFourOneTime = '' -%}{%comment%}'20OffBonus'{%endcomment%}
+{%- assign bProgressBarBreakFiveOneTime = false -%}
+{%- assign bProgressBarBreakFiveFillOneTime = 0 -%}
+{%- assign bProgressBarBreakFiveTextTopOneTime = "" -%}
+{%- assign bProgressBarBreakFiveTextBottomOneTime = "" -%}
+{%- assign bProgressBarBreakFiveTextOneTime = "" -%}
+{%- assign bDiscountFiveSavingOneTime = 0 -%}
+{%- assign bCodeDiscountApplyFiveOneTime = '' -%}
+
+{%- comment -%} Subscribe {%- endcomment -%}
+{%- assign bProgressBarBreakZeroTextSubs = '' -%}
+{%- assign bProgressBarBreakOneSubs = false -%}
+{%- assign bProgressBarBreakOneFillSubs = 0.00 -%}
+{%- assign bProgressBarBreakOneTextTopSubs = '' -%}
+{%- assign bProgressBarBreakOneTextBottomSubs = '' -%}
+{%- assign bProgressBarBreakOneTextSubs = '' -%}
+{%- assign bDiscountOneSavingSubs = 0.00 -%}
+{%- assign bCodeDiscountApplyOneSubs = '' -%}
+{%- assign bProgressBarBreakTwoSubs = false -%}
+{%- assign bProgressBarBreakTwoFillSubs = 0.00 -%}
+{%- assign bProgressBarBreakTwoTextTopSubs = '' -%}
+{%- assign bProgressBarBreakTwoTextBottomSubs = '' -%}
+{%- assign bProgressBarBreakTwoTextSubs = '' -%}
+{%- assign bDiscountTwoSavingSubs = 0.00 -%}
+{%- assign bCodeDiscountApplyTwoSubs = '' -%}
+{%- assign bProgressBarBreakThreeSubs = false -%}
+{%- assign bProgressBarBreakThreeFillSubs = 0.00 -%}
+{%- assign bProgressBarBreakThreeTextTopSubs = '' -%}
+{%- assign bProgressBarBreakThreeTextBottomSubs = '' -%}
+{%- assign bProgressBarBreakThreeTextSubs = '' -%}
+{%- assign bDiscountThreeSavingSubs = 0.00 -%}
+{%- assign bCodeDiscountApplyThreeSubs = '' -%}
+{%- assign bProgressBarBreakFourSubs = false -%}
+{%- assign bProgressBarBreakFourFillSubs = 0.0 -%}
+{%- assign bProgressBarBreakFourTextTopSubs = '' -%}
+{%- assign bProgressBarBreakFourTextBottomSubs = '' -%}
+{%- assign bProgressBarBreakFourTextSubs = '' -%}
+{%- assign bDiscountFourSavingSubs = 0.00 -%}
+{%- assign bCodeDiscountApplyFourSubs = '' -%}
+{%- assign bProgressBarBreakFiveSubs = false -%}
+{%- assign bProgressBarBreakFiveFillSubs = 0.0 -%}
+{%- assign bProgressBarBreakFiveTextTopSubs = '' -%}
+{%- assign bProgressBarBreakFiveTextBottomSubs = '' -%}
+{%- assign bProgressBarBreakFiveTextSubs = '' -%}
+{%- assign bDiscountFiveSavingSubs = 0.00 -%}
+{%- assign bCodeDiscountApplyFiveSubs = '' -%}
+
+{% if init == true -%}
+  <script type="text/javascript" defer>
+    if (typeof Shopify === "undefined") {
+      Shopify = {};
+    }
+    if (typeof Shopify.gamification === "undefined") {
+      Shopify.gamification = {};
+    }
+    if (typeof Shopify.gamification.b === "undefined") {
+      Shopify.gamification.b = {};
+      Shopify.gamification.b.breakValue = {{ bProgressBarBreakValue }};
+      Shopify.gamification.b.maxProgressBar = {{ bMaxProgressBar | default: 100 }};
+      {% comment %} One Time Purchase {% endcomment %}
+      Shopify.gamification.b.oneTime = {};
+      Shopify.gamification.b.oneTime.zero = {};
+      Shopify.gamification.b.oneTime.zero.text = "{{ bProgressBarBreakZeroTextOneTime }}";
+      Shopify.gamification.b.oneTime.one = {};
+      Shopify.gamification.b.oneTime.one.min = {{ bProgressBarBreakOneOneTime | default: false }};
+      Shopify.gamification.b.oneTime.one.fill = {{ bProgressBarBreakOneFillOneTime | default: 0 }};
+      Shopify.gamification.b.oneTime.one.textTop = "{{- bProgressBarBreakOneTextTopOneTime -}}";
+      Shopify.gamification.b.oneTime.one.textBottom = "{{- bProgressBarBreakOneTextBottomOneTime -}}";
+      Shopify.gamification.b.oneTime.one.text = "{{- bProgressBarBreakOneTextOneTime -}}";
+      Shopify.gamification.b.oneTime.one.discountSaving = {{ bDiscountOneSavingOneTime }};
+      Shopify.gamification.b.oneTime.one.codeDiscountApply = "{{- bCodeDiscountApplyOneOneTime -}}";
+      Shopify.gamification.b.oneTime.two = {};
+      Shopify.gamification.b.oneTime.two.min = {{ bProgressBarBreakTwoOneTime | default: false }};
+      Shopify.gamification.b.oneTime.two.fill = {{ bProgressBarBreakTwoFillOneTime | default: 0 }};
+      Shopify.gamification.b.oneTime.two.textTop = "{{- bProgressBarBreakTwoTextTopOneTime -}}";
+      Shopify.gamification.b.oneTime.two.textBottom = "{{- bProgressBarBreakTwoTextBottomOneTime -}}";
+      Shopify.gamification.b.oneTime.two.text = "{{- bProgressBarBreakTwoTextOneTime -}}";
+      Shopify.gamification.b.oneTime.two.discountSaving = {{ bDiscountTwoSavingOneTime }};
+      Shopify.gamification.b.oneTime.two.codeDiscountApply = "{{- bCodeDiscountApplyTwoOneTime -}}";
+      Shopify.gamification.b.oneTime.three = {};
+      Shopify.gamification.b.oneTime.three.min = {{ bProgressBarBreakThreeOneTime | default: false }};
+      Shopify.gamification.b.oneTime.three.fill = {{ bProgressBarBreakThreeFillOneTime | default: 0 }};
+      Shopify.gamification.b.oneTime.three.textTop = "{{- bProgressBarBreakThreeTextTopOneTime -}}";
+      Shopify.gamification.b.oneTime.three.textBottom = "{{- bProgressBarBreakThreeTextBottomOneTime -}}";
+      Shopify.gamification.b.oneTime.three.text = "{{- bProgressBarBreakThreeTextOneTime -}}";
+      Shopify.gamification.b.oneTime.three.discountSaving = {{ bDiscountThreeSavingOneTime }};
+      Shopify.gamification.b.oneTime.three.codeDiscountApply = "{{- bCodeDiscountApplyThreeOneTime -}}";
+      Shopify.gamification.b.oneTime.four = {};
+      Shopify.gamification.b.oneTime.four.min = {{ bProgressBarBreakFourOneTime | default: false }};
+      Shopify.gamification.b.oneTime.four.fill = {{ bProgressBarBreakFourFillOneTime | default: 0 }};
+      Shopify.gamification.b.oneTime.four.textTop = "{{- bProgressBarBreakFourTextTopOneTime -}}";
+      Shopify.gamification.b.oneTime.four.textBottom = "{{- bProgressBarBreakFourTextBottomOneTime -}}";
+      Shopify.gamification.b.oneTime.four.text = "{{- bProgressBarBreakFourTextOneTime -}}";
+      Shopify.gamification.b.oneTime.four.discountSaving = {{ bDiscountFourSavingOneTime }};
+      Shopify.gamification.b.oneTime.four.codeDiscountApply = "{{- bCodeDiscountApplyFourOneTime -}}";
+      {% comment %} Subscribe {% endcomment %}
+      Shopify.gamification.b.subscribe = {};
+      Shopify.gamification.b.subscribe.zero = {};
+      Shopify.gamification.b.subscribe.zero.text = "{{ bProgressBarBreakZeroTextSubs }}";
+      Shopify.gamification.b.subscribe.one = {};
+      Shopify.gamification.b.subscribe.one.min = {{ bProgressBarBreakOneSubs | default: false }};
+      Shopify.gamification.b.subscribe.one.fill = {{ bProgressBarBreakOneFillSubs | default: 0 }};
+      Shopify.gamification.b.subscribe.one.textTop = "{{- bProgressBarBreakOneTextTopSubs -}}";
+      Shopify.gamification.b.subscribe.one.textBottom = "{{- bProgressBarBreakOneTextBottomSubs -}}";
+      Shopify.gamification.b.subscribe.one.text = "{{- bProgressBarBreakOneTextSubs -}}";
+      Shopify.gamification.b.subscribe.one.discountSaving = {{ bDiscountOneSavingSubs }};
+      Shopify.gamification.b.subscribe.one.codeDiscountApply = "{{- bCodeDiscountApplyOneSubs -}}";
+      Shopify.gamification.b.subscribe.two = {};
+      Shopify.gamification.b.subscribe.two.min = {{ bProgressBarBreakTwoSubs | default: false }};
+      Shopify.gamification.b.subscribe.two.fill = {{ bProgressBarBreakTwoFillSubs | default: 0 }};
+      Shopify.gamification.b.subscribe.two.textTop = "{{- bProgressBarBreakTwoTextTopSubs -}}";
+      Shopify.gamification.b.subscribe.two.textBottom = "{{- bProgressBarBreakTwoTextBottomSubs -}}";
+      Shopify.gamification.b.subscribe.two.text = "{{- bProgressBarBreakTwoTextSubs -}}";
+      Shopify.gamification.b.subscribe.two.discountSaving = {{ bDiscountTwoSavingSubs }};
+      Shopify.gamification.b.subscribe.two.codeDiscountApply = "{{- bCodeDiscountApplyTwoSubs -}}";
+      Shopify.gamification.b.subscribe.three = {};
+      Shopify.gamification.b.subscribe.three.min = {{ bProgressBarBreakThreeSubs | default: false }};
+      Shopify.gamification.b.subscribe.three.fill = {{ bProgressBarBreakThreeFillSubs | default: 0 }};
+      Shopify.gamification.b.subscribe.three.textTop = "{{- bProgressBarBreakThreeTextTopSubs -}}";
+      Shopify.gamification.b.subscribe.three.textBottom = "{{- bProgressBarBreakThreeTextBottomSubs -}}";
+      Shopify.gamification.b.subscribe.three.text = "{{- bProgressBarBreakThreeTextSubs -}}";
+      Shopify.gamification.b.subscribe.three.discountSaving = {{ bDiscountThreeSavingSubs }};
+      Shopify.gamification.b.subscribe.three.codeDiscountApply = "{{- bCodeDiscountApplyThreeSubs -}}";
+      Shopify.gamification.b.subscribe.four = {};
+      Shopify.gamification.b.subscribe.four.min = {{ bProgressBarBreakFourSubs | default: false }};
+      Shopify.gamification.b.subscribe.four.fill = {{ bProgressBarBreakFourFillSubs | default: 0 }};
+      Shopify.gamification.b.subscribe.four.textTop = "{{- bProgressBarBreakFourTextTopSubs -}}";
+      Shopify.gamification.b.subscribe.four.textBottom = "{{- bProgressBarBreakFourTextBottomSubs -}}";
+      Shopify.gamification.b.subscribe.four.text = "{{- bProgressBarBreakFourTextSubs -}}";
+      Shopify.gamification.b.subscribe.four.discountSaving = {{ bDiscountFourSavingSubs }};
+      Shopify.gamification.b.subscribe.four.codeDiscountApply = "{{- bCodeDiscountApplyFourSubs -}}";
+    }
+  </script>
+{%- endif %}
+
+{% if showJsFreeGiftProduct == true -%}
+  {%- comment -%}Free Gift{%- endcomment -%}
+  {%- assign FreeGiftEnabled = settings.free_gift_enabled -%}
+  {%- assign FreeGiftProduct = all_products[settings.free_gift_product] -%}
+  {%- assign FreeGiftNumberProductToAdd = settings.free_gift_number_toadd -%}
+  {%- assign FreeGiftCartValueNeeded = settings.free_gift_value_needed | times: 100 -%}
+  {%- if FreeGiftEnabled and FreeGiftProduct.first_available_variant.id -%}
+    
+    {%- assign FreeGiftPVariant = FreeGiftProduct.variants[0].id %}
+
+    <script type="text/javascript" defer>
+      window.discountRulesCustomProductTile = {{ settings.custom_free_gift_product_title | json }};
+      
+      function bGetCookie(cname) {
+        var name = cname + "=";
+        var decodedCookie = decodeURIComponent(document.cookie);
+        var ca = decodedCookie.split(';');
+        for(var i = 0; i <ca.length; i++) {
+          var c = ca[i];
+          while (c.charAt(0) == ' ') {
+            c = c.substring(1);
+          }
+          if (c.indexOf(name) == 0) {
+            return c.substring(name.length, c.length);
+          }
+        }
+        return "";
+      }
+
+      Shopify.bApplyDiscount = function(code, createBYOK) {
+        var discountCode = bGetCookie('discount_code');
+        if (code != '') {
+          if ((discountCode != code)) {
+            console.log('Apply Discount',code);
+            //document.cookie = "ec-recharge-discount="+code+";path=/";
+            document.cookie = "discount_code="+code+";path=/";
+            var url_discount = "/discount/" + code + "?redirect=/checkout";
+            $.ajax({
+              url: url_discount,
+              type: "GET",
+              async: false,
+              success: function(data, status, xhr) {
+                $.ajax({
+                  type: 'POST',
+                  url: '/cart/update.js',
+                  data: 'attributes[Discount code]=' + code,
+                  dataType: 'json',
+                  async: false,
+                  success: function(cart) {
+                    //setPropertiesDiscount(cart, code);
+                    if (createBYOK == true) {
+                      //window.location.href = '/cart';
+                    }
+                  }
+                });
+              }
+            });
+          } else {
+            $.ajax({
+              type: 'POST',
+              url: '/cart.js ',
+              dataType: 'json',
+              async: false,
+              success: function(cart) {
+                //setPropertiesDiscount(cart, code, true);
+              }
+            });
+          }
+        } else if (discountCode != '') {
+          console.log('Remove Discount',code);
+          //document.cookie = "ec-recharge-discount="+code+"; expires=Thu, 18 Dec 2013 12:00:00 UTC; path=/";
+          document.cookie = "discount_code="+code+"; expires=Thu, 18 Dec 2013 12:00:00 UTC; path=/";
+          var url_discount = "/checkout/?discount=+";
+          $.ajax({
+            url: url_discount,
+            type: "GET",
+            async: false,
+            success: function(data, status, xhr) {
+              //console.log(data);
+              $.ajax({
+                type: 'POST',
+                url: '/cart/update.js',
+                data: 'attributes[Discount code]=False',
+                dataType: 'json',
+                async: false,
+                success: function(cart) {
+                  //setPropertiesDiscount(cart, code);
+                  if (createBYOK == true) {
+                    //window.location.href = '/cart';
+                  }
+                }
+              });
+            }
+          });
+        }
+      };
+
+      function bRulesDiscount(cartValue, cartSubscription) {
+        var progressBarBreakOne = false;
+        var codeDiscountApplyOne = "";
+        var progressBarBreakTwo = false;
+        var codeDiscountApplyTwo = '';
+        var progressBarBreakThree = false;
+        var codeDiscountApplyThree = '';
+        var progressBarBreakFour = false;
+        var codeDiscountApplyFour = '';
+        let isCustomer = {% if customer -%}true{%- else -%}false{%- endif -%};
+        let isCustomerVIP = {% if customer and customer.tags contains "Active Subscriber" -%}true{%- else -%}false{%- endif -%};
+        let isCanada = false;
+        let progressBarDontRun = {{ bProgressBarDontRun | json }};
+        if (progressBarDontRun != '') {
+          if (document.querySelector(progressBarDontRun) != null) {
+            console.log('::isCanada:: ProgressBar off');
+            isCanada = true;
+          }
+        }
+        //console.log('cartValue',cartValue,'cartSubscription',cartSubscription,'isCustomer',isCustomer);
+        if ((isCustomer == false || isCustomerVIP == true) && isCanada == false) {
+          if (cartSubscription == true) {
+            progressBarBreakOne = Shopify.gamification.b.subscribe.one.min;
+            codeDiscountApplyOne = Shopify.gamification.b.subscribe.one.codeDiscountApply;
+            progressBarBreakTwo = Shopify.gamification.b.subscribe.two.min;
+            codeDiscountApplyTwo = Shopify.gamification.b.subscribe.two.codeDiscountApply;
+            progressBarBreakThree = Shopify.gamification.b.subscribe.three.min;
+            codeDiscountApplyThree = Shopify.gamification.b.subscribe.three.codeDiscountApply;
+            progressBarBreakFour = Shopify.gamification.b.subscribe.four.min;
+            codeDiscountApplyFour = Shopify.gamification.b.subscribe.four.codeDiscountApply;
+          } else {
+            progressBarBreakOne = Shopify.gamification.b.oneTime.one.min;
+            codeDiscountApplyOne = Shopify.gamification.b.oneTime.one.codeDiscountApply;
+            progressBarBreakTwo = Shopify.gamification.b.oneTime.two.min;
+            codeDiscountApplyTwo = Shopify.gamification.b.oneTime.two.codeDiscountApply;
+            progressBarBreakThree = Shopify.gamification.b.oneTime.three.min;
+            codeDiscountApplyThree = Shopify.gamification.b.oneTime.three.codeDiscountApply;
+            progressBarBreakFour = Shopify.gamification.b.oneTime.four.min;
+            codeDiscountApplyFour = Shopify.gamification.b.oneTime.four.codeDiscountApply;
+          }
+          Shopify.codeDiscountApply = '';
+          if (cartValue >= progressBarBreakOne) {
+            Shopify.codeDiscountApply = codeDiscountApplyOne;
+            if (cartValue >= progressBarBreakTwo) {
+              Shopify.codeDiscountApply = codeDiscountApplyTwo;
+              if (cartValue >= progressBarBreakThree) {
+                Shopify.codeDiscountApply = codeDiscountApplyThree;
+                if (progressBarBreakFour != false) {
+                  if (cartValue >= progressBarBreakFour) {
+                    Shopify.codeDiscountApply = codeDiscountApplyFour;
+                  }
+                }
+              }
+            }
+          } else {
+            Shopify.codeDiscountApply = '';
+          }
+        } else {
+          Shopify.codeDiscountApply = '';
+        }
+        //console.log('cartValue',cartValue);
+        //console.log('progressBarBreakOne',progressBarBreakOne);
+        //console.log('progressBarBreakTwo',progressBarBreakTwo);
+        //console.log('progressBarBreakThree',progressBarBreakThree);
+        //console.log('progressBarBreakFour',progressBarBreakFour);
+        //console.log('codeDiscountApply',Shopify.codeDiscountApply);
+
+        if (Shopify.codeDiscountApply != null) {
+          Shopify.bApplyDiscount(Shopify.codeDiscountApply, $('body').hasClass('template-cart') ? true : false);
+          if(typeof bFreeGiftProduct != 'function') {
+            $('.gamification--is-loading').hide();
+            //console.log('bRulesDiscount finish');
+          }
+        }
+      }
+    
+	
+      {% if showJs -%}
+        function bFreeGiftProduct(cart, isCart, isForm, isBYOB, doneRulesDiscount) {
+          if(isForm === undefined) {
+            isForm = false;
+          }
+          if(isBYOB === undefined) {
+            isBYOB = false;
+          }
+          if(doneRulesDiscount === undefined) {
+            doneRulesDiscount = false;
+          }
+          let isCustomer = {% if customer -%}true{%- else -%}false{%- endif -%};
+          let isCustomerVIP = {% if customer and customer.tags contains "Active Subscriber" -%}true{%- else -%}false{%- endif -%};
+          let isCanada = false;
+          let progressBarDontRun = {{ bProgressBarDontRun | json }};
+          if (progressBarDontRun != '') {
+            if (document.querySelector(progressBarDontRun) != null) {
+              console.log('::isCanada:: ProgressBar off');
+              isCanada = true;
+            }
+          }
+          var Cart = cart;
+          var foundFreeGiftP = 0;
+          var foundFreeGiftPHTML = 0;
+          var foundFreeGiftPVariant = false;
+          var foundFreeGiftPVariantCount = 0;
+          var foundFreeGiftPVariantHTMLCount = 0;
+          var foundFreeGiftPVariantHTML = false;
+          var totalPrice = 0;
+          var isAllOneTime = true;
+          $.each(cart.items, function(index, cartItem) {
+            if (cartItem.variant_id == {{ FreeGiftPVariant }}) {
+              foundFreeGiftPVariant = true;
+              foundFreeGiftPVariantCount = cartItem.quantity;
+              //console.log(document.querySelector('[data-id="' + cartItem.key + '"]'));
+              if (document.querySelector('[data-id="' + cartItem.id + '"]') != null) {
+                foundFreeGiftPVariantHTML = true;
+                foundFreeGiftPVariantHTMLCount = parseInt(document.querySelector('[data-id="' + cartItem.id + '"]').value);
+              }
+            }
+            if (cartItem['properties'] != null) {
+              //console.log(cartItem['properties']);
+              if (cartItem['properties']['subscription_id'] != null) {
+                isAllOneTime = false;
+                //console.log(cartItem['properties']['subscription_id']);
+              }
+            }
+            if (cartItem['product_type'] != null) {
+              //console.log(cartItem['properties']);
+              if (cartItem['product_type'].toLowerCase().includes('subscription') == true) {
+                isAllOneTime = false;
+                //console.log(cartItem['product_type']);
+              }
+            }
+            if (cartItem['properties'] != null) {
+              //console.log(cartItem['properties']);
+              if (cartItem['properties']['sub_bundle'] != null || cartItem['properties']['included_in_pack'] != null) {
+                return;
+              }
+            }
+          	//console.log(cartItem.title);
+            //if (cartItem['gift_card'] == false) {
+            //  totalPrice += cartItem.final_line_price;
+            //}
+          });
+          {% if page.handle == 'build-your-box' %}
+          isAllOneTime = false;
+          {% endif %}
+          //console.log('cart_total_price',cart['total_price'],'totalPrice',totalPrice);
+          let cartValue = totalPrice;
+          {% if template.name == 'cart' -%}
+          if ((foundFreeGiftPVariantCount != foundFreeGiftPVariantHTMLCount && foundFreeGiftPVariantHTML == true) || (foundFreeGiftP != foundFreeGiftPHTML)) {
+            console.log('foundFreeGiftPVariantCount',foundFreeGiftPVariantCount,'foundFreeGiftPVariantHTMLCount',foundFreeGiftPVariantHTMLCount);
+            console.log('foundFreeGiftP',foundFreeGiftP,'foundFreeGiftPHTML',foundFreeGiftPHTML);
+            console.log('Different amounts between cart in html and cart in ajax, reloading cart page');
+            //window.location.href = "/cart";
+            //return false;
+          }
+          {% endif %}
+          //console.log('foundFreeGiftP=' + foundFreeGiftP,'foundFreeGiftPVariant=' + foundFreeGiftPVariant);
+          //console.log('FreeGiftCartValueNeeded',{{ FreeGiftCartValueNeeded }});
+          if (cartValue >= {{ FreeGiftCartValueNeeded }} && foundFreeGiftPVariant == false && isAllOneTime == true && isCanada == false && (isCustomer == false || isCustomerVIP == true)) {
+            var params = {quantity:{{ FreeGiftNumberProductToAdd }},id:{{ FreeGiftPVariant }}};
+            params.properties = {"Free" : "Gift", "Shipping Option" : "Ecommerce WH"};
+            $.ajax({
+              type: 'POST',
+              url: '/cart/add.js',
+              dataType: 'json',
+              async: false,
+              data: params,
+              success: function(){
+                console.log('Added Free Gift to Cart');
+                $.ajax({
+                  type: 'POST',
+                  url: '/cart/update.js',
+                  data: 'attributes[Free Gift]=Yes',
+                  dataType: 'json',
+                  async: false,
+                  success: function(cart) {
+                    if (isCart == false) {
+                      //Shopify.onItemAdded();
+                      //theme.mfpOpen("cart-draw");
+                      //ajaxCart.load();
+                    } else {
+                      ajaxCart.load();
+                      /* update, do not redirect to cart */
+                      //window.location.href = "/cart";
+                    }
+                  }
+                });
+              }
+            });
+          } else if ((cartValue < {{ FreeGiftCartValueNeeded }} || isAllOneTime == false || isCanada == true || (isCustomer == true && isCustomerVIP == false)) && foundFreeGiftPVariant == true) {
+            var params = {quantity:0,id:{{ FreeGiftPVariant }}};
+            $.ajax({
+              type: 'POST',
+              url: '/cart/change.js',
+              dataType: 'json',
+              async: false,
+              data: params,
+              success: function(){
+                console.log('Removed Free Gift to Cart');
+                $.ajax({
+                  type: 'POST',
+                  url: '/cart/update.js',
+                  data: 'attributes[Free Gift]=No',
+                  dataType: 'json',
+                  async: false,
+                  success: function(cart) {
+                    if (isCart == false) {
+                      //Shopify.onItemAdded();
+                      //theme.mfpOpen("cart-draw");
+                      //ajaxCart.load();
+                    } else {
+                      window.location.href = "/cart";
+                    }
+                  }
+                });
+              }
+            });
+          }
+          if (foundFreeGiftPVariantCount > {{ FreeGiftNumberProductToAdd }}) {
+            var params = {quantity:{{ FreeGiftNumberProductToAdd }},id:{{ FreeGiftPVariant }}};
+            $.ajax({
+              type: 'POST',
+              url: '/cart/change.js',
+              dataType: 'json',
+              async: false,
+              data: params,
+              success: function(){
+                console.log('Correcting Quantity Free Gift to Cart');
+                if (isCart == false) {
+                  //Shopify.onItemAdded();
+                  //theme.mfpOpen("cart-draw");
+                  //ajaxCart.load();
+                } else {
+                  window.location.href = "/cart";
+                }
+              }
+            });
+          }
+
+          if (doneRulesDiscount == false) {
+            bRulesDiscount(cartValue, !isAllOneTime);
+          }
+
+          $.ajax({
+            type: 'GET',
+            url: '/cart.json',
+            async: false,
+            dataType: 'json',
+            success: function (data) {
+              Cart = data;
+            }
+          });
+          $('.gamification--is-loading').hide();//console.log('bFreeGiftProduct finish');
+          return {
+            cart: Cart,
+            foundMoreFreeGift: foundFreeGiftPVariantCount > {{ FreeGiftNumberProductToAdd }} ? true : false
+          }
+        }
+      {%- endif %}
+      
+        
+      {% if showJsReady -%}
+        function bDiscountRulesjQueryReady() {console.log('Execute bDiscountRulesjQueryReady');
+          document.addEventListener("DOMContentLoaded", function() {
+            {% if template.name == 'cart' -%}
+              {% assign has_subscriptions = false %}
+              {%- for i in cart.items -%}
+                {%- for p in i.properties -%}
+                  {%- if p.first == 'shipping_interval_frequency' -%}
+                    {%- assign has_subscriptions = true -%}
+                  {%- endif -%}
+                {%- endfor -%}
+                {%- assign i_type = i.type | downcase -%}
+                {%- if i_type contains 'subscription' -%}
+                  {%- assign has_subscriptions = true -%}
+                {%- endif -%}
+              {%- endfor %}
+              $('form[action^="/cart"]{% if has_subscriptions %} [type="submit"]{% endif %}').{% if has_subscriptions %}click{% else %}submit{% endif %}(function(e){
+                console.log('submit');
+                var result = true;
+                $.ajax({
+                  type: 'GET',
+                  url: '/cart.json',
+                  async: false,
+                  dataType: 'json',
+                  success: function (cart) {
+                    if(typeof bFreeGiftProduct == 'function') {
+                      result = bFreeGiftProduct(cart, $('body').hasClass('template-cart') ? true : false, true);
+                      console.log(result);
+                      if (result.foundMoreFreeGift == true && $('body').hasClass('template-cart') == true) {
+                        $('form[action^="/cart"] [type="submit"]').addClass('disabled').attr("disabled", "disabled");
+                        $('form[action^="/cart"]').addClass('disabled').attr("disabled", "disabled");
+                        e.preventDefault();
+                        return false;
+                        //remove listener
+                        //d.onclick = null;
+                        //console.log(d);
+                      }
+                    }
+                  }
+                });
+              });
+            {%- else -%}
+              $.ajax({
+                type: 'GET',
+                url: '/cart.json',
+                async: false,
+                dataType: 'json',
+                success: function (cart) {
+                  if(typeof bFreeGiftProduct == 'function') {
+                    bFreeGiftProduct(cart, false);
+                  }
+                }
+              });
+            {% endif -%}
+          });
+        }
+      {%- endif %}
+      
+	</script>
+
+    {% if showLiquidCart -%}
+      {%- if template.name == 'cart' -%}
+        {%- assign foundFreeGiftPVariant = false -%}
+        {%- assign foundFreeGiftPVariantLine = false -%}
+        {%- assign foundFreeGiftPVariantCount = 0 -%}
+        {%- assign total_price = 0 -%}
+		    {%- assign isAllOneTime = true -%}
+        {%- assign isCustomer = false -%}
+        {%- assign isCustomerVIP = false -%}
+        {%- if customer -%}{%- assign isCustomer = true -%}{% if customer.tags contains "Active Subscriber" -%}{%- assign isCustomerVIP = true -%}{%- endif -%}{%- endif -%}
+        {%- for item in cart.items -%}
+          {%- if item.variant_id == FreeGiftPVariant -%}
+            {%- assign foundFreeGiftPVariant = true -%}
+            {%- assign foundFreeGiftPVariantLine = forloop.index -%}
+            {%- assign foundFreeGiftPVariantCount = item.quantity -%}
+          {%- endif -%}
+
+		      {%- assign toContinue = false -%}
+          {%- for p in item.properties -%}
+            {%- if p.first == 'shipping_interval_frequency' -%}
+              {%- assign isAllOneTime = false -%}
+            {%- endif -%}
+            {%- if p.first == 'sub_bundle' or p.first == 'included_in_pack' or p.first == 'FREEPANTY' -%}
+		  	      {%- assign toContinue = true -%}
+            {%- endif -%}
+          {%- endfor -%}
+          {%- assign item_type = item.type | downcase -%}
+          {%- if item_type contains 'subscription' -%}
+            {%- assign isAllOneTime = false -%}
+          {%- endif -%}
+
+          {%- if toContinue == true -%}
+            {%- continue -%}
+          {%- endif -%}
+
+            {%- assign line_price = item.line_price -%}
+            {%- assign total_price = total_price | plus : line_price -%}
+          
+        {%- endfor -%}
+
+        {%- assign cart_value = total_price -%}
+
+		    {% if cart_value < FreeGiftCartValueNeeded or isAllOneTime == false or isCustomer == true and isCustomerVIP == false -%}
+          {% if foundFreeGiftPVariant == true -%}
+            <script type="text/javascript" defer>
+              console.log('Removed Gift to Bag');
+              $.ajax({
+                type: 'POST',
+                url: '/cart/update.js',
+                data: 'attributes[Free Gift]=No',
+                dataType: 'json',
+                async: false,
+                success: function(cart) {
+                  window.location.href = "/cart/change?line={{ foundFreeGiftPVariantLine }}&quantity=0";
+                }
+              });
+            </script>
+          {%- endif -%}
+        {%- endif -%}
+        {% if foundFreeGiftPVariant == true -%}
+          <script type="text/javascript" defer>
+            let progressBarRun = true;
+            let progressBarDontRun = {{ bProgressBarDontRun | json }};
+            if (progressBarDontRun != '') {
+              if (document.querySelector(progressBarDontRun) != null) {
+                console.log('::isCanada:: ProgressBar off');
+                progressBarRun = false;
+              }
+            }
+            if (progressBarRun == false) {
+              console.log('Removed Gift to Bag');
+              $.ajax({
+                type: 'POST',
+                url: '/cart/update.js',
+                data: 'attributes[Free Gift]=No',
+                dataType: 'json',
+                async: false,
+                success: function(cart) {
+                  window.location.href = "/cart/change?line={{ foundFreeGiftPVariantLine }}&quantity=0";
+                }
+              });
+            }
+          </script>
+        {%- endif -%}
+        {%- if cart_value >= FreeGiftCartValueNeeded and isAllOneTime == true and foundFreeGiftPVariant == false and isCustomerVIP == true or isCustomer == false -%}
+          <script type="text/javascript" defer>
+            let progressBarRun = true;
+            let progressBarDontRun = {{ bProgressBarDontRun | json }};
+            if (progressBarDontRun != '') {
+              if (document.querySelector(progressBarDontRun) != null) {
+                console.log('::isCanada:: ProgressBar off');
+                progressBarRun = false;
+              }
+            }
+            if (progressBarRun == true) {
+              var params = {quantity:{{ FreeGiftNumberProductToAdd }},id:{{ FreeGiftPVariant }}};
+              params.properties = {"Free" : "Gift", "Shipping Option" : "Ecommerce WH"};
+              $.ajax({
+                type: 'POST',
+                url: '/cart/add.js',
+                dataType: 'json',
+                async: false,
+                data: params,
+                success: function(){
+                  console.log('Added Free Gift to Cart');
+                  $.ajax({
+                    type: 'POST',
+                    url: '/cart/update.js',
+                    data: 'attributes[Free Gift]=Yes',
+                    dataType: 'json',
+                    async: false,
+                    success: function(cart) {
+                      window.location.href = "/cart";
+                    }
+                  });
+                }
+              });
+            }
+          </script>
+        {%- endif -%}
+        {%- if foundFreeGiftPVariantCount > FreeGiftNumberProductToAdd -%}
+          <script type="text/javascript" defer>
+            console.log('Correcting Quantity Free Gift to Cart');
+            window.location.href = "/cart/change?line={{ foundFreeGiftPVariantLine }}&quantity={{ FreeGiftNumberProductToAdd }}";
+          </script>
+        {%- endif -%}
+      {%- endif -%}
+    {%- endif %}
+
+    {% if showJsRemoveFreeGiftProduct == true -%}
+      {%- assign foundFreeGiftPVariant = false -%}
+      {%- assign isCustomer = false -%}
+      {%- assign isCustomerVIP = false -%}
+      {%- if customer -%}{%- assign isCustomer = true -%}{% if customer.tags contains "Active Subscriber" -%}{%- assign isCustomerVIP = true -%}{%- endif -%}{%- endif -%}
+      {%- for item in cart.items -%}
+        {%- if item.variant_id == FreeGiftPVariant -%}
+          {%- assign foundFreeGiftPVariant = true -%}
+        {%- endif -%}
+      {%- endfor -%}
+      {%- if foundFreeGiftPVariant == true -%}
+        <script type="text/javascript" defer>
+          var params = {quantity:0,id:{{ FreeGiftPVariant }}};
+          $.ajax({
+            type: 'POST',
+            url: '/cart/change.js',
+            dataType: 'json',
+            async: false,
+            data: params,
+            success: function(){
+              console.log('Removed Free Gift to Cart');
+              $.ajax({
+                type: 'POST',
+                url: '/cart/update.js',
+                data: 'attributes[Free Gift]=No',
+                dataType: 'json',
+                async: false,
+                success: function(cart) {
+                  //window.location.href = "/cart";
+                  location.reload();
+                }
+              });
+            }
+          });
+        </script>
+      {%- endif -%}
+    {%- endif %}
+  {%- else -%}
+
+  {%- endif -%}
+{%- endif %}
+
+{% if showJsReady == true -%}
+<script type="text/javascript" defer>
+  function bDiscountRulesjQueryReady2() {
+    console.log('Execute bDiscountRulesjQueryReady2');
+    document.addEventListener("DOMContentLoaded", function() {
+      $('form[action^="/cart/add"] [type="submit"]').click(function(e, jsonBYOB){
+        console.log(jsonBYOB);
+        console.log('submit');
+        var result = true;
+        var thisClick = this;
+        e.preventDefault();
+        $.ajax({
+          type: 'GET',
+          url: '/cart.json',
+          async: false,
+          dataType: 'json',
+          success: function (cart) {
+              $('.gamification--is-loading').show();
+              $(thisClick).closest('form').submit();
+          }
+        });
+      });
+    });
+  }
+</script>
+{%- endif %}
+
+{% if showProgressBar == true %}
+<div class="gamification wrapper{% if showProgressBarSideCart %} gamification_side{% endif %}"{% unless showProgressBarSideCart %} id="gamification-sticky"{% endunless %}>
+  <div class="gamification--is-loading"></div>
+
+  {%- assign bCartTotalPriceCollection = 0 -%}
+  {%- assign bCartTotalPriceCollectionShow = 0 -%}
+  {%- assign bCartTotalPriceCollectionQ = 0 -%}
+  {%- assign bCartTotalPriceCollectionOneQ = 0 -%}
+  {%- assign bCartTotalPriceCollectionSubsQ = 0 -%}
+  {%- assign bLineTotalPrice = 0 -%}
+  {%- assign bCartItemsOther = false -%}
+  {%- assign bCartItemsCounter = cart.item_count -%}
+
+  {%- assign bSubs = false -%}
+  {%- assign bOption_subscribe_default = false -%}
+  {%- assign bSubs_frequency = "4" -%}
+  {%- assign bPouches = 0 -%}
+
+  {%- unless cart.attributes.BYOK -%}
+  	{%- assign bCartItemsOther = true -%}
+  {%- endunless -%}
+  {%- for line_item in cart.items -%}
+  
+    {% if line_item.product.available %}
+
+      {%- assign bLineProductVariantId = line_item.product.selected_or_first_available_variant.id | strip %}
+      
+      {%- assign bSubsProduct = false -%}
+  	  {%- assign toContinue = false -%}
+      {%- for property in line_item.properties -%}
+        {%- if property.first == "shipping_interval_frequency" -%}
+          {%- assign bSubsProduct = true -%}
+  		    {%- assign bSubs_frequency = property.last -%}
+        {%- endif -%}
+        {%- if property.first == 'sub_bundle' or property.first == 'included_in_pack' or p.first == 'FREEPANTY' -%}
+  		    {%- assign toContinue = true -%}
+        {%- endif -%}
+      {%- endfor -%}
+  
+      {%- if toContinue == true -%}
+        {%- continue -%}
+      {%- endif -%}
+  
+          {%- if bSubsProduct == false -%}
+              {%- assign bCartTotalPriceCollectionQ = bCartTotalPriceCollectionQ | plus: line_item.quantity -%}
+              {%- assign bCartTotalPriceCollection = bCartTotalPriceCollection | plus: line_item.final_line_price -%}
+              {%- assign bCartTotalPriceCollectionShow = bCartTotalPriceCollectionShow | plus: line_item.final_line_price -%}
+              {%- assign bCartTotalPriceCollectionOneQ = bCartTotalPriceCollectionOneQ | plus: line_item.quantity -%}
+          {%- else -%}
+              {%- for collection_product in collections.all.products -%}
+                {%- assign bCollectionProductVariantId = collection_product.first_available_variant.metafields.subscriptions.discount_variant_id | strip -%}
+                {%- if bLineProductVariantId == bCollectionProductVariantId -%}
+                  {%- assign bCartTotalPriceCollectionQ = bCartTotalPriceCollectionQ | plus: line_item.quantity -%}
+    
+                  {%- comment -%}{%- assign bLineTotalPrice = line_item.final_line_price -%}{%- endcomment -%}
+                  {%- assign bLineTotalPrice = collection_product.price | times: line_item.quantity -%}
+                  {%- assign bCartTotalPriceCollection = bCartTotalPriceCollection | plus: bLineTotalPrice -%}
+                  {%- assign bCartTotalPriceCollectionShow = bCartTotalPriceCollectionShow | plus: line_item.final_line_price -%}
+    
+                  {%- assign bCartTotalPriceCollectionSubsQ = bCartTotalPriceCollectionSubsQ | plus: line_item.quantity -%}
+                  {%- assign bSubs = true -%}
+                {%- endif -%}
+              {%- endfor -%}
+          {%- endif -%}
+    {%- endif -%}
+  {%- endfor -%}
+  
+  {%- if bSubs == false and cart.attributes['Product Type'] == "Subscription" -%}
+  	{%- assign bSubs = bOption_subscribe_default -%}
+  {%- endif -%}
+
+  {%- if bSubs == false -%}
+    {%- assign bProgressBarBreakZeroText = bProgressBarBreakOneTextOneTime -%}
+    {%- assign bProgressBarBreakOne = bProgressBarBreakOneOneTime -%}
+    {%- assign bProgressBarBreakOneFill = bProgressBarBreakOneFillOneTime -%}
+    {%- assign bProgressBarBreakOneTextTop = bProgressBarBreakOneTextTopOneTime -%}
+    {%- assign bProgressBarBreakOneTextBottom = bProgressBarBreakOneTextBottomOneTime -%}
+    {%- assign bProgressBarBreakOneText = bProgressBarBreakOneTextOneTime -%}
+    {%- assign bDiscountOneSaving = bDiscountOneSavingOneTime -%}
+    {%- assign bProgressBarBreakTwo = bProgressBarBreakTwoOneTime -%}
+    {%- assign bProgressBarBreakTwoFill = bProgressBarBreakTwoFillOneTime -%}
+    {%- assign bProgressBarBreakTwoTextTop = bProgressBarBreakTwoTextTopOneTime -%}
+    {%- assign bProgressBarBreakTwoTextBottom = bProgressBarBreakTwoTextBottomOneTime -%}
+    {%- assign bProgressBarBreakTwoText = bProgressBarBreakTwoTextOneTime -%}
+    {%- assign bDiscountTwoSaving = bDiscountTwoSavingOneTime -%}
+    {%- assign bProgressBarBreakThree = bProgressBarBreakThreeOneTime -%}
+    {%- assign bProgressBarBreakThreeFill = bProgressBarBreakThreeFillOneTime -%}
+    {%- assign bProgressBarBreakThreeTextTop = bProgressBarBreakThreeTextTopOneTime -%}
+    {%- assign bProgressBarBreakThreeTextBottom = bProgressBarBreakThreeTextBottomOneTime -%}
+    {%- assign bProgressBarBreakThreeText = bProgressBarBreakThreeTextOneTime -%}
+    {%- assign bDiscountThreeSaving = bDiscountThreeSavingOneTime -%}
+    {%- assign bProgressBarBreakFour = bProgressBarBreakFourOneTime -%}
+    {%- assign bProgressBarBreakFourFill = bProgressBarBreakFourFillOneTime -%}
+    {%- assign bProgressBarBreakFourTextTop = bProgressBarBreakFourTextTopOneTime -%}
+    {%- assign bProgressBarBreakFourTextBottom = bProgressBarBreakFourTextBottomOneTime -%}
+    {%- assign bProgressBarBreakFourText = bProgressBarBreakFourTextOneTime -%}
+    {%- assign bDiscountFourSaving = bDiscountFourSavingOneTime -%}
+    {%- assign bProgressBarBreakFive = bProgressBarBreakFiveOneTime -%}
+    {%- assign bProgressBarBreakFiveFill = bProgressBarBreakFiveFillOneTime -%}
+    {%- assign bProgressBarBreakFiveTextTop = bProgressBarBreakFiveTextTopOneTime -%}
+    {%- assign bProgressBarBreakFiveTextBottom = bProgressBarBreakFiveTextBottomOneTime -%}
+    {%- assign bProgressBarBreakFiveText = bProgressBarBreakFiveTextOneTime -%}
+    {%- assign bDiscountFiveSaving = bDiscountFiveSavingOneTime -%}
+  {%- else -%}
+    {%- assign bProgressBarBreakZeroText = bProgressBarBreakZeroTextSubs -%}
+    {%- assign bProgressBarBreakOne = bProgressBarBreakOneSubs -%}
+    {%- assign bProgressBarBreakOneFill = bProgressBarBreakOneFillSubs -%}
+    {%- assign bProgressBarBreakOneTextTop = bProgressBarBreakOneTextTopSubs -%}
+    {%- assign bProgressBarBreakOneTextBottom = bProgressBarBreakOneTextBottomSubs -%}
+    {%- assign bProgressBarBreakOneText = bProgressBarBreakOneTextSubs -%}
+    {%- assign bDiscountOneSaving = bDiscountOneSavingSubs -%}
+    {%- assign bProgressBarBreakTwo = bProgressBarBreakTwoSubs -%}
+    {%- assign bProgressBarBreakTwoFill = bProgressBarBreakTwoFillSubs -%}
+    {%- assign bProgressBarBreakTwoTextTop = bProgressBarBreakTwoTextTopSubs -%}
+    {%- assign bProgressBarBreakTwoTextBottom = bProgressBarBreakTwoTextBottomSubs -%}
+    {%- assign bProgressBarBreakTwoText = bProgressBarBreakTwoTextSubs -%}
+    {%- assign bDiscountTwoSaving = bDiscountTwoSavingSubs -%}
+    {%- assign bProgressBarBreakThree = bProgressBarBreakThreeSubs -%}
+    {%- assign bProgressBarBreakThreeFill = bProgressBarBreakThreeFillSubs -%}
+    {%- assign bProgressBarBreakThreeTextTop = bProgressBarBreakThreeTextTopSubs -%}
+    {%- assign bProgressBarBreakThreeTextBottom = bProgressBarBreakThreeTextBottomSubs -%}
+    {%- assign bProgressBarBreakThreeText = bProgressBarBreakThreeTextSubs -%}
+    {%- assign bDiscountThreeSaving = bDiscountThreeSavingSubs -%}
+    {%- assign bProgressBarBreakFour = bProgressBarBreakFourSubs -%}
+    {%- assign bProgressBarBreakFourFill = bProgressBarBreakFourFillSubs -%}
+    {%- assign bProgressBarBreakFourTextTop = bProgressBarBreakFourTextTopSubs -%}
+    {%- assign bProgressBarBreakFourTextBottom = bProgressBarBreakFourTextBottomSubs -%}
+    {%- assign bProgressBarBreakFourText = bProgressBarBreakFourTextSubs -%}
+    {%- assign bDiscountFourSaving = bDiscountFourSavingSubs -%}
+    {%- assign bProgressBarBreakFive = bProgressBarBreakFiveSubs -%}
+    {%- assign bProgressBarBreakFiveFill = bProgressBarBreakFiveFillSubs -%}
+    {%- assign bProgressBarBreakFiveTextTop = bProgressBarBreakFiveTextTopSubs -%}
+    {%- assign bProgressBarBreakFiveTextBottom = bProgressBarBreakFiveTextBottomSubs -%}
+    {%- assign bProgressBarBreakFiveText = bProgressBarBreakFiveTextSubs -%}
+    {%- assign bDiscountFiveSaving = bDiscountFiveSavingSubs -%}
+  {%- endif -%}
+
+  {%- assign bProgressBarText = bProgressBarBreakZeroText -%}
+  {%- assign bFillTotalPrice = 0 -%}
+  {%- assign bValueTotalPrice = 0 -%}
+  
+  {%- if bProgressBarBreakValue == true -%}
+  	{%- assign bCartValue = bCartTotalPriceCollection -%}
+  {%- else -%}
+  	{%- assign bCartValue = bPouches -%}
+  {%- endif -%}
+  
+  {%- assign bTotalPriceSaving = bCartTotalPriceCollection -%}
+  {%- assign bProgressBarBreakWin = 0 -%}
+  {%- if bCartValue < bProgressBarBreakOne -%}
+    {%- assign bFillTotalPrice = bCartValue | times: bProgressBarBreakOneFill | divided_by: bProgressBarBreakOne -%}
+  	{%- assign bProgressBarText = bProgressBarBreakZeroText -%}
+    {%- assign bProgressBarBreakWin = 0 -%}
+  {%- endif -%}
+
+  {%- if bProgressBarBreakTwo == false -%}
+    {%- if bCartValue >= bProgressBarBreakOne -%}
+      {%- assign bFillTotalPrice = bProgressBarBreakOneFill -%}
+      {%- assign bTotalPriceSaving = bCartValue | times: bDiscountOneSaving | divided_by: 100 -%}
+      {%- assign bTotalPriceSaving = bCartTotalPriceCollectionShow | minus: bTotalPriceSaving -%}
+      {%- assign bProgressBarText = bProgressBarBreakOneText -%}
+      {%- assign bProgressBarBreakWin = 1 -%}
+    {%- endif -%}
+  {%- else -%}
+    {%- if bCartValue >= bProgressBarBreakOne and bCartValue < bProgressBarBreakTwo %}
+      {%- assign bValueTotalPrice = bCartValue | minus: bProgressBarBreakOne -%}
+      {%- assign bValueTotalPrice2 = bProgressBarBreakTwo | minus: bProgressBarBreakOne -%}
+      {%- assign bValueTotalPrice3 = bProgressBarBreakTwoFill | minus: bProgressBarBreakOneFill -%}
+      {%- assign bValueTotalPrice = bValueTotalPrice | times: bValueTotalPrice3 | divided_by: bValueTotalPrice2 -%}
+      {%- assign bFillTotalPrice = bValueTotalPrice | plus: bProgressBarBreakOneFill -%}
+      {%- assign bTotalPriceSaving = bCartTotalPriceCollectionShow | times: bDiscountOneSaving | divided_by: 100 -%}
+      {%- assign bTotalPriceSaving = bCartTotalPriceCollectionShow | minus: bTotalPriceSaving -%}
+      {%- assign bProgressBarText = bProgressBarBreakOneText -%}
+      {%- assign bProgressBarBreakWin = 1 -%}
+    {%- endif -%}
+    {%- if bProgressBarBreakThree == false -%}
+      {%- if bCartValue >= bProgressBarBreakTwo -%}
+        {%- assign bFillTotalPrice = bProgressBarBreakTwoFill -%}
+        {%- assign bTotalPriceSaving = bCartValue | times: bDiscountTwoSaving | divided_by: 100 -%}
+        {%- assign bTotalPriceSaving = bCartTotalPriceCollectionShow | minus: bTotalPriceSaving -%}
+        {%- assign bProgressBarText = bProgressBarBreakTwoText -%}
+        {%- assign bProgressBarBreakWin = 2 -%}
+      {%- endif -%}
+    {%- else -%}
+      {%- if bCartValue >= bProgressBarBreakTwo and bCartValue < bProgressBarBreakThree -%}
+        {%- assign bValueTotalPrice = bCartValue | minus: bProgressBarBreakTwo -%}
+        {%- assign bValueTotalPrice2 = bProgressBarBreakThree | minus: bProgressBarBreakTwo -%}
+        {%- assign bValueTotalPrice3 = bProgressBarBreakThreeFill | minus: bProgressBarBreakTwoFill -%}
+        {%- assign bValueTotalPrice = bValueTotalPrice | times: bValueTotalPrice3 | divided_by: bValueTotalPrice2 -%}
+        {%- assign bFillTotalPrice = bValueTotalPrice | plus: bProgressBarBreakTwoFill -%}
+        {%- assign bTotalPriceSaving = bCartTotalPriceCollectionShow | times: bDiscountTwoSaving | divided_by: 100 -%}
+        {%- assign bTotalPriceSaving = bCartTotalPriceCollectionShow | minus: bTotalPriceSaving -%}
+        {%- assign bProgressBarText = bProgressBarBreakTwoText -%}
+        {%- assign bProgressBarBreakWin = 2 -%}
+      {%- endif -%}
+      {%- if bProgressBarBreakFour == false -%}
+        {%- if bCartValue >= bProgressBarBreakThree -%}
+          {%- assign bFillTotalPrice = bProgressBarBreakThreeFill -%}
+          {%- assign bTotalPriceSaving = bCartValue | times: bDiscountThreeSaving | divided_by: 100 -%}
+          {%- assign bTotalPriceSaving = bCartTotalPriceCollectionShow | minus: bTotalPriceSaving -%}
+          {%- assign bProgressBarText = bProgressBarBreakThreeText -%}
+            {%- assign bProgressBarBreakWin = 3 -%}
+        {%- endif -%}
+      {%- else -%}
+        {%- if bCartValue >= bProgressBarBreakThree and bCartValue < bProgressBarBreakFour -%}
+          {%- assign bValueTotalPrice = bCartValue | minus: bProgressBarBreakThree -%}
+          {%- assign bValueTotalPrice2 = bProgressBarBreakFour | minus: bProgressBarBreakThree -%}
+          {%- assign bValueTotalPrice3 = bProgressBarBreakFourFill | minus: bProgressBarBreakThreeFill -%}
+          {%- assign bValueTotalPrice = bValueTotalPrice | times: bValueTotalPrice3 | divided_by: bValueTotalPrice2 -%}
+          {%- assign bFillTotalPrice = bValueTotalPrice | plus: bProgressBarBreakThreeFill -%}
+          {%- assign bTotalPriceSaving = bCartTotalPriceCollectionShow | times: bDiscountThreeSaving | divided_by: 100 -%}
+          {%- assign bTotalPriceSaving = bCartTotalPriceCollectionShow | minus: bTotalPriceSaving -%}
+          {%- assign bProgressBarText = bProgressBarBreakThreeText -%}
+          {%- assign bProgressBarBreakWin = 3 -%}
+        {%- elsif bCartValue >= bProgressBarBreakFour -%}
+          {%- if bProgressBarBreakFive == false -%}
+            {%- if bCartValue >= bProgressBarBreakFour -%}
+              {%- comment -%}{%- assign bFillTotalPrice = bProgressBarBreakFourFill -%}{%- endcomment -%}
+
+              {%- if bCartValue == bProgressBarBreakFour -%}
+                {%- assign bFillTotalPrice = bProgressBarBreakFourFill -%}
+              {%- else -%}
+                {%- assign bValueTotalPrice = bCartValue | minus: bProgressBarBreakFour -%}
+                {%- assign bValueTotalPrice2 = bCartValue | minus: bProgressBarBreakFour -%}
+                {%- assign bValueTotalPrice3 = 100 | minus: bProgressBarBreakFourFill -%}
+                {%- assign bValueTotalPrice = bValueTotalPrice | times: bValueTotalPrice3 | divided_by: bValueTotalPrice2 -%}
+                {%- assign bFillTotalPrice = bValueTotalPrice | plus: bProgressBarBreakFourFill -%}
+              {%- endif -%}
+
+              {%- assign bTotalPriceSaving = bCartTotalPriceCollectionShow | times: bDiscountFourSaving | divided_by: 100 -%}
+              {%- assign bTotalPriceSaving = bCartTotalPriceCollectionShow | minus: bTotalPriceSaving -%}
+              {%- assign bProgressBarText = bProgressBarBreakFourText -%}
+              {%- assign bProgressBarBreakWin = 4 -%}
+            {%- endif -%}
+          {%- else -%}
+            {%- if bCartValue >= bProgressBarBreakFour and bCartValue < bProgressBarBreakFive -%}
+              {%- assign bValueTotalPrice = bCartValue | minus: bProgressBarBreakFour -%}
+              {%- assign bValueTotalPrice2 = bProgressBarBreakFive | minus: bProgressBarBreakFour -%}
+              {%- assign bValueTotalPrice3 = bProgressBarBreakFiveFill | minus: bProgressBarBreakFourFill -%}
+              {%- assign bValueTotalPrice = bValueTotalPrice | times: bValueTotalPrice3 | divided_by: bValueTotalPrice2 -%}
+              {%- assign bFillTotalPrice = bValueTotalPrice | plus: bProgressBarBreakFourFill -%}
+              {%- assign bTotalPriceSaving = bCartTotalPriceCollectionShow | times: bDiscountFourSaving | divided_by: 100 -%}
+              {%- assign bTotalPriceSaving = bCartTotalPriceCollectionShow | minus: bTotalPriceSaving -%}
+              {%- assign bProgressBarText = bProgressBarBreakFourText -%}
+              {%- assign bProgressBarBreakWin = 4 -%}
+            {%- elsif bCartValue >= bProgressBarBreakFive -%}
+              {%- comment -%}{%- assign bFillTotalPrice = bProgressBarBreakFiveFill -%}{%- endcomment -%}
+
+              {%- assign bValueTotalPrice = bCartValue | minus: bProgressBarBreakFive -%}
+              {%- assign bValueTotalPrice2 = bCartValue | minus: bProgressBarBreakFive -%}
+              {%- assign bValueTotalPrice3 = 100 | minus: bProgressBarBreakFiveFill -%}
+              {%- assign bValueTotalPrice = bValueTotalPrice | times: bValueTotalPrice3 | divided_by: bValueTotalPrice2 -%}
+              {%- assign bFillTotalPrice = bValueTotalPrice | plus: bProgressBarBreakFiveFill -%}
+
+              {%- assign bTotalPriceSaving = bCartTotalPriceCollectionShow | times: bDiscountFiveSaving | divided_by: 100 -%}
+              {%- assign bTotalPriceSaving = bCartTotalPriceCollectionShow | minus: bTotalPriceSaving -%}
+              {%- assign bProgressBarText = bProgressBarBreakFiveText -%}
+              {%- assign bProgressBarBreakWin = 5 -%}
+            {%- endif -%}
+          {%- endif -%}
+        {%- endif -%}
+      {%- endif -%}
+    {%- endif -%}
+  {%- endif -%}
+
+  <div class="gamification_container">
+    <div class="progress_wrapper">
+      <div class="byob-helper_info bfx-price-container bfx-remove-element hidden">
+        {%- if bCartValue >= bProgressBarBreakOne -%}
+          {% if bCartValue >= bProgressBarBreakTwo %}
+            {% if bCartValue >= bProgressBarBreakThree %}
+              {% if bCartValue >= bProgressBarBreakFour %}
+              {%- else -%}
+                {%- assign bMissingCartValue = bProgressBarBreakFour | minus: bCartValue | money -%}
+                {{- bProgressBarBreakFourText | replace: '##', bMissingCartValue -}}
+              {%- endif -%}
+            {%- else -%}
+              {%- assign bMissingCartValue = bProgressBarBreakThree | minus: bCartValue | money -%}
+              {{- bProgressBarBreakTwoText | replace: '##', bMissingCartValue -}}
+            {%- endif -%}
+          {%- else -%}
+            {%- assign bMissingCartValue = bProgressBarBreakTwo | minus: bCartValue | money -%}
+            {{- bProgressBarBreakOneText | replace: '##', bMissingCartValue -}}
+          {%- endif -%}
+        {%- else -%}
+          {%- assign bMissingCartValue = bProgressBarBreakOne | minus: bCartValue | money -%}
+          {{- bProgressBarBreakZeroText | replace: '##', bMissingCartValue -}}
+        {%- endif -%}
+      </div>
+      <div class="progress_container">      
+        <div class="progress-unlockeds">
+          <div class="progress">
+            <div class="progress-bar progress-bar-gamification" role="progressbar" aria-valuenow="{{ bFillTotalPrice }}" aria-valuenow-price_saving="{{ bCartTotalPriceCollectionShow }}" aria-valuenow-price_saving="{{ bCartTotalPriceCollection }}" aria-valuenow-pouches="{{ bPouches }}" aria-valuemin="0" aria-valuemax="100" style="width: {{ bFillTotalPrice }}%;">
+              <span class="hide sr-only">{{ bFillTotalPrice }}% Complete</span>
+            </div>
+          </div>
+
+          {%- assign bHasPreActive = false -%}
+          <div class="unlockeds{% if bSubs == true %} unlockeds-subs{% endif %}">
+            <div class="unlocked-one{% if bCartValue >= bProgressBarBreakOne %} active{% elsif bHasPreActive == false %} pre-active{%- assign bHasPreActive = true -%}{% endif %}">
+              <span class="unlocked-text top">
+                {{- bProgressBarBreakOneTextTop -}}
+              </span>
+              <span class="unlocked-icon">
+              </span>
+              <span class="unlocked-text bottom">
+                {{- bProgressBarBreakOneTextBottom -}}
+              </span>
+            </div>
+            <div class="unlocked-two{% if bCartValue >= bProgressBarBreakTwo %} active {% elsif bHasPreActive == false %} pre-active {%- assign bHasPreActive = true -%} {% endif %}">
+              <span class="unlocked-text top">
+                {{- bProgressBarBreakTwoTextTop -}}
+              </span>
+              <span class="unlocked-icon">
+              </span>
+              <span class="unlocked-text bottom">
+                {{- bProgressBarBreakTwoTextBottom -}}
+              </span>
+            </div>
+            <div class="unlocked-three{% if bCartValue >= bProgressBarBreakThree %} active {% elsif bHasPreActive == false %} pre-active {%- assign bHasPreActive = true -%} {% endif %}">
+              <span class="unlocked-text top">
+                {{- bProgressBarBreakThreeTextTop -}}
+              </span>
+              <span class="unlocked-icon">
+              </span>
+              <span class="unlocked-text bottom">
+                {{- bProgressBarBreakThreeTextBottom -}}
+              </span>
+            </div>
+            <div class="unlocked-four{% if bProgressBarBreakFour != false %}{% if bCartValue >= bProgressBarBreakFour %} active{% elsif bHasPreActive == false %} pre-active{%- assign bHasPreActive = true -%}{% endif %}{% else %} hide{% endif %}">
+              <span class="unlocked-text top">
+                {{- bProgressBarBreakFourTextTop -}}
+              </span>
+              <span class="unlocked-icon">
+              </span>
+              <span class="unlocked-text bottom">
+                {{- bProgressBarBreakFourTextBottom -}}
+              </span>
+            </div>
+            <div class="unlocked-five{% if bProgressBarBreakFive != false %}{% if bCartValue >= bProgressBarBreakFive %} active{% elsif bHasPreActive == false %} pre-active{%- assign bHasPreActive = true -%}{% endif %}{% else %} hide{% endif %}">
+              <span class="unlocked-text top">
+                {{- bProgressBarBreakFiveTextTop -}}
+              </span>
+              <span class="unlocked-icon">
+              </span>
+              <span class="unlocked-text bottom">
+                {{- bProgressBarBreakFiveTextBottom -}}
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endif %}
+
+{% if showProgressBarJS == true %}
+<script type="text/javascript" defer>
+  
+  Shopify.bItemsToAdd = [];
+  Shopify.bItemsToAddCount = '{{ bCartTotalPriceCollectionQ }}';
+  Shopify.bItemsToAddCountInit = '{{ bCartTotalPriceCollectionQ }}';
+  Shopify.bItemsToAddCountOne = '{{ bCartTotalPriceCollectionOneQ }}';
+  Shopify.bItemsToAddCountSubs = '{{ bCartTotalPriceCollectionSubsQ }}';
+  Shopify.bItemsToAddPrice = '{{ bCartTotalPriceCollection }}';
+  Shopify.bItemsToAddPriceLast = '{{ bCartTotalPriceCollection }}';
+  Shopify.bFirstItemsToAddPriceSaving = true;
+  Shopify.bItemsToAddPriceSaving = '{{ bTotalPriceSaving }}';
+  Shopify.bPouches = '{{ bPouches }}';
+  Shopify.bCartItemsOther = '{{ bCarItemsOther }}';
+  Shopify.bCartItemsCounter = '{{ bCartItemsCounter }}';
+  Shopify.bOptionSubscriberDefault = '{{ bOption_subscribe_default }}';
+  Shopify.bSubs_frequency = '{{ bSubs_frequency }}';
+  Shopify.hasSub = '{{ bSubs }}';
+  Shopify.unlockedAward = false;
+  Shopify.awardUnlockingMsg = "";
+  
+  function bByokScriptsEvents () {console.log('Execute bByokScriptsEvents');
+
+    /*
+      $('#byob_purchase_type_autodeliver').removeClass('disabled').attr('disabled', false);
+      ...
+
+      Shopify.gamification.bUpdateLabelSubs = function(cartSubscription) {
+      ...
+      }
+    */
+   
+    Shopify.gamification.bUpdateLabelProgressBar = function(cartSubscription) {
+
+      //Update progress-bar
+      var totalPrice = Shopify.bItemsToAddPrice;
+      var totalPriceProgressBar = Shopify.bItemsToAddPrice;
+      var totalPriceQ = Shopify.bItemsToAddCount;
+      var totalPouches = Shopify.bPouches;
+      //console.log('totalPrice',totalPrice,'totalPriceQ',totalPriceQ,'totalPriceProgressBar',totalPriceProgressBar);
+      var maxProgressBar = Shopify.gamification.b.maxProgressBar;
+      var progressBar = (totalPriceProgressBar / maxProgressBar).toFixed(2);
+      totalPrice = (totalPrice / 100).toFixed(2);
+
+      let bProgressBarBreakValue = Shopify.gamification.b.breakValue;
+      let cartValue = 0;
+      let isCustomer = {% if customer -%}true{%- else -%}false{%- endif -%};
+      let isCustomerVIP = {% if customer and customer.tags contains "Active Subscriber" -%}true{%- else -%}false{%- endif -%};
+      let isCanada = false;
+      let progressBarDontRun = {{ bProgressBarDontRun | json }};
+      if (progressBarDontRun != '') {
+        if (document.querySelector(progressBarDontRun) != null) {
+          console.log('::isCanada:: ProgressBar off');
+          isCanada = true;
+        }
+      }
+      if (bProgressBarBreakValue == true) {
+        cartValue = totalPriceProgressBar;
+        //console.log('cartSubscription',cartSubscription);
+        jQuery('.gamification').removeClass('hide');
+        if (cartSubscription == true || isCanada == true || (isCustomer == true && isCustomerVIP == false)) {
+          //cartValue = Math.round(totalPriceProgressBar / 0.85);
+          //console.log('cartValue',cartValue);
+          jQuery('.gamification').addClass('hide');
+        }
+      } else {
+        cartValue = totalPouches;
+      }
+
+      if ((isCustomer == false || isCustomerVIP == true) && isCanada == false) {
+        var bProgressBarBreakZeroText = "";
+        var progressBarBreakOne = false;
+        var progressBarBreakOneFill = 0;
+        var bProgressBarBreakOneTextTop = "";
+        var bProgressBarBreakOneTextBottom = "";
+        var bProgressBarBreakOneText = "";
+        var discountSavingOne = null;
+        var codeDiscountApplyOne = "";
+        var progressBarBreakTwo = false;
+        var progressBarBreakTwoFill = 0;
+        var bProgressBarBreakTwoTextTop = "";
+        var bProgressBarBreakTwoTextBottom = "";
+        var bProgressBarBreakTwoText = "";
+        var discountSavingTwo = null;
+        var codeDiscountApplyTwo = '';
+        var progressBarBreakThree = false;
+        var progressBarBreakThreeFill = 0;
+        var bProgressBarBreakThreeTextTop = "";
+        var bProgressBarBreakThreeTextBottom = "";
+        var bProgressBarBreakThreeText = "";
+        var discountSavingThree = null;
+        var codeDiscountApplyThree = '';
+        var progressBarBreakFour = false;
+        var progressBarBreakFourFill = 0;
+        var bProgressBarBreakFourTextTop = "";
+        var bProgressBarBreakFourTextBottom = "";
+        var bProgressBarBreakFourText = "";
+        var discountSavingFour = null;
+        var codeDiscountApplyFour = '';
+        if (cartSubscription == true) {
+          bProgressBarBreakZeroText = Shopify.gamification.b.subscribe.zero.text;
+          progressBarBreakOne = Shopify.gamification.b.subscribe.one.min;
+          progressBarBreakOneFill = Shopify.gamification.b.subscribe.one.fill;
+          bProgressBarBreakOneTextTop = Shopify.gamification.b.subscribe.one.textTop;
+          bProgressBarBreakOneTextBottom = Shopify.gamification.b.subscribe.one.textBottom;
+          bProgressBarBreakOneText = Shopify.gamification.b.subscribe.one.text;
+          discountSavingOne = Shopify.gamification.b.subscribe.one.discountSaving;
+          codeDiscountApplyOne = Shopify.gamification.b.subscribe.one.codeDiscountApply;
+          progressBarBreakTwo = Shopify.gamification.b.subscribe.two.min;
+          progressBarBreakTwoFill = Shopify.gamification.b.subscribe.two.fill;
+          bProgressBarBreakTwoTextTop = Shopify.gamification.b.subscribe.two.textTop;
+          bProgressBarBreakTwoTextBottom = Shopify.gamification.b.subscribe.two.textBottom;
+          bProgressBarBreakTwoText = Shopify.gamification.b.subscribe.two.text;
+          discountSavingTwo = Shopify.gamification.b.subscribe.two.discountSaving;
+          codeDiscountApplyTwo = Shopify.gamification.b.subscribe.two.codeDiscountApply;
+          progressBarBreakThree = Shopify.gamification.b.subscribe.three.min;
+          progressBarBreakThreeFill = Shopify.gamification.b.subscribe.three.fill;
+          bProgressBarBreakThreeTextTop = Shopify.gamification.b.subscribe.three.textTop;
+          bProgressBarBreakThreeTextBottom = Shopify.gamification.b.subscribe.three.textBottom;
+          bProgressBarBreakThreeText = Shopify.gamification.b.subscribe.three.text;
+          discountSavingThree = Shopify.gamification.b.subscribe.three.discountSaving;
+          codeDiscountApplyThree = Shopify.gamification.b.subscribe.three.codeDiscountApply;
+          progressBarBreakFour = Shopify.gamification.b.subscribe.four.min;
+          progressBarBreakFourFill = Shopify.gamification.b.subscribe.four.fill;
+          bProgressBarBreakFourTextTop = Shopify.gamification.b.subscribe.four.textTop;
+          bProgressBarBreakFourTextBottom = Shopify.gamification.b.subscribe.four.textBottom;
+          bProgressBarBreakFourText = Shopify.gamification.b.subscribe.four.text;
+          discountSavingFour = Shopify.gamification.b.subscribe.four.discountSaving;
+          codeDiscountApplyFour = Shopify.gamification.b.subscribe.four.codeDiscountApply;
+          jQuery('.byob_radio__autodeliver').prop( "checked", true );
+          jQuery('#byob_autodeliver_options').removeClass( 'hide' );
+        } else {
+          bProgressBarBreakZeroText = Shopify.gamification.b.oneTime.zero.text;
+          progressBarBreakOne = Shopify.gamification.b.oneTime.one.min;
+          progressBarBreakOneFill = Shopify.gamification.b.oneTime.one.fill;
+          bProgressBarBreakOneTextTop = Shopify.gamification.b.oneTime.one.textTop;
+          bProgressBarBreakOneTextBottom = Shopify.gamification.b.oneTime.one.textBottom;
+          bProgressBarBreakOneText = Shopify.gamification.b.oneTime.one.text;
+          discountSavingOne = Shopify.gamification.b.oneTime.one.discountSaving;
+          codeDiscountApplyOne = Shopify.gamification.b.oneTime.one.codeDiscountApply;
+          progressBarBreakTwo = Shopify.gamification.b.oneTime.two.min;
+          progressBarBreakTwoFill = Shopify.gamification.b.oneTime.two.fill;
+          bProgressBarBreakTwoTextTop = Shopify.gamification.b.oneTime.two.textTop;
+          bProgressBarBreakTwoTextBottom = Shopify.gamification.b.oneTime.two.textBottom;
+          bProgressBarBreakTwoText = Shopify.gamification.b.oneTime.two.text;
+          discountSavingTwo = Shopify.gamification.b.oneTime.two.discountSaving;
+          codeDiscountApplyTwo = Shopify.gamification.b.oneTime.two.codeDiscountApply;
+          progressBarBreakThree = Shopify.gamification.b.oneTime.three.min;
+          progressBarBreakThreeFill = Shopify.gamification.b.oneTime.three.fill;
+          bProgressBarBreakThreeTextTop = Shopify.gamification.b.oneTime.three.textTop;
+          bProgressBarBreakThreeTextBottom = Shopify.gamification.b.oneTime.three.textBottom;
+          bProgressBarBreakThreeText = Shopify.gamification.b.oneTime.three.text;
+          discountSavingThree = Shopify.gamification.b.oneTime.three.discountSaving;
+          codeDiscountApplyThree = Shopify.gamification.b.oneTime.three.codeDiscountApply;
+          progressBarBreakFour = Shopify.gamification.b.oneTime.four.min;
+          progressBarBreakFourFill = Shopify.gamification.b.oneTime.four.fill;
+          bProgressBarBreakFourTextTop = Shopify.gamification.b.oneTime.four.textTop;
+          bProgressBarBreakFourTextBottom = Shopify.gamification.b.oneTime.four.textBottom;
+          bProgressBarBreakFourText = Shopify.gamification.b.oneTime.four.text;
+          discountSavingFour = Shopify.gamification.b.oneTime.four.discountSaving;
+          codeDiscountApplyFour = Shopify.gamification.b.oneTime.four.codeDiscountApply;
+          jQuery('.byob_radio__onetime').prop( "checked", true );
+          jQuery('#byob_autodeliver_options').addClass( 'hide' );
+        }
+        //jQuery('.byob_select.byob_select__frequency').val("4");
+        
+        var totalSaving = 0;
+        var totalSavingOne = 0;
+        var totalSavingSubs = 0;
+        var totalPriceWithSaving = 0;
+        var totalPriceOne = totalPrice;
+        var totalPriceSubs = totalPrice;
+        var totalPriceWithSavingOne = totalPrice;
+        var totalPriceWithSavingSubs = totalPrice;
+        if (cartSubscription == false) {
+          totalPriceSubs = Math.round(totalPriceSubs - totalPriceSubs * 0.15);
+          jQuery('.gamification .unlockeds').removeClass('unlockeds-subs');
+        } else {
+          totalPriceOne = Math.round(totalPriceOne / 0.85);
+          jQuery('.gamification .unlockeds').addClass('unlockeds-subs');
+        }
+        //console.log('totalPrice',totalPrice,'totalPriceOne',totalPriceOne,'totalPriceSubs',totalPriceSubs);
+        
+        var progressBarFill = 0;
+        progressBarFill = (cartValue * progressBarBreakOneFill) / progressBarBreakOne;
+        progressBarFill = progressBarFill;
+        
+        //console.log('totalPrice',totalPrice,'cartValue',cartValue,'progressBarBreakOne',progressBarBreakOne);
+        jQuery('.gamification .unlockeds > div').removeClass('active').removeClass('pre-active');
+        if (progressBarBreakTwo == false) {
+          jQuery('.gamification .unlockeds .unlocked-two').removeClass('active');
+          //console.log('totalPrice',totalPrice,'cartValue',cartValue,'progressBarBreakOne',progressBarBreakOne);
+          if (cartValue >= progressBarBreakOne) {
+            jQuery('.gamification .unlockeds .unlocked-one').addClass('active');
+
+            //progressBarFill = progressBarBreakOneFill;
+
+            progressBarFill = cartValue - progressBarBreakOne;
+            var progressBarFill2 = cartValue - progressBarBreakOne;
+            var progressBarFill3 = 100 - progressBarBreakOneFill;
+            progressBarFill = (progressBarFill * progressBarFill3) / progressBarFill2;
+            progressBarFill = progressBarFill + progressBarBreakOneFill;
+
+            totalSaving = totalPrice * discountSavingOne / 100;
+            totalSavingOne = totalPriceOne * Shopify.gamification.b.oneTime.one.discountSaving / 100;
+            totalSavingSubs = totalPriceSubs * Shopify.gamification.b.subscribe.one.discountSaving / 100;
+          } else {
+            jQuery('.gamification .unlockeds .unlocked-one').addClass('pre-active');
+          }
+        } else {
+          if (cartValue >= progressBarBreakOne) {
+            jQuery('.gamification .unlockeds .unlocked-one').addClass('active');
+
+            progressBarFill = cartValue - progressBarBreakOne;
+            //console.log('cartValue',cartValue,'progressBarBreakOne',progressBarBreakOne,'progressBarFill',progressBarFill);
+            var progressBarFill2 = progressBarBreakTwo - progressBarBreakOne;
+            //console.log('progressBarBreakTwo',progressBarBreakTwo,'progressBarBreakOne',progressBarBreakOne,'progressBarFill2',progressBarFill2);
+            var progressBarFill3 = progressBarBreakTwoFill - progressBarBreakOneFill;
+            //console.log('progressBarBreakTwoFill',progressBarBreakTwoFill,'progressBarBreakOneFill',progressBarBreakOneFill,'progressBarFill3',progressBarFill3);
+            //console.log('progressBarFill',progressBarFill,'progressBarFill3',progressBarFill3,'progressBarFill2',progressBarFill2,'progressBarFill',(progressBarFill * progressBarFill3) / progressBarFill2);
+            progressBarFill = (progressBarFill * progressBarFill3) / progressBarFill2;
+            //console.log('progressBarFill',progressBarFill,'progressBarBreakOneFill',progressBarBreakOneFill,'progressBarFill',progressBarFill + progressBarBreakOneFill);
+            progressBarFill = progressBarFill + progressBarBreakOneFill;
+
+            totalSaving = totalPrice * discountSavingOne / 100;
+            totalSavingOne = totalPriceOne * Shopify.gamification.b.oneTime.one.discountSaving / 100;
+            totalSavingSubs = totalPriceSubs * Shopify.gamification.b.subscribe.one.discountSaving / 100;
+
+            //console.log('totalPrice',totalPrice,'cartValue',cartValue,'progressBarBreakTwo',progressBarBreakTwo);
+            if (progressBarBreakThree == false) {
+              jQuery('.gamification .unlockeds .unlocked-three').removeClass('active').addClass('hide');
+              if (cartValue >= progressBarBreakTwo) {
+                jQuery('.gamification .unlockeds .unlocked-two').addClass('active');
+
+              	if (cartValue == progressBarBreakTwo) {
+                  progressBarFill = progressBarBreakTwoFill;
+                } else {
+                  progressBarFill = 100;
+                }
+
+                totalSaving = totalPrice * discountSavingTwo / 100;
+                totalSavingOne = totalPriceOne * Shopify.gamification.b.oneTime.two.discountSaving / 100;
+                totalSavingSubs = totalPriceSubs * Shopify.gamification.b.subscribe.two.discountSaving / 100;
+              } else {
+                jQuery('.gamification .unlockeds .unlocked-two').addClass('pre-active');
+                
+                progressBarFill = (cartValue * progressBarBreakTwoFill) / progressBarBreakTwo;
+              }
+            } else {
+              if (cartValue >= progressBarBreakTwo) {
+                jQuery('.gamification .unlockeds .unlocked-two').addClass('active');
+
+                progressBarFill = cartValue - progressBarBreakTwo;
+                var progressBarFill2 = progressBarBreakThree - progressBarBreakTwo;
+                var progressBarFill3 = progressBarBreakThreeFill - progressBarBreakTwoFill;
+                progressBarFill = (progressBarFill * progressBarFill3) / progressBarFill2;
+                progressBarFill = progressBarFill + progressBarBreakTwoFill;
+
+                totalSaving = totalPrice * discountSavingTwo / 100;
+                totalSavingOne = totalPriceOne * Shopify.gamification.b.oneTime.two.discountSaving / 100;
+                totalSavingSubs = totalPriceSubs * Shopify.gamification.b.subscribe.two.discountSaving / 100;
+
+                if (progressBarBreakFour == false) {
+                  jQuery('.gamification .unlockeds .unlocked-four').removeClass('active').addClass('hide');
+                  //console.log('totalPrice',totalPrice,'cartValue',cartValue,'progressBarBreakTwo',progressBarBreakTwo);
+                  if (cartValue >= progressBarBreakThree) {
+                    jQuery('.gamification .unlockeds .unlocked-three').addClass('active');
+
+                    //progressBarFill = progressBarBreakThreeFill;
+
+                    progressBarFill = cartValue - progressBarBreakThree;
+                    var progressBarFill2 = cartValue - progressBarBreakThree;
+                    var progressBarFill3 = 100 - progressBarBreakThreeFill;
+                    progressBarFill = (progressBarFill * progressBarFill3) / progressBarFill2;
+                    progressBarFill = progressBarFill + progressBarBreakThreeFill;
+
+                    totalSaving = totalPrice * discountSavingThree / 100;
+                    totalSavingOne = totalPriceOne * Shopify.gamification.b.oneTime.three.discountSaving / 100;
+                    totalSavingSubs = totalPriceSubs * Shopify.gamification.b.subscribe.three.discountSaving / 100;
+                  } else {
+                    jQuery('.gamification .unlockeds .unlocked-three').addClass('pre-active');
+                  }
+                } else {
+                  jQuery('.gamification .unlockeds .unlocked-four').removeClass('hide');
+                  //console.log('totalPrice',totalPrice,'cartValue',cartValue,'progressBarBreakThree',progressBarBreakThree);
+                  if (cartValue >= progressBarBreakThree) {
+                    jQuery('.gamification .unlockeds .unlocked-three').addClass('active');
+
+                    progressBarFill = cartValue - progressBarBreakThree;
+                    var progressBarFill2 = progressBarBreakFour - progressBarBreakThree;
+                    var progressBarFill3 = progressBarBreakFourFill - progressBarBreakThreeFill;
+                    progressBarFill = (progressBarFill * progressBarFill3) / progressBarFill2;
+                    progressBarFill = progressBarFill + progressBarBreakThreeFill;
+
+                    totalSaving = totalPrice * discountSavingThree / 100;
+                    totalSavingOne = totalPriceOne * Shopify.gamification.b.oneTime.three.discountSaving / 100;
+                    totalSavingSubs = totalPriceSubs * Shopify.gamification.b.subscribe.three.discountSaving / 100;
+
+                    //console.log('totalPrice',totalPrice,'cartValue',cartValue,'progressBarBreakFour',progressBarBreakFour);
+                    if (cartValue >= progressBarBreakFour) {
+                      jQuery('.gamification .unlockeds .unlocked-four').addClass('active');
+
+                      if (cartValue == progressBarBreakFour) {
+                        progressBarFill = progressBarBreakFourFill;
+                      } else {
+                        progressBarFill = cartValue - progressBarBreakFour;
+                        var progressBarFill2 = cartValue - progressBarBreakFour;
+                        var progressBarFill3 = 100 - progressBarBreakFourFill;
+                        progressBarFill = (progressBarFill * progressBarFill3) / progressBarFill2;
+                        progressBarFill = progressBarFill + progressBarBreakFourFill;
+                      }
+
+                      totalSaving = totalPrice * discountSavingFour / 100;
+                      totalSavingOne = totalPriceOne * Shopify.gamification.b.oneTime.four.discountSaving / 100;
+                      totalSavingSubs = totalPriceSubs * Shopify.gamification.b.subscribe.four.discountSaving / 100;
+                    } else {
+                      jQuery('.gamification .unlockeds .unlocked-four').addClass('pre-active');
+                    }
+                  } else {
+                    jQuery('.gamification .unlockeds .unlocked-three').addClass('pre-active');
+                  }
+                }
+              } else {
+                jQuery('.gamification .unlockeds .unlocked-two').addClass('pre-active');
+              }
+            }
+          } else {
+            jQuery('.gamification .unlockeds .unlocked-one').removeClass('active');
+            jQuery('.gamification .unlockeds .unlocked-one').addClass('pre-active');
+            progressBarFill = (cartValue * progressBarBreakOneFill) / progressBarBreakOne;
+          }
+        }
+
+        jQuery('.progress-bar-gamification').attr('aria-valuenow', progressBarFill);
+        jQuery('.progress-bar-gamification').attr('aria-valuenow-price', cartValue);
+        jQuery('.progress-bar-gamification').css( "width", progressBarFill + '%' );
+        jQuery('.progress-bar-gamification span').text(progressBarFill + '% Complete');
+        
+        //Shopify.gamification.bUpdateLabelSubs(cartSubscription);
+        
+        //console.log('progressBarFill',progressBarFill);
+        //console.log('totalPrice',totalPrice,'totalSaving',totalSaving,'cartValue',cartValue);
+        totalPriceWithSaving = ((totalPrice - totalSaving) / 100).toFixed(2);
+        totalPriceWithSavingOne = ((totalPriceOne - totalSavingOne) / 100).toFixed(2);
+        totalPriceWithSavingSubs = ((totalPriceSubs - totalSavingSubs) / 100).toFixed(2);
+        //console.log('totalPriceWithSaving',totalPriceWithSaving,'totalPriceWithSavingOne',totalPriceWithSavingOne,'totalPriceWithSavingSubs',totalPriceWithSavingSubs);
+        
+        //console.log('totalPrice',totalPrice);
+        jQuery('.cart-total').text(Shopify.formatMoney(totalPriceWithSavingOne, '{% raw  %}${{amount}}{% endraw %}'));
+        jQuery('.cart-total-s').text(Shopify.formatMoney(totalPriceWithSavingSubs, '{% raw  %}${{amount}}{% endraw %}'));
+        
+        jQuery('.cart-total-q').text(totalPriceQ);
+        
+        //$('.pm-selected span').text(Shopify.bItemsToAddCount);
+        //$('.pm-selected span, #CartCount').text(Shopify.bPouches);
+
+		    var currentUnlockedFeature = "";
+        Shopify.codeDiscountApply = '';
+        jQuery('.byob-helper .cart__checkout').addClass('hide');
+        if (cartValue >= progressBarBreakOne) {
+          Shopify.codeDiscountApply = codeDiscountApplyOne;
+          Shopify.unlockedAward = true;
+          if (isCustomerVIP == false) {
+          	//Shopify.awardUnlockMsg = "Free Shipping unlocked! Applied at checkout.";
+          } else {
+            //Shopify.awardUnlockMsg =  "Congrats! A Kai Perfume added to cart.";
+          }
+          if (progressBarBreakTwo == false) {
+            jQuery('.byob-helper_info').html(bProgressBarBreakOneText.replace('##', Shopify.formatMoney(progressBarBreakTwo - totalPrice*100), '{% raw  %}${{amount}}{% endraw %}').replace('.00',''));
+            if (cartSubscription == true) {
+              jQuery('.byob-helper .cart__checkout').removeClass('hide');
+            }
+          } else {
+            if (cartValue >= progressBarBreakTwo) {
+              Shopify.codeDiscountApply = codeDiscountApplyTwo;
+              Shopify.unlockedAward = true;
+              //Shopify.awardUnlockMsg = "Congrats! 5% off your cart. Applied at checkout.";
+              //Shopify.awardUnlockMsg =  "Congrats! A Kai Perfume added to cart.";
+              if (progressBarBreakThree == false) {
+                jQuery('.byob-helper_info').html(bProgressBarBreakTwoText.replace('##', Shopify.formatMoney(progressBarBreakThree - totalPrice*100), '{% raw  %}${{amount}}{% endraw %}').replace('.00',''));
+                if (cartSubscription == true) {
+                  jQuery('.byob-helper .cart__checkout').removeClass('hide');
+                }
+              } else {
+                if (cartValue >= progressBarBreakThree) {
+                    Shopify.unlockedAward = true;
+                    //Shopify.awardUnlockMsg =  "Congrats! A Kai Perfume added to cart.";
+                  if (progressBarBreakFour == false) {
+                    jQuery('.byob-helper_info').html(bProgressBarBreakThreeText.replace('##', Shopify.formatMoney(progressBarBreakFour - totalPrice*100), '{% raw  %}${{amount}}{% endraw %}').replace('.00',''));
+                    if (cartSubscription == true) {
+                      jQuery('.byob-helper .cart__checkout').removeClass('hide');
+                    }
+                  } else {
+                    if (cartValue >= progressBarBreakFour) {
+                      Shopify.codeDiscountApply = codeDiscountApplyFour;
+                      Shopify.unlockedAward = true;
+                      //Shopify.awardUnlockMsg =  "Congrats! 5% off your cart. Applied at checkout.";
+                      //Shopify.awardUnlockMsg =  "Congrats! A Kai Perfume added to cart.";
+                      jQuery('.byob-helper_info').html(bProgressBarBreakFourText.replace('##', Shopify.formatMoney(progressBarBreakFour - totalPrice*100), '{% raw  %}${{amount}}{% endraw %}').replace('.00',''));
+                      if (cartSubscription == true) {
+                        jQuery('.byob-helper .cart__checkout').removeClass('hide');
+                      }
+                    } else {
+                      jQuery('.byob-helper_info').html(bProgressBarBreakThreeText.replace('##', Shopify.formatMoney(progressBarBreakFour - totalPrice*100), '{% raw  %}${{amount}}{% endraw %}').replace('.00',''));
+                    }
+                  }
+                } else {
+                  jQuery('.byob-helper_info').html(bProgressBarBreakTwoText.replace('##', Shopify.formatMoney(progressBarBreakThree - totalPrice*100), '{% raw  %}${{amount}}{% endraw %}').replace('.00',''));
+                }
+              }
+            } else {
+              jQuery('.byob-helper_info').html(bProgressBarBreakOneText.replace('##', Shopify.formatMoney(progressBarBreakTwo - totalPrice*100), '{% raw  %}${{amount}}{% endraw %}').replace('.00',''));
+            }
+          }
+        } else {
+          jQuery('.byob-helper_info').html(bProgressBarBreakZeroText.replace('##', Shopify.formatMoney(progressBarBreakOne - totalPrice*100), '{% raw  %}${{amount}}{% endraw %}').replace('.00',''));
+        }
+                                                                                   
+      }
+    }
+    Shopify.gamification.bUpdateProgressBar = function(variant_id,quantity,price,cartSubscription,shipping_interval_frequency,pouches) {
+      var _this30 = this;
+
+      //console.log('pouches',pouches,'quantity',quantity,'price',price);
+      Shopify.bItemsToAddCount += quantity;
+      Shopify.bItemsToAddPrice += price;
+      Shopify.bPouches += pouches;
+      //console.log('Shopify.bPouches',Shopify.bPouches,'Shopify.bItemsToAddCount',Shopify.bItemsToAddCount,'Shopify.bItemsToAddPrice',Shopify.bItemsToAddPrice);
+
+      Shopify.gamification.bUpdateLabelProgressBar(cartSubscription);
+
+    }
+    Shopify.gamification.bClearAllProgressBar = function(event) {
+      var _this30 = this;
+
+      Shopify.bItemsToAddCount = 0;
+      Shopify.bItemsToAddPrice = 0;
+      Shopify.bPouches = 0;
+
+      Shopify.gamification.bUpdateLabelProgressBar(Shopify.bOptionSubscribeDefault);
+     
+    }
+    
+    Shopify.gamification.bUpdateGamification = function(cart, isBYOB, doneFreeGiftProduct, doneRulesDiscount) {
+      $('.gamification--is-loading').show();
+      setTimeout(function(){
+        if(isBYOB === undefined) {
+          isBYOB = false;
+        }
+        if(doneFreeGiftProduct === undefined) {
+          doneFreeGiftProduct = false;
+        }
+        if(doneRulesDiscount === undefined) {
+          doneRulesDiscount = false;
+        }
+        Shopify.gamification.bClearAllProgressBar();
+        var cartSubscription = false;
+        var productSubscription = false;
+        var productPouches = 0;
+        var total_price = 0;
+        var totalPouches = 0;
+        var shipping_interval_frequency = 4;
+        //var productsSubscritionJson = JSON.parse($('#productsSubscritionJson').html());
+        var productFreeGift = false;
+        if (cart['attributes']['Product Type'] == 'Subscription') {
+          cartSubscription = true;
+        }
+        let isCustomer = {% if customer -%}true{%- else -%}false{%- endif -%};
+        let isCustomerVIP = {% if customer and customer.tags contains "Active Subscriber" -%}true{%- else -%}false{%- endif -%};
+        let isCanada = false;
+        let progressBarDontRun = {{ bProgressBarDontRun | json }};
+        if (progressBarDontRun != '') {
+          if (document.querySelector(progressBarDontRun) != null) {
+            console.log('::isCanada:: ProgressBar off');
+            isCanada = true;
+          }
+        }
+        let isAllGiftCard = true;
+        $.each(cart.items, function(index, cartItem) {
+          if (cartItem['product_type'] != null) {
+            //console.log(cartItem['properties']);
+            if (cartItem['product_type'].toLowerCase().includes('subscription') == true) {
+              cartSubscription = true;
+              //console.log(cartItem['product_type']);
+            }
+          }
+          //if (cartItem.gift_card == false) {
+            let isHiddenCollateral = false;
+            if (cartItem.properties !== null) {
+              $.each(cartItem.properties, function(key, value) {
+                if (key === 'hidden_collateral') {
+                  isHiddenCollateral = true;
+                }
+              });
+            }
+            if (isHiddenCollateral == false) {
+              isAllGiftCard = false;
+            }
+          //}
+        });
+        //console.log('isAllGiftCard',isAllGiftCard,'cart',cart);
+        if (isAllGiftCard == false) {
+          jQuery('.gamification').removeClass('hide');
+          $.each(cart.items, function(index, cartItem) {
+            productSubscription = false;
+            productFreeGift = false;
+            if (cartItem.properties !== null) {
+              $.each(cartItem.properties, function(key, value) {
+                if (key === 'subscription_id' || key === 'shipping_interval_frequency' || key === 'shipping_interval_unit_type') {
+                  cartSubscription = true;
+                  productSubscription = true;
+                }
+                if (key === 'shipping_interval_frequency') {
+                  shipping_interval_frequency = value;
+                }
+                if (key === 'Free' && value === 'Gift') {
+                  productFreeGift = true;
+                }
+              });
+            }
+            if (cartItem['properties'] != null) {
+              //console.log(cartItem['properties']);
+              if (cartItem['properties']['sub_bundle'] != null || cartItem['properties']['included_in_pack'] != null || cartItem['properties']['FREEPANTY'] != null) {
+                return;
+              }
+            }
+            //console.log(cartItem.title);
+            var price = cartItem.final_line_price;
+            
+            //console.log(cartItem.discounts);
+            if (cartItem.discounts != null) {
+              $.each(cartItem.discounts, function(key, value) {
+                //console.log('title',value.title);
+                if (value.title == "Buy 3 for $30") {
+                  //console.log('price',price,'amount',value.amount);
+                  price = price - value.amount;
+                  //console.log('price',price);
+                }
+                if (value.title == "5% Off Bonus" || value.title == "10% Off Bonus" || value.title == "15% Off Bonus") {
+                  //console.log('price',price,'amount',value.amount);
+                  price = price + value.amount;
+                  //console.log('price',price);
+                }
+              });
+            }
+            //if (cartItem.gift_card == false) {
+              if (productFreeGift == false) {
+                Shopify.gamification.bUpdateProgressBar(cartItem.variant_id,cartItem.quantity,price,cartSubscription,shipping_interval_frequency,productPouches*cartItem.quantity);
+              }
+              total_price += price;
+              totalPouches += productPouches*cartItem.quantity;
+            //}
+          });
+        } else {
+          jQuery('.gamification').addClass('hide');
+        }
+        let bProgressBarBreakValue = Shopify.gamification.b.breakValue;
+        let cartValue = 0;
+        if (bProgressBarBreakValue == true) {
+          cartValue = total_price;
+        } else {
+          cartValue = totalPouches;
+        }
+        if(typeof bFreeGiftProduct == 'function' && doneFreeGiftProduct == false) {
+          return bFreeGiftProduct(cart, $('body').hasClass('template-cart') ? true : false, false, isBYOB, doneRulesDiscount);
+        } else {
+          if (doneRulesDiscount == false && typeof bRulesDiscount == 'function') {
+            bRulesDiscount(cartValue,cartSubscription);
+          }
+          //showPopups(total_price,cartSubscription);
+          Shopify.bItemsToAddPriceLast = total_price;
+
+          $('.gamification--is-loading').hide();
+          
+          if (!!Shopify.unlockedAward && !cartSubscription) {
+            Shopify.unlockedAward = false;
+          	//toDo
+            //M.toast({html: Shopify.awardUnlockMsg, classes: 'gamificationAlert'});
+          }
+          
+        }
+      }, 100);
+    }
+  }
+
+  document.addEventListener('readystatechange', (event) => {
+    if (document.readyState === 'interactive') {
+      //console.log(1,jQuery, $);
+      
+      if(typeof bByokScriptsEvents == 'function') {
+        bByokScriptsEvents();
+      }
+      if(typeof bDiscountRulesjQueryReady == 'function') {
+        bDiscountRulesjQueryReady();
+      }
+      /*if(typeof bDiscountRulesjQueryReady2 == 'function') {
+        bDiscountRulesjQueryReady2();
+      }*/
+    }
+  });
+  
+</script>
+{% endif %}
+
+{% if showProgressBarCSS == true %}
+<style>
+  .gamification {
+    position: relative;
+    transition: all 0.1s;
+    display: block;
+    padding: 0 !important;
+  }
+  .gamification .gamification--is-loading {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+  }
+  .gamification .gamification--is-loading:before {
+    content: '';
+    display: block;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    background: rgba(255,255,255,0.50);
+    z-index: 1;
+    top: 0;
+    left: 0;
+  }
+  .gamification .gamification--is-loading:after {
+    content: '';
+    display: block;
+    width: 24px;
+    height: 24px;
+    position: absolute;
+    left: 50%;
+    top: calc(50% - 12px);
+    margin-left: -12px;
+    border-radius: 50%;
+    border: 3px solid #001a72;
+    border-top-color: transparent;
+    -webkit-animation: spin 1s infinite linear;
+    -moz-animation: spin 1s infinite linear;
+    -o-animation: spin 1s infinite linear;
+    animation: spin 1s infinite linear;
+    z-index: 1;
+  }
+  .progress_wrapper {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+  }
+  .gamification.gamification_side .progress_container {
+    width: 100%;
+  }
+  .progress_wrapper .pm-selected_wrapper {
+    width: 100px;
+    margin: 0;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-align: center!important;
+    align-items: center!important;
+    -ms-flex-pack: center!important;
+    justify-content: center!important;
+  }
+  .pm-selected_wrapper .pm-selected {
+    font-family: Hanoded,sans-serif;
+    font-weight: normal;
+    color: #376587;
+    display: inline-block;
+    font-size: 26px;
+    line-height: 20px;
+    text-align: center;
+  }
+  .pm-selected_wrapper .pm-selected small {
+    font-size: 70%;
+    display: block;
+  }
+  .pm-selected_wrapper .pm-selected span {
+    font-size: 30px;
+    font-weight: 600;
+    line-height: 30px;
+    color: #ff8c5a;
+    display: block;
+  }
+  .header-collection {
+    margin-bottom: 0;
+  }
+  .gamification.stickyBYOK {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    margin: 0;
+    left: 0;
+    border-radius: 0;
+    background-color: rgb(255 239 232);
+    padding: 10px 20px 5px !important;
+    box-shadow: 0 3px 6px rgba(0,0,0,0.32);
+    z-index: 51;
+  }
+  .byob-helper .byob-helper_info {
+    display: inline-block;
+  }
+
+  .gamification .gamification-title {
+    font-size: 20px;
+    font-weight: bold;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 1.9;
+    letter-spacing: normal;
+    color: #001a72;
+  }
+  .gamification .you-just-unlocked {
+    display: block;
+    font-size: 20px;
+    font-weight: 500;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 1.9;
+    letter-spacing: normal;
+    color: #f97615;
+    text-align: center;
+  }
+  .gamification .cart-option .btn span {
+    width: 10px;
+    height: 10px;
+    border-top: solid 2px #ffffff;
+    border-right: solid 2px #ffffff;
+    display: inline-block;
+    margin-left: 8px;
+    transform: rotate(45deg);
+  }
+  .gamification .gamification_container .progress_container .progress-unlockeds {
+    position: relative;
+    padding: 3rem 0 3rem;
+  }
+  .gamification .progress-unlockeds .progress {
+    background-color: #dfe0e4;
+    height: 2px;
+    margin: 0px;
+  }
+  .gamification .progress-unlockeds .progress .progress-bar {
+    background-color: #00082f;
+    border-radius: 5px;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+    height: 2px;
+    max-width: 100%;
+  }
+  .gamification .progress-unlockeds .unlockeds > div {
+    position: relative;
+    /* top: 0px; */
+    text-align: right;
+    height: 100%;
+  }
+  .gamification .progress-unlockeds .unlockeds > div .unlocked-icon {
+    display: block;
+    text-align: center;
+    top: 21px;
+    height: 20px;
+  }
+  .gamification .progress-unlockeds .unlockeds > div .unlocked-icon::before {
+    content: '';
+    display: block;
+    width: 20px;
+    height: 20px;
+    position: absolute;
+    left: calc(50% - 10px);
+    border-radius: 50%;
+    /* border: 2px solid #dfe0e4; */
+    background: transparent;
+  }
+  .gamification .progress-unlockeds .unlockeds > div .unlocked-icon::after {
+    content: '';
+    display: block;
+    width: 12px;
+    height: 12px;
+    position: absolute;
+    top: calc(50% - 6px);
+    left: calc(50% - 6px);
+    border-radius: 50%;
+    border: 2px solid #fff;
+    background: transparent;
+    background: #dfe0e4;
+  }
+  .gamification .progress-unlockeds .unlockeds > div.pre-active .unlocked-icon::after {
+    border: 2px solid #fff;
+    background: #dfe0e4;
+  }
+  .gamification .progress-unlockeds .unlockeds > div.active .unlocked-icon::before {
+    border: 2px solid #00082f;
+    border-color: transparent;
+    background: #00082f;
+  }
+  .gamification .progress-unlockeds .unlockeds > div.active .unlocked-icon::after {
+    border: 2px solid transparent;
+    background: transparent;
+    font-family: "eby";
+    content: '\e837';
+    color: #fff;
+    font-size: 1.5rem;
+    top: -12px;
+    left: calc(50% - 11px);
+  }
+  .gamification .progress-unlockeds .unlockeds > div.active .unlocked-text.top {
+    display: none;
+  }
+  .unlockeds {
+    display: flex;
+    justify-content: space-between;
+    position: absolute;
+    width: 100%;
+    left: 0;
+    top: 0;
+    height: 25px;
+  }
+  .gamification .progress-unlockeds .unlockeds > div .unlocked-text {
+    display: block;
+    font-family: aktiv-grotesk,Helvetica,Arial,sans-serif;
+    font-size: 11px;
+    /* font-weight: 500; */
+    line-height: normal;
+    color: #000C48;
+    text-align: center;
+    /* text-transform: uppercase; */
+    /* letter-spacing: 0.5px; 
+  }
+  .gamification .progress-unlockeds .unlockeds > div.active .unlocked-text {
+    color: #0064FF;
+    /*color: #8bccaa;*/
+  }
+  .gamification .progress-unlockeds .unlockeds > div .unlocked-text.top,
+  .gamification .progress-unlockeds .unlockeds > div .unlocked-icon,
+  .gamification .progress-unlockeds .unlockeds > div .unlocked-text.bottom {
+    position: absolute;
+    width: 100%;
+    max-width: 108px;
+  }
+  .gamification .progress-unlockeds .unlockeds > div .unlocked-text.top {
+    /* top: -1px; */
+    margin-top: 8px;
+    color: #bfc1cb;
+  }
+  .gamification .progress-unlockeds .unlockeds > div .unlocked-text.bottom {
+    top: 46px;
+  }
+  .toast.gamificationAlert {
+    background: #74be97;
+    max-width: 280px;
+    width: 100%;
+  }
+  @media screen and (max-width: 770px){
+    .toast.gamificationAlert {
+      max-width: 100%;
+    }
+  }
+  
+  :root {
+    --bByobProgressUnlockedsPadding: 3%;
+    {% if bProgressBarBreakTwoOneTime != false -%}
+      {% assign bProgressBarBreakOneWidthOneTime = bProgressBarBreakTwoFillOneTime | minus: bProgressBarBreakOneFillOneTime -%}
+    {%- else -%}
+      {% assign bProgressBarBreakOneWidthOneTime = 100 -%}
+    {%- endif -%}
+    --bByobProgressbarbreakonefillOnetime: {{bProgressBarBreakOneFillOneTime}}%;
+    --bByobProgressbarbreakonewidthOnetime: {{bProgressBarBreakOneWidthOneTime}}%;
+    {% assign bProgressBarBreakOneWidthSubs = bProgressBarBreakTwoFillSubs | minus: bProgressBarBreakOneFillSubs -%}
+    --bByobProgressbarbreakonefillSubs: {{bProgressBarBreakOneFillSubs}}%;
+    --bByobProgressbarbreakonewidthSubs: {{bProgressBarBreakOneWidthSubs}}%;
+    {% if bProgressBarBreakThreeOneTime != false -%}
+      {% assign bProgressBarBreakTwoWidthOneTime = bProgressBarBreakThreeFillOneTime | minus: bProgressBarBreakTwoFillOneTime -%}
+    {%- else -%}
+      {% assign bProgressBarBreakTwoWidthOneTime = bProgressBarBreakTwoFillOneTime | minus: bProgressBarBreakOneFillOneTime -%}
+    {%- endif -%}
+    --bByobProgressbarbreaktwofillOnetime: {{bProgressBarBreakTwoFillOneTime}}%;
+    --bByobProgressbarbreaktwowidthOnetime: {{bProgressBarBreakTwoWidthOneTime}}%;
+    {% assign bProgressBarBreakTwoWidthSubs = bProgressBarBreakThreeFillSubs | minus: bProgressBarBreakTwoFillSubs -%}
+    --bByobProgressbarbreaktwofillSubs: {{bProgressBarBreakTwoFillSubs}}%;
+    --bByobProgressbarbreaktwowidthSubs: {{bProgressBarBreakTwoWidthSubs}}%;
+    {% if bProgressBarBreakFourOneTime != false -%}
+      {%- assign bProgressBarBreakThreeWidthOneTime = bProgressBarBreakFourFillOneTime | minus: bProgressBarBreakThreeFillOneTime -%}
+    {%- else -%}
+      {%- assign bProgressBarBreakThreeWidthOneTime = bProgressBarBreakThreeFillOneTime | minus: bProgressBarBreakTwoFillOneTime -%}
+    {%- endif -%}
+    --bByobProgressbarbreakthreefillOnetime: {{bProgressBarBreakThreeFillOneTime}}%;
+    --bByobProgressbarbreakthreewidthOnetime: {{bProgressBarBreakThreeWidthOneTime}}%;
+    {% if bProgressBarBreakFourSubs != false -%}
+      {%- assign bProgressBarBreakThreeWidthSubs = bProgressBarBreakFourFillSubs | minus: bProgressBarBreakThreeFillSubs -%}
+    {%- else -%}
+      {%- assign bProgressBarBreakThreeWidthSubs = bProgressBarBreakThreeFillSubs | minus: bProgressBarBreakTwoFillSubs -%}
+    {%- endif -%}
+    --bByobProgressbarbreakthreefillSubs: {{bProgressBarBreakThreeFillSubs}}%;
+    --bByobProgressbarbreakthreewidthSubs: {{bProgressBarBreakThreeWidthSubs}}%;
+    {% if bProgressBarBreakFiveOneTime != false -%}
+      {%- assign bProgressBarBreakFourWidthOneTime = bProgressBarBreakFiveFillOneTime | minus: bProgressBarBreakFourFillOneTime -%}
+    {%- else -%}
+      {%- assign bProgressBarBreakFourWidthOneTime = bProgressBarBreakFourFillOneTime | minus: bProgressBarBreakThreeFillOneTime -%}
+    {%- endif -%}
+    --bByobProgressbarbreakfourfillOnetime: {{bProgressBarBreakFourFillOneTime}}%;
+    --bByobProgressbarbreakfourwidthOnetime: {{bProgressBarBreakFourWidthOneTime}}%;
+    {% if bProgressBarBreakFiveSubs != false -%}
+      {%- assign bProgressBarBreakFourWidthSubs = bProgressBarBreakFiveFillSubs | minus: bProgressBarBreakFourFillSubs -%}
+    {%- else -%}
+      {%- assign bProgressBarBreakFourWidthSubs = bProgressBarBreakFourFillSubs | minus: bProgressBarBreakThreeFillSubs -%}
+    {%- endif -%}
+    --bByobProgressbarbreakfourfillSubs: {{bProgressBarBreakFourFillSubs}}%;
+    --bByobProgressbarbreakfourwidthSubs: {{bProgressBarBreakFourWidthSubs}}%;
+    {% assign bProgressBarBreakFiveWidthOneTime = bProgressBarBreakFiveFillOneTime | minus: bProgressBarBreakFourFillOneTime -%}
+    --bByobProgressbarbreakfivefillOnetime: {{bProgressBarBreakFiveFillOneTime}}%;
+    --bByobProgressbarbreakfivewidthOnetime: {{bProgressBarBreakFiveWidthOneTime}}%;
+    {% assign bProgressBarBreakFiveWidthSubs = bProgressBarBreakFiveFillSubs | minus: bProgressBarBreakFourFillSubs -%}
+    --bByobProgressbarbreakfivefillSubs: {{bProgressBarBreakFiveFillSubs}}%;
+    --bByobProgressbarbreakfivewidthSubs: {{bProgressBarBreakFiveWidthSubs}}%;
+  }
+  .gamification .progress-unlockeds .unlockeds > div {
+    /*margin: 0 var(--bByobProgressUnlockedsPadding);*/
+  }
+  .gamification .progress-unlockeds .unlockeds > div.unlocked-one {
+/*     right: calc(100% - var(--bByobProgressbarbreakonefillOnetime) - (var(--bByobProgressbarbreakonewidthOnetime) / 2));
+    width: var(--bByobProgressbarbreakonewidthOnetime); */
+    width: 100%;
+    max-width: 108px;
+  }
+  .gamification .progress-unlockeds .unlockeds > div.unlocked-two {
+/*     right: calc(100% - var(--bByobProgressbarbreaktwofillOnetime) - (var(--bByobProgressbarbreaktwowidthOnetime) / 2));
+    width: var(--bByobProgressbarbreaktwowidthOnetime); */
+    width: 100%;
+    max-width: 108px;
+  }
+  .gamification .progress-unlockeds .unlockeds > div.unlocked-three {
+/*     right: calc(100% - var(--bByobProgressbarbreakthreefillOnetime) - (var(--bByobProgressbarbreakthreewidthOnetime) / 2));
+    width: var(--bByobProgressbarbreakthreewidthOnetime); */
+    width: 100%;
+    max-width: 108px;
+  }
+  .gamification .progress-unlockeds .unlockeds > div.unlocked-four {
+    right: calc(100% - var(--bByobProgressbarbreakfourfillOnetime) - (var(--bByobProgressbarbreakfourwidthOnetime) / 2));
+    width: var(--bByobProgressbarbreakfourwidthOnetime);
+  }
+  .gamification .progress-unlockeds .unlockeds > div.unlocked-five {
+    right: calc(100% - var(--bByobProgressbarbreakfivefillOnetime) - (var(--bByobProgressbarbreakfivewidthOnetime) / 2));
+    width: var(--bByobProgressbarbreakfivewidthOnetime);
+  }
+  
+  .total-pre-bundle {
+    display: inline-block;
+    font-size: 14px;
+    font-weight: normal;
+  }
+  .mobile-description {
+    margin-top: 0px;
+  }
+  .hero-business h1, .hero-collection h1 {
+    color: #001a72;
+  }
+  .site-header__logo img, .hero-business h1, .hero-collection h1 {
+    -ms-filter: "progid:DXImageTransform.Microsoft.Dropshadow(OffX=0, OffY=0, Color='#ffffff')";
+    -webkit-filter: drop-shadow(0px 0px 5px #ffffff );
+    filter: drop-shadow(0px 0px 5px #ffffff);
+  }
+  .header-collection {
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-direction: column;
+    flex-direction: column;
+  }
+
+  .byob_block__type label.disabled {
+    cursor: not-allowed;
+  }
+  .byob_block__type label.disabled:before {
+    -webkit-filter: grayscale(100%);
+    -moz-filter: grayscale(100%);
+    -ms-filter: grayscale(100%);
+    -o-filter: grayscale(100%);
+    filter: grayscale(100%);
+  }
+  .byob_block__type label.disabled span {
+    color: #777777;
+  }
+  #byob_radio_options .textSubscribe {
+    line-height: normal;
+  }
+  .byob-helper .pm-selected {
+    width: 100%;
+  }
+  .byob-helper .byob-helper-btn {
+    display: none;
+  }
+
+  /* BYOB SideCart */
+  :root {
+    --bByobProgressUnlockedsPaddingSide: 1%;
+  }
+  .gamification.gamification_side .progress_wrapper {
+    width: 100%;
+  }
+  .gamification.gamification_side .progress_wrapper .byob-helper_info {
+    width: 100%;
+    font-family: aktiv-grotesk,Helvetica,Arial,sans-serif;
+    font-size: 14px;
+    font-weight: 300;
+    line-height: normal;
+    letter-spacing: normal;
+    color: #000C48;
+  }
+  .gamification.gamification_side .gamification_container .byob-helper {
+    margin: 0;
+    width: 98px;
+    -ms-flex-align: center!important;
+    align-items: center!important;
+    padding-left: 0;
+  }
+  .gamification.gamification_side .gamification_container .byob-helper .pm-selected {
+    width: inherit;
+    line-height: 1rem;
+  }
+  .gamification.gamification_side .gamification_container .byob-helper .pm-selected small {
+    display: block;
+    line-height: normal;
+  }
+  .gamification.gamification_side .gamification_container .byob-helper .pm-selected span {
+    display: block;
+    font-size: 40px;
+    line-height: 2.2rem;
+    padding: 0;
+  }
+  @media screen and (max-width: 375px){
+    .gamification .progress-unlockeds .unlockeds > div .unlocked-text.bottom {
+      top: 46px;
+    }
+  }
+</style>
+{% endif %}

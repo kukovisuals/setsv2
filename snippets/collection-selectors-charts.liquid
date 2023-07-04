@@ -1,0 +1,45 @@
+{%- case product_target.type -%}
+  {%- when 'Mask' -%}
+    {%- assign size_guid_product = ' maskChart' -%}
+  {%- when 'Mask Pack' -%}
+    {%- assign size_guid_product = ' maskChart' -%}
+  {%- when 'Panty Pack' -%}
+    {%- assign size_guid_product = ' pantyChart' -%}
+  {%- when 'Core Underwear' or 'Premium Underwear' or 'Mesh Underwear' -%}
+    {%- assign size_guid_product = ' pantyChart' -%}
+  {%- when 'Cotton Underwear' -%}
+    {%- assign size_guid_product = ' pantyChart' -%}
+  {%- when 'Surprise Panty Pack' -%}
+    {%- assign size_guid_product = ' pantyChart' -%}
+  {%- when 'Core Bralette' or 'Premium Bralette' or 'Mesh Bralette' -%}
+    {%- assign size_guid_product = ' braletteChart' -%}
+  {%- when 'Core Bra' -%}
+    {%- assign size_guid_product = ' braChart' -%}
+  {%- when 'Cotton Bralette' -%}
+    {%- assign size_guid_product = ' braletteChart' -%}
+  {%- when 'Bodysuit' -%}
+    {%- assign size_guid_product = ' bodysuitChart' -%}
+  {%- when 'Silk Dress' -%}
+    {%- assign size_guid_product = ' silkdressChart' -%}
+  {%- when 'Silk Blouse' -%}
+    {%- assign size_guid_product = ' silkblouseChart' -%}
+  {%- when 'Silk Scarf' -%}
+    {%- assign size_guid_product = ' silkscarfChart' -%}
+  {%- when 'Silk Shorts' -%}
+    {%- assign size_guid_product = ' silkshortsChart' -%}
+  {%- when 'Silk Tank' -%}
+    {%- assign size_guid_product = ' silktankChart' -%}
+  {%- when 'Silk Pants' -%}
+    {%- assign size_guid_product = ' silkpantsChart' -%}
+  {%- when 'Tank' -%}
+    {%- assign size_guid_product = ' tankChart' -%}
+  {%- when 'Emissary Tank' -%}
+    {%- assign size_guid_product = ' tankChart' -%}
+  {%- when 'Bralette Panty Set' -%}
+    {%- assign size_guid_product = ' pantyChart braletteChart' -%}
+  {%- when 'Bra & Panty Set' -%}
+    {%- assign size_guid_product = ' pantyChart braletteChart' -%}
+  {%- when 'Wrap Top' -%}
+    {%- assign size_guid_product = ' wrapTopChart' -%}
+{%- endcase -%}
+{{ size_guid_product }}

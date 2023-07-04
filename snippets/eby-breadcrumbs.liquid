@@ -1,0 +1,20 @@
+<div class="breadcrumbs ebyBreadcrumbs laptop_only">
+  {% if collection.metafields.ebyacf.collection_tier_level == "one" %}
+      <ul class="tierTwoCrumbs"><li class="ebyicon-back-thin"><a href="/">Home</a></li><li>{{ collection.title }}</li></ul>
+  {% endif %}
+  {% if collection.metafields.ebyacf.collection_tier_level == "two" %}
+      <ul class="tierTwoCrumbs"><li class="ebyicon-back-thin"><a href="/">Home</a></li><li class="ebyicon-back-thin"><a href="/collections/seamless-underwear">Shop All</a></li><li>{{ collection.title }}</li></ul>
+  {% endif %}
+  {% if collection.metafields.ebyacf.collection_tier_level == "three" %}
+  	  <ul class="tierThreeCrumbs"><li class="ebyicon-back-thin"><a href="/">Home</a></li><li class="ebyicon-back-thin"><a href="/collections/seamless-underwear">Shop All</a></li><li class="ebyicon-back-thin"><a href="/collections/shop-all-panties">All Panties</a></li><li>{{ collection.title }}</li></ul>
+  {% endif %}
+  {% if collection.metafields.ebyacf.collection_tier_level == "four" %}
+  	  <ul class="tierThreeCrumbs"><li class="ebyicon-back-thin"><a href="/">Home</a></li><li class="ebyicon-back-thin"><a href="/collections/seamless-underwear">Shop All</a></li><li class="ebyicon-back-thin"><a href="/collections/bralettes-for-women">All Bralettes</a></li><li>{{ collection.title }}</li></ul>
+  {% endif %}
+  {% if collection.metafields.ebyacf.collection_tier_level == "five" %}
+  	  <ul class="tierThreeCrumbs"><li class="ebyicon-back-thin"><a href="/">Home</a></li><li class="ebyicon-back-thin"><a href="/collections/seamless-underwear">Shop All</a></li><li class="ebyicon-back-thin"><a href="/collections/shop-bras-and-tanks">All Tops</a></li><li>{{ collection.title }}</li></ul>      
+  {% endif %}
+</div>
+<div class="breadcrumbs ebyBreadcrumbs mobile_only">
+      <ul class=""><li class=""></li></ul>  
+</div>

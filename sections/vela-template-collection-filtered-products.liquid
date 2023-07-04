@@ -1,0 +1,440 @@
+<div class="velaCollections {{ collection.handle }}Collection" data-coll_handle="{{ collection.handle }}" data-coll_title="{{ collection.title }}">
+  	{% if collection.handle contains "last-call-seamless-underwear" %}
+  	<span class="ebySaleNotice">All items are final sale. Additional promotions do not apply.</span>
+  	{% endif %}
+    <div class="proList eby{{ collection.handle }}List">
+      {% if collection.handle contains "bralettes" %}
+        {% assign paginateBy = 200 %}
+      {% else %}
+        {% assign paginateBy = 200 %}
+      {% endif%}
+	  {% paginate collection.products by paginateBy %}
+      <div id="filtered-prod-listing" class="velaOwlRow owlCarouselPlay ebyProdTileListWrapper">
+          {% assign prodCount = 0 %}
+          {% assign bestSellerCount = 0 %}
+          
+          {% for product in collection.products %}
+        
+          {% assign on_sale = false %}
+          {% assign isOnDealSale = false %}
+          {% assign hasFlag = false %}
+
+          {% for prodTag in product.tags %}
+          {% if prodTag contains "lightningDeal-" or prodTag contains "julyfourthsale2023" %}
+          {% assign isOnDealSale = true %}
+          {% endif %}
+          {% endfor %}
+        
+          {%- assign prodColorTitle = "" -%}
+          {%- assign prodSaleTitle = "" -%}
+          {%- assign prodIsLe = "" -%}
+          {%- assign NEU_C = "black,grey,nude,white,caramel,castle_wall,rose_dust,raindrop" | split: ',' -%}
+
+          {% if product.type contains "Cotton" %}
+          {%- assign prodFabric = "cotton" -%}
+          {% elsif product.type contains "Mesh" %}
+          {%- assign prodFabric = "mesh" -%}
+          {% elsif product.type contains "Silk" %}
+          {%- assign prodFabric = "silk" -%}
+          {% elsif product.type contains "Core" %}
+          {%- assign prodFabric = "signature" -%}
+          {% elsif product.type contains "Pack" %}
+          {%- assign prodFabric = "signature" -%}
+          {% endif %}
+
+          {% if product.type contains "Underwear" or product.type == "Shapewear" %}
+              {% assign isPanty = true %}
+              {% assign isBralette = false %}
+              {% assign isTank = false %}
+
+              {% for prodTag in product.tags %}
+                {% if prodTag contains "julyfourthsale2023" or prodTag contains "flashSale-feb232023" %}
+                {% assign on_sale = true %}
+                {% endif %}
+                {% if prodTag contains "pantyType-" %}
+                {%- assign prodNameTitle = prodTag | replace: "pantyType-", "" -%}
+                {% endif %}
+                {% if prodTag contains "pantyColor-" %}
+                {%- assign prodColorTitle = prodTag | replace: "pantyColor-", "" -%}
+                {% endif %}
+                {% if prodTag contains "filterSale-" %}
+                {%- assign prodSaleTitle = prodTag | replace: "filterSale-", "" -%}
+                {% endif %}
+                {% if prodTag contains "limited_edition-" %}
+                {%- assign prodIsLe = "limited_edition" -%}
+                {%- assign prodLeType = prodTag | replace: "limited_edition-", "" -%}
+                {% endif %}
+              {% endfor %}
+          {% elsif product.type contains "Core Bra" %}
+              {% assign isPanty = false %}
+              {% assign isBralette = true %}
+              {% assign isTank = false %}
+
+              {% assign prodNameTitle = "only bra" %}
+              {% for prodTag in product.tags %}
+              {% if prodTag contains "julyfourthsale2023" or prodTag contains "flashSale-feb232023" %}
+              {% assign on_sale = true %}
+              {% endif %}
+              {% if prodTag contains "braletteColor-" %}
+              {%- assign prodColorTitle = prodTag | replace: "braletteColor-", "" -%}
+              {% endif %}
+              {% if prodTag contains "filterSale-" %}
+              {%- assign prodSaleTitle = prodTag | replace: "filterSale-", "" -%}
+              {% endif %}
+              {% if prodTag contains "limited_edition-" %}
+              {%- assign prodIsLe = "limited_edition" -%}
+              {%- assign prodLeType = prodTag | replace: "limited_edition-", "" -%}
+              {% endif %}
+              {% endfor %}
+          {% elsif product.type contains "Bralette"%}
+              {% assign isPanty = false %}
+              {% assign isBralette = true %}
+              {% assign isTank = false %}
+
+              {% assign prodNameTitle = "bralette" %}
+              {% for prodTag in product.tags %}
+              {% if prodTag contains "julyfourthsale2023" or prodTag contains "flashSale-feb232023" %}
+              {% assign on_sale = true %}
+              {% endif %}
+              {% if prodTag contains "braletteColor-" %}
+              {%- assign prodColorTitle = prodTag | replace: "braletteColor-", "" -%}
+              {% endif %}
+              {% if prodTag contains "filterSale-" %}
+              {%- assign prodSaleTitle = prodTag | replace: "filterSale-", "" -%}
+              {% endif %}
+              {% if prodTag contains "limited_edition-" %}
+              {%- assign prodIsLe = "limited_edition" -%}
+              {%- assign prodLeType = prodTag | replace: "limited_edition-", "" -%}
+              {% endif %}
+              {% endfor %}
+          {% elsif product.type == "Tank" %}
+              {% assign isPanty = false %}
+              {% assign isBralette = false %}
+              {% assign isTank = true %}
+
+              {% assign prodNameTitle = "tank" %}
+              {% for prodTag in product.tags %}
+              {% if prodTag contains "julyfourthsale2023" or prodTag contains "apparelSale-apr2023" %}
+              {% assign on_sale = true %}
+              {% endif %}
+              {% if prodTag contains "tankColor-" %}
+              {%- assign prodColorTitle = prodTag | replace: "tankColor-", "" -%}
+              {% endif %}
+              {% if prodTag contains "filterSale-" %}
+              {%- assign prodSaleTitle = prodTag | replace: "filterSale-", "" -%}
+              {% endif %}
+              {% if prodTag contains "limited_edition-" %}
+              {%- assign prodIsLe = "limited_edition" -%}
+              {%- assign prodLeType = prodTag | replace: "limited_edition-", "" -%}
+              {% endif %}
+              {% endfor %}
+          {% elsif product.type == "Bodysuit" %}
+              {% assign isPanty = false %}
+              {% assign isBralette = false %}
+              {% assign isTank = true %}
+
+              {% assign prodNameTitle = "bodysuit" %}
+              {% for prodTag in product.tags %}
+              {% if prodTag contains "julyfourthsale2023" or prodTag contains "apparelSale-apr2023" %}
+              {% assign on_sale = true %}
+              {% endif %}
+              {% if prodTag contains "bodysuitColor-" %}
+              {%- assign prodColorTitle = prodTag | replace: "bodysuitColor-", "" -%}
+              {% endif %}
+              {% if prodTag contains "filterSale-" %}
+              {%- assign prodSaleTitle = prodTag | replace: "filterSale-", "" -%}
+              {% endif %}
+              {% if prodTag contains "limited_edition-" %}
+              {%- assign prodIsLe = "limited_edition" -%}
+              {%- assign prodLeType = prodTag | replace: "limited_edition-", "" -%}
+              {% endif %}
+              {% endfor %}
+          
+          {% elsif product.type == "Mask" %}
+              {% assign isPanty = false %}
+              {% assign isBralette = false %}
+              {% assign isTank = false %}
+
+              {% assign prodNameTitle = "mask" %}
+              {% for prodTag in product.tags %}
+              {% if prodTag contains "julyfourthsale2023" or prodTag contains "flashSale-feb232023" %}
+              {% assign on_sale = true %}
+              {% endif %}
+              {% if prodTag contains "maskColor-" %}
+              {%- assign prodColorTitle = prodTag | replace: "maskColor-", "" -%}
+              {% endif %}
+              {% if prodTag contains "filterSale-" %}
+              {%- assign prodSaleTitle = prodTag | replace: "filterSale-", "" -%}
+              {% endif %}
+              {% if prodTag contains "limited_edition-" %}
+              {%- assign prodIsLe = "limited_edition" -%}
+              {%- assign prodLeType = prodTag | replace: "limited_edition-", "" -%}
+              {% endif %}
+              {% endfor %}
+          {% elsif product.type contains "Pack" %}
+              {% assign isPanty = false %}
+              {% assign isBralette = false %}
+              {% assign isTank = true %}
+
+              {% assign prodNameTitle = "pack" %}
+              {% for prodTag in product.tags %}
+              {% if prodTag contains "packColor-" %}
+              {%- assign prodColorTitle = prodTag | replace: "packColor-", "" -%}
+              {% endif %}
+              {% if prodTag contains "filterSale-" %}
+              {%- assign prodSaleTitle = prodTag | replace: "filterSale-", "" -%}
+              {% endif %}
+              {% if prodTag contains "limited_edition-" %}
+              {%- assign prodIsLe = "limited_edition" -%}
+              {%- assign prodLeType = prodTag | replace: "limited_edition-", "" -%}
+              {% endif %}
+              {% endfor %}
+          {% else %}
+        	  {% assign isPanty = false %}
+              {% assign isBralette = false %}
+              {% assign isTank = false %}
+
+              {% assign prodNameTitle = "top" %}
+              {% for prodTag in product.tags %}
+                {% if prodTag contains "julyfourthsale2023" or prodTag contains "apparelSale-apr2023" %}
+                    {% assign on_sale = true %}
+                {% endif %}
+                {% if prodTag == "flag-new_arrival" %}
+                    {% assign hasFlag = "true" %}
+                    {% assign prodFlag = "New" %}
+                {% endif %}
+                {% if prodTag == "flag-on_sale" %}
+                    {% assign hasFlag = "true" %}
+                    {% assign prodFlag = "Sale" %}
+                {% endif %}
+              {% endfor %}
+          {% endif %}
+
+          {% if prodIsLe == "limited_edition" %}
+          {% if prodLeType == "color" %}
+          {% assign prodColorGroup = "colors" %}
+          {% elsif prodLeType == "print" %}
+          {% assign prodColorGroup = "prints" %}
+          {% else %}
+          {% assign prodColorGroup = "neutrals" %}
+          {% endif %}
+          {% elsif prodIsLe == "" %}
+          {% if NEU_C contains prodColorTitle %}
+          {% assign prodColorGroup = "neutrals" %}
+          {% elsif prodIsLe %}
+          {% assign prodColorGroup = "colors" %}
+          {% endif %}
+          {% endif %}
+
+          {% if shop.metafields.ebyacf.enable_holiday_mode__global == false %}
+        	{%- assign prodSaleTitle = 'false' -%}
+          {% endif %}
+
+          
+          {% assign bestSellerCount = bestSellerCount | plus: 1 %}
+          <div class="item ebyProdTile epcWrapper tileFilterable {% if on_sale or isOnDealSale %}this_sale{% endif %} {% if product.metafields.ebyacf.product_is_new_release or hasFlag == "true" %} newRelease{% endif %}{% if prodIsLe == "limited_edition" %} limitedReleaseTile{% endif %} tileHide noFilterType" 
+               data-prodTitle="{{ product.title }}"
+               data-prodSku="{{ product.id }}"
+               data-prodType="{{ prodNameTitle }}"
+               data-prodSale="{{ prodSaleTitle }}"
+               data-prodColor="{{ prodColorTitle }}"
+               data-prodFabric="{{ prodFabric }}"
+               data-prodColorGroup="{{ prodColorGroup }}"
+               data-prodPrice="{{ product.price }}"
+               data-prodIsPanty="{{ isPanty }}"
+               data-isBralette="{{ isBralette }}"
+               data-isTank="{{ isTank }}"
+               data-bestSellingRank="{{ bestSellerCount }}"
+               data-reviewsCount="{{ product.metafields.stamped.reviews_average }}"
+               >
+                {% if hasFlag %}<div class="prodTileFlag"><div class="prodTileFlagInnerWrapper"><span>New</span></div></div>{% endif %}
+            	{% if on_sale %}<div class="labelSale holidaySaleFlag">Sale</div>{% endif %}
+            {% include 'product-grid-filter-item' %}
+          </div>
+        
+          {% endfor %}
+        </div>
+      <div id="eby-pagination">
+          {% if paginate.next %}
+          	<a href="{{ paginate.next.url }}">&nbsp;</a>
+          {% endif %}  
+      </div>
+      {% endpaginate %}
+<!--       <p id="filtered-prod-listing-alert" class="listingAlertCopy oosAlert">Sorry, no EBYs available. Please choose another filter.</p> -->
+    </div>
+</div>
+
+
+
+{% schema %}
+  {
+    "name": "Vela List Collections",
+	"class": "innerWrapper",
+    "settings": [
+      {
+        "type": "header",
+        "content": "List Products with Collection"
+      },
+      {
+        "type": "checkbox",
+        "id": "collection_image",
+        "label": "Show collection image",
+        "default": true
+      },
+      {
+        "type": "range",
+        "id": "items_propage",
+        "min": 3,
+        "max": 50,
+        "step": 1,
+        "label": "Number items on a page",
+        "default": 3
+      },
+	  {
+        "type": "header",
+        "content": "Collection Filter"
+      },
+	  {
+        "type": "checkbox",
+        "id": "Enable_filter",
+        "label": "Enable Filter",
+        "default": true
+      } 	
+    ],
+	"blocks": [
+      {
+        "type": "col_faq",
+        "name": "Faq",
+        "settings": [
+		  {
+            "id": "collection",
+            "type": "collection",
+            "label": "collection"
+          },
+		  {
+            "type": "text",
+            "id": "title",
+            "label": "Title"
+          },
+		  {
+            "type": "header",
+            "content": "First Block"
+          },
+          {
+            "type": "text",
+            "id": "que_1",
+            "label": "Question"
+          },
+          {
+            "type": "richtext",
+            "id": "ans_1",
+            "label": "Answer"
+          },
+		  {
+            "type": "header",
+            "content": "Second Block"
+          },
+          {
+            "type": "text",
+            "id": "que_2",
+            "label": "Question"
+          },
+          {
+            "type": "richtext",
+            "id": "ans_2",
+            "label": "Answer"
+          },
+		  {
+            "type": "header",
+            "content": "Third Block"
+          },
+          {
+            "type": "text",
+            "id": "que_3",
+            "label": "Question"
+          },
+          {
+            "type": "richtext",
+            "id": "ans_3",
+            "label": "Answer"
+          },
+		  {
+            "type": "header",
+            "content": "Fourth Block"
+          },
+          {
+            "type": "text",
+            "id": "que_4",
+            "label": "Question"
+          },
+          {
+            "type": "richtext",
+            "id": "ans_4",
+            "label": "Answer"
+          },
+		  {
+            "type": "header",
+            "content": "Fifth Block"
+          },
+          {
+            "type": "text",
+            "id": "que_5",
+            "label": "Question"
+          },
+          {
+            "type": "richtext",
+            "id": "ans_5",
+            "label": "Answer"
+          }
+		]
+	  },
+      {
+        "type": "image",
+        "name": "Image",
+        "settings": [
+          {
+            "type": "collection",
+            "id": "select_collection",
+            "label": "Select Collection"
+          },
+          {
+            "type": "image_picker",
+            "id": "image",
+            "label": "Select Image"
+          },
+          {
+            "type": "text",
+            "id": "text",
+            "label": "Content"
+          },
+          {
+            "type": "text",
+            "id": "index",
+            "label": "Index"
+          }
+        ]
+      },
+      {
+        "type": "collection_image",
+        "name": "Collection Image",
+        "settings": [
+          {
+            "type": "collection",
+            "id": "select_collection",
+            "label": "Select Collection"
+          },
+          {
+            "type": "image_picker",
+            "id": "desktop_image",
+            "label": "Desktop Image"
+          },
+          {
+            "type": "image_picker",
+            "id": "mobile_image",
+            "label": "Mobile Image"
+          }
+        ]
+      }
+	]
+  }
+{% endschema %}

@@ -1,0 +1,437 @@
+{% if section.blocks.size > 0 %}
+<section class="premium_tab_section">
+  <div class="section-wrap">
+    <div class="premium_tab_head">
+      <ul class="tabs">
+        {% for block in section.blocks %}
+        {% if block.settings.title != blank %}
+        <li class="tab-link {% if forloop.first %}active{% endif %}" id="tab{{ block.id }}">
+          <a href="javascript:void(0);">
+            {{ block.settings.title }}
+          </a>
+        </li>
+        {% endif %}
+        {% endfor %}
+      </ul>
+    </div>
+    {%- assign formClass = "formAddToCart" -%}
+    {% for block in section.blocks %}
+    {% endfor %}
+    <div class="premium_tab_body" id="sakura-set-assortment">
+      {% for block in section.blocks %}
+
+      {%- assign b_first_product = all_products[block.settings.product_1] -%}
+      {%- assign b_second_product = all_products[block.settings.product_2] -%}
+      {%- assign product_target = b_first_product -%}
+      {%- assign isBundle = true -%}
+      {%- assign formClass = formClass | append: " formAddToCart-bundle" %}
+
+      <div class="tab-content tab-{{ b_first_product.id }} {% if forloop.first %}active{% endif %}" data-tab="tab{{ block.id }}">
+        <div class="tab-content-wrap">
+          <div class="tab-product">
+            <div class="tab-product-wrap">
+              <div class="tab-product-img">
+                {% if block.settings.single_image != blank %}
+                  <div class="single_image">
+                    <a href="{{ block.settings.link }}">
+						<img src="{{ block.settings.single_image | img_url: 'master'}}" alt="{{ block.settings.single_image.alt }}">	
+                    </a>
+                  </div>
+                {% else %}
+                  <div class="img_one">
+                    {% if b_first_product.featured_image != blank %}
+                    <img src="{{ b_first_product.featured_image | img_url: 'original'}}">
+                    {% endif %}
+                  </div>
+                  <div class="img_two">
+                    {% if b_second_product.featured_image != blank %}
+                    <img src="{{ b_second_product.featured_image | img_url: 'original'}}">
+                    {% endif %}
+                  </div>
+                {% endif %}
+                
+              </div>
+              {% assign main_price = b_second_product.price | plus: b_first_product.price %}
+              <div class="tab-product-details">
+                {% if block.settings.pro_title != blank %}
+                <h2>
+                  <a href="">{{ block.settings.pro_title }}</a>
+                </h2>
+                {% else %}
+                <h2>
+                  <a href="">{{ b_first_product.title }} & {{ b_second_product.title }}</a>
+                </h2>
+                {% endif %}
+                <div class="tab-product-price">
+                  <span class="bfx-price">{{ main_price | money_without_trailing_zeros }}</span>
+                </div>
+                <div class="tab-product-btngroup">
+                  <div class="tab_proVariants">
+                    <a href="" class="tab_btn">QUICK ADD +</a> 
+                    <div class="tab_proVariants_wrap">
+                      <span class="tab_close">× <small>Close</small></span>
+                      {% form 'product', product_target, id: "oldID", class: formClass %}
+                      {%- assign variantCount = product_target.variants | size -%}
+                      <div class="proVariants proVariantForm braletteForm" data-variants="">
+                        <select name="id" id="productSelect-{{ section.id }}-{{ block.id }}">
+                          {% for variant in product_target.variants %}
+                          {%- if variant.available -%}
+                          <option {% if variant == product_target.selected_or_first_available_variant %} selected="selected" {% endif %} data-sku="{{ variant.sku }}" value="{{ variant.id }}">{{ variant.title }} - <span class="bfx-price">{{ variant.price | money_with_currency }}</span></option>
+                          {%- else -%}
+                          <option disabled="disabled">
+                            {{ variant.title }} - {{ 'products.product.sold_out' | t }}
+                          </option>
+                          {%- endif -%}
+                          {% endfor %}
+                        </select>
+
+                        {% for option in product_target.options %}
+                        {%- if isBundle == false -%}
+                        {% include 'vela-swatch' with option %}
+                        {%- else -%}
+                        {% include 'vela-swatch-bundle', vela_swatch: option, product_target: product_target, product_first: true, block_id: true %}
+                        {%- endif -%}
+                        {% endfor %}
+                      </div>
+                      {%- if isBundle == true and b_second_product.available -%}
+                      {%- assign variantCount = b_second_product.variants | size -%}
+                      <div class="proVariants-2 proVariantForm pantyForm" data-variants="" style="position: relative;">
+                        {%- if settings.product_swatch -%}
+                        {% for option in b_second_product.options %}
+                        {% include 'vela-swatch-bundle', vela_swatch: option, product_target: b_second_product %}
+                        {% endfor %}
+                        {%- endif -%}
+                      </div>
+                      {%- endif -%}
+                      <button type="submit" name="add" id="AddToCart" class="btn btnAddToCart AddBundleProduct">
+                        <span id="AddToCartText">Add to Cart</span>
+                      </button>
+                      <script>
+
+                      </script>
+                      {% endform %}
+                    </div>
+                  </div>
+                  <div class="tab_proVariants_ovrlay"></div>
+                  {% if block.settings.link != blank %}
+                  <a href="{{ block.settings.link }}" class="tab_btn">Shop</a>
+                  {% endif %}
+                </div>
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+  {% include 'tab-banner-section' %}
+</section>
+{% endif %}
+<div class="pop_size size_guid_pdp">
+  <div class="pop_inner">
+    <div class="pop_wrap">
+      <span class="colz_pop size_guid_pdp">&times;</span>
+      <div class="ebyGuideChartWrapper">
+        {{ shop.metafields.ebyacf.eby_size_chart-panty.en }}
+      </div>
+    </div>
+    <div class="pop_wrapper_backing size_guid_pdp">&nbsp;</div>
+  </div>
+</div>
+
+<script>
+  jQuery(document).on('click', '.siz_guid.size_guid_pdp', function(){
+    if(jQuery('.pop_size.size_guid_pdp').is(':visible')) {
+      jQuery('.pop_size.size_guid_pdp').fadeOut()
+    } else {
+      if ($(this).closest('.proVariantForm').hasClass('pantyForm')) {
+        $('.pop_size.size_guid_pdp .ebyBraletteGuide').hide();
+        $('.pop_size.size_guid_pdp .ebyPantyGuide').show();
+      } else if ($(this).closest('.proVariantForm').hasClass('braletteForm')) {
+        $('.pop_size.size_guid_pdp .ebyPantyGuide').hide();
+        $('.pop_size.size_guid_pdp .ebyBraletteGuide').show();
+      }
+      jQuery('.pop_size.size_guid_pdp').fadeIn();
+    }
+    return false;
+  });
+</script>
+
+
+  <script type="text/javascript">
+      var v = null;
+      var v2 = null;
+      var product = {{ product_target | json }};//console.log(product);
+      var product2 = {{ b_second_product | json }};//console.log(product2);
+      
+      var classPId = product.id;
+    
+      window.productInfo = null;
+      window.product2Info = null;
+      var selectCallback = function(variant, selector) {
+        //v = variant;
+        //console.log('variant',variant,'selector',selector);     
+        vela.productPage({
+          money_format: '{{ shop.money_format }}',
+          variant: variant,
+          selector: selector
+        });
+      };
+    $(document).ready(function() {
+      $('body').addClass('velaCartAdding');
+      jQuery.ajax({
+        url: "https://inventorylocations.checkmyapp.net/inventory/products/eby-by-sofia-vergara.myshopify.com/[{{ product_target.id }}]",
+        beforeSend: function(){
+          $('body').addClass('velaCartAdding');
+        },
+        success: function(data){
+          window.productInfo = data[{{ product_target.id }}].product;
+          jQuery.ajax({
+            url: "https://inventorylocations.checkmyapp.net/inventory/products/eby-by-sofia-vergara.myshopify.com/[{{ b_second_product.id }}]",
+            success: function(data2){
+              window.product2Info = data2[{{ b_second_product.id }}].product;
+              if(window.productInfo == null && window.product2Info == null){
+                $('#AddToCart').addClass('disabled').prop('disabled', true);
+                $('#AddToCartText').html("Sold Out");
+              }
+              $('body').removeClass('velaCartAdding');
+            },
+            error: function(){
+              $('#AddToCart').addClass('disabled').prop('disabled', true);
+              $('#AddToCartText').html("Sold Out");
+              $('body').removeClass('velaCartAdding');
+            }
+          });
+        },
+        error: function(){
+          $('#AddToCart').addClass('disabled').prop('disabled', true);
+          $('#AddToCartText').html("Sold Out");
+          $('body').removeClass('velaCartAdding');
+        }
+      });
+{% for block in section.blocks %}
+                   new Shopify.OptionSelectors('productSelect-{{ section.id }}-{{ block.id }}', {
+                    product: {{ product_target | json }},
+                    onVariantSelected: selectCallback,
+                    enableHistoryState: false
+                  });
+    {% endfor %}
+
+    });
+
+
+    function searchStocks() {
+      if(v != null && v2 != null && $('body').hasClass('velaCartAdding') == false) {
+        //console.log('productInfo',window.productInfo);
+        //console.log('product2Info',window.product2Info);
+        if(window.productInfo != null && window.product2Info != null) {
+          $('body').addClass('velaCartAdding');
+          var s = window.productInfo.variants[v].inventoryItem.locations;
+          //console.log('available',s[0].available);
+          var s2 = window.product2Info.variants[v2].inventoryItem.locations;
+          //console.log('available2',s2[0].available);
+          if((s[0].available == 0 || s[0].available < 0) || (s2[0].available == 0 || s2[0].available < 0)){
+            $('#AddToCart').addClass('disabled').prop('disabled', true);
+            $('#AddToCartText').html("Sold Out");
+          } else {
+            $('#AddToCart').removeClass('disabled').prop('disabled', false);
+            $('#AddToCartText').html("Add to Cart");
+          }
+        } else {
+          $('#AddToCart').addClass('disabled').prop('disabled', true);
+          $('#AddToCartText').html("Sold Out");
+        }
+        $('body').removeClass('velaCartAdding');
+      } else {
+        $('#AddToCart').removeClass('disabled').prop('disabled', false);
+        $('#AddToCartText').html("Add to Cart");
+      }
+    };
+
+    $(".premium_tab_section .swatch-element-bundle .swatch-selector").off('click').on('click', function() {
+      $(this).parent().siblings().each(function( index ) {
+        $( this ).find('.swatch-selector').removeClass('swatch-selected');
+      });
+      $(this).addClass('swatch-selected');
+      if ($(this).closest('.proVariants').length > 0) {
+        v = $(this).attr("product-id");
+        $('#shopify-section-premium_product_tab .single-option-selector').val($(this).attr("data-value")).trigger('change');
+      } else {
+        v2 = $(this).attr("product-id");
+      }
+//       searchStocks();
+    });
+
+    $('body').on('click', '.premium_tab_section .btnAddToCart', function(event){
+      //console.log('button-click');
+      event.preventDefault();
+
+      let p1Select = false;
+      let p2Select = false;
+      
+      $(this).parent().find('.proVariants .swatches .qtyError').remove();
+      $(this).parent().find('.proVariants-2 .swatches .qtyError').remove();
+      
+      if($(this).parent().find('.proVariants .swatches .swatch-selector').hasClass('swatch-selected')){
+        p1Select = true;
+      }else{
+        p1Select = false;
+      }
+      if($(this).parent().find('.proVariants-2 .swatches .swatch-selector').hasClass('swatch-selected')){
+        p2Select = true;
+      }else{
+        p2Select = false;
+      }
+
+      if ( p1Select == true & p2Select == true ) {
+        $('#AddToCart').attr('disable', true);
+        $('#AddToCart').removeClass('is-added').addClass('is-adding');
+        $('.qtyError').remove();
+
+        var viewData = { 
+          items : []
+        };
+        var slides = $(this).parent().find('.swatches .swatch-selector.swatch-selected');
+        let property = $(this).parent().find('.swatches .swatch-selector.swatch-selected').attr("data-association");
+        for (var i = 0; i < slides.length; i++) {
+          var jsonData = {};
+          jsonData['quantity'] = 1;
+          jsonData['id'] = slides[i].getAttribute('product-id');
+          jsonData['properties'] = {
+            'Related product': property,
+            'promotion': 'eby_sets'
+          }
+          viewData.items.push(jsonData);
+        }
+        var obj=$(this);
+        $.ajax({
+          type: 'POST',
+          url: '/cart/add.js',
+          data: {
+            items : viewData['items']
+          },
+          dataType: 'json', 
+          beforeSend: function() {
+            $('body').addClass('velaCartAdding');
+          },
+          success: function (data) {
+            $('body').removeClass('velaCartAdding');
+            ajaxCart.load();
+          },
+          error: function(XMLHttpRequest, textStatus) {
+            $('body').removeClass('velaCartAdding');
+            var data = eval('(' + XMLHttpRequest.responseText + ')');
+            $('#AddToCart').removeClass('is-adding is-added');
+            if (!!data.message) {
+              if (data.status == 422) {
+                $(form).after('<div class="alert alert-danger qtyError">'+ data.description +'</div>')
+              }
+            }
+          }
+        });
+
+        if ($('form[action^="/cart/add"]').hasClass('form-ajaxtocart')) {
+          $("#velaQuickView").fadeOut(500);
+          $(".jsQuickview").html("");
+          $(".jsQuickview").fadeOut(500);
+        }
+        $('#AddToCart').attr('disable', false);
+      } else {
+        event.preventDefault();
+        if (p1Select == false) {
+          $(this).parent().find('.proVariants .swatches').append( "<div class='alert alert-danger qtyError'>Please select your " + $('.proVariants .header small').text().replace(': ', '') + " before adding to cart</p>" );
+        }
+        if (p2Select == false) {
+          $(this).parent().find('.proVariants-2 .swatches').append( "<div class='alert alert-danger qtyError'>Please select your " + $('.proVariants-2 .header small').text().replace(': ', '') + " before adding to cart</p>" );
+        }
+      }
+    });
+
+  </script>
+
+{% schema %}
+  {
+    "name": "Product Tab",
+    "settings": [
+	  {
+		"type": "header",
+		"content": "Banner Section"
+	  },
+	  {
+		"type": "image_picker",
+		"id": "desk_img",
+		"label": "Desktop Image"
+	  },
+	  {
+		"type": "image_picker",
+		"id": "ipad_img",
+		"label": "Ipad Image"
+	  },
+	  {
+		"type": "image_picker",
+		"id": "mob_img",
+		"label": "Mobile Image"
+	  },
+	  {
+		"type": "text",
+		"id": "title",
+		"label": "Title"
+	  },
+	  {
+		"type": "text",
+		"id": "sub_title",
+		"label": "Sub Title"
+	  },
+	  {
+        "type": "url",
+        "id": "button_link",
+        "label": "Button URL"
+      },
+      {
+        "type": "text",
+        "id": "button_text",
+        "label": "Button Text"
+      }	
+	],
+	"blocks": [
+      {
+        "type": "tab",
+        "name": "Product",
+        "settings": [
+		  {
+            "type": "text",
+            "id": "title",
+            "label": "Title"
+          },
+		  {
+            "type": "image_picker",
+            "id": "single_image",
+            "label": "Product Image"
+          },
+		  {
+            "type": "product",
+            "id": "product_1",
+            "label": "Product 1"
+          },
+		  {
+            "type": "product",
+            "id": "product_2",
+            "label": "Product 2"
+          },
+          {
+            "type": "text",
+            "id": "pro_title",
+            "label": "Product Title"
+          },
+          {
+            "type": "url",
+            "id": "link",
+            "label": "Collection Link"
+          }
+		]
+	  }
+	]
+  }
+{% endschema %}

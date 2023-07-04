@@ -1,0 +1,107 @@
+<!---  rebuy bundle widget fc 021323 --->
+
+{% if product.type contains "Mesh Bralette" or product.type contains "Core Bralette" %}
+  {% render 'rebuy-bundle-match', widget_id: 75385 %}
+{% elsif product.type contains "Core Underwear" or product.type contains "Mesh Underwear" or product.type contains "Premium Underwear" %}
+  {% render 'rebuy-bundle-match', widget_id: 74714 %}
+{% elsif product.type contains "Silk Blouse" or product.type contains "Silk Tank" %}
+  {% render 'rebuy-bundle-match', widget_id: 75387 %}
+{% elsif product.type contains "Silk" %}
+  {% render 'rebuy-bundle-match', widget_id: 75389 %}
+{% elsif product.type contains "Set" %}
+
+{% else %}
+  {% render 'rebuy-bundle-match', widget_id: 75385 %}
+{% endif %}
+<!--- rebuy bundle widget fc 021323 end--->
+
+<style>
+  #first-mny-bndl {
+    text-decoration-line: line-through;
+  }
+  .eby-savings-all-23-wrapper {
+    margin-top: 13px;
+  }
+  .button-total-wrpper .btnAddToCart {
+    visibility: visible !important;
+  }
+</style>
+
+<div class="button-total-wrpper">
+
+  {% case type %}
+    {% when 'normal' %}
+
+    <button
+      type="submit"
+      name="add"
+      id="AddToCart"
+      class="btn btnAddToCart">
+      <span id="AddToCartText">{{ texto }} |</span>
+    </button>
+
+    {% when 'surprice' %}
+
+    <button
+      type="submit"
+      name="add"
+      id="AddToCart"
+      class="btn btnAddToCart mysteryPackAddToCartBtn">
+      <span id="AddToCartText">{{ texto }} |</span>
+    </button>
+
+    {% when 'bundles' %}
+
+    <button
+      type="submit"
+      name="add"
+      id="AddToCart"
+      class="btn btnAddToCart AddBundleProduct">
+      <span id="AddToCartText">{{ texto }} |</span>
+    </button>
+
+    {% when 'finalPrice' %}
+
+    <button
+      type="submit"
+      name="add"
+      id="AddToCart"
+      class="btn btnAddToCart">
+      <span id="AddToCartText">{{ texto }} |</span>
+    </button>
+
+  {% else %}
+
+    <h1>
+      Did not find a match for {{ type }} in button add to cart module
+    </h1>
+  {% endcase %}
+
+  <div class="temporary-total active">
+    {% if customer.tags contains 'Active Subscriber' %}
+      <span id="total-pdp-rby">{{ all_products.metafields.ebyacf.vip_member_price }}</span>
+    {%else%}
+      <span id="total-pdp-rby">{{ priceAfter | money_without_trailing_zeros }}</span>
+    {%endif%}
+    <span id="currn-pdp-sze">{{ priceAfter | money_without_trailing_zeros }}</span>
+    <span id="newAdder-total"></span>
+  </div>
+
+</div>
+
+<script type="text/javascript">
+
+  (function(){
+    const isSetPdp = isSetPage();
+    
+    if(isSetPdp){
+      const priceSet = document.querySelector('.nrml-price23').innerText;
+      const bttnPrice = document.getElementById('total-pdp-rby');
+      bttnPrice.innerText = priceSet;
+    }
+    function isSetPage() {
+      const setElem = document.querySelector('.set23-main');
+      return setElem != null;
+    }
+  })();
+</script>

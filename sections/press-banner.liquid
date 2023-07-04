@@ -1,0 +1,84 @@
+<div class="press-banner eby-main-width">
+  <div class="eby-pages23-wrapper">
+    <div class="press-banner-main-wrapper">
+      <div class="press-banner-main-title23">
+        <span class="press-banner-txt23">Press</span>
+      </div>
+    </div>
+    <!---Search container---->
+    <div class="eby-search-wrapper">
+      <div class="eby-search-container23">
+        <lable>
+          <span class="eby-search-icon23">
+            <svg
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              xmlns="http://www.w3.org/2000/svg">
+              <g
+                stroke="#04081C"
+                fill="none"
+                fill-rule="evenodd">
+                <path stroke-linecap="round" d="m16.5 16.5 4 4" />
+                <circle
+                  cx="11"
+                  cy="11"
+                  r="7.5" />
+              </g>
+            </svg>
+          </span>
+          <input
+            class="eby-search-input23"
+            id="eby-search-react"
+            type="text"
+            name="search"
+            placeholder="Search" />
+        </lable>
+      </div>
+    </div>
+  </div>
+  <!---End Search container---->
+  <div class="eby-bannerImage23">
+    <img
+      width="376"
+      height="472"
+      alt="EBY Press banner"
+      title="EBY Press banner"
+      src="{{section.settings.mobile_image | img_url: 'master'}}"
+      class="mob_img2 lazyloadPload">
+    <img
+      width="768"
+      height="768"
+      alt="EBY Press banner"
+      title="EBY Press banner"
+      data-src="{{section.settings.table_image | img_url: 'master'}}"
+      class="tablet_img2 lazyload">
+    <img
+      width="1024"
+      height="456"
+      alt="Eby press banner"
+      title="Eby press banner"
+      data-src="{{section.settings.desktop_image | img_url: 'master'}}"
+      class="desk_img2 lazyload">
+  </div>
+</div>
+{% schema %}
+  {
+    "name": "Banner Image",
+    "settings": [
+      {
+        "type": "image_picker",
+        "id": "mobile_image",
+        "label": "Mobile Image"
+      }, {
+        "type": "image_picker",
+        "id": "table_image",
+        "label": "Tablet Image"
+      }, {
+        "type": "image_picker",
+        "id": "desktop_image",
+        "label": "Desktop Image"
+      }
+    ]
+  }
+{% endschema %}

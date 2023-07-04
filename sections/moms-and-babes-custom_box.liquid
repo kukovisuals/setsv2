@@ -1,0 +1,38 @@
+{% if section.settings.title != blank %}
+<section class="custom_box text-center">
+  <div class="custom_inner_box">
+    {% if section.settings.title != blank %}
+    <h2>{{ section.settings.title }}</h2>
+    {% endif %}
+    {% if section.settings.button_link != blank and section.settings.button_text != blank %}
+    <a class="btn scroll_btn" href="{{ section.settings.button_link }}">
+      <span>{{ section.settings.button_text }}</span>
+    </a>
+    {% endif %}
+  </div>
+</section>
+{% endif %}
+
+
+{% schema %}
+  {
+    "name": "Custom Section",
+    "settings": [
+	 {
+		"type": "text",
+		"id": "title",
+		"label": "Title"
+	  },
+	  {
+        "id": "button_link",
+        "type": "url",
+        "label": "Button URL"
+      },
+      {
+        "type": "text",
+        "id": "button_text",
+        "label": "Button Text"
+      }	
+	]
+  }
+{% endschema %}

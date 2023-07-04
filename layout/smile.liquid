@@ -1,0 +1,220 @@
+<!doctype html>
+<!--[if IE 9]> <html class="ie9 no-js" lang="{{ shop.locale }}"> <![endif]-->
+<!--[if (gt IE 9)|!(IE)]><!--> <html class="no-js" lang="{{ shop.locale }}"> <!--<![endif]-->
+<head>
+  <meta charset="utf-8"/>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <meta name="theme-color" content="{{ settings.vela_color_primary }}"/>
+  <meta name="p:domain_verify" content="76d37e972c49ccf70309e4224eae0c2c"/>
+  {% capture seo_title %}
+    {{ page_title }}
+    {% if current_tags %}{%- assign meta_tags = current_tags | join: ', ' %} &ndash; {{ 'general.meta.tags' | t: tags: meta_tags -}}{% endif %}
+    {% if current_page != 1 %}&ndash; {{ 'general.meta.page' | t: page: current_page }}{% endif %}
+    {% unless page_title contains shop.name %}&ndash; {{ shop.name }}{% endunless %}
+  {% endcapture %}
+  <title>{{ seo_title }}</title>
+  <link rel="canonical" href="{{ canonical_url }}">
+  <meta name="format-detection" content="telephone=no">
+  {% if handle contains 'last-call-seamless-underwear' or handle contains 'giveaway' or handle contains 'sakura' or handle contains 'roseata' or template contains 'premium_new' or template contains 'parisian-summer-luxury' %}
+  <meta name="robots" content="noindex">
+  {% endif %}
+  {% if handle contains 'roseata' or handle contains 'sakura' or template contains 'premium_new' or template contains 'parisian-summer-luxury' %}
+  <meta property="og:image"  content="https://cdn.shopify.com/s/files/1/0313/4062/5964/files/768---IMG---LUXE-1_2x_0367b37d-a53d-4651-86d5-91c1d1304d20.jpg?v=1628520959" />
+  <meta name="twitter:image" content="https://cdn.shopify.com/s/files/1/0313/4062/5964/files/768---IMG---LUXE-1_2x_0367b37d-a53d-4651-86d5-91c1d1304d20.jpg?v=1628520959" />
+  {% endif %}
+  {% if settings.favicon != blank %}
+  	<link rel="shortcut icon" href="{{ settings.favicon | img_url: '32x32' }}" type="image/png">
+  {% endif %}
+  {% if page_description %}
+  <meta name="description" content="{{ page_description | escape }}">
+  {% endif %}
+  <!-- content_def -->
+  {% capture h_content %}
+  {{ content_for_header }}
+  {% endcapture %}
+  {{ h_content | remove: "window.attachEvent('onload', asyncLoad);" | remove: "window.addEventListener('load', asyncLoad, false);" }}
+  <!-- endcontent -->
+  
+  {% render 'preload-snippet' %}
+  
+  {% render 'vela-header-styles' %}
+  {% render 'vela-header-javascript' %}
+  {% render 'social-meta-tags' %}
+  {{ 'smile-lp.scss.css' | asset_url | stylesheet_tag }}
+
+  {% render 'shogun-head' %}
+</head>
+{%- if template contains 'customer' -%}
+  {%- assign velaBodyClass = 'template-account' -%}
+{%- endif -%}
+{%- if settings.loading_enable -%}
+  {%- assign bodyPreLoading = 'bodyPreLoading' -%}
+{%- endif -%}
+
+<body id="{{ page_title | handle }}" class="{% if canonical_url contains 'last-call' %}last_cols_page{% endif %} {% if template contains 'premium_new' or template contains 'parisian-summer-luxury' or template == 'page.strawberry-ice' or template == 'page.blue-meadow' or template contains 'cotton-bralette' or template == 'page.poppy-red-and-pose'  %}premium_news{% endif %} template-{{ template | split: '.' | first }} {{ velaBodyClass }}{% if settings.header_float_enable %} velaFloatHeader{% endif %} {{ bodyPreLoading }} {% if template.suffix contains 'filter' %}filterBodyTemplate{% endif %} {% if customer.tags contains 'Active Subscriber' %}loggedIn{% else %}loggedOut{% endif %}{% if customer.tags contains 'Active Subscriber' %} isMember{% endif %} bfx-price-container bfx-checkout-container bfx-remove-element-container">
+  {% comment -%} For Sidecart Gamification {%- endcomment -%}
+  {% render 'discount-rules', showJsFreeGiftProduct:false, showJs:false, showJsReady:false, showLiquidCart:false, showProgressBarJS:false, showProgressBarCSS:true %}
+  {% comment -%} End For Sidecart Gamification {%- endcomment -%}
+  
+  {% render 'vela-template' %}
+  <div id="pageContainer" class="isMoved">
+    {% unless page.handle == 'build-your-box' or  page.handle == 'get-your-box' %}
+      {% section 'eby-header' %}
+    {% endunless %}
+
+    <main class="mainContent{% if template.suffix contains 'holidaydeal' or template.suffix contains 'build-a-pack-3' %} noTopBanner{% endif %}" role="main">
+      {{ content_for_layout }}
+      {% if template.name == 'collection' or template.name == 'list-collections' or template == 'page.premium_new' or template == 'page.parisian-summer-luxury' or template == 'page.blue-meadow' or template == 'page.strawberry-ice' or template == 'page.poppy-red-and-pose' or template == 'page.black-and-nude' or template contains 'cotton-bralette' or template == 'page.tank-lp'  %}
+      <div class="pop_size pop_productQuickAdd">
+        <div class="pop_inner">
+          <div class="pop_wrap">
+            <span class="colz_pop size_guid_plp">&times; <small>Close</small></span>
+            <div class="ebyGuideChartWrapper selection-wrapper">
+            </div>
+          </div>
+          <div class="pop_wrapper_backing size_guid_pdp">&nbsp;</div>
+        </div>
+      </div>
+      <div class="pop_size size_guid_plp">
+        <div class="pop_inner">
+          <div class="pop_wrap">
+            <span class="colz_pop size_guid_plp">&times;</span>
+            <div class="ebyGuideChartWrapper">
+              {{ shop.metafields.ebyacf.eby_size_chart-panty.en }}
+            </div>
+          </div>
+          <div class="pop_wrapper_backing size_guid_pdp">&nbsp;</div>
+        </div>
+      </div>
+      {% endif %}
+    </main>
+    
+    {% unless page.handle == 'build-your-box' or page.handle == 'get-your-box' %}
+      <section class="newslsec newslsec-{{ template }}">
+        {% section 'new-letter-section' %}
+      </section>
+      {% section 'vela-footer' %}
+      {% include 'vela-notification' %}
+    {% endunless %}
+  </div>
+    
+  {% render 'vela-ajaxcart' %}
+  {% render 'vela-modal' %}
+  {% render 'get-membership-popup' %}
+  <!-- Begin ReCharge code -->
+  {% render 'subscription-theme-footer' %}
+  <!-- End ReCharge code -->
+  {% render 'smile-initializer' %}
+  
+  <!-- Begin FreeGift code -->
+  {% comment -%}{% include 'free-gift-product' %}{%- endcomment -%}
+  <!-- End FreeGift code -->
+
+  {% comment -%} For Sidecart Gamification {%- endcomment -%}
+  {% render 'discount-rules', init:true, showJsFreeGiftProduct:true, showJs:true, showJsReady:true, showLiquidCart:true, showJsRemoveFreeGiftProduct:false, showProgressBarJS:true, showProgressBarCSS:false %}
+  {% comment -%} End For Sidecart Gamification {%- endcomment -%}
+
+  {% unless product.handle == 'seamless-cotton-underwear' %}
+    <!-- Begin Shopify-Afterpay JavaScript Snippet (v1.0.10) -->
+    <script type="text/javascript" defer>
+      // if cookie for Canada is set, turn off afterpay
+
+      var afterpay_shop_currency = {{ shop.currency | json }};
+      var afterpay_cart_currency = {{ cart.currency.iso_code | json }};
+      var afterpay_shop_money_format = {{ shop.money_format | json }};
+      var afterpay_shop_permanent_domain = {{ shop.permanent_domain | json }};
+      var afterpay_theme_name = {{ theme.name | json }};
+      var afterpay_product = {{ product | json }};
+      var afterpay_current_variant = {{ product.selected_or_first_available_variant | json }};
+      var afterpay_cart_total_price = {{ cart.total_price | json }};
+      var afterpay_js_snippet_version = '1.0.10';
+
+    </script>
+    <script type="text/javascript" defer src="https://static.afterpay.com/shopify-afterpay-javascript.js"></script>
+    <!-- End Shopify-Afterpay JavaScript Snippet (v1.0.10) -->
+  {% endunless %}
+  
+  <script defer id="bfx-snippet">
+
+    (function(e,n,o,t,a){function c(n){e[t]._apiKey=n.key;e[t]._env=n.env;e[t]._logLevel=n.logLevel;
+
+    e[t]._mode=n.mode;e[t]._brand=n.brand;e[t]._cookieFlag=n.cookieFlag}e[t]=c;e[t].l=1*new Date;var i,l;
+
+    i=n.createElement(o);l=n.getElementsByTagName(o)[0];i.defer=1;i.src=a;l.parentNode.insertBefore(i,l);
+
+    })(window,document,"script","bfx",
+
+    "https://bfx-objects.prd.borderfree.com/v1/dist/bfx.js");
+
+    bfx({key:'ec9b8a00-10ee-11ec-a21e-a3212cce62eb', env:'PROD', mode:'default', brand:'default'});
+
+  </script>
+  
+  {% if handle contains 'track-my-order' %}
+    <script defer src="https://global.prd.borderfree.com/cdn/tracking/v1/dist/borderfreeOrderTracking.min.js"></script>
+  {% endif %}
+
+  <script type="text/javascript" defer src="https://unpkg.com/@loophq/onstore-sdk@latest/dist/loop-onstore-sdk.js"></script>
+
+  <!-- Hotjar Tracking Code for https://shop.join-eby.com -->
+  <script type="text/javascript" async>
+      (function() {
+        function asyncLoad() {
+          var urls = [
+            "\/\/shopify.privy.com\/widget.js?shop=eby-by-sofia-vergara.myshopify.com",
+            "https:\/\/static.rechargecdn.com\/static\/js\/recharge.js?shop=eby-by-sofia-vergara.myshopify.com",
+            "https:\/\/inventorylocations.checkmyapp.net\/inventory-location.js?shop=eby-by-sofia-vergara.myshopify.com",
+            "https:\/\/js.smile.io\/v1\/smile-shopify.js?shop=eby-by-sofia-vergara.myshopify.com",
+            "https:\/\/www.dwin1.com\/19038.js?shop=eby-by-sofia-vergara.myshopify.com",
+            "https:\/\/static.shareasale.com\/json\/shopify\/deduplication.js?shop=eby-by-sofia-vergara.myshopify.com",
+          ];
+
+          for (var i = 0; i < urls.length; i++) {
+            var s = document.createElement('script');
+            s.type = 'text/javascript';
+            s.defer = true;
+            s.src = urls[i];
+            var x = document.getElementsByTagName('script')[0];
+            x.parentNode.insertBefore(s, x);
+          }
+        };
+        if(window.attachEvent) {
+          window.attachEvent('onload', asyncLoad);
+        } else {
+          window.addEventListener('load', asyncLoad, false);
+        }
+      })();
+      document.addEventListener("DOMContentLoaded", function() {
+        if (!!LoopOnstore) {
+          LoopOnstore.init({ 
+            key: "f0475fc5ab089ff316161e19efe6a583edd70ef9", 
+            attach: ".btnVelaCart.btnCheckout" 
+          });
+        }
+      });
+    
+      Shopify.customerVIP = {% if customer.tags contains "Active Subscriber" %}true{% else %}false{% endif %};
+
+//       (function(h,o,t,j,a,r){
+//           h.hj=h.hj||function(){(h.hj.q=h.hj.q||[]).push(arguments)};
+//           h._hjSettings={hjid:833653,hjsv:6};
+//           a=o.getElementsByTagName('head')[0];
+//           r=o.createElement('script');r.async=1;
+//           r.src=t+h._hjSettings.hjid+j+h._hjSettings.hjsv;
+//           a.appendChild(r);
+//       })(window,document,'https://static.hotjar.com/c/hotjar-','.js?sv=');
+    
+      /*(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+      new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+      j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+      'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+      })(window,document,'script','dataLayer','GTM-NBMWD9S');*/
+  </script>
+<!--   <script defer type="text/javascript" src="https://www.googleoptimize.com/optimize.js?id=OPT-PJDPSG7"></script> -->
+
+  <script defer type="text/javascript" src="{{ 'jquery.2.2.3.js' | asset_url }}"></script>
+  <script defer type="text/javascript" src="{{ 'vendor.js' | asset_url }}"></script>
+  {% render 'vela-footer-javascript' %}
+</body>
+</html>

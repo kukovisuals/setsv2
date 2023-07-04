@@ -1,0 +1,385 @@
+{% for productCollection in product_target.collections -%}
+  {%- if productCollection.handle == "build-your-custom-box" -%}
+    <div id="radio_options_subs" role="radiogroup" aria-labelledby="Purchase options">
+      <div class="radio_options_block block__type block__type__onetime ">
+        <input type="radio" name="radio_options_purchase_type" id="purchase_type_onetime_subs" value="onetime" class="radio_options_radio radio__onetime">
+        <label for="purchase_type_onetime_subs" class="radio_options_label label__onetime">
+          <span class="label__text">One-time purchase: 
+            <span id="price_onetime" class="radio_options_price price__onetime" aria-label="original price">{{ product_target.price | money | remove: ".00" }}</span>
+          </span>
+        </label>
+      </div>
+      <div class="radio_options_block block__type block__type__autodeliver">
+        <input type="radio" name="radio_options_purchase_type" id="purchase_type_autodeliver_subs" value="autodeliver" checked class="radio_options_radio radio__autodeliver">
+        <label for="purchase_type_autodeliver_subs" class="radio_options_label label__autodeliver">
+          <span class="label__text">Subscribe and save: 
+            <span class="label__discount" aria-label="subscription discount">$13</span>
+            <span id="price_autodeliver" class="radio_options_price price__autodeliver" aria-label="recurring price"></span>
+          </span>
+          <a class="ebyFancyBtn membershipInfoPopup" data-src="#learnAboutMembership" >?</a>
+        </label>
+        
+        <div id="radio_options_autodeliver_options" class="radio_options_block block__type__options">
+          <label for="shipping_interval_frequency_subs" class="radio_options_label label__deliver_every" aria-label="Subscription frequency options">
+            <span class="label__delivery">Deliver Every</span>
+            <!--[if !IE]> -->
+            <div class="notIE">
+              <!-- <![endif]-->
+              <span class="fancyArrow"></span>
+              <select id="shipping_interval_frequency_subs" class="radio_options_select select__frequency">
+                <option value="quarterly">
+                  3 months
+                </option>
+                <option value="semi-annual">
+                  6 months
+                </option>
+              </select>
+              <!--[if !IE]> -->
+            </div>
+            <!-- <![endif]-->
+          </label>
+        </div>
+      </div>
+    </div>
+
+    <script type="text/javascript">
+      const formAddToCart = document.querySelector('form.formAddToCart');
+      // Options for the observer (which mutations to observe)
+      const configSUBNUD = { attributes: true, childList: true, subtree: true };
+      // Callback function to execute when mutations are observed
+      const callbackSUBNUD = function(mutationsList, observer) {
+        for(const mutation of mutationsList) {
+          //console.log('mutation',mutation.target);
+          if (mutation.type === 'childList') {
+            //console.log('A child node has been added or removed.');
+            let isSwatchSize = false;
+            let nodeParent = null;
+    
+            // For Core Underwear or Core Bralette
+            if ((typeof mutation.target.classList !== 'undefined') && (mutation.target.classList.contains('swatches'))) {
+              mutation.target.querySelectorAll('div[option-name*="Size"').forEach(item => {
+                //console.log('item',item,'innerhtml',item.innerHTML);
+                if (typeof item.getAttribute === 'function') {
+                  //console.log('item.getAttribute',item.getAttribute('option-name'));
+                  if (item.getAttribute('option-name') != null) {
+                    let notSwatched = ['vip','cb'];
+                    let isNotSwatched = false;
+                    let optionName = item.getAttribute('option-name');
+                    let optionNameArray = optionName.split(' ');
+                    if (optionNameArray.length = 1) {
+                      if (notSwatched.indexOf(optionNameArray[0].toLowerCase()) >= 0) {
+                        isNotSwatched = true;
+                      }
+                    } else if (optionNameArray.length = 2) {
+                      if ((notSwatched.indexOf(optionNameArray[0].toLowerCase()) >= 0) || (notSwatched.indexOf(optionNameArray[1].toLowerCase()) >= 0)) {
+                        isNotSwatched = true;
+                      }
+                    }
+                    //console.log('notSwatched',notSwatched,'Size',optionName.includes("Size"),'toLowerCase',optionName.toLowerCase(),'isNotSwatched',isNotSwatched);
+                    if ((optionName.includes("Size") == true) && isNotSwatched == false) {
+                      isSwatchSize = true;
+                      nodeParent = item;
+                      return;
+                    }
+                  }
+                }
+              });
+            }
+            // For other products
+            //console.log('parentElement-getAttribute',typeof mutation.target.getAttribute === 'function');
+            if (typeof mutation.target.getAttribute === 'function') {
+              //console.log('parentElement-getAttribute',mutation.target.getAttribute('option-name'));
+              if (mutation.target.getAttribute('option-name') != null) {
+                //console.log('parentElement-getAttribute',mutation.target.getAttribute('option-name').includes("Size"));
+                if (mutation.target.getAttribute('option-name').includes("Size") == true) {
+                  isSwatchColor = true;
+                  nodeParent = mutation.target;
+                }
+              }
+            }
+    
+            //console.log('isSwatchSize',isSwatchSize,'nodeParent',nodeParent);
+            if (isSwatchSize == true && nodeParent != null) {
+              let swatchLabel = nodeParent.querySelector(".swatch-label");
+              let sizeGuidPdp = document.querySelector('.size_guid_pdp');
+              //console.log('swatchLabel',swatchLabel,'sizeGuidPdp',sizeGuidPdp);
+              if (swatchLabel != null && sizeGuidPdp != null) {
+                swatchLabel.appendChild(sizeGuidPdp);
+                sizeGuidPdp.style.display = "inline-block";
+              }
+              observer.disconnect();
+            }
+          }
+          else if (mutation.type === 'attributes') {
+            //console.log('The ' + mutation.attributeName + ' attribute was modified.');
+          }
+        }
+      };
+      // Create an observer instance linked to the callback function
+      const observerSUBNUD = new MutationObserver(callbackSUBNUD);
+      // Start observing the target node for configured mutations
+      observerSUBNUD.observe(formAddToCart, configSUBNUD);
+    
+      function sentToAddEbyMembershipBox(event) {
+        event.preventDefault();
+        let variantSelector = document.querySelector('[name="id"]');
+        let singleOptionSelector = document.querySelector('#productSelect-option-0');
+        let shippingIntervalFrequency = document.querySelector('#shipping_interval_frequency_subs');
+        console.log('variantSelector',variantSelector.value,'singleOptionSelector',singleOptionSelector.value,'shippingIntervalFrequency',shippingIntervalFrequency.value);
+        if (variantSelector != null && shippingIntervalFrequency != null) {
+          let sizeGroup = singleOptionSelector.value;
+          let planGroup = null;
+          if (singleOptionSelector != null) {
+            planGroup = singleOptionSelector.value;
+          }
+          let prodsOfInterest = variantSelector.value;
+          vela.addEbyMembershipBox('pdp', {
+            styleGroup : null,
+            colorGroup : null,
+            sizeGroup  : sizeGroup,
+            planGroup  : planGroup,
+            prodsOfInterest : [prodsOfInterest],
+            firstPantySelected : prodsOfInterest + "::" + {{ product.id }} + "::" + sizeGroup
+          });
+        }
+      }
+      var ready = (callbackSUBNUD) => {
+        if (document.readyState != "loading") callbackSUBNUD();
+        else document.addEventListener("DOMContentLoaded", callbackSUBNUD);
+      }
+
+      ready(() => {
+        const radioOptionsSubs = document.querySelector("#radio_options_subs");
+        if (radioOptionsSubs !=  null) {
+          radioOptionsSubs.querySelectorAll('[name="radio_options_purchase_type"]').forEach(radio => {
+            radio.addEventListener("change", (e) => {
+              //console.log('change-e',e.currentTarget.value);
+              if (e.currentTarget.value == "onetime") {
+                // make add to cart button different
+          		document.querySelector('#AddToCartText').innerText = "Add to Cart";
+                
+                document.querySelector("#radio_options_autodeliver_options").style.display = "none";
+                document.querySelector("#AddToCart").removeEventListener("click", sentToAddEbyMembershipBox, false);
+                document.querySelector(".proBoxInfo").classList.remove("hide-afterpay");
+                document.querySelector(".payment_terms").classList.add("show-shoppay");
+              } else {
+                // make add to cart button different
+                document.querySelector('#AddToCartText').innerText = "Add To Cart";
+                
+                document.querySelector("#radio_options_autodeliver_options").style.display = "block";
+                document.querySelector("#AddToCart").addEventListener("click", sentToAddEbyMembershipBox, false);
+                document.querySelector(".proBoxInfo").classList.add("hide-afterpay");
+                document.querySelector(".payment_terms").classList.remove("show-shoppay");
+              }
+            });
+          });
+        }
+      
+        document.querySelector("#AddToCart").addEventListener("click", sentToAddEbyMembershipBox, false);
+        document.querySelector(".proBoxInfo").classList.add("hide-afterpay");
+      	
+      	//add click event for membership info popup
+      	if (!!document.getElementById('learnAboutMembership')) {
+          document.querySelector('.membershipInfoPopup').addEventListener('click', (e) => {
+            console.log(':: membership info popup init ::');
+            $.fancybox.open(jQuery("#learnAboutMembership"));
+          });
+      	}
+      });
+    </script>
+    
+    <style>
+      .pdp .proBoxInfo .formAddToCart {
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex;
+        -webkit-box-orient: vertical;
+        -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+        flex-direction: column;
+      }
+      .pdp .proBoxInfo .formAddToCart > * {
+        -webkit-box-ordinal-group: 3;
+        -ms-flex-order: 2;
+        order: 2;
+      }
+      .pdp .proBoxInfo .formAddToCart #radio_options_subs {
+        -webkit-box-ordinal-group: 2;
+        -ms-flex-order: 1;
+        order: 1;
+        margin: 3rem 0 0;
+        font-size: 14px;
+        line-height: 16px;
+        color: #000C48;
+      }
+      #radio_options_subs .block__type {
+        padding: 0px;
+      }
+      #radio_options_subs .radio_options_radio + .radio_options_label {
+        display: inline-block;
+        position: relative;
+/*         padding-left: 27px; */
+        margin-bottom: 7px;
+        cursor: pointer;
+        font-size: 14px;
+        line-height: 16px;
+        color: #000C48;
+/*         -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none; */
+      }
+      #radio_options_subs .radio_options_block .radio_options_radio {
+        position: absolute;
+        opacity: 0;
+        cursor: pointer;
+      }
+      #radio_options_subs .radio_options_radio + .radio_options_label:before {
+        position: absolute;
+        top: calc(50% - 6px);
+        left: 0;
+        height: 12px;
+        width: 12px;
+        border: 1px solid #0064FF;
+        border-radius: 50%;
+        display:none;
+      }
+      #radio_options_subs .radio_options_radio + .radio_options_label:before,
+      #radio_options_subs .radio_options_radio + .radio_options_label:after {
+        content: "";
+        position: absolute;
+      }
+      .container:hover input ~ .checkmark {
+        /*background-color: #ccc;*/
+      }
+      .container input:checked ~ .checkmark {
+        /*background-color: #2196F3;*/
+      }
+      #radio_options_subs .radio_options_radio + .radio_options_label:after {
+        content: "";
+        position: absolute;
+        opacity: 0;
+      }
+      #radio_options_subs .radio_options_radio:checked + .radio_options_label:after,
+      #radio_options_subs .radio_options_radio + .radio_options_label:hover:after {
+        /*display: block;*/
+        opacity: 1;
+      }
+      #radio_options_subs .radio_options_radio + .radio_options_label:after {
+        top: calc(50% - 3px);
+        left: 3px;
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        background: #2031BA;
+        -webkit-transition: 0.3s all ease-in-out !important;
+        transition: 0.3s all ease-in-out !important;
+        display:none;
+      }
+      #radio_options_subs .radio_options_label.label__autodeliver .label__text {
+        display: inline-block;
+        color: #000C48;
+        background: transparent;
+        border-radius: 46px;
+        padding: 7px 16px;
+      }
+      #radio_options_subs .radio_options_label .label__text {
+        display: inline-block;
+        color: #000C48;
+        background: transparent;
+        border-radius: 46px;
+        padding: 7px 16px;
+        -o-transition: 0.2 ease-in-out all;
+        -moz-transition: 0.2 ease-in-out all;
+        -webkit-transition: 0.2 ease-in-out all;
+        transition: 0.2 ease-in-out all;
+        border: 1px solid #000C48 !important;
+        -webkit-box-shadow: inset 0 0 0 2px #fff;
+        -moz-box-shadow: inset 0 0 0 2px #fff;
+        box-shadow: inset 0 0 0 2px #fff;
+      }
+      #radio_options_subs input:checked + .radio_options_label .label__text {
+      	color: #fff;
+        background: #000C48;
+        border: 1px solid #0064ff!important;
+        -webkit-box-shadow: inset 0 0 0 2px #fff;
+        -moz-box-shadow: inset 0 0 0 2px #fff;
+        box-shadow: inset 0 0 0 2px #fff;
+      }
+      #radio_options_subs .block__type__options {
+        padding-left: 27px; 
+      }
+      #radio_options_subs .block__type__options label {
+      	margin-bottom: 0;
+      }
+      #radio_options_subs .notIE {
+        position: relative;
+        display: inline-block;
+      }
+      #radio_options_subs select {
+        display: inline-block;
+        outline: none;
+        font-size: 14px;
+        line-height: 16px;
+        color: #0064FF;
+        border: 1px solid rgba(210, 210, 210, 0.6);
+        box-sizing: border-box;
+        border-radius: 41.3961px;
+        background: #FFF;
+        padding: 6px 16px;
+        margin-left: 6px;
+      }
+      #radio_options_subs .notIE .fancyArrow {
+        width: 23px;
+        height: calc(100% - 6px);
+        position: absolute;
+        display: inline-block;
+        top: 3px;
+        right: 2px;
+        pointer-events: none;
+        background: #fff;
+        border-radius: 41.3961px;
+      }
+      #radio_options_subs .notIE .fancyArrow:after {
+        content: "";
+        width: 10px;
+        height: 10px;
+        position: absolute;
+        display: inline-block;
+        top: calc(50% - 3px);
+        right: 10px;
+        border-top: 5px solid #0064FF;
+        border-left: 5px solid transparent;
+        border-right: 5px solid transparent;
+        border-bottom: 5px solid transparent;
+      }
+      .proBoxInfo.hide-afterpay .afterpay-paragraph {
+         display: none !important;
+      }
+      .payment_terms.show-shoppay {
+      	display: flex !important;
+      }
+      
+      @media screen and (max-width: 769px){
+        .block__type__options {
+        	margin-bottom: 1rem;
+        }
+        .pdp .proBoxInfo .formAddToCart #radio_options_subs {
+        	margin: 2rem auto 0rem;
+        }
+      }
+      /*target Internet Explorer 9 and Internet Explorer 10:*/
+      @media screen and (min-width: 0\0) {
+        #radio_options_subs .notIE .fancyArrow {
+          display: none;
+        }
+      }
+      .pdp .proBoxInfo .swatch-label .siz_guid {
+        position: static !important;
+        margin-left: 10px;
+      }
+    </style>
+    {%- break -%}
+  {%- endif -%}
+{%- endfor %}
+

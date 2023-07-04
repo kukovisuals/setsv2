@@ -1,0 +1,12 @@
+{% if customer %}
+<script type="text/javascript">window.location.href = '/account/login'</script>
+{% endif %}
+
+<section id="pageContent">
+    <div class="container-full">
+        <div class="velaAccountContainer">
+            {%- assign isLogin = false -%}
+            {% include 'vela-login-register' %}
+        </div>
+    </div>
+</section>

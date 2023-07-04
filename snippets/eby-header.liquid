@@ -1,0 +1,426 @@
+<div class="hidden_data_two" style="display: none;">
+  {% assign trueCartCount = 0 %}
+  {% for cartItem in cart.items %}
+  {% unless cartItem.properties == empty %}
+  {% assign itemProps = cartItem.properties | join: ', ' %}
+  {% unless itemProps contains "hidden_collateral" or itemProps contains "included_in_custombox" or itemProps contains "included_in_membershipbox" or itemProps contains "Sub Subscription" or itemProps contains "sub_bundle" or itemProps contains "included_in_pack"%}
+  {% assign trueCartCount = trueCartCount | plus: cartItem.quantity %}
+  {% endunless %}
+  {% endunless %}
+  {% endfor %}
+</div>
+
+<!-- <script type="text/javascript">
+  $(function () {
+    function isMobile() {
+      var windowWidth = $(window).width();
+
+      if (windowWidth > 1024) {
+        return false;
+      }
+
+      return true;
+    }
+
+    function toggleActiveClass(elements, element) {
+      var isActive = element.hasClass("active");
+
+      elements.removeClass("active");
+
+      if (isActive) {
+        element.removeClass("active");
+      } else {
+        element.addClass("active");
+      }
+    }
+
+    function toggleOpenClass(elements, element) {
+      var isActive = element.hasClass("open");
+
+      elements.removeClass("open");
+
+      if (isActive) {
+        element.removeClass("open");
+      } else {
+        element.addClass("open");
+      }
+    }
+    
+    $(".mega-nav-container > a").click(function (e) {
+      if (! isMobile()) {
+        return;
+      }
+      
+      e.preventDefault();
+
+      if (e.target.className.indexOf('mobileNavMenuDropdown') >= 0) {
+        toggleOpenClass($(".mobileNavMenuDropdown.prime"), $(e.target));
+	    toggleActiveClass($(".mega-nav-container"), $(this).parent());
+      } else {
+        
+        window.location.href = !!e.target.parentElement.href ? e.target.parentElement.href : e.target.href;
+      }
+    });
+
+    $(".mega-nav-column > a.nav-column-header").click(function (e) {
+      if (! isMobile()) {
+        return;
+      }
+
+      e.preventDefault();
+      
+      if (e.target.className.indexOf('mobileNavMenuDropdown') >= 0) {
+      	toggleOpenClass($(".mobileNavMenuDropdown.mini"), $(e.target));
+        toggleActiveClass($(".mega-nav-column"), $(this).parent());
+        
+      } else {
+        
+      	window.location.href = !!e.target.parentElement.href ? e.target.parentElement.href : e.target.href;
+      }
+
+      
+    });
+
+    $(window).resize(function () {
+      if (isMobile()) {
+        return;
+      }
+
+      $(".mega-nav-container").removeClass("active");
+      $(".mega-nav-column").removeClass("active");
+    });
+
+    function checkScrollTop() {
+      var header = $(".eby-header");
+
+      if ($(window).scrollTop() > 0) {
+        header.addClass("scrolled");
+      } else {
+        header.removeClass("scrolled");
+      }
+    }
+
+    var isHomepage = $("body").hasClass("template-index");
+
+    if (isHomepage) {
+      $(window).scroll(function () {
+        checkScrollTop();
+      });
+    }
+
+    function onPageLoad() {
+      if (isHomepage) {
+        checkScrollTop();
+      }
+    }
+
+    onPageLoad();
+
+    var $div = $("#CartCount");
+    var observer = new MutationObserver(function (mutations) {
+      var isEmptyCart = !$div.text() || $div.text() < 1;
+
+      if (isEmptyCart) {
+        $(".ebyHeaderCtaWrapper").removeClass("buy").addClass("join");
+        $(".ebyMicroBtn.joinNow").removeClass("buy").addClass("join");
+      } else {
+        $(".ebyHeaderCtaWrapper").removeClass("join").addClass("buy");
+        $(".ebyMicroBtn.joinNow").removeClass("join").addClass("buy");
+      }
+    });
+
+    observer.observe($div[0], {attributes: true});
+    
+    var $divMobile = $("#CartCountMobile");
+    var observerMobile = new MutationObserver(function (mutations) {
+      var isEmptyCart = !$divMobile.text() || $divMobile.text() < 1;
+
+      if (isEmptyCart) {
+        $(".ebyHeaderCtaWrapper").removeClass("buy").addClass("join");
+        $(".ebyMicroBtn.joinNow").removeClass("buy").addClass("join");
+      } else {
+        $(".ebyHeaderCtaWrapper").removeClass("join").addClass("buy");
+        $(".ebyMicroBtn.joinNow").removeClass("join").addClass("buy");
+      }
+    });
+
+    observerMobile.observe($divMobile[0], {attributes: true});
+  });
+</script>
+-->
+<header class="eby-header {% if template != 'page.parisian-summer-luxury' and template != 'page.premium_new' and template.name != 'index' %}scrolled{% endif %}{% if template.suffix contains 'holidaydeal' %} noTopBanner{% endif %}">
+  
+    <div class="ebyTopBannerWrapper">
+    {%- if settings.show_motivator_bar -%}
+      <script type="text/javascript" defer>
+        function checkBalanceValue(current_price) {
+          var balance = {%- if settings.cart_total_motivator != blank -%}{{ settings.cart_total_motivator }}{%- else -%}100{%- endif -%};
+          return (balance - current_price);
+        }
+      </script>
+
+      	{% if shop.metafields.ebyacf.enable_sitewide_countdown%}
+        <div class="motivator-bar__wrapper">
+          <div class="motivator-bar text-center">
+            <span class="close right ebyicon-close-thin">&nbsp;</span>
+            <a class="motivator-bar__wrapper__fixedLink" href="/collections/memorial-day-sale">{{ settings.initial_message_motivator }} - <span id="ebySaleCountdown"></span></a>
+          </div>
+        </div>
+      	{% else %}
+<!--      	<div class="motivator-bar__wrapper">
+          <div class="motivator-bar text-center">
+            <span class="close right ebyicon-close-thin">&nbsp;</span>
+            <a class="motivator-bar__wrapper__fixedLink" href="/collections/best-sellers">Buy 1 Panty Get 1 Free w/ Code PRIDE</a>
+          </div>
+        </div><div class="motivator-bar__wrapper">
+          <div class="motivator-bar text-center">
+            <span class="close right ebyicon-close-thin">&nbsp;</span>
+            {% if settings.icon_motivator != blank %}<span class="icon-motivator"><img alt="EBY Shopping Alert" class="lazyload" data-src="{{ settings.icon_motivator | img_url: '30x' }}" srcset="{{ settings.icon_motivator | img_url: '60x' }} 2x"></span>{% endif %}
+            {% if settings.aditional_message != blank %}<span class="ribbon-shipping">{{ settings.aditional_message }}</span>{% endif %}
+            {% if settings.icon_motivator != blank %}<span class="icon-motivator second"><img alt="EBY Shopping Alert" class="lazyload" data-src="{{ settings.icon_motivator | img_url: '30x' }}" srcset="{{ settings.icon_motivator | img_url: '60x' }} 2x"></span>{% endif %}
+          </div>
+        </div> -->
+        {% unless handle contains 'independence-day-pack-sale' or handle contains 'labor-day-sale-packs' %}
+          <div class="motivator-bar__wrapper">
+            <div class="motivator-bar text-center">
+              <span class="close right ebyicon-close-thin">&nbsp;</span>
+              {% if settings.icon_motivator != blank %}<span class="icon-motivator"></span>{% endif %}
+              {% if settings.aditional_message != blank %}<span class="ribbon-shipping">{{ settings.aditional_message }}</span>{% endif %}
+              {% if settings.icon_motivator != blank %}<span class="icon-motivator second"></span>{% endif %}
+            </div>
+          </div>
+  <!--         <div class="motivator-bar__wrapper">
+            <div class="motivator-bar text-center">
+              <span class="close right ebyicon-close-thin">&nbsp;</span>
+              <a class="motivator-bar__wrapper__fixedLink" href="/collections/labor-day-sale-packs">Shop Labor Day Sale & Save Up to 40%</a>
+            </div>
+          </div> -->
+        {%endunless%}
+      	{% endif %}
+        <script type="text/javascript" defer>
+          function setCookie(cname, cvalue, exdays) {
+            var d = new Date();
+            d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
+            var expires = "expires=" + d.toUTCString();
+            document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+          }
+
+          function getCookie(cname) {
+            var name = cname + "=";
+            var decodedCookie = decodeURIComponent(document.cookie);
+            var ca = decodedCookie.split(';');
+            for (var i = 0; i < ca.length; i++) {
+              var c = ca[i];
+              while (c.charAt(0) == ' ') {
+                c = c.substring(1);
+              }
+              if (c.indexOf(name) == 0) {
+                return c.substring(name.length, c.length);
+              }
+            }
+            return "";
+          }
+          function checkMotivatorBanner(current_price){
+
+            var balance = {%- if settings.cart_total_motivator != blank -%}{{ settings.cart_total_motivator }}{%- else -%}100{%- endif -%},
+                message = "<span class=\"initial-message\">{{ settings.initial_message_motivator }}</span>",
+            cookie_motivator = false;
+
+            cookie_motivator = getCookie('_smcust');
+            if(cookie_motivator == "true"){
+              if($('.motivator-bar').hasClass('initial')){
+                $('.motivator-bar').removeClass('initial');
+              }
+              var fire_banner = false, class_banner="";
+              if((checkBalanceValue(current_price)) <= 0){
+                if(!$('.motivator-bar').hasClass('confirmation')){
+                  fire_banner = true;
+                  class_banner = 'confirmation';
+                  $('.motivator-bar').removeClass('second');
+                }
+                message = "<span class=\"confirmation-message\">{{ settings.confirmation_message_motivator }}</span>";
+              }else{
+                message = "<span class=\"motivator-message\">{{ settings.before_balance_motivator }}<span class=\"balance\"> $"+ parseFloat(checkBalanceValue(current_price)).toFixed(2).replace('.00', '') +" </span>{{ settings.after_balance_motivator }}</span>";
+                if(!$('.motivator-bar').hasClass('second')){
+                  fire_banner = true;
+                  class_banner = 'second';
+                  $('.motivator-bar').removeClass('confirmation');
+                }else{
+                  $('.motivator-bar .motivator-message').remove();
+                  {% if settings.aditional_message != blank %}
+                    $(message).insertBefore(".ribbon-shipping");
+                  {% else %}
+                    $(message).insertBefore(".icon-motivator.second");
+                    $('.motivator-bar').addClass(class_banner).show();
+                  {% endif %}
+                }
+              }
+            }else{
+              fire_banner = true;
+              class_banner = 'initial';
+              setCookie("_smcust", "true", 1);
+            }
+            if(fire_banner){
+              $('.motivator-bar').removeClass('initial second confirmation');
+              $('.motivator-bar .motivator-message, .motivator-bar .confirmation-message, .motivator-bar .initial-message').remove();
+              {% if settings.aditional_message != blank %}
+                $(message).insertBefore(".ribbon-shipping");
+                $('.motivator-bar').addClass(class_banner).show();
+              {% else %}
+                $(message).insertBefore(".icon-motivator.second");
+                $('.motivator-bar').addClass(class_banner).show();
+              {% endif %}
+              /*height = '-'+$('.motivator-bar').outerHeight()+'px';
+
+              $('.motivator-bar').css( {'opacity': 0, 'margin-top': height, 'position': 'relative' } )
+                  .animate( { 'opacity': '1', 'margin-top' : 0 }, 1500 );*/
+            }
+
+          }
+
+          document.addEventListener("DOMContentLoaded", function() {
+            $('.motivator-bar .close').on('click', function(){
+              $('.motivator-bar').dequeue().slideUp( 300 ).removeClass('initial second confirmation');
+              $('.mainContent').addClass('noTopBanner');
+              $('.eby-header').addClass('noTopBanner');
+            });
+
+            checkMotivatorBanner({{ cart.total_price | divided_by: 100.0 }});
+          });
+
+        </script>
+    {%- endif -%}
+  </div>
+  
+  <div class="eby-header-nav-container">
+    <nav class="eby-mobile-nav">
+      <div class="burger-menu" id="btnMenuMobile">
+        <div class="menuBtnMobile d-flex flexAlignCenter">
+          <div class="btnMenuMobile ebyicon-hamburger">
+            <span class="iconMenu"></span>
+            <span class="iconMenu"></span>
+            <span class="iconMenu"></span>
+            <span class="iconMenu"></span>
+          </div>
+        </div>
+        <div class="btnMenuMobile burger-close">
+          Close
+        </div>
+      </div>
+      <div class="nav-logo-mobile-container">
+        <a class="nav-logo-mobile" href="/">
+          {% if page.handle == 'premium' %}
+          <img alt="EBY" title="EBY" width="40" height="20" class="lazyload default-logo" data-src="https://cdn.shopify.com/s/files/1/0313/4062/5964/files/white-logo.svg?v=1628239045"/>
+          <img alt="EBY" title="EBY" width="40" height="20" class="lazyload hover-logo" data-src="https://cdn.shopify.com/s/files/1/0313/4062/5964/files/eby_91bde670-cc2d-4525-9f79-eaae1642e9ae.svg?v=1616246987"/>
+          {% else %}
+          <img alt="EBY" title="EBY" width="40" height="20" class="lazyload" data-src="https://cdn.shopify.com/s/files/1/0313/4062/5964/files/eby_91bde670-cc2d-4525-9f79-eaae1642e9ae.svg?v=1616246987"/>
+          {% endif %}
+        </a>
+      </div>
+      <div class="ebyHeaderCtaWrapper{% if trueCartCount <= 0 %} join{%  else %} buy{% endif %}">
+        {%- if customer -%}
+        
+          <a class="cart-link jsDrawerOpenRight d-flex ebyMinicart" href="/cart">
+            <span>
+              <i class="ebyicon-minicart-empty"></i>           
+              <span class="item-count">(<span id="CartCountMobile">{{trueCartCount | at_least: 1}}</span>)</span>
+            </span>
+          </a>
+        {%- else -%}
+          <a class="cart-link jsDrawerOpenRight d-flex ebyMinicart" href="/cart">
+            <span>
+              <i class="ebyicon-minicart-empty"></i> 
+              <span class="item-count">(<span id="CartCountMobile">{{trueCartCount | at_least: 1}}</span>)</span>
+            </span>
+          </a>
+          <button class="ebyMicroBtn joinNow{% if trueCartCount <= 0 %} join{%  else %} buy{% endif %}" data-subscribe="default" title="Subscribe Now">
+            <span>Subscribe Now</span>
+          </button>
+        {%- endif -%}
+      </div>
+    </nav>
+    <nav class="eby-header-nav">
+      <a class="nav-logo" href="/">
+        {% if page.handle == 'premium' %}
+        <img alt="EBY" title="EBY" width="40" height="20" class="lazyload default-logo" data-src="https://cdn.shopify.com/s/files/1/0313/4062/5964/files/white-logo.svg?v=1628239045"/>
+        <img alt="EBY" title="EBY" width="40" height="20" class="lazyload hover-logo" data-src="https://cdn.shopify.com/s/files/1/0313/4062/5964/files/eby_91bde670-cc2d-4525-9f79-eaae1642e9ae.svg?v=1616246987"/>
+        {% else %}
+        <img alt="EBY" title="EBY" width="40" height="20" class="lazyload" data-src="https://cdn.shopify.com/s/files/1/0313/4062/5964/files/eby_91bde670-cc2d-4525-9f79-eaae1642e9ae.svg?v=1616246987"/>
+        {% endif %}
+      </a>
+      {% assign navLinks = linklists["new-header-menu-august"].links %}
+      {%- for link in navLinks -%}
+        <div class="animate {% if link.links != blank %}mega-nav-container{% endif %}{%if link.title == "Membership" or link.title == "Subscribe & Save"%} membershipMegaMenu bfx-remove-element{% endif %}{%if link.title == "Panty Packs" or link.title == "Favorite Packs" %} bfx-remove-element{% endif %}">
+          <a href="{{ link.url }}">
+            <span>
+              {{ link.title }}
+            </span>
+			{% if link.links != blank %}<span class="mobileNavMenuDropdown prime animate ebyicon-close-thin">&nbsp;</span>{% endif %}
+          </a>
+          {% if link.links != blank %}
+            <div class="mega-nav">
+              <div class="mega-nav-columns">
+                {%- for link in link.links -%}
+                  <div {% if link.links != blank %} class="mega-nav-column{%if link.title == "Panty Packs" or link.title == "Favorite Packs" %} bfx-remove-element{% endif %}" {% endif %}>
+                    <a href="{{ link.url }}" class="nav-column-header">
+                      <span>{{ link.title }}</span>
+                      {% if link.links != blank %}<span class="mobileNavMenuDropdown mini animate ebyicon-close-thin">&nbsp;</span>{% endif %}
+                    </a>
+                    {% if link.links != blank %}
+                      <ul>
+                        {%- for link in link.links -%}
+                          <li class="{%if link.title == "Panty Packs" or link.title == "Favorite Packs" %} bfx-remove-element{% endif %}">
+                            <a href="{{ link.url }}">
+                              <span>{{ link.title }}</span>
+                            </a>
+                          </li>
+                        {%- endfor -%}
+                      </ul>
+                    {% endif %}
+                  </div>
+                {%- endfor -%}
+              </div>
+            </div>
+          {% endif %}
+        </div>
+      {%- endfor -%}
+      {%- if customer -%}
+        <a class="sign_in_btn" href="/account" title="{{ 'layout.header.account' | t }}">
+          <span>
+            My Account
+          </span>
+        </a>
+      {%- else -%}
+        <a class="sign_in_btn" href="/account/login" title="Sign In">
+          <span>
+            Sign In
+          </span>
+        </a>
+      {%- endif -%}
+      
+      {% comment %}
+      {% if template contains 'cart' %}
+      <div class="header_search">
+        <a href="/pages/search-results-page">
+          <svg width="24" height="24" xmlns="http://www.w3.org/2000/svg">
+            <path d="M10.5 0C16.299 0 21 4.701 21 10.5c0 2.63-.967 5.034-2.564 6.876l5.269 5.268a.75.75 0 0 1-1.06 1.061l-5.27-5.27A10.46 10.46 0 0 1 10.5 21C4.701 21 0 16.299 0 10.5S4.701 0 10.5 0zm0 1.5a9 9 0 1 0 0 18 9 9 0 0 0 0-18z" fill="#0064FF" fill-rule="evenodd"/>
+          </svg>
+        </a>
+      </div>
+      {% endif %}
+      {% endcomment %}
+      
+      <div class="ebyHeaderCtaWrapper{% if trueCartCount <= 0 %} join{%  else %} buy{% endif %}">
+        <a class="cart-link jsDrawerOpenRight d-flex ebyMinicart" href="/cart">
+          <span>
+            <i class="ebyicon-minicart-empty"></i> 
+            <span class="item-count">(<span id="CartCount">{{trueCartCount | at_least: 1}}</span>)</span>
+          </span>
+        </a>
+        <button class="ebyMicroBtn joinNow{% if trueCartCount <= 0 %} join{%  else %} buy{% endif %}" data-subscribe="default" title="Subscribe Now">
+          <span>Subscribe Now</span>
+        </button>
+      </div>
+    </nav>
+  </div>
+</header>

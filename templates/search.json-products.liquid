@@ -1,0 +1,21 @@
+{% layout none %}
+{% capture results %}
+    {% paginate search.results by 1000 %}
+        {% for item in search.results %}
+            {% assign product = item %}
+            { 
+                "handle"   : {{ product.handle | json }},
+                "id"       : {{ product.id | json }},
+                "title"    : {{ product.title | json }},
+                "url"      : {{ product.url | split: '?' | first | json }},
+                "variants" : {{ product.variants | json }},
+                "thumbnail": {{ product.featured_image.src | product_img_url: 'thumb' | json }}
+            }
+            {% unless forloop.last %},{% endunless %}
+        {% endfor %}
+    {% endpaginate %}
+{% endcapture %}
+{
+    "results_count": {{ search.results_count }},
+    "results": [{{ results }}]
+}

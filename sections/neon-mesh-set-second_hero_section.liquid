@@ -1,0 +1,248 @@
+<!-- fc 112822 --->
+<section class="eby-lg-margin-main">
+  <div class="premium_content_block_innerwrapper">
+    <ul class="premium_content_wrapper">
+      <li class="premium_content_item">
+        <div class="premium_content_item_wrapper">
+          <img
+            class="iphones_only lazyload"
+            title=""
+            alt=""
+            width="376"
+            height="376"
+            data-src="https://cdn.shopify.com/s/files/1/0313/4062/5964/files/usp-sheer-seamless-copy.webp?v=1670354820" />
+          <img
+            class="laptop_only lazyload"
+            title=""
+            alt=""
+            width="584"
+            height="584"
+            data-src="https://cdn.shopify.com/s/files/1/0313/4062/5964/files/USP---SHEER---seamless_2x_9f42a6c8-0d44-449d-9d5f-49459071411d.jpg" />
+          <div class="text-titlewrpper">
+            <p>
+              <b>Seamless</b>
+            </p>
+            <span>
+              Clean edges disappear under your clothes
+            </span>
+          </div>
+        </div>
+      </li>
+      <li class="premium_content_item">
+        <div class="premium_content_item_wrapper">
+          <img
+            class="iphones_only lazyload"
+            width="376"
+            height="376"
+            title="Slip Proof Technology"
+            alt="eby slip proof technology"
+            data-src="https://cdn.shopify.com/s/files/1/0313/4062/5964/files/usp-sheer-noslip.webp?v=1670354776" />
+          <img
+            class="laptop_only lazyload"
+            width="584"
+            height="584"
+            title="Slip Proof Technology"
+            alt="eby slip proof technology"
+            data-src="https://cdn.shopify.com/s/files/1/0313/4062/5964/files/lp-1440-sheer-2-uspflocking-dsk.webp?v=1669655938" />
+          <div class="text-titlewrpper">
+            <p>
+              <b>Slip Proof Technology</b>
+            </p>
+            <span>Your intimates will always stay in place</span>
+          </div>
+        </div>
+      </li>
+      <li class="premium_content_item">
+        <div class="premium_content_item_wrapper">
+          <img
+            class="iphones_only lazyload"
+            width="376"
+            height="376"
+            title="Supportive Dynamic Fabric"
+            alt="Supportive Dynamic Fabric"
+            data-src="https://cdn.shopify.com/s/files/1/0313/4062/5964/files/usp-sheer-lightweight-copy.webp?v=1670354851" />
+          <img
+            class="laptop_only lazyload"
+            width="584"
+            height="584"
+            title="Supportive Dynamic Fabric"
+            alt="Supportive Dynamic Fabric"
+            data-src="https://cdn.shopify.com/s/files/1/0313/4062/5964/files/lp-1440-sheer-2-usplightweight-dsk.webp?v=1669655566" />
+          <div class="text-titlewrpper">
+
+            <p>
+              <b>Supportive Dynamic Fabric</b>
+            </p>
+            <span>Feels like you’re wearing nothing at all</span>
+          </div>
+        </div>
+      </li>
+      <li class="premium_content_item">
+        <div class="premium_content_item_wrapper">
+          <img
+            class="iphones_only lazyload"
+            width="376"
+            height="376"
+            title="Slip Proof Technology"
+            alt="eby slip proof technology"
+            data-src="https://cdn.shopify.com/s/files/1/0313/4062/5964/files/usp-sheer-soft-copy.webp?v=1670355029" />
+          <img
+            class="laptop_only lazyload"
+            width="584"
+            height="584"
+            title="Slip Proof Technology"
+            alt="eby slip proof technology"
+            data-src="https://cdn.shopify.com/s/files/1/0313/4062/5964/files/lp-1440-sheer-2-uspsoftness-dsk.webp?v=1669654436" />
+          <div class="text-titlewrpper">
+
+            <p>
+              <b>Softness You Have to Feel to Believe</b>
+            </p>
+            <span>The softest mesh that’ll ever touch your skin</span>
+          </div>
+        </div>
+      </li>
+    </ul>
+  </div>
+</section>
+{% if section.settings.desk_img != blank %}
+  <section class="permium_hero_section small_con">
+    <div class="section-wrap">
+      <div class="section_image">
+        {% if section.settings.mob_img != blank %}
+          <img
+            data-src="https://cdn.shopify.com/s/files/1/0313/4062/5964/files/footer-placeholder-mbl.webp?v=1669226266"
+            width="376"
+            height="480"
+            class="mobile_image lazyload"
+            alt="{{ section.settings.mob_img.alt }}">
+        {% elsif section.settings.desk_img != blank %}
+          <img
+            data-src="https://cdn.shopify.com/s/files/1/0313/4062/5964/files/TITLE-Sheer4-title-mbl.svg?v=1669226827"
+            width="308"
+            height="193"
+            class="mobile_image lazyload"
+            alt="{{ section.settings.desk_img.alt }}">
+      {% else %}
+        {% endif %}
+        {% if section.settings.desk_img != blank %}
+          <img
+            data-src="https://cdn.shopify.com/s/files/1/0313/4062/5964/files/footer-placeholder-dsk.webp?v=1669226383"
+            width="376"
+            height="376"
+            class="desktop_image lazyload"
+            alt="{{ section.settings.desk_img.alt }}">
+        {% endif %}
+        {% if section.settings.ipad_img != blank %}
+          <img
+            data-src="https://cdn.shopify.com/s/files/1/0313/4062/5964/files/footer-placeholder-dsk.webp?v=1669226383"
+            width="376"
+            height="376"
+            class="ipad_image lazyload"
+            alt="{{ section.settings.ipad_img.alt }}">
+        {% elsif section.settings.desk_img != blank %}
+          <img
+            data-src="https://cdn.shopify.com/s/files/1/0313/4062/5964/files/TITLE-Sheer4-title-dsk.svg?v=1669226827"
+            width="376"
+            height="376"
+            class="ipad_image lazyload"
+            alt="{{ section.settings.desk_img.alt }}">
+      {% else %}
+        {% endif %}
+      </div>
+      <div class="section_content  {{ section.settings.text_align }} ">
+        <div class="content_top  center-simple-higher">
+          <img
+            class="iphone_only lazyload"
+            width="400"
+            height="130"
+            alt="Silky Soft. Sexy. Seamless"
+            title="Silky Soft. Sexy. Seamless"
+            data-src="https://cdn.shopify.com/s/files/1/0313/4062/5964/files/TITLE-Sheer4-title-mbl.svg?v=1669226827" />
+          <img
+            class="ipads_only lazyload"
+            width="600"
+            height="130"
+            alt="Silky Soft. Sexy. Seamless"
+            title="Silky Soft. Sexy. Seamless"
+            data-src="https://cdn.shopify.com/s/files/1/0313/4062/5964/files/TITLE-Sheer4-title-dsk.svg?v=1669226827" />
+          <img
+            class="laptop_only lazyload"
+            width="400"
+            height="130"
+            alt="Silky Soft. Sexy. Seamless"
+            title="Silky Soft. Sexy. Seamless"
+            data-src="https://cdn.shopify.com/s/files/1/0313/4062/5964/files/TITLE-Sheer4-title-dsk.svg?v=1669226827" />
+        </div>
+        {% if section.settings.button_text != blank and section.settings.button_link != blank %}
+          <div class="content_bottom">
+            <div class="container-rel-sm-r12">
+              <a href="#product_listing_section">
+                <span class="center-simple-main">
+                  SHOP NOW
+                </span>
+              </a>
+            </div>
+          </div>
+        {% endif %}
+      </div>
+    </div>
+  </section>
+{% endif %}
+
+{% schema %}
+  {
+    "name": "Hero Banner",
+    "settings": [
+      {
+        "type": "image_picker",
+        "id": "desk_img",
+        "label": "Desktop Image"
+      },
+      {
+        "type": "image_picker",
+        "id": "ipad_img",
+        "label": "Ipad Image"
+      },
+      {
+        "type": "image_picker",
+        "id": "mob_img",
+        "label": "Mobile Image"
+      },
+      {
+        "type": "text",
+        "id": "title",
+        "label": "Title"
+      }, {
+        "type": "text",
+        "id": "sub_title",
+        "label": "Sub Title"
+      }, {
+        "type": "select",
+        "id": "text_align",
+        "label": "Text alignment",
+        "options": [
+          {
+            "value": "text_left",
+            "label": "Left"
+          }, {
+            "value": "text_center",
+            "label": "Center"
+          }, {
+            "value": "text_right",
+            "label": "Right"
+          }
+        ],
+        "default": "text_center"
+      }, {
+        "type": "url",
+        "id": "button_link",
+        "label": "Button URL"
+      }, {
+        "type": "text",
+        "id": "button_text",
+        "label": "Button Text"
+      }
+    ]
+  }
+{% endschema %}

@@ -1,0 +1,120 @@
+<section class="eby-premium_content_block">
+  <div class="premium_content_block_innerwrapper">
+  	<ul class="premium_content_wrapper">
+      <li class="premium_content_item">
+        <div class="premium_content_item_wrapper">
+        	<img class="lazyload" width="" height="" title="" alt="" data-src="https://cdn.shopify.com/s/files/1/0313/4062/5964/files/USP---SHEER---seamless_2x_9f42a6c8-0d44-449d-9d5f-49459071411d.jpg" />
+          	<p><b>COMPLETELY SMOOTH<br>UNDER YOUR CLOTHES</b><br/>NO PANTY LINES EVER</p>
+        </div>
+      </li>
+      <li class="premium_content_item">
+        <div class="premium_content_item_wrapper">
+        	<img class="lazyload" width="" height="" title="All Fabric Seamless Bralettes" alt="All Fabric Seamless Bralettes" data-src="https://cdn.shopify.com/s/files/1/0313/4062/5964/files/USP---Spring---Comfort.jpg" />
+          	<p><b>ALL FABRIC, ALL COMFORT, ALL DAY</b><br/>TRULY SEAMLESS SUPPORT</p>
+        </div>
+      </li>
+    </ul>
+  </div>
+</section>
+{% if section.settings.desk_img != blank %}
+<section class="permium_hero_section small_con">
+  <div class="section-wrap">
+    <div class="section_image">
+      {% if section.settings.desk_img != blank %}
+      <img data-src="{{ section.settings.desk_img | img_url: 'master' }}" class="desktop_image" alt="{{ section.settings.desk_img.alt }}">
+      {% endif %}
+      {% if section.settings.ipad_img != blank %}
+      <img data-src="{{ section.settings.ipad_img | img_url: 'master' }}" class="ipad_image" alt="{{ section.settings.ipad_img.alt }}">
+      {% elsif section.settings.desk_img != blank %}
+      <img data-src="{{ section.settings.desk_img | img_url: 'master' }}" class="ipad_image" alt="{{ section.settings.desk_img.alt }}">
+      {% else %}
+      {% endif %}
+      {% if section.settings.mob_img != blank %}
+      <img data-src="{{ section.settings.mob_img | img_url: 'master' }}" class="mobile_image" alt="{{ section.settings.mob_img.alt }}">
+      {% elsif section.settings.desk_img != blank %}
+      <img data-src="{{ section.settings.desk_img | img_url: 'master' }}" class="mobile_image" alt="{{ section.settings.desk_img.alt }}">
+      {% else %}
+      {% endif %}
+    </div>
+    <div class="section_content {{ section.settings.text_align }}">
+      <div class="content_top">
+        {% if section.settings.title != blank %}
+<!--         <h1>{{ section.settings.title }}</h1> -->
+        {% endif %}
+        {% if section.settings.sub_title != blank %}
+<!--         <p>{{ section.settings.sub_title }}</p> -->
+        {% endif %}
+        <img class="lazyload" width="400" height="130" alt="Silky Soft. Sexy. Seamless" title="Silky Soft. Sexy. Seamless" data-src="https://cdn.shopify.com/s/files/1/0313/4062/5964/files/2_-_1440_-_Spring_-_title_-_Seamless_Sets.svg" />
+      </div>
+      {% if section.settings.button_text != blank  and section.settings.button_link != blank %}
+      <div class="content_bottom">
+        <a href="{{ section.settings.button_link }}">{{ section.settings.button_text }}</a>
+      </div>
+      {% endif %}
+    </div>
+  </div>
+</section>
+{% endif %}
+
+{% schema %}
+  {
+    "name": "Hero Banner",
+    "settings": [
+	  {
+		"type": "image_picker",
+		"id": "desk_img",
+		"label": "Desktop Image"
+	  },
+	  {
+		"type": "image_picker",
+		"id": "ipad_img",
+		"label": "Ipad Image"
+	  },
+	  {
+		"type": "image_picker",
+		"id": "mob_img",
+		"label": "Mobile Image"
+	  },
+	  {
+		"type": "text",
+		"id": "title",
+		"label": "Title"
+	  },
+	  {
+		"type": "text",
+		"id": "sub_title",
+		"label": "Sub Title"
+	  },
+      {
+        "type": "select",
+        "id": "text_align",
+        "label": "Text alignment",
+        "options": [
+          {
+            "value": "text_left",
+            "label": "Left"
+          },
+          {
+            "value": "text_center",
+            "label": "Center"
+          },
+          {
+            "value": "text_right",
+            "label": "Right"
+          }
+        ],
+        "default": "text_center"
+      },
+	  {
+        "type": "url",
+        "id": "button_link",
+        "label": "Button URL"
+      },
+      {
+        "type": "text",
+        "id": "button_text",
+        "label": "Button Text"
+      }	
+	]
+  }
+{% endschema %}

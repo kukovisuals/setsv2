@@ -1,0 +1,56 @@
+<!-- 
+********************************************************************
+************** Buttons: SHOP ALL, GET STARTED FC 101422 ************  
+********************************************************************
+-->
+
+{% if icon and where_to == 'SUBSCRIPTION_FUNNEL'%}
+
+  <div class="eby-shop-all-button eby-bttn-{{ button_size }} eby-button-align-{{ alignment }}">
+    <button data-cyrighttbttn="eby-test-bttn-{{where_to}}" class="eby-button-{{ type_color }} ebyMicroBtn joinNow" data-subscribe="default" title="Subscribe">
+        <a class="eby-button-href  {% if icon %}add-txt-pad22{% endif %}" style=>
+          {{ button_text }}
+        </a>
+        <i class="ebyicon-nicon-arrow-forward {%if type_color == 'blue' or type_color == 'transparent'%} arrow-eby-stly {%else%}  arrow-eby-stly-dark {%endif%} "></i>  
+    </button>
+  </div>
+{% elsif icon %}
+  <div class="eby-shop-all-button eby-bttn-{{ button_size }} eby-button-align-{{ alignment }}">
+    <button data-cyrighttbttn="eby-test-bttn-{{where_to}}" class="eby-button-{{ type_color }}  eby-style-subs-23">
+      <!-- href wher_to -->
+      {% case where_to %}
+        {% when "SUBSCRIPTION" %}
+        <a class="eby-button-href  {% if icon %}add-txt-pad22{% endif %}" href="/pages/underwear-subscription-membership">
+          {{ button_text }}
+        </a>
+        <i class="ebyicon-nicon-arrow-forward {%if type_color == 'blue' or type_color == 'transparent'%} arrow-eby-stly {%else%}  arrow-eby-stly-dark {%endif%} "></i>
+        {% when "SHOP" %}
+        <a class="eby-button-href  {% if icon %}add-txt-pad22{% endif %}" href="/collections/seamless-underwear">
+          {{ button_text }}
+        </a>
+        <i class="ebyicon-nicon-arrow-forward {%if type_color == 'blue' or type_color == 'transparent'%} arrow-eby-stly {%else%}  arrow-eby-stly-dark {%endif%} "></i>
+        {% when "IMPACT" %}
+        <a class="eby-button-href  {% if icon %}add-txt-pad22{% endif %}" href="/pages/microfinance">
+          {{ button_text }}
+        </a>
+        <i class="ebyicon-nicon-arrow-forward {%if type_color == 'blue' or type_color == 'transparent'%} arrow-eby-stly {%else%}  arrow-eby-stly-dark {%endif%} "></i>
+      {% endcase %}
+    </button>
+  </div>
+{% else %}
+  <div class="eby-shop-all-button eby-bttn-{{ button_size }} eby-button-align-{{ alignment }}">
+    <button data-cyrighttbttn="eby-test-bttn-{{where_to}}" class="eby-button-{{ type_color }} " onclick="window.location.href = '{{ link }}';">
+      <!-- href wher_to -->
+      {% case where_to %}
+        {% when "SUBSCRIPTION" %}
+        <a class="eby-button-href  {% if icon %}add-txt-pad22{% endif %}" href="/pages/underwear-subscription-membership">
+          {{ button_text }}
+        </a>
+        {% when "SHOP" %}
+        <a class="eby-button-href  {% if icon %}add-txt-pad22{% endif %}" href="/collections/seamless-underwear">
+          {{ button_text }}
+        </a>
+      {% endcase %}
+    </button>
+  </div>
+{% endif %}
